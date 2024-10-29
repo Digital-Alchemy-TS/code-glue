@@ -1,0 +1,31 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches:
+      - stage
+      - prod
+      - develop
+  push:
+    branches:
+      - stage
+      - prod
+      - develop
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: corepack enable
+      - run: yarn config set enableImmutableInstalls false
+      - run: yarn
+      - run: yarn build
+      - run: yarn lint
+      - run: yarn test
+      # - name: Upload coverage reports to Codecov
+      #   uses: codecov/codecov-action@v4.6.0
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}

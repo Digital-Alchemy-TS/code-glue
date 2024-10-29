@@ -1,0 +1,38 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "allowJs": false,
+    "alwaysStrict": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "lib": [
+      "ESNext"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noImplicitAny": true,
+    "declaration": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "rootDir": "./src",
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "noUncheckedIndexedAccess": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "strict": false,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "target": "ESNext",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

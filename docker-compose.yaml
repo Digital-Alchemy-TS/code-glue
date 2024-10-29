@@ -1,0 +1,19 @@
+name: bedrock
+
+services:
+  redis:
+    image: redis:7.0.4
+    container_name: redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      start_period: 10s
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_db_data:/data
+
+volumes:
+  mongo-data:
+  redis_db_data:
+    external: false

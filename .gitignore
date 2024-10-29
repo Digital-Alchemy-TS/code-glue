@@ -1,0 +1,16 @@
+/dist
+/build
+/tmp
+/backup
+/out-tsc
+**/node_modules
+npm-debug.log
+yarn-error.log
+.ds_store
+thumbs.db
+.yarn/
+.transform_cache
+.schemas
+.env
+.VSCodeCounter
+coverage
