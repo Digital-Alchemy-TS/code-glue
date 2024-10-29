@@ -1,30 +1,28 @@
-import { Type } from "@sinclair/typebox";
+import { t } from "elysia";
 
-export const StoredAutomation = Type.Object(
+export const StoredAutomation = t.Object(
   {
-    // id
-    // lastUpdate
-    // createDate
-    // title
-    // context
-    // function text
-    // active boolean
-    // labels
-    // area
-    // version
-    // variables
+    active: t.Boolean({ description: "Should the code in this be running" }),
+    area: t.Optional(t.String({ description: "Home Assistant area_id" })),
+    body: t.String({ description: "Function body" }),
+    context: t.String({ description: "Log context" }),
+    createDate: t.Date(),
+    id: t.String(),
+    labels: t.Array(t.String(), {
+      description: "Home Assistant label_id",
+    }),
+    lastUpdate: t.Date(),
+    parent: t.Optional(
+      t.String({
+        description:
+          "Reference to another automation to declare as parent. For UI purposes",
+      }),
+    ),
+    title: t.String({ description: "Human readable title" }),
+    version: t.String({
+      description: "User declared version",
+    }),
   },
   { description: "Used to store the actual automation on disk" },
 );
-
-export const SharedVariables = Type.Object(
-  {
-    // id
-    // lastUpdate
-    // createDate
-    // title
-    // type definition
-    // value
-  },
-  { description: "Shared variables that can emit updates" },
-);
+export type StoredAutomation = typeof StoredAutomation.static;

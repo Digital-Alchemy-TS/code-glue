@@ -25,17 +25,7 @@ export function ElysiaMiddleware({
               title: name,
               version,
             },
-            tags: [
-              {
-                description:
-                  "Blocked by admin key header, for managing the server directly",
-                name: "admin",
-              },
-              {
-                description: "Intended for consumption by DataDog synthetics",
-                name: "synthetics",
-              },
-            ],
+            tags: [],
           },
           path: "/swagger",
         }),

@@ -7,6 +7,12 @@ import { LIB_CACHE } from "../cache";
 import { LIB_DATABASE } from "../database";
 import { LIB_ELYSIA } from "../elysia";
 import { LIB_METRICS } from "../metrics";
+import {
+  AppController,
+  AutomationController,
+  EntitiesController,
+  VariablesController,
+} from "./controllers";
 
 export const CODE_GLUE_APP = CreateApplication({
   configuration: {
@@ -28,7 +34,12 @@ export const CODE_GLUE_APP = CreateApplication({
     LIB_ELYSIA,
   ],
   name: "code_glue",
-  services: {},
+  services: {
+    AppController,
+    AutomationController,
+    EntitiesController,
+    VariablesController,
+  },
 });
 
 declare module "@digital-alchemy/core" {
