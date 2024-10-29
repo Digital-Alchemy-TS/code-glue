@@ -9,6 +9,10 @@ export const StoredAutomation = Type.Object(
     // context
     // function text
     // active boolean
+    // labels
+    // area
+    // version
+    // variables
   },
   { description: "Used to store the actual automation on disk" },
 );
@@ -20,6 +24,7 @@ export const SharedVariables = Type.Object(
     // createDate
     // title
     // type definition
+    // value
   },
   { description: "Shared variables that can emit updates" },
 );

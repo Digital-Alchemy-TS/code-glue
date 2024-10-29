@@ -1,4 +1,4 @@
-name: bedrock
+name: code-glue
 
 services:
   redis:

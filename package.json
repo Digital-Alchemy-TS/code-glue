@@ -4,12 +4,12 @@
   "description": "Super top secret idea",
   "repository": "https://github.com/Digital-Alchemy-TS/code-glue",
   "scripts": {
+    "cli": "",
     "act": "act -j lint-and-build",
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint src",
-    "start:hot": "nodemon --exec tsx src/entry/local/main.ts",
-    "start:inspect": "tsx --inspect src/entry/local/main.ts",
-    "start": "tsx src/entry/local/main.ts",
+    "start": "bun run src/entry/local/main.ts",
+    "start:cli": "bun run src/entry/cli/main.ts",
     "test": "./scripts/test.sh"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "@elysiajs/server-timing": "^1.1.0",
     "@elysiajs/swagger": "^1.1.5",
     "@sinclair/typebox": "^0.33.17",
+    "better-sqlite3": "^11.5.0",
     "bun": "^1.1.33",
     "dayjs": "^1.11.13",
     "elysia": "^1.1.19",
