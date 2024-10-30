@@ -1,6 +1,6 @@
-import { t } from "elysia";
+import { Type } from "@sinclair/typebox";
 
-export const DeclaredEntities = t.Object(
+export const DeclaredEntities = Type.Object(
   {
     // id
     // lastUpdate

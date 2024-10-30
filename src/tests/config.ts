@@ -9,7 +9,6 @@ import {
   ServiceMap,
   TServiceParams,
 } from "@digital-alchemy/core";
-import { v4 } from "uuid";
 
 import { LIB_TESTING } from "./testing.module";
 
@@ -33,9 +32,7 @@ export const unitTestRunner = <
     .appendLibrary(LIB_TESTING)
     // these values are required, but specific value does not matter to tests
     // if it does, the test will call configure again to override
-    .configure({
-      elysia: { ADMIN_KEY: v4() },
-    })
+    .configure({})
     // use no config sources by default
     .setOptions({ configSources: {} });
 

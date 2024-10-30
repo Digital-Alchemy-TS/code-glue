@@ -2,6 +2,7 @@ import { LIB_AUTOMATION } from "@digital-alchemy/automation";
 import { CreateApplication } from "@digital-alchemy/core";
 import { LIB_HASS } from "@digital-alchemy/hass";
 import { LIB_SYNAPSE } from "@digital-alchemy/synapse";
+import { LIB_TYPE_BUILD } from "@digital-alchemy/type-writer";
 
 import { LIB_CACHE } from "../cache";
 import { LIB_DATABASE } from "../database";
@@ -28,6 +29,7 @@ export const CODE_GLUE_APP = CreateApplication({
     LIB_DATABASE,
     LIB_HASS,
     LIB_SYNAPSE,
+    LIB_TYPE_BUILD,
     LIB_AUTOMATION,
     LIB_METRICS,
     LIB_HTTP,

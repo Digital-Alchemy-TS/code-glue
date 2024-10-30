@@ -1,4 +1,3 @@
-export * from "./auth.service";
 export * from "./bindings.service";
 export * from "./errors.service";
 export * from "./hooks.service";

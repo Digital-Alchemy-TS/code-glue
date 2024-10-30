@@ -1,13 +1,13 @@
-import { t } from "elysia";
+import { Type } from "@sinclair/typebox";
 
-export const SharedVariables = t.Object(
+export const SharedVariables = Type.Object(
   {
-    createDate: t.Date(),
-    id: t.String(),
-    lastUpdate: t.Date(),
-    title: t.String({ description: "Human readable title" }),
-    type: t.String({ description: "Declared type definition" }),
-    value: t.String({ description: "Serialized value" }),
+    createDate: Type.Date(),
+    id: Type.String(),
+    lastUpdate: Type.Date(),
+    title: Type.String({ description: "Human readable title" }),
+    type: Type.String({ description: "Declared type definition" }),
+    value: Type.String({ description: "Serialized value" }),
   },
   { description: "Shared variables that can emit updates" },
 );

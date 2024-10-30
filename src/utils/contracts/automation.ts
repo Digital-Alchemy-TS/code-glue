@@ -1,25 +1,25 @@
-import { t } from "elysia";
+import { Type } from "@sinclair/typebox";
 
-export const StoredAutomation = t.Object(
+export const StoredAutomation = Type.Object(
   {
-    active: t.Boolean({ description: "Should the code in this be running" }),
-    area: t.Optional(t.String({ description: "Home Assistant area_id" })),
-    body: t.String({ description: "Function body" }),
-    context: t.String({ description: "Log context" }),
-    createDate: t.Date(),
-    id: t.String(),
-    labels: t.Array(t.String(), {
+    active: Type.Boolean({ description: "Should the code in this be running" }),
+    area: Type.Optional(Type.String({ description: "Home Assistant area_id" })),
+    body: Type.String({ description: "Function body" }),
+    context: Type.String({ description: "Log context" }),
+    createDate: Type.Date(),
+    id: Type.String(),
+    labels: Type.Array(Type.String(), {
       description: "Home Assistant label_id",
     }),
-    lastUpdate: t.Date(),
-    parent: t.Optional(
-      t.String({
+    lastUpdate: Type.Date(),
+    parent: Type.Optional(
+      Type.String({
         description:
           "Reference to another automation to declare as parent. For UI purposes",
       }),
     ),
-    title: t.String({ description: "Human readable title" }),
-    version: t.String({
+    title: Type.String({ description: "Human readable title" }),
+    version: Type.String({
       description: "User declared version",
     }),
   },
