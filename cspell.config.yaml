@@ -6,6 +6,7 @@ words:
   - datetime
   - sonarjs
   - falsey
+  - hass
   - typebox
 ignoreWords: []
 import: []
