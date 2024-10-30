@@ -5,7 +5,7 @@ import { LIB_SYNAPSE } from "@digital-alchemy/synapse";
 
 import { LIB_CACHE } from "../cache";
 import { LIB_DATABASE } from "../database";
-import { LIB_ELYSIA } from "../elysia";
+import { LIB_HTTP } from "../http";
 import { LIB_METRICS } from "../metrics";
 import {
   AppController,
@@ -16,10 +16,9 @@ import {
 
 export const CODE_GLUE_APP = CreateApplication({
   configuration: {
-    ROUTE_PREFIX: {
+    V1: {
       default: "/api/v1",
       description: "Route prefix for all controllers in this module",
-
       type: "string",
     },
   },
@@ -31,7 +30,7 @@ export const CODE_GLUE_APP = CreateApplication({
     LIB_SYNAPSE,
     LIB_AUTOMATION,
     LIB_METRICS,
-    LIB_ELYSIA,
+    LIB_HTTP,
   ],
   name: "code_glue",
   services: {

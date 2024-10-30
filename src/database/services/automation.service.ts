@@ -1,11 +1,11 @@
 import { TServiceParams } from "@digital-alchemy/core";
-import Database from "bun:sqlite";
+import { Database } from "better-sqlite3";
 import { v4 } from "uuid";
 
 import { StoredAutomation } from "../../utils";
 
 const CREATE = `CREATE TABLE StoredAutomation (
-  active BOOLEAN NOT NULL,
+  active TEXT NOT NULL,
   area TEXT,
   body TEXT NOT NULL,
   context TEXT NOT NULL,
@@ -19,10 +19,10 @@ const CREATE = `CREATE TABLE StoredAutomation (
 )`;
 
 const UPSERT = `INSERT INTO StoredAutomation (
-  active, area, body, context, labels, parent, title, version, createDate, lastUpdate, id
+  active, area, body, context, labels, parent, title, version, id, createDate, lastUpdate
 ) VALUES (
-  @active, @area, @body, @context, @labels, @parent, @title, @version,
-  datetime('now'), datetime('now'), @id
+  @active, @area, @body, @context, @labels, @parent, @title, @version, @id,
+  datetime('now'), datetime('now'),
 ) ON CONFLICT(id) DO UPDATE SET
   active = excluded.active,
   area = excluded.area,
@@ -47,27 +47,25 @@ export function AutomationTable({
 }: TServiceParams) {
   let database: Database;
   const store = new Map<string, StoredAutomation>();
+
   lifecycle.onBootstrap(() => {
     database = synapse.sqlite.getDatabase();
     database.prepare(CREATE).run();
+    logger.debug("check table");
   });
 
   function create(data: AutomationCreateOptions) {
     const id = v4();
-    store.set(id, {
-      ...data,
-      createDate: new Date(),
-      id,
-      lastUpdate: new Date(),
-    });
+    const save = { ...data, id };
+    database.prepare(UPSERT).run({ ...save, id });
+    store.set(id, save);
   }
 
   function update(id: string, data: Partial<AutomationCreateOptions>) {
     const current = store.get(id);
-    store.set(id, {
-      ...current,
-      ...data,
-    });
+    const update = { ...current, ...data };
+    database.prepare(UPSERT).run({ ...update, id });
+    store.set(id, update);
   }
 
   function remove(id: string): void {

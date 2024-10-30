@@ -1,32 +1,33 @@
 import { TServiceParams } from "@digital-alchemy/core";
-import { t } from "elysia";
+import { Type } from "@sinclair/typebox";
 
 import { StoredAutomation } from "../../utils";
 
+const params = Type.Object({ id: Type.String() });
+
 export function AutomationController({
-  elysia: { app },
+  http: { controller },
   database: { automation },
+  config,
 }: TServiceParams) {
-  app.group("automation", app =>
+  controller([config.code_glue.V1, "/automation"], app =>
     app
+
       .get("/", () => automation.list())
-      .get("/:id", ({ params }) => automation.get(params.id), {
-        params: t.Object({ id: t.String() }),
-      })
-      .delete("/:id", ({ params }) => automation.remove(params.id), {
-        params: t.Object({ id: t.String() }),
-      })
-      .post("/", ({ body }) => automation.create(body as StoredAutomation), {
-        body: StoredAutomation,
-      })
+      .get("/:id", { schema: { params } }, ({ params: { id } }) =>
+        automation.get(id),
+      )
+      .delete("/:id", { schema: { params } }, ({ params: { id } }) =>
+        automation.remove(id),
+      )
+      .post("/", { schema: { body: StoredAutomation } }, ({ body }) =>
+        automation.create(body as StoredAutomation),
+      )
       .put(
         "/:id",
-        ({ body, params }) =>
-          automation.update(params.id, body as StoredAutomation),
-        {
-          body: StoredAutomation,
-          params: t.Object({ id: t.String() }),
-        },
+        { schema: { body: StoredAutomation, params } },
+        ({ body, params: { id } }) =>
+          automation.update(id, body as StoredAutomation),
       ),
   );
 }

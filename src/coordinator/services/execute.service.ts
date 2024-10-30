@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/code-eval */
 import { DOWN, is, TServiceParams, UP } from "@digital-alchemy/core";
 
 import { StoredAutomation } from "../../utils";

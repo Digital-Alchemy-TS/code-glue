@@ -1,7 +1,7 @@
 import { CreateLibrary } from "@digital-alchemy/core";
 
 import { LIB_METRICS } from "../metrics";
-import { AutomationTable, Internals } from "./services";
+import { AutomationTable } from "./services";
 
 export const LIB_DATABASE = CreateLibrary({
   configuration: {
@@ -14,7 +14,6 @@ export const LIB_DATABASE = CreateLibrary({
   name: "database",
   services: {
     automation: AutomationTable,
-    internals: Internals,
   },
 });
 

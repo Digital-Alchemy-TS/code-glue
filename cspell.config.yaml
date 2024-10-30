@@ -3,8 +3,9 @@ ignorePaths: []
 dictionaryDefinitions: []
 dictionaries: []
 words:
-  - DATETIME
+  - datetime
   - elysia
+  - sonarjs
   - falsey
   - typebox
 ignoreWords: []
