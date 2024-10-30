@@ -67,6 +67,10 @@
     "arrowParens": "avoid"
   },
   "packageManager": "yarn@4.5.1",
+  "volta": {
+    "node": "22.11.0",
+    "yarn": "4.5.1"
+  },
   "type": "module",
   "resolutions": {
     "jsonpath-plus": "10.0.7"
