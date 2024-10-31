@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "name": "@digital-alchemy/code-glue",
+  "version": "24.10.1",
+  "description": "Server component",
+  "scripts": {
+    "act": "act -j lint-and-build",
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint src",
+    "start": "tsx src/entry/local/main.ts",
+    "test": "./scripts/test.sh",
+    "dev": "expo start --web"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}

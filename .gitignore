@@ -13,6 +13,7 @@ thumbs.db
 .transform_cache
 .schemas
 .env
+.code_glue
 .VSCodeCounter
 coverage
 
@@ -23,3 +24,4 @@ coverage
 
 expo-env.d.ts
 # @end expo-cli
+synapse_storage.db

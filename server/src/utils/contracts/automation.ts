@@ -6,12 +6,12 @@ export const StoredAutomation = Type.Object(
     area: Type.Optional(Type.String({ description: "Home Assistant area_id" })),
     body: Type.String({ description: "Function body" }),
     context: Type.String({ description: "Log context" }),
-    createDate: Type.Date(),
+    createDate: Type.String(),
     id: Type.String(),
     labels: Type.Array(Type.String(), {
       description: "Home Assistant label_id",
     }),
-    lastUpdate: Type.Date(),
+    lastUpdate: Type.String(),
     parent: Type.Optional(
       Type.String({
         description:

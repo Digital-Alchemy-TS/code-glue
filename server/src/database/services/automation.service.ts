@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 
 import { StoredAutomation } from "../../utils";
 
-const CREATE = `CREATE TABLE StoredAutomation (
+const CREATE = `CREATE TABLE IF NOT EXISTS StoredAutomation (
   active TEXT NOT NULL,
   area TEXT,
   body TEXT NOT NULL,

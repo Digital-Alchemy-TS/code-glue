@@ -17,7 +17,9 @@ fnm default 22
 # you may need to do this first to properly set up yarn
 corepack enable
 
+# install dependencies for root + all sub-projects
 yarn install
+yarn install --cwd server
 ```
 
 3. Bring up dev containers
@@ -26,13 +28,17 @@ yarn install
 docker compose up -d
 ```
 
-4. Create config file: `.env.template` to `.env` & fill in variables
+4. Create config file:
+
+- `.code_glue.template` to `.code_glue` & fill in variables (for server)
 
 ### 🎛️ General Commands
 
+#### Server
+
 | Command | Notes |
 | --- | --- |
-| `yarn start` / `yarn start:hot` | Start the dev server |
-| `yarn lint` / `yarn lint --fix` | Run `eslint` |
-| `yarn test` / `yarn test --coverage` | Run tests |
-| `yarn build` | Verify there is no build issues |
+| `yarn server:start` / `yarn server:start:hot` | Start the dev server |
+| `yarn server:lint` / `yarn server:lint --fix` | Run `eslint` |
+| `yarn server:test` / `yarn server:test --coverage` | Run tests |
+| `yarn server:build` | Verify there is no build issues |

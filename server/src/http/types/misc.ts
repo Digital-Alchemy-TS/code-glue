@@ -28,16 +28,7 @@ export enum ResponseHeaders {
   requestId = "x-request-id",
 }
 
-// export type RouteDetails = Pick<
-//   OpenAPIV3.OperationObject,
-//   "description" | "summary" | "tags"
-// >;
-
 export const CommonHeaders = t.Object({
-  [RequestHeaders.appId]: t.String(),
-  [RequestHeaders.forwarded_for]: t.String(),
-  [RequestHeaders.authorization]: t.String(),
-  [RequestHeaders.account_id]: t.String(),
   [RequestHeaders.correlationId]: t.String(),
 });
 export type CommonHeaders = typeof CommonHeaders.static;

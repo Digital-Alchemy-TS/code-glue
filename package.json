@@ -6,10 +6,11 @@
   "repository": "https://github.com/Digital-Alchemy-TS/code-glue",
   "scripts": {
     "act": "act -j lint-and-build",
-    "build": "tsc -p tsconfig.build.json",
-    "lint": "eslint src",
-    "start": "tsx src/entry/local/main.ts",
-    "test": "./scripts/test.sh",
+    "lint": "yarn server:lint",
+    "server:build": "yarn --cwd ./server build",
+    "server:lint": "yarn --cwd ./server lint",
+    "server:start": "yarn --cwd ./server start",
+    "server:test": "yarn --cwd ./server test",
     "dev": "expo start --web"
   },
   "dependencies": {
