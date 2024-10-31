@@ -26,13 +26,22 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "target": "ESNext",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
   ],
   "exclude": [
     "node_modules",
     "dist"
-  ]
+  ],
+  "extends": "expo/tsconfig.base"
 }

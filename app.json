@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "code-glue",
+    "slug": "code-glue",
+    "version": "1.0.0",
+    "scheme": "codeglue",
+    "userInterfaceStyle": "automatic",
+    "platforms": ["web"],
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
