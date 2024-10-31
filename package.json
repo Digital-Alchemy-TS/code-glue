@@ -5,7 +5,6 @@
   "description": "Super top secret idea",
   "repository": "https://github.com/Digital-Alchemy-TS/code-glue",
   "scripts": {
-    "cli": "",
     "act": "act -j lint-and-build",
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint src",
@@ -16,7 +15,7 @@
   "dependencies": {
     "@digital-alchemy/automation": "^24.9.3",
     "@digital-alchemy/core": "^24.10.8",
-    "@digital-alchemy/hass": "^24.10.1",
+    "@digital-alchemy/hass": "^24.10.2",
     "@digital-alchemy/synapse": "^24.9.4",
     "@digital-alchemy/type-writer": "^24.10.2",
     "@expo/vector-icons": "^14.0.2",
@@ -57,6 +56,7 @@
     "@eslint/js": "^9.13.0",
     "@jest/globals": "^29.7.0",
     "@types/better-sqlite3": "^7.6.11",
+    "@types/bun": "^1.1.12",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.8.4",
     "@types/react": "~18.2.45",

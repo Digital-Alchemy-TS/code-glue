@@ -2370,7 +2370,7 @@ __metadata:
     "@cspell/eslint-plugin": "npm:^8.15.4"
     "@digital-alchemy/automation": "npm:^24.9.3"
     "@digital-alchemy/core": "npm:^24.10.8"
-    "@digital-alchemy/hass": "npm:^24.10.1"
+    "@digital-alchemy/hass": "npm:^24.10.2"
     "@digital-alchemy/synapse": "npm:^24.9.4"
     "@digital-alchemy/type-writer": "npm:^24.10.2"
     "@eslint/compat": "npm:^1.2.2"
@@ -2384,6 +2384,7 @@ __metadata:
     "@react-navigation/native": "npm:^6.0.2"
     "@sinclair/typebox": "npm:^0.33.17"
     "@types/better-sqlite3": "npm:^7.6.11"
+    "@types/bun": "npm:^1.1.12"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^22.8.4"
     "@types/react": "npm:~18.2.45"
@@ -2454,18 +2455,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@digital-alchemy/hass@npm:^24.10.1":
-  version: 24.10.1
-  resolution: "@digital-alchemy/hass@npm:24.10.1"
-  peerDependencies:
-    "@digital-alchemy/core": "*"
-    dayjs: ^1
-    semver: ^7
-    uuid: ^10
-    ws: ^8
+"@digital-alchemy/hass@npm:^24.10.2":
+  version: 24.10.2
+  resolution: "@digital-alchemy/hass@npm:24.10.2"
+  dependencies:
+    "@digital-alchemy/core": "npm:^24.10.8"
+    dayjs: "npm:^1.11.13"
+    semver: "npm:^7.6.3"
+    type-fest: "npm:^4.26.1"
+    uuid: "npm:^11.0.2"
+    ws: "npm:^8.18.0"
   bin:
     mock-assistant: scripts/mock-assistant.sh
-  checksum: 10c0/3101aafd87b91118edd732dde36e19e6576281799e8f3b24a7dca50a49996fcb859dfbb01ffda2bb9ef4d78fbdb7a165c846c095b22689d8bc6f5636d12943ba
+  checksum: 10c0/c0231e937643694e13ddcc9b2b8cb09ab61e49759c67bdd280b2cefc6abcb443aec1dfba7c10148cf8e11a943a04451e86dc62e29f942e83bbc76aac41819494
   languageName: node
   linkType: hard
 
@@ -4606,6 +4608,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/bun@npm:^1.1.12":
+  version: 1.1.12
+  resolution: "@types/bun@npm:1.1.12"
+  dependencies:
+    bun-types: "npm:1.1.32"
+  checksum: 10c0/b8e0583d76462d1d4e77f230769c21c4509dd2c81957c661419e7379212cf83dc5dccdd985dacbc1aff50be1349a03f9e9c57501a9461e6c3ab8f1dfa298c9e2
+  languageName: node
+  linkType: hard
+
 "@types/cookie@npm:^0.6.0":
   version: 0.6.0
   resolution: "@types/cookie@npm:0.6.0"
@@ -4749,6 +4760,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:~20.12.8":
+  version: 20.12.14
+  resolution: "@types/node@npm:20.12.14"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10c0/d6e383a09139efdedd91f4e8b584bb9b7537382d3dd276296a68b20a7819a562ae651efdd007a60036116f286b9c9a8a31af698f93b4024e569b0d129f293165
+  languageName: node
+  linkType: hard
+
 "@types/normalize-package-data@npm:^2.4.0":
   version: 2.4.4
   resolution: "@types/normalize-package-data@npm:2.4.4"
@@ -4819,6 +4839,15 @@ __metadata:
   dependencies:
     "@types/webidl-conversions": "npm:*"
   checksum: 10c0/7a9b9252dee98df6db1ad62337daca7f59ae50d7a3406d14ac6b57168d406004359994f3371155e24f3cf12002c4cb8bbb0883bd4cefb9d7ee8e2b510bdd7f5e
+  languageName: node
+  linkType: hard
+
+"@types/ws@npm:~8.5.10":
+  version: 8.5.12
+  resolution: "@types/ws@npm:8.5.12"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/3fd77c9e4e05c24ce42bfc7647f7506b08c40a40fe2aea236ef6d4e96fc7cb4006a81ed1b28ec9c457e177a74a72924f4768b7b4652680b42dfd52bc380e15f9
   languageName: node
   linkType: hard
 
@@ -6103,6 +6132,16 @@ __metadata:
   version: 1.0.3
   resolution: "builtins@npm:1.0.3"
   checksum: 10c0/493afcc1db0a56d174cc85bebe5ca69144f6fdd0007d6cbe6b2434185314c79d83cb867e492b56aa5cf421b4b8a8135bf96ba4c3ce71994cf3da154d1ea59747
+  languageName: node
+  linkType: hard
+
+"bun-types@npm:1.1.32":
+  version: 1.1.32
+  resolution: "bun-types@npm:1.1.32"
+  dependencies:
+    "@types/node": "npm:~20.12.8"
+    "@types/ws": "npm:~8.5.10"
+  checksum: 10c0/74163a37aad79129fb9e8b13855a7afe9cbde2c8833fe1422adab004a8aa4d937ae302bf3989cfee9301bbb0f33c2b5bec04def3c54acb403c6908b68c15a0a7
   languageName: node
   linkType: hard
 
@@ -16818,7 +16857,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^8.11.0, ws@npm:^8.12.1":
+"ws@npm:^8.11.0, ws@npm:^8.12.1, ws@npm:^8.18.0":
   version: 8.18.0
   resolution: "ws@npm:8.18.0"
   peerDependencies:

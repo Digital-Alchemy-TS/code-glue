@@ -1,4 +1,5 @@
 import { CreateLibrary, HALF, MINUTE, SECOND } from "@digital-alchemy/core";
+import { v4 } from "uuid";
 
 import { LIB_CACHE } from "../cache";
 import { LIB_METRICS } from "../metrics";
@@ -17,8 +18,8 @@ import { RequestLocals } from "./types";
 export const LIB_HTTP = CreateLibrary({
   configuration: {
     ADMIN_KEY: {
+      default: v4(),
       description: "Used as comparison value for admin auth requests",
-      required: true,
       source: ["env"],
       type: "string",
     },
