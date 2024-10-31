@@ -16,7 +16,6 @@
     "noImplicitReturns": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "rootDir": "./src",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "noUncheckedIndexedAccess": true,
@@ -27,17 +26,18 @@
     "strictFunctionTypes": true,
     "target": "ESNext",
     "allowSyntheticDefaultImports": true,
+    "rootDir": ".",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "./src/*"
+        "apps/client/*"
       ]
     }
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "client/**/*.ts",
+    "client/**/*.tsx",
+    "apps/client/expo-env.d.ts"
   ],
   "exclude": [
     "node_modules",

@@ -1826,6 +1826,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@code-glue/client@workspace:apps/client":
+  version: 0.0.0-use.local
+  resolution: "@code-glue/client@workspace:apps/client"
+  languageName: unknown
+  linkType: soft
+
+"@code-glue/server@workspace:apps/server":
+  version: 0.0.0-use.local
+  resolution: "@code-glue/server@workspace:apps/server"
+  dependencies:
+    tsx: "npm:^4.19.2"
+  languageName: unknown
+  linkType: soft
+
 "@cspell/cspell-bundled-dicts@npm:8.15.4":
   version: 8.15.4
   resolution: "@cspell/cspell-bundled-dicts@npm:8.15.4"
@@ -4682,7 +4696,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^29.5.14":
+"@types/jest@npm:^29.5.12, @types/jest@npm:^29.5.14":
   version: 29.5.14
   resolution: "@types/jest@npm:29.5.14"
   dependencies:
@@ -10911,7 +10925,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:^29.7.0":
+"jest@npm:^29.2.1, jest@npm:^29.7.0":
   version: 29.7.0
   resolution: "jest@npm:29.7.0"
   dependencies:
@@ -15581,6 +15595,40 @@ __metadata:
   languageName: node
   linkType: hard
 
+"test@workspace:apps/test":
+  version: 0.0.0-use.local
+  resolution: "test@workspace:apps/test"
+  dependencies:
+    "@babel/core": "npm:^7.20.0"
+    "@expo/vector-icons": "npm:^14.0.2"
+    "@react-navigation/native": "npm:^6.0.2"
+    "@types/jest": "npm:^29.5.12"
+    "@types/react": "npm:~18.2.45"
+    "@types/react-test-renderer": "npm:^18.0.7"
+    expo: "npm:~51.0.28"
+    expo-constants: "npm:~16.0.2"
+    expo-font: "npm:~12.0.9"
+    expo-linking: "npm:~6.3.1"
+    expo-router: "npm:~3.5.23"
+    expo-splash-screen: "npm:~0.27.5"
+    expo-status-bar: "npm:~1.12.1"
+    expo-system-ui: "npm:~3.0.7"
+    expo-web-browser: "npm:~13.0.3"
+    jest: "npm:^29.2.1"
+    jest-expo: "npm:~51.0.3"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+    react-native: "npm:0.74.5"
+    react-native-gesture-handler: "npm:~2.16.1"
+    react-native-reanimated: "npm:~3.10.1"
+    react-native-safe-area-context: "npm:4.10.5"
+    react-native-screens: "npm:3.31.1"
+    react-native-web: "npm:~0.19.10"
+    react-test-renderer: "npm:18.2.0"
+    typescript: "npm:~5.3.3"
+  languageName: unknown
+  linkType: soft
+
 "text-table@npm:^0.2.0":
   version: 0.2.0
   resolution: "text-table@npm:0.2.0"
@@ -16062,6 +16110,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:~5.3.3":
+  version: 5.3.3
+  resolution: "typescript@npm:5.3.3"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/e33cef99d82573624fc0f854a2980322714986bc35b9cb4d1ce736ed182aeab78e2cb32b385efa493b2a976ef52c53e20d6c6918312353a91850e2b76f1ea44f
+  languageName: node
+  linkType: hard
+
 "typescript@patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>":
   version: 4.9.4
   resolution: "typescript@patch:typescript@npm%3A4.9.4#optional!builtin<compat/typescript>::version=4.9.4&hash=289587"
@@ -16099,6 +16157,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10c0/7c9d2e07c81226d60435939618c91ec2ff0b75fbfa106eec3430f0fcf93a584bc6c73176676f532d78c3594fe28a54b36eb40b3d75593071a7ec91301533ace7
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A~5.3.3#optional!builtin<compat/typescript>":
+  version: 5.3.3
+  resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 10c0/1d0a5f4ce496c42caa9a30e659c467c5686eae15d54b027ee7866744952547f1be1262f2d40de911618c242b510029d51d43ff605dba8fb740ec85ca2d3f9500
   languageName: node
   linkType: hard
 

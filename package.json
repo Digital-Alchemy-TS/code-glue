@@ -1,17 +1,20 @@
 {
   "name": "@digital-alchemy/code-glue",
-  "main": "expo-router/entry",
+  "private": true,
   "version": "24.10.1",
+  "workspaces": [
+    "apps/*"
+  ],
   "description": "Super top secret idea",
   "repository": "https://github.com/Digital-Alchemy-TS/code-glue",
   "scripts": {
     "act": "act -j lint-and-build",
     "lint": "yarn server:lint",
-    "server:build": "yarn --cwd ./server build",
-    "server:lint": "yarn --cwd ./server lint",
-    "server:start": "yarn --cwd ./server start",
-    "server:test": "yarn --cwd ./server test",
-    "dev": "expo start --web"
+    "server:build": "yarn --cwd ./apps/server build",
+    "server:lint": "yarn --cwd ./apps/server lint",
+    "server:start": "yarn --cwd ./apps/server start",
+    "server:test": "yarn --cwd ./apps/server test",
+    "dev": "EXPO_USE_METRO_WORKSPACE_ROOT=1 cd apps/client && expo start --web"
   },
   "dependencies": {
     "@digital-alchemy/automation": "^24.9.3",
@@ -88,6 +91,7 @@
     "typescript": "^5.6.3"
   },
   "prettier": {
+    "semi": false,
     "singleQuote": false,
     "trailingComma": "all",
     "jsxSingleQuote": false,
