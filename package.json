@@ -14,7 +14,7 @@
     "server:lint": "yarn --cwd ./apps/server lint",
     "server:start": "yarn --cwd ./apps/server start",
     "server:test": "yarn --cwd ./apps/server test",
-    "dev": "EXPO_USE_METRO_WORKSPACE_ROOT=1 cd apps/client && expo start --web"
+    "client:dev": "yarn --cwd ./apps/client start"
   },
   "dependencies": {
     "@digital-alchemy/automation": "^24.9.3",

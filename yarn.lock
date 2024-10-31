@@ -1829,6 +1829,34 @@ __metadata:
 "@code-glue/client@workspace:apps/client":
   version: 0.0.0-use.local
   resolution: "@code-glue/client@workspace:apps/client"
+  dependencies:
+    "@babel/core": "npm:^7.20.0"
+    "@expo/vector-icons": "npm:^14.0.2"
+    "@react-navigation/native": "npm:^6.0.2"
+    "@types/jest": "npm:^29.5.12"
+    "@types/react": "npm:~18.2.45"
+    "@types/react-test-renderer": "npm:^18.0.7"
+    expo: "npm:~51.0.28"
+    expo-constants: "npm:~16.0.2"
+    expo-font: "npm:~12.0.9"
+    expo-linking: "npm:~6.3.1"
+    expo-router: "npm:~3.5.23"
+    expo-splash-screen: "npm:~0.27.5"
+    expo-status-bar: "npm:~1.12.1"
+    expo-system-ui: "npm:~3.0.7"
+    expo-web-browser: "npm:~13.0.3"
+    jest: "npm:^29.2.1"
+    jest-expo: "npm:~51.0.3"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
+    react-native: "npm:0.74.5"
+    react-native-gesture-handler: "npm:~2.16.1"
+    react-native-reanimated: "npm:~3.10.1"
+    react-native-safe-area-context: "npm:4.10.5"
+    react-native-screens: "npm:3.31.1"
+    react-native-web: "npm:~0.19.10"
+    react-test-renderer: "npm:18.2.0"
+    typescript: "npm:~5.3.3"
   languageName: unknown
   linkType: soft
 
