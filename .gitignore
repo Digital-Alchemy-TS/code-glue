@@ -21,3 +21,4 @@ coverage
 
 # macOS
 .DS_Store
+/.eslintcache
