@@ -1,5 +1,7 @@
 {
-  "extends": "../../tsconfig",
+  "extends": [
+    "../../tsconfig.client"
+  ],
   "include": [
     "**/*.ts",
     "**/*.tsx",

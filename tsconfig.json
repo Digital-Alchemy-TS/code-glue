@@ -1,47 +1,8 @@
 {
-  "compileOnSave": true,
   "compilerOptions": {
-    "allowJs": false,
-    "alwaysStrict": true,
-    "esModuleInterop": true,
-    "importHelpers": true,
-    "isolatedModules": true,
-    "lib": [
-      "ESNext"
-    ],
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "noImplicitAny": true,
-    "declaration": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
-    "noUncheckedIndexedAccess": true,
-    "sourceMap": true,
-    "outDir": "./dist",
-    "strict": false,
-    "strictBindCallApply": true,
-    "strictFunctionTypes": true,
-    "target": "ESNext",
-    "allowSyntheticDefaultImports": true,
-    "rootDir": ".",
     "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "apps/client/*"
-      ]
-    }
   },
-  "include": [
-    "client/**/*.ts",
-    "client/**/*.tsx",
-    "apps/client/expo-env.d.ts"
-  ],
   "exclude": [
     "node_modules",
-    "dist"
-  ],
-  "extends": "expo/tsconfig.base"
+  ]
 }

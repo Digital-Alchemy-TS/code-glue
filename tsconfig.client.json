@@ -1,0 +1,21 @@
+{
+  "extends": [
+    "expo/tsconfig.base",
+    "./tsconfig"
+  ],
+  "compilerOptions": {
+    "paths": {},
+    // Type checking
+    "strict": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "strictNullChecks": true,
+
+    // Module resolution
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+
+  },
+}

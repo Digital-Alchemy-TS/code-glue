@@ -1,4 +1,6 @@
 {
+  "extends": "../../tsconfig",
+
   "compileOnSave": true,
   "compilerOptions": {
     "allowJs": false,
@@ -32,7 +34,6 @@
     "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
     "dist"
   ]
 }
