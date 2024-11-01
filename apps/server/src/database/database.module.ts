@@ -1,19 +1,15 @@
 import { CreateLibrary } from "@digital-alchemy/core";
 
 import { LIB_METRICS } from "../metrics";
-import { AutomationTable } from "./services";
+import { AutomationTable, VariablesTable } from "./services";
 
 export const LIB_DATABASE = CreateLibrary({
-  configuration: {
-    SQLITE_DB: {
-      description: "Where to track the application sqlite at",
-      type: "string",
-    },
-  },
+  configuration: {},
   depends: [LIB_METRICS],
   name: "database",
   services: {
     automation: AutomationTable,
+    variable: VariablesTable,
   },
 });
 

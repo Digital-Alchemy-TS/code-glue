@@ -12,7 +12,6 @@ export function AutomationController({
 }: TServiceParams) {
   controller([config.code_glue.V1, "/automation"], app =>
     app
-
       .get("/", () => automation.list())
       .get("/:id", { schema: { params } }, ({ params: { id } }) =>
         automation.get(id),
@@ -21,13 +20,12 @@ export function AutomationController({
         automation.remove(id),
       )
       .post("/", { schema: { body: StoredAutomation } }, ({ body }) =>
-        automation.create(body as StoredAutomation),
+        automation.create(body),
       )
       .put(
         "/:id",
         { schema: { body: StoredAutomation, params } },
-        ({ body, params: { id } }) =>
-          automation.update(id, body as StoredAutomation),
+        ({ body, params: { id } }) => automation.update(id, body),
       ),
   );
 }

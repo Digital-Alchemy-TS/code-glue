@@ -9,5 +9,6 @@ words:
   - falsey
   - hass
   - typebox
+  - automations
 ignoreWords: []
 import: []
