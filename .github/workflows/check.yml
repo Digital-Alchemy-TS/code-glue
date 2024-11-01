@@ -21,11 +21,12 @@ jobs:
           node-version: '22'
       - run: corepack enable
       - run: yarn config set enableImmutableInstalls false
-      - run: yarn
-      - run: yarn build
-      - run: yarn lint
-      - run: yarn test
+      - run: yarn install
+      - run: yarn server:build
+      - run: yarn server:lint
+      - run: yarn server:test
       # - name: Upload coverage reports to Codecov
       #   uses: codecov/codecov-action@v4.6.0
       #   with:
       #     token: ${{ secrets.CODECOV_TOKEN }}
+      - run: yarn client:lint
