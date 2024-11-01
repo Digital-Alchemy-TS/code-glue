@@ -17,10 +17,7 @@ thumbs.db
 .VSCodeCounter
 coverage
 
-synapse_storage.db
+**/synapse_storage.db
 
 # macOS
 .DS_Store
-
-
-

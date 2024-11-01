@@ -21,27 +21,18 @@
     "skipLibCheck": true,
     "noUncheckedIndexedAccess": true,
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "../../dist/server/",
     "strict": false,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "target": "ESNext",
-    "allowSyntheticDefaultImports": true,
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
+    "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "dist"
-  ],
-  "extends": "expo/tsconfig.base"
+  ]
 }

@@ -70,7 +70,7 @@ export default [
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-magic-numbers": "warn",
       "@typescript-eslint/unbound-method": "off",
-      "import/no-extraneous-dependencies": ["error", { packageDir: "../" }],
+      "import/no-extraneous-dependencies": ["error", { packageDir: "../../" }],
       "no-async-promise-executor": "off",
       "no-case-declarations": "off",
       "no-console": "error",

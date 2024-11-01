@@ -9,12 +9,13 @@
   "repository": "https://github.com/Digital-Alchemy-TS/code-glue",
   "scripts": {
     "act": "act -j lint-and-build",
-    "lint": "yarn server:lint",
+    "lint": "yarn server:lint; yarn client:lint",
     "server:build": "yarn --cwd ./apps/server build",
     "server:lint": "yarn --cwd ./apps/server lint",
     "server:start": "yarn --cwd ./apps/server start",
     "server:test": "yarn --cwd ./apps/server test",
-    "client:dev": "yarn --cwd ./apps/client start"
+    "client:dev": "yarn --cwd ./apps/client start",
+    "client:lint": "yarn --cwd ./apps/client lint"
   },
   "dependencies": {
     "@digital-alchemy/automation": "^24.9.3",
@@ -41,7 +42,6 @@
     "expo-web-browser": "~13.0.3",
     "fastify": "^5.0.0",
     "ioredis": "^5.4.1",
-    "mongoose": "^8.7.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.5",
