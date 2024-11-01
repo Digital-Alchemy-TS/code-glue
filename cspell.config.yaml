@@ -3,12 +3,14 @@ ignorePaths: []
 dictionaryDefinitions: []
 dictionaries: []
 words:
-  - datetime
-  - sonarjs
+  - automations
   - cobertura
+  - datetime
   - falsey
   - hass
+  - sonarjs
+  - tseslint
   - typebox
-  - automations
+  - fastify
 ignoreWords: []
 import: []
