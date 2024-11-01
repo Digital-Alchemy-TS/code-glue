@@ -6,5 +6,6 @@
   "scripts": {
     "start": "EXPO_USE_METRO_WORKSPACE_ROOT=1 expo start --web",
     "lint": "eslint ."
-  }
+  },
+  "prettier": "@tiltshift/config/prettier"
 }

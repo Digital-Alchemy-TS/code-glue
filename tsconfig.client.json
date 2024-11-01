@@ -4,7 +4,11 @@
     "./tsconfig"
   ],
   "compilerOptions": {
-    "paths": {},
+    "paths": {
+      "@/*": [
+        "apps/client/*"
+      ]
+    },
     // Type checking
     "strict": true,
     "noImplicitAny": true,
