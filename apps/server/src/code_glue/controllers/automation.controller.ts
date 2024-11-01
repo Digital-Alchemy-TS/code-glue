@@ -1,7 +1,7 @@
 import { TServiceParams } from "@digital-alchemy/core";
 import { Type } from "@sinclair/typebox";
 
-import { StoredAutomation } from "../../utils";
+import { AutomationCreateOptions } from "../../utils";
 
 const params = Type.Object({ id: Type.String() });
 
@@ -19,12 +19,12 @@ export function AutomationController({
       .delete("/:id", { schema: { params } }, ({ params: { id } }) =>
         automation.remove(id),
       )
-      .post("/", { schema: { body: StoredAutomation } }, ({ body }) =>
+      .post("/", { schema: { body: AutomationCreateOptions } }, ({ body }) =>
         automation.create(body),
       )
       .put(
         "/:id",
-        { schema: { body: StoredAutomation, params } },
+        { schema: { body: AutomationCreateOptions, params } },
         ({ body, params: { id } }) => automation.update(id, body),
       ),
   );
