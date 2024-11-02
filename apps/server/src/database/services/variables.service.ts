@@ -3,10 +3,10 @@ import { Database } from "better-sqlite3";
 import { v4 } from "uuid";
 
 import {
+  SharedVariableCreateOptions,
   SharedVariableRow,
   SharedVariables,
 } from "../../utils/contracts/variables";
-import { AutomationCreateOptions } from "./entities.service";
 
 const CREATE = `CREATE TABLE IF NOT EXISTS SharedVariables (
   createDate DATETIME NOT NULL,
@@ -60,7 +60,7 @@ export function VariablesTable({
   }
 
   // #MARK: save
-  function save(data: SharedVariables | AutomationCreateOptions) {
+  function save(data: SharedVariables | SharedVariableCreateOptions) {
     const now = new Date().toISOString();
     return {
       ...data,
@@ -83,7 +83,7 @@ export function VariablesTable({
   }
 
   // #MARK: create
-  function create(data: AutomationCreateOptions) {
+  function create(data: SharedVariableCreateOptions) {
     const id = v4();
     const row = { ...save(data), id };
     database.prepare(UPSERT).run(row);
@@ -91,7 +91,7 @@ export function VariablesTable({
   }
 
   // #MARK: update
-  function update(id: string, data: Partial<AutomationCreateOptions>) {
+  function update(id: string, data: Partial<SharedVariableCreateOptions>) {
     const current = store.get(id);
     const update = save({ ...current, ...data });
     database.prepare(UPSERT).run({ ...update, id });

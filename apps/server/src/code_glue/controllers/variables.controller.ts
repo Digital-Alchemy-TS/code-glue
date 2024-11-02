@@ -1,7 +1,7 @@
 import { TServiceParams } from "@digital-alchemy/core";
 import { Type } from "@sinclair/typebox";
 
-import { AutomationCreateOptions } from "../../utils";
+import { SharedVariableCreateOptions } from "../../utils";
 
 const params = Type.Object({ id: Type.String() });
 
@@ -19,12 +19,14 @@ export function VariablesController({
       .delete("/:id", { schema: { params } }, ({ params: { id } }) =>
         variable.remove(id),
       )
-      .post("/", { schema: { body: AutomationCreateOptions } }, ({ body }) =>
-        variable.create(body),
+      .post(
+        "/",
+        { schema: { body: SharedVariableCreateOptions } },
+        ({ body }) => variable.create(body),
       )
       .put(
         "/:id",
-        { schema: { body: AutomationCreateOptions, params } },
+        { schema: { body: SharedVariableCreateOptions, params } },
         ({ body, params: { id } }) => variable.update(id, body),
       ),
   );

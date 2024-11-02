@@ -18,6 +18,7 @@ export const SharedVariables = Type.Object(
   { description: "Shared variables that can emit updates" },
 );
 export type SharedVariables = typeof SharedVariables.static;
+
 export const SharedVariableCreateOptions = Type.Omit(SharedVariables, [
   "id",
   "lastUpdate",
