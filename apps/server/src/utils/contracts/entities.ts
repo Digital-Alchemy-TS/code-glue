@@ -16,22 +16,32 @@ export enum SynapseEntityTypes {
 
 export const SynapseEntities = Type.Object(
   {
-    attributes: Type.String(),
-    createDate: Type.String(),
-    defaultConfig: Type.String(),
+    attributes: Type.String({ description: "type definition (for an object)" }),
+    createDate: Type.String({ description: "iso date string" }),
+    defaultAttributes: Type.String({ description: "json object" }),
+    defaultConfig: Type.String({
+      description:
+        "json object: default config properties passed into creation",
+    }),
+    defaultLocals: Type.String({ description: "json object" }),
     documentation: Type.String({
       description: "User provided markdown notes",
     }),
-    icon: Type.String(),
-    id: Type.String(),
+    icon: Type.String({ description: "mdi icon to associate with entity" }),
+    id: Type.String({ description: "uuid" }),
     labels: Type.Array(Type.String(), {
       description: "Home Assistant label_id",
     }),
-    lastUpdate: Type.String(),
-    local: Type.String(),
-    name: Type.String(),
-    suggested_object_id: Type.String(),
-    type: Type.Enum(SynapseEntityTypes),
+    lastUpdate: Type.String({ description: "iso date string" }),
+    locals: Type.String({ description: "type definition (for an object)" }),
+    name: Type.String({ description: "friendly name for dashboards" }),
+    suggested_object_id: Type.String({
+      description: "Used to influence entity id creation",
+    }),
+    type: Type.Enum(SynapseEntityTypes, {
+      description:
+        "What type of entity to create? Built as allowlist to only allow known stable domains",
+    }),
   },
   { description: "For building synapse entities" },
 );
@@ -54,3 +64,7 @@ export const SynapseEntityRow = Type.Intersect([
   }),
 ]);
 export type SynapseEntityRow = typeof SynapseEntityRow.static;
+
+export const SYNAPSE_ENTITIES_UPDATED = "SYNAPSE_ENTITIES_UPDATED";
+export const SYNAPSE_ENTITIES_ADDED = "SYNAPSE_ENTITIES_ADDED";
+export const SYNAPSE_ENTITIES_REMOVED = "SYNAPSE_ENTITIES_REMOVED";

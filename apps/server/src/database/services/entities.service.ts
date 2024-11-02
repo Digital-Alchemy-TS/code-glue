@@ -3,6 +3,9 @@ import { Database } from "better-sqlite3";
 import { v4 } from "uuid";
 
 import {
+  SYNAPSE_ENTITIES_ADDED,
+  SYNAPSE_ENTITIES_REMOVED,
+  SYNAPSE_ENTITIES_UPDATED,
   SynapseEntities,
   SynapseEntityCreateOptions,
   SynapseEntityRow,
@@ -44,6 +47,7 @@ const SELECT_ALL = `SELECT * FROM SynapseEntities`;
 export function SynapseEntitiesTable({
   lifecycle,
   logger,
+  event,
   synapse,
   context,
   metrics,
@@ -93,7 +97,10 @@ export function SynapseEntitiesTable({
     const id = v4();
     const row = { ...save(data), id };
     database.prepare(UPSERT).run(row);
-    store.set(id, load(row));
+    const out = load(row);
+    store.set(id, out);
+    event.emit(SYNAPSE_ENTITIES_ADDED, out);
+    return out;
   }
 
   // #MARK: update
@@ -103,6 +110,7 @@ export function SynapseEntitiesTable({
     database.prepare(UPSERT).run({ ...update, id });
     const out = load(update);
     store.set(id, out);
+    event.emit(SYNAPSE_ENTITIES_UPDATED, out);
     return out;
   }
 
@@ -110,6 +118,7 @@ export function SynapseEntitiesTable({
   function remove(id: string): void {
     store.delete(id);
     database.prepare(REMOVE).run({ id });
+    event.emit(SYNAPSE_ENTITIES_REMOVED, id);
   }
 
   // #MARK: get
