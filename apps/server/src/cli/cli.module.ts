@@ -1,7 +1,7 @@
 import { CreateApplication } from "@digital-alchemy/core";
 import { LIB_TERMINAL } from "@digital-alchemy/terminal";
 
-import { CLIEntry, RestAPIService } from "./services";
+import { CLIEntry, CLISynapseService, RestAPIService } from "./services";
 
 export const CLI_APP = CreateApplication({
   configuration: {
@@ -15,6 +15,7 @@ export const CLI_APP = CreateApplication({
   services: {
     api: RestAPIService,
     entry: CLIEntry,
+    synapse: CLISynapseService,
   },
 });
 
