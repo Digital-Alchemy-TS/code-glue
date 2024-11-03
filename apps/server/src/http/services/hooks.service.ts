@@ -1,9 +1,10 @@
 import { AsyncLogData, is, TServiceParams } from "@digital-alchemy/core";
+import swagger from "@fastify/swagger";
+import swaggerUI from "@fastify/swagger-ui";
 import { FastifyInstance, FastifyRequest } from "fastify";
 
 import { BadRequestError, RequestHeaders } from "../../utils";
 import { RequestLocals, ResponseHeaders } from "../types";
-
 /**
  * Extract headers values and attach to logs
  */
@@ -23,7 +24,9 @@ export function HttpHooks({ logger, als, metrics, context }: TServiceParams) {
       if (REQUIRED_HEADERS.has(i) && is.undefined(value)) {
         throw new BadRequestError(context, `Missing expected header: ${i}`);
       }
-      trace[i] = value.toString();
+      if (is.string(value)) {
+        trace[i] = value.toString();
+      }
     });
 
     return {
@@ -32,7 +35,66 @@ export function HttpHooks({ logger, als, metrics, context }: TServiceParams) {
     };
   }
 
-  function setup(fastify: FastifyInstance) {
+  async function setup(fastify: FastifyInstance) {
+    await fastify.register(swagger, {
+      openapi: {
+        components: {
+          securitySchemes: {
+            apiKey: {
+              in: "header",
+              name: "apiKey",
+              type: "apiKey",
+            },
+          },
+        },
+        externalDocs: {
+          description: "Find more info here",
+          url: "https://swagger.io",
+        },
+        info: {
+          description: "Testing the Fastify swagger API",
+          title: "Test swagger",
+          version: "0.1.0",
+        },
+        openapi: "3.0.0",
+        servers: [
+          {
+            description: "Development server",
+            url: "http://localhost:3000",
+          },
+        ],
+        tags: [
+          {
+            description: "Related to the Synapse entities system",
+            name: "synapse",
+          },
+          { description: "Code related end-points", name: "code" },
+        ],
+      },
+    });
+
+    await fastify.register(swaggerUI, {
+      routePrefix: "/swagger",
+      staticCSP: true,
+      transformSpecification: (swaggerObject, request, reply) => {
+        return swaggerObject;
+      },
+      transformSpecificationClone: true,
+      transformStaticCSP: header => header,
+      uiConfig: {
+        deepLinking: false,
+        docExpansion: "full",
+      },
+      uiHooks: {
+        onRequest: function (request, reply, next) {
+          next();
+        },
+        preHandler: function (request, reply, next) {
+          next();
+        },
+      },
+    });
+
     fastify.addHook("onRoute", function onRoute(route) {
       // * during startup, identify routes
       logger.debug({ name: onRoute }, "[%s] {%s}", route.method, route.url);
@@ -55,7 +117,6 @@ export function HttpHooks({ logger, als, metrics, context }: TServiceParams) {
             keys.push(key);
           }
         });
-
         // * confirm keys
         logger.debug({ keys }, "onRequest");
       }

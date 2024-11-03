@@ -12,25 +12,21 @@ export const LIB_METRICS = CreateLibrary({
     EMIT_ALERT: {
       default: false,
       description: "metrics.alert toggle",
-
       type: "boolean",
     },
     EMIT_METRICS: {
-      default: false,
+      default: true,
       description: "metrics.emit toggle",
-
       type: "boolean",
     },
     PERFORMANCE_PRECISION: {
       default: 3,
       description: "Rounding precision for after the decimal. 3 = 0.xxx",
-
       type: "number",
     },
     SYSTEM_STATS_INTERVAL: {
       default: 15 * SECOND,
       description: "In ms",
-
       type: "number",
     },
   },

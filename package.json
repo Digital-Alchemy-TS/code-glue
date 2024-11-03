@@ -12,6 +12,7 @@
     "server:build": "yarn --cwd ./apps/server build",
     "server:lint": "yarn --cwd ./apps/server lint",
     "server:start": "yarn --cwd ./apps/server start",
+    "server:start:inspect": "yarn --cwd ./apps/server start:inspect",
     "server:test": "yarn --cwd ./apps/server test",
     "client:dev": "yarn --cwd ./apps/client start",
     "client:lint": "yarn --cwd ./apps/client lint"
@@ -21,10 +22,13 @@
     "@digital-alchemy/core": "^24.10.8",
     "@digital-alchemy/hass": "^24.10.2",
     "@digital-alchemy/synapse": "^24.9.4",
+    "@digital-alchemy/terminal": "^24.9.1",
     "@digital-alchemy/type-writer": "^24.10.2",
     "@expo/vector-icons": "^14.0.2",
     "@fastify/cors": "^10.0.1",
     "@fastify/helmet": "^12.0.1",
+    "@fastify/swagger": "^9.2.0",
+    "@fastify/swagger-ui": "^5.1.0",
     "@fastify/type-provider-typebox": "^5.0.0",
     "@react-navigation/native": "^6.0.2",
     "@sinclair/typebox": "^0.33.17",
@@ -98,7 +102,9 @@
     "yarn": "4.5.1"
   },
   "resolutions": {
-    "jsonpath-plus": "10.0.7"
+    "jsonpath-plus": "10.0.7",
+    "@digital-alchemy/synapse": "portal:/home/zoe/DigitalAlchemyTS/synapse",
+    "@digital-alchemy/terminal": "portal:/home/zoe/DigitalAlchemyTS/terminal"
   },
   "prettier": {
     "semi": true,

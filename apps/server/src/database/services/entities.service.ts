@@ -5,7 +5,6 @@ import { v4 } from "uuid";
 import {
   SYNAPSE_ENTITIES_ADDED,
   SYNAPSE_ENTITIES_REMOVED,
-  SYNAPSE_ENTITIES_UPDATED,
   SynapseEntities,
   SynapseEntityCreateOptions,
   SynapseEntityRow,
@@ -110,7 +109,8 @@ export function SynapseEntitiesTable({
     database.prepare(UPSERT).run({ ...update, id });
     const out = load(update);
     store.set(id, out);
-    event.emit(SYNAPSE_ENTITIES_UPDATED, out);
+    // does not emit anything
+    // in order to affect the entity, a rebuild is needed
     return out;
   }
 

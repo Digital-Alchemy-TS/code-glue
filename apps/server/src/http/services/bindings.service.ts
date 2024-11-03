@@ -37,7 +37,7 @@ export function Bindings({
       httpServer.register(cors, {});
       httpServer.register(helmet, {});
     }
-    http.hooks.setup(httpServer);
+    await http.hooks.setup(httpServer);
   });
 
   lifecycle.onReady(async function onReady() {

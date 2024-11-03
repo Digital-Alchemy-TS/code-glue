@@ -2,16 +2,16 @@ import { Type } from "@sinclair/typebox";
 
 export enum SynapseEntityTypes {
   binary_sensor = "binary_sensor",
-  button = "button",
-  date = "date",
-  datetime = "datetime",
-  number = "number",
-  scene = "scene",
-  select = "select",
-  sensor = "sensor",
-  switch = "switch",
-  text = "text",
-  time = "time",
+  // button = "button",
+  // date = "date",
+  // datetime = "datetime",
+  // number = "number",
+  // scene = "scene",
+  // select = "select",
+  // sensor = "sensor",
+  // switch = "switch",
+  // text = "text",
+  // time = "time",
 }
 
 export const SynapseEntities = Type.Object(
@@ -65,6 +65,5 @@ export const SynapseEntityRow = Type.Intersect([
 ]);
 export type SynapseEntityRow = typeof SynapseEntityRow.static;
 
-export const SYNAPSE_ENTITIES_UPDATED = "SYNAPSE_ENTITIES_UPDATED";
 export const SYNAPSE_ENTITIES_ADDED = "SYNAPSE_ENTITIES_ADDED";
 export const SYNAPSE_ENTITIES_REMOVED = "SYNAPSE_ENTITIES_REMOVED";

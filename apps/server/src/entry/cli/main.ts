@@ -1,9 +1,9 @@
-import { CODE_GLUE_CLI } from "../../cli";
+import { CLI_APP } from "../../cli";
 
-await CODE_GLUE_CLI.bootstrap({
+await CLI_APP.bootstrap({
   configuration: {
     boilerplate: {
-      // LOG_LEVEL: "silent",
+      LOG_LEVEL: "silent",
     },
   },
 });

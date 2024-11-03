@@ -11,9 +11,11 @@ export function HttpErrors({ logger }: TServiceParams) {
     logger.trace("setup");
     httpServer.setErrorHandler(
       (error: FastifyError, _: FastifyRequest, reply: FastifyReply) => {
-        reply
-          .status(error.statusCode)
-          .send({ error: error.message, status_code: error.statusCode });
+        logger.error({ error, ms: reply.elapsedTime }, "fastify caught error");
+        if (error.statusCode) {
+          reply.status(error.statusCode);
+        }
+        reply.send({ error: error.message, status_code: error.statusCode });
       },
     );
   }

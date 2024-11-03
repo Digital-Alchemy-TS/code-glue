@@ -8,6 +8,7 @@
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint src",
     "start": "tsx src/entry/local/main.ts",
+    "start:inspect": "tsx --inspect src/entry/local/main.ts",
     "test": "./scripts/test.sh"
   },
   "devDependencies": {
