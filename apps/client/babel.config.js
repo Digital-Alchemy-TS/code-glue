@@ -10,7 +10,6 @@ module.exports = function (api) {
           root: ['../..'],
           alias: {
             // define aliases to shorten the import paths
-            paradigm: '../../packages/paradigm',
           },
           extensions: ['.js', '.jsx', '.tsx', '.ios.js', '.android.js'],
         },
@@ -18,8 +17,8 @@ module.exports = function (api) {
       [
         '@tamagui/babel-plugin',
         {
-          components: ['paradigm', 'tamagui'],
-          config: '../../packages/paradigm/config/tamagui.config.ts',
+          components: ['tamagui'],
+          config: './tamagui.config.ts',
           logTimings: true,
         },
       ],

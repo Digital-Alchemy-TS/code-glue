@@ -19,6 +19,9 @@ coverage
 
 **/synapse_storage.db
 
+tamagui-web.css
+.tamagui
+
 # macOS
 .DS_Store
 /.eslintcache

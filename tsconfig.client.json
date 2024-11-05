@@ -6,9 +6,6 @@
   "compilerOptions": {
     "noEmit": true,
     "paths": {
-      "paradigm": [
-        "./packages/paradigm"
-      ],
       "@/*": [
         "apps/client/*"
       ]

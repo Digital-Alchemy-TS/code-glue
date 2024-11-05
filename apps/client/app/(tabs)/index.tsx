@@ -1,4 +1,3 @@
-import { Test } from 'paradigm'
 import { Image, StyleSheet, Platform } from 'react-native'
 
 import { HelloWave } from '@/components/HelloWave'
@@ -16,9 +15,7 @@ export default function HomeScreen() {
     >
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Welcome!</ThemedText>
-        <Test>
-          <HelloWave />
-        </Test>
+        <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 1: Try it</ThemedText>

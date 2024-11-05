@@ -13,7 +13,7 @@ const config = getDefaultConfig(__dirname, {
 const { withTamagui } = require('@tamagui/metro-plugin')
 module.exports = withTamagui(config, {
   components: ['tamagui'],
-  config: '../../packages/paradigm/config/tamagui.config.ts',
+  config: './tamagui.config.ts',
   outputCSS: './tamagui-web.css',
 })
 
