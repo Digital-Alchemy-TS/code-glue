@@ -3,7 +3,8 @@
   "private": true,
   "version": "24.10.1",
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "description": "Super top secret idea",
   "repository": "https://github.com/Digital-Alchemy-TS/code-glue",
@@ -32,7 +33,6 @@
     "dayjs": "^1.11.13",
     "expo": "~51.0.28",
     "expo-constants": "~16.0.2",
-    "expo-font": "~12.0.9",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.23",
     "expo-splash-screen": "~0.27.5",
@@ -48,7 +48,9 @@
     "react-native-reanimated": "~3.10.1",
     "react-native-safe-area-context": "4.10.5",
     "react-native-screens": "3.31.1",
+    "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.10",
+    "react-refresh": "^0.14.2",
     "uuid": "^11.0.2",
     "valtio": "^2.1.1"
   },
@@ -58,6 +60,7 @@
     "@eslint/compat": "^1.2.2",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
+    "@expo/metro-runtime": "^3.2.3",
     "@jest/globals": "^29.7.0",
     "@tiltshift/config": "^2.0.0",
     "@types/better-sqlite3": "^7.6.11",
@@ -65,9 +68,11 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^22.8.4",
     "@types/react": "~18.2.45",
+    "@types/react-refresh": "^0",
     "@types/react-test-renderer": "^18.0.7",
     "@typescript-eslint/eslint-plugin": "8.12.2",
     "@typescript-eslint/parser": "8.12.2",
+    "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^9.13.0",
     "eslint-config-expo": "^7.1.2",
     "eslint-config-prettier": "^9.1.0",
@@ -102,6 +107,8 @@
     "yarn": "4.5.1"
   },
   "resolutions": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "jsonpath-plus": "10.0.7"
   },
   "prettier": {

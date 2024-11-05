@@ -6,9 +6,14 @@
     "scheme": "codeglue",
     "userInterfaceStyle": "automatic",
     "platforms": ["web"],
-    "plugins": ["expo-router"],
+    "plugins": ["expo-router", "expo-font"],
     "experiments": {
       "typedRoutes": true
+    },
+    "web": {
+      "favicon": "./assets/images/favicon.png",
+      "bundler": "metro",
+      "output": "static"
     }
   }
 }
