@@ -97,6 +97,9 @@ export function HttpHooks({ logger, als, metrics, context }: TServiceParams) {
 
     fastify.addHook("onRoute", function onRoute(route) {
       // * during startup, identify routes
+      if (route.method === "HEAD") {
+        return;
+      }
       logger.debug({ name: onRoute }, "[%s] {%s}", route.method, route.url);
     });
 

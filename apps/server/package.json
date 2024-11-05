@@ -9,6 +9,9 @@
     "lint": "eslint src",
     "start": "tsx src/entry/local/main.ts",
     "start:inspect": "tsx --inspect src/entry/local/main.ts",
+    "start:brk": "tsx --inspect-brk src/entry/local/main.ts",
+    "cli:brk": "tsx --inspect-brk src/entry/cli/main.ts",
+    "cli": "tsx src/entry/cli/main.ts",
     "test": "./scripts/test.sh"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import { CreateApplication } from "@digital-alchemy/core";
+import { LIB_HASS } from "@digital-alchemy/hass";
 import { LIB_TERMINAL } from "@digital-alchemy/terminal";
 
 import { CLIEntry, CLISynapseService, RestAPIService } from "./services";
@@ -10,7 +11,7 @@ export const CLI_APP = CreateApplication({
       type: "string",
     },
   },
-  libraries: [LIB_TERMINAL],
+  libraries: [LIB_TERMINAL, LIB_HASS],
   name: "cli",
   services: {
     api: RestAPIService,

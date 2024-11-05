@@ -2,16 +2,16 @@ import { Type } from "@sinclair/typebox";
 
 export enum SynapseEntityTypes {
   binary_sensor = "binary_sensor",
-  // button = "button",
-  // date = "date",
-  // datetime = "datetime",
-  // number = "number",
-  // scene = "scene",
-  // select = "select",
-  // sensor = "sensor",
-  // switch = "switch",
-  // text = "text",
-  // time = "time",
+  button = "button",
+  date = "date",
+  datetime = "datetime",
+  number = "number",
+  scene = "scene",
+  select = "select",
+  sensor = "sensor",
+  switch = "switch",
+  text = "text",
+  time = "time",
 }
 
 export const SynapseEntities = Type.Object(

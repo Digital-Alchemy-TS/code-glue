@@ -14,6 +14,7 @@ thumbs.db
 .schemas
 .env
 .code_glue
+.cli
 .VSCodeCounter
 coverage
 

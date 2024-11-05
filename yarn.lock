@@ -2410,6 +2410,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:8.12.2"
     "@typescript-eslint/parser": "npm:8.12.2"
     better-sqlite3: "npm:^11.5.0"
+    chalk: "npm:^5.3.0"
     dayjs: "npm:^1.11.13"
     eslint: "npm:^9.13.0"
     eslint-config-expo: "npm:^7.1.2"
