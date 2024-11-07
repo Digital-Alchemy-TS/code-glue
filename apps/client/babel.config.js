@@ -14,14 +14,14 @@ module.exports = function (api) {
           extensions: ['.js', '.jsx', '.tsx', '.ios.js', '.android.js'],
         },
       ],
-      [
-        '@tamagui/babel-plugin',
-        {
-          components: ['tamagui'],
-          config: './tamagui.config.ts',
-          logTimings: true,
-        },
-      ],
+      // [
+      //   '@tamagui/babel-plugin',
+      //   {
+      //     components: ['tamagui'],
+      //     config: './tamagui.config.ts',
+      //     logTimings: true,
+      //   },
+      // ],
       'react-native-reanimated/plugin',
     ],
   }

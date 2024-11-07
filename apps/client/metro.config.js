@@ -10,12 +10,12 @@ const config = getDefaultConfig(__dirname, {
 })
 
 // Enable Tamagui and add nice web support with optimizing compiler + CSS extraction
-const { withTamagui } = require('@tamagui/metro-plugin')
-module.exports = withTamagui(config, {
-  components: ['tamagui'],
-  config: './tamagui.config.ts',
-  outputCSS: './tamagui-web.css',
-})
+// const { withTamagui } = require('@tamagui/metro-plugin')
+// module.exports = withTamagui(config, {
+//   components: ['tamagui'],
+//   config: './tamagui.config.ts',
+//   outputCSS: './tamagui-web.css',
+// })
 
 config.resolver.sourceExts.push('mjs')
 
