@@ -11,7 +11,7 @@ import { LIB_METRICS } from "../metrics";
 import {
   AppController,
   AutomationController,
-  EntitiesController,
+  SynapseEntitiesController,
   VariablesController,
 } from "./controllers";
 
@@ -38,7 +38,7 @@ export const CODE_GLUE_APP = CreateApplication({
   services: {
     AppController,
     AutomationController,
-    EntitiesController,
+    SynapseEntitiesController,
     VariablesController,
   },
 });

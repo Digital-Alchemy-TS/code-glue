@@ -65,6 +65,5 @@ export const SynapseEntityRow = Type.Intersect([
 ]);
 export type SynapseEntityRow = typeof SynapseEntityRow.static;
 
-export const SYNAPSE_ENTITIES_UPDATED = "SYNAPSE_ENTITIES_UPDATED";
 export const SYNAPSE_ENTITIES_ADDED = "SYNAPSE_ENTITIES_ADDED";
 export const SYNAPSE_ENTITIES_REMOVED = "SYNAPSE_ENTITIES_REMOVED";

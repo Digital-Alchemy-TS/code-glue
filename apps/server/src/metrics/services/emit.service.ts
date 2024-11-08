@@ -7,6 +7,6 @@ export function MetricsEmit({ config, logger }: TServiceParams) {
     if (!config.metrics.EMIT_METRICS) {
       return;
     }
-    logger.info({ ...data, datadog: type }, `metrics-${type}`);
+    logger.info({ ...data, metric: type }, `metrics-${type}`);
   };
 }

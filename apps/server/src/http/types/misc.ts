@@ -57,3 +57,6 @@ export type FastifyHooks = Pick<
   // | "onError"
   // | "onRequestAbort"
 >;
+
+export const GENERIC_SUCCESS_RESPONSE = { success: true };
+export type GENERIC_SUCCESS_RESPONSE = typeof GENERIC_SUCCESS_RESPONSE;

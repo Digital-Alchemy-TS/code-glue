@@ -1,11 +1,10 @@
-import { TServiceParams } from "@digital-alchemy/core";
+import { is, TServiceParams } from "@digital-alchemy/core";
 import { Database } from "better-sqlite3";
 import { v4 } from "uuid";
 
 import {
   SYNAPSE_ENTITIES_ADDED,
   SYNAPSE_ENTITIES_REMOVED,
-  SYNAPSE_ENTITIES_UPDATED,
   SynapseEntities,
   SynapseEntityCreateOptions,
   SynapseEntityRow,
@@ -22,13 +21,15 @@ const CREATE = `CREATE TABLE IF NOT EXISTS SynapseEntities (
   attributes TEXT NOT NULL,
   defaultConfig TEXT NOT NULL,
   icon TEXT NOT NULL,
-  local TEXT NOT NULL,
-  suggested_object_id TEXT NOT NULL
+  locals TEXT NOT NULL,
+  suggested_object_id TEXT NOT NULL,
+  defaultAttributes TEXT NOT NULL,
+  defaultLocals TEXT NOT NULL
 )`;
 const UPSERT = `INSERT INTO SynapseEntities (
-  createDate, documentation, id, labels, lastUpdate, name, type, attributes, defaultConfig, icon, local, suggested_object_id
+  createDate, documentation, id, labels, lastUpdate, name, type, attributes, defaultConfig, icon, locals, suggested_object_id, defaultAttributes, defaultLocals
 ) VALUES (
-  @createDate, @documentation, @id, @labels, @lastUpdate, @name, @type, @attributes, @defaultConfig, @icon, @local, @suggested_object_id
+  @createDate, @documentation, @id, @labels, @lastUpdate, @name, @type, @attributes, @defaultConfig, @icon, @locals, @suggested_object_id, @defaultAttributes, @defaultLocals
 ) ON CONFLICT(id) DO UPDATE SET
   documentation = excluded.documentation,
   labels = excluded.labels,
@@ -38,8 +39,10 @@ const UPSERT = `INSERT INTO SynapseEntities (
   attributes = excluded.attributes,
   defaultConfig = excluded.defaultConfig,
   icon = excluded.icon,
-  local = excluded.local,
-  suggested_object_id = excluded.suggested_object_id`;
+  locals = excluded.locals,
+  suggested_object_id = excluded.suggested_object_id,
+  defaultAttributes = excluded.defaultAttributes,
+  defaultLocals = excluded.defaultLocals`;
 
 const REMOVE = `DELETE FROM SynapseEntities WHERE id = $id`;
 const SELECT_ALL = `SELECT * FROM SynapseEntities`;
@@ -65,7 +68,7 @@ export function SynapseEntitiesTable({
   function load(row: Partial<SynapseEntityRow>): SynapseEntities {
     return {
       ...row,
-      labels: row.labels.split("|"),
+      labels: is.empty(row.labels) ? [] : row.labels.split("|"),
     } as SynapseEntities;
   }
 
@@ -110,7 +113,8 @@ export function SynapseEntitiesTable({
     database.prepare(UPSERT).run({ ...update, id });
     const out = load(update);
     store.set(id, out);
-    event.emit(SYNAPSE_ENTITIES_UPDATED, out);
+    // does not emit anything
+    // in order to affect the entity, a rebuild is needed
     return out;
   }
 
