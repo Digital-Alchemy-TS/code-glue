@@ -1,9 +1,12 @@
+import Editor from '@monaco-editor/react'
+import { editor } from 'monaco-editor'
 import React from 'react'
 import { Button, Text, TextInput, View } from 'react-native'
 
 import { createAutomation } from '../../store/automation'
 
 export default function Modal() {
+  const editorRef = React.useRef<editor.IStandaloneCodeEditor>(null)
   const [automationName, setAutomationName] = React.useState('')
 
   return (
@@ -17,10 +20,18 @@ export default function Modal() {
           setAutomationName(text)
         }}
       />
+      <Editor
+        height="400px"
+        defaultLanguage="typescript"
+        defaultValue="// automation code here"
+        onMount={(editor) => {
+          editorRef.current = editor
+        }}
+      />
       <Button
         title="add automation"
         onPress={() => {
-          createAutomation({ title: automationName })
+          createAutomation({ title: automationName, body: editorRef.current.getValue() })
         }}
       />
     </View>
