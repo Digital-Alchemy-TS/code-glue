@@ -10,6 +10,7 @@ module.exports = function (api) {
           root: ['../..'],
           alias: {
             // define aliases to shorten the import paths
+            '@code-glue/server': '../../server/src',
           },
           extensions: ['.js', '.jsx', '.tsx', '.ios.js', '.android.js'],
         },

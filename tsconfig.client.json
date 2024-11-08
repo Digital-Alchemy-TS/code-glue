@@ -8,6 +8,9 @@
     "paths": {
       "@/*": [
         "apps/client/*"
+      ],
+      "@code-glue/server/*": [
+        "apps/server/src/*"
       ]
     },
     // Type checking

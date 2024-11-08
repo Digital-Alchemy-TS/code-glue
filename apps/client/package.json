@@ -7,5 +7,8 @@
     "start": "EXPO_USE_METRO_WORKSPACE_ROOT=1 expo start --web --clear",
     "lint": "eslint ."
   },
+  "dependencies": {
+    "@code-glue/server": "*"
+  },
   "prettier": "@tiltshift/config/prettier"
 }
