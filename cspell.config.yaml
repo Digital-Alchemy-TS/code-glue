@@ -7,10 +7,11 @@ words:
   - cobertura
   - datetime
   - falsey
+  - fastify
   - hass
+  - nocomment
   - sonarjs
   - tseslint
   - typebox
-  - fastify
 ignoreWords: []
 import: []

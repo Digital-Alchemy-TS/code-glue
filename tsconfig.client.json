@@ -4,6 +4,7 @@
     "./tsconfig"
   ],
   "compilerOptions": {
+    "noEmit": true,
     "paths": {
       "@/*": [
         "apps/client/*"

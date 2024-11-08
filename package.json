@@ -3,7 +3,8 @@
   "private": true,
   "version": "24.10.1",
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "description": "Super top secret idea",
   "repository": "https://github.com/Digital-Alchemy-TS/code-glue",
@@ -38,7 +39,6 @@
     "dayjs": "^1.11.13",
     "expo": "~51.0.28",
     "expo-constants": "~16.0.2",
-    "expo-font": "~12.0.9",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.23",
     "expo-splash-screen": "~0.27.5",
@@ -54,8 +54,11 @@
     "react-native-reanimated": "~3.10.1",
     "react-native-safe-area-context": "4.10.5",
     "react-native-screens": "3.31.1",
+    "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.10",
-    "uuid": "^11.0.2"
+    "react-refresh": "^0.14.2",
+    "uuid": "^11.0.2",
+    "valtio": "^2.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -63,27 +66,32 @@
     "@eslint/compat": "^1.2.2",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.13.0",
+    "@expo/metro-runtime": "^3.2.3",
     "@jest/globals": "^29.7.0",
-    "@tiltshift/config": "^2.0.0",
+    "@tiltshift/config": "^2.1.0",
     "@types/better-sqlite3": "^7.6.11",
     "@types/bun": "^1.1.12",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.9.0",
     "@types/react": "~18.2.45",
+    "@types/react-refresh": "^0",
     "@types/react-test-renderer": "^18.0.7",
     "@typescript-eslint/eslint-plugin": "8.13.0",
     "@typescript-eslint/parser": "8.13.0",
     "eslint": "^9.14.0",
     "eslint-config-expo": "^7.1.2",
-    "eslint-config-prettier": "9.1.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsonc": "^2.16.0",
     "eslint-plugin-no-unsanitized": "^4.1.2",
     "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "5.1.0-rc-16409d05-20241101",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-sonarjs": "^2.0.4",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-unicorn": "^56.0.0",
+    "eslint-plugin-valtio": "^0.6.4",
     "globals": "^15.11.0",
     "jest": "^29.7.0",
     "jest-environment-node": "^29.7.0",
@@ -104,9 +112,9 @@
     "yarn": "4.5.1"
   },
   "resolutions": {
-    "jsonpath-plus": "10.0.7",
-    "@digital-alchemy/synapse": "portal:/home/zoe/DigitalAlchemyTS/synapse",
-    "@digital-alchemy/terminal": "portal:/home/zoe/DigitalAlchemyTS/terminal"
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "jsonpath-plus": "10.0.7"
   },
   "prettier": {
     "semi": true,
