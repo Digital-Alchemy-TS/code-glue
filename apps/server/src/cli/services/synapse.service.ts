@@ -1,10 +1,7 @@
 import { is, TServiceParams } from "@digital-alchemy/core";
-import { DATA_TYPES } from "@digital-alchemy/synapse";
-import { MainMenuEntry } from "@digital-alchemy/terminal";
 import chalk from "chalk";
 
 import {
-  BINARY_SENSOR_DEVICE_CLASSES,
   SynapseEntities,
   SynapseEntityCreateOptions,
   SynapseEntityTypes,
