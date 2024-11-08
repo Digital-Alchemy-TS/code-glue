@@ -34,7 +34,17 @@ export function Bindings({
     out.httpServer = httpServer;
 
     if (config.http.ATTACH_STANDARD_MIDDLEWARE) {
-      httpServer.register(cors, {});
+      httpServer.register(cors, {
+        allowedHeaders: [
+          "Origin",
+          "X-Requested-With",
+          "Content-Type",
+          "Accept",
+          "Authorization",
+        ],
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        origin: "*",
+      });
       httpServer.register(helmet, {});
     }
     await http.hooks.setup(httpServer);
