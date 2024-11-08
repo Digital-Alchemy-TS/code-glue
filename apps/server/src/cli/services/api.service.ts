@@ -2,7 +2,12 @@ import { TServiceParams } from "@digital-alchemy/core";
 import { ENTITY_STATE, PICK_ENTITY } from "@digital-alchemy/hass";
 
 import { GENERIC_SUCCESS_RESPONSE } from "../../http";
-import { SynapseEntities, SynapseEntityCreateOptions } from "../../utils";
+import {
+  AutomationCreateOptions,
+  StoredAutomation,
+  SynapseEntities,
+  SynapseEntityCreateOptions,
+} from "../../utils";
 
 type SpecialInit = Omit<RequestInit, "body"> & {
   body?: object;
@@ -27,6 +32,31 @@ export function RestAPIService({ logger, config }: TServiceParams) {
   }
 
   return {
+    automation: {
+      async create(body: AutomationCreateOptions) {
+        return await json<SynapseEntities>("/automation", {
+          body,
+          method: "post",
+        });
+      },
+      async delete(id: string) {
+        return await json<GENERIC_SUCCESS_RESPONSE>(`/automation/${id}`, {
+          method: "delete",
+        });
+      },
+      async get(id: string) {
+        return await json<StoredAutomation>(`/automation/${id}`);
+      },
+      async list() {
+        return await json<StoredAutomation[]>(`/automation/`);
+      },
+      async update(id: string, body: Partial<AutomationCreateOptions>) {
+        return await json<StoredAutomation>(`/automation/${id}`, {
+          body,
+          method: "put",
+        });
+      },
+    },
     synapse: {
       async create(body: SynapseEntityCreateOptions) {
         return await json<SynapseEntities>("/synapse", {
