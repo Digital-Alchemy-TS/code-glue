@@ -20,7 +20,6 @@ export const SharedVariables = Type.Object(
 export type SharedVariables = typeof SharedVariables.static;
 
 export const SharedVariableCreateOptions = Type.Omit(SharedVariables, [
-  "id",
   "lastUpdate",
   "createDate",
 ]);
