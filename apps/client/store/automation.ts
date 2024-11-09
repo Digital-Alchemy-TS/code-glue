@@ -20,7 +20,19 @@ const automationFactory = createFactory<StoredAutomation>({
 })
   .actions({
     push() {
-      // Push automation to server
+      return fetch(`http://localhost:3000/api/v1/automation/${this.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(this),
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          Object.keys(this).forEach((key) => {
+            this[key] = json[key]
+          })
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     },
   })
   .actions({
