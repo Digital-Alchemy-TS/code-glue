@@ -22,6 +22,9 @@ const automationFactory = createFactory<StoredAutomation>({
     push() {
       return fetch(`http://localhost:3000/api/v1/automation/${this.id}`, {
         method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(this),
       })
         .then((response) => response.json())
