@@ -97,15 +97,15 @@ export function AutomationTable({
     const id = v4();
     const now = new Date().toISOString();
     const row: StoredAutomationRow = {
+      id,
       ...data,
       active: data.active ? "true" : "false",
       createDate: now,
-      id,
       labels: data.labels.join("|"),
       lastUpdate: now,
     };
-    database.prepare(UPSERT).run({ ...row, id });
-    store.set(id, load(row));
+    database.prepare(UPSERT).run({ ...row });
+    store.set(row.id, load(row));
   }
 
   // #MARK: update

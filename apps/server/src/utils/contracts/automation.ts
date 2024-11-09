@@ -36,7 +36,6 @@ export const StoredAutomation = Type.Object(
 export type StoredAutomation = typeof StoredAutomation.static;
 
 export const AutomationCreateOptions = Type.Omit(StoredAutomation, [
-  "id",
   "lastUpdate",
   "createDate",
 ]);
