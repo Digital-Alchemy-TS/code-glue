@@ -48,8 +48,6 @@ const automationFactory = createFactory<StoredAutomation>({
     },
   })
   .onCreate((state) => {
-    // add the new automation to the store
-    automationStore.set(state.id, state)
     // push the new automation to the server, should this happen here or via a subscription?
     state.push()
   })
@@ -57,12 +55,15 @@ const automationFactory = createFactory<StoredAutomation>({
 export const createAutomation = (initialData: Partial<StoredAutomation>) => {
   const now = new Date().toISOString()
 
-  return automationFactory.create(undefined, {
+  const automation = automationFactory.create(undefined, {
     id: uuid(),
     createDate: now,
     lastUpdate: now,
     ...initialData,
   })
+
+  // add the new automation to the store
+  automationStore.set(automation.id, automation)
 }
 
 export type Automation = Store<typeof automationFactory>
