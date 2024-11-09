@@ -2519,18 +2519,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@digital-alchemy/synapse@npm:^24.11.1":
-  version: 24.11.1
-  resolution: "@digital-alchemy/synapse@npm:24.11.1"
+"@digital-alchemy/synapse@portal:/home/zoe/DigitalAlchemyTS/synapse::locator=%40digital-alchemy%2Fcode-glue%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@digital-alchemy/synapse@portal:/home/zoe/DigitalAlchemyTS/synapse::locator=%40digital-alchemy%2Fcode-glue%40workspace%3A."
   peerDependencies:
     "@digital-alchemy/core": "*"
     "@digital-alchemy/hass": "*"
     better-sqlite3: ^11
     dayjs: "*"
     uuid: "*"
-  checksum: 10c0/4c7ef09b8ef335e3e8f592f219e557fa2fbb85f207ccd342e47a9f0e03e5b7766784b86e47f96cbc07fb77192eb8560add029a0227e3b9bb92a79109e94344a8
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@digital-alchemy/terminal@npm:^24.11.1":
   version: 24.11.1

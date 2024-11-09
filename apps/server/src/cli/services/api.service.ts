@@ -25,7 +25,6 @@ export function RestAPIService({ logger, config }: TServiceParams) {
       init.body = JSON.stringify(opts.body);
       headers["Content-Type"] = "application/json";
     }
-    // init.signal = AbortSignal.timeout(config.utils.REQUEST_TIMEOUT);
     const response = await fetch(`${config.cli.BASE_URL}/api/v1${path}`, init);
 
     return (await response.json()) as T;
@@ -50,7 +49,6 @@ export function RestAPIService({ logger, config }: TServiceParams) {
       async list() {
         return await json<StoredAutomation[]>(`/automation/`);
       },
-
       async update(id: string, body: Partial<AutomationCreateOptions>) {
         return await json<StoredAutomation>(`/automation/${id}`, {
           body,

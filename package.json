@@ -114,7 +114,8 @@
   "resolutions": {
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "jsonpath-plus": "10.0.7"
+    "jsonpath-plus": "10.0.7",
+    "@digital-alchemy/synapse": "portal:/home/zoe/DigitalAlchemyTS/synapse"
   },
   "prettier": {
     "semi": true,

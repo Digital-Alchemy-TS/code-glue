@@ -43,8 +43,11 @@ export function ContextBuilder(params: TServiceParams) {
       if (!loaded.has(entity_id)) {
         const out = id(entity_id);
         refs.add(() => out.removeAllListeners());
+        logger.trace({ entity_id }, "create reference");
         loaded.set(entity_id, out);
+        return out;
       }
+      logger.trace({ entity_id }, "pulling from reference cache");
       return loaded.get(entity_id) as ByIdProxy<ENTITY>;
     };
     const socket = hass.socket;
@@ -57,20 +60,20 @@ export function ContextBuilder(params: TServiceParams) {
         socket: {
           ...socket,
           onConnect(callback) {
-            const out = hass.socket.onConnect(callback);
-            const rm = () => out.remove();
+            const { remove } = hass.socket.onConnect(callback);
+            const rm = () => remove();
             refs.add(rm);
             return is.removeFn(() => {
-              out.remove();
+              remove();
               refs.delete(rm);
             });
           },
           onEvent(data) {
-            const out = hass.socket.onEvent(data);
-            const rm = () => out.remove();
+            const { remove } = hass.socket.onEvent(data);
+            const rm = () => remove();
             refs.add(rm);
             return is.removeFn(() => {
-              out.remove();
+              remove();
               refs.delete(rm);
             });
           },
