@@ -3,6 +3,7 @@ import { proxy } from 'valtio'
 import { automationStore, createAutomation } from './automation'
 
 export const store = proxy({
+  isReady: false,
   automations: automationStore,
 })
 
@@ -21,6 +22,8 @@ const getAutomationsFromServer = () => {
           })
         }
       })
+      // once we have all the automations mark the store as ready
+      store.isReady = true
     })
     .catch((error) => {
       console.error(error)
