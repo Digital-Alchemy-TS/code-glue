@@ -13,7 +13,6 @@ export default function AutomationDetail() {
   const automation = store.automations.get(id)
 
   const automationSnapshot = useSnapshot(store.automations.get(id))
-  console.log('automation in detail', automation)
 
   return (
     <View>

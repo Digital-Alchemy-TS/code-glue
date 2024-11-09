@@ -29,7 +29,7 @@ const automationFactory = createFactory<StoredAutomation>({
       })
         .then((response) => response.json())
         .then((json) => {
-          Object.keys(this).forEach((key) => {
+          Object.keys(json).forEach((key) => {
             this[key] = json[key]
           })
         })
@@ -64,6 +64,8 @@ export const createAutomation = (initialData: Partial<StoredAutomation>) => {
 
   // add the new automation to the store
   automationStore.set(automation.id, automation)
+
+  return automation
 }
 
 export type Automation = Store<typeof automationFactory>
