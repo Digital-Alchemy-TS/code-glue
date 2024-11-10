@@ -14,9 +14,6 @@ await CODE_GLUE_APP.bootstrap({
       CACHE_PROVIDER: "redis",
       ENABLE_MEASURE_CACHE: true,
     },
-    http: {
-      ATTACH_STANDARD_MIDDLEWARE: false,
-    },
   },
   loggerOptions: {
     als: true,

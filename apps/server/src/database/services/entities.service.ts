@@ -98,10 +98,10 @@ export function SynapseEntitiesTable({
   // #MARK: create
   function create(data: SynapseEntityCreateOptions) {
     const id = v4();
-    const row = { ...save(data), id };
+    const row = { id, ...save(data) };
     database.prepare(UPSERT).run(row);
     const out = load(row);
-    store.set(id, out);
+    store.set(row.id, out);
     event.emit(SYNAPSE_ENTITIES_ADDED, out);
     return out;
   }

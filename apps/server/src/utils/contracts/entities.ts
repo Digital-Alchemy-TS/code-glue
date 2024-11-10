@@ -48,7 +48,6 @@ export const SynapseEntities = Type.Object(
 export type SynapseEntities = typeof SynapseEntities.static;
 
 export const SynapseEntityCreateOptions = Type.Omit(SynapseEntities, [
-  "id",
   "lastUpdate",
   "createDate",
 ]);

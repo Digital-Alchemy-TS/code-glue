@@ -106,6 +106,8 @@ export function HttpHooks({ logger, als, metrics, context }: TServiceParams) {
     fastify.addHook("onRequest", async (req, res) => {
       // * merge request data into storage
       const http = await gatherLocals(req);
+      // allow the client to access the API without a CORS error
+      res.header("Access-Control-Allow-Origin", "*");
       const storage = als.getStore();
       if (storage) {
         res.header(ResponseHeaders.requestId, storage.logs.requestId);

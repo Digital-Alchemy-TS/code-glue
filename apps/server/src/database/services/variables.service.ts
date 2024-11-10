@@ -85,9 +85,9 @@ export function VariablesTable({
   // #MARK: create
   function create(data: SharedVariableCreateOptions) {
     const id = v4();
-    const row = { ...save(data), id };
+    const row = { id, ...save(data) };
     database.prepare(UPSERT).run(row);
-    store.set(id, load(row));
+    store.set(row.id, load(row));
   }
 
   // #MARK: update
