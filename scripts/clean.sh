@@ -1,3 +1,2 @@
 #!/bin/sh
-rm ./apps/server/synapse_storage.db
-rm -r dist
+rm -r ./apps/server/synapse_storage.db dist

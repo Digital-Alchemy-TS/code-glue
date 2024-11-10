@@ -8,11 +8,10 @@ await CODE_GLUE_APP.bootstrap({
   },
   configuration: {
     boilerplate: {
-      LOG_LEVEL: "debug",
+      LOG_LEVEL: "info",
     },
-    cache: {
-      CACHE_PROVIDER: "redis",
-      ENABLE_MEASURE_CACHE: true,
+    metrics: {
+      EMIT_METRICS: false,
     },
   },
   loggerOptions: {

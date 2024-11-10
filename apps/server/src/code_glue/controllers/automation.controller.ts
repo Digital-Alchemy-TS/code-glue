@@ -25,7 +25,9 @@ export function AutomationController({
       .put(
         "/:id",
         { schema: { body: AutomationCreateOptions, params } },
-        ({ body, params: { id } }) => automation.update(id, body),
+        ({ body, params: { id } }) => {
+          return automation.update(id, body);
+        },
       ),
   );
 }

@@ -79,7 +79,7 @@ export function VariablesTable({
         .all()
         .forEach(row => store.set(row.id, load(row)));
     });
-    logger.debug({ count: store.size }, `loaded automations`);
+    logger.debug({ count: store.size }, `loaded variables`);
   }
 
   // #MARK: create

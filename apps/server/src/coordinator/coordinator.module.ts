@@ -1,5 +1,6 @@
 import { CreateLibrary } from "@digital-alchemy/core";
 
+import { LIB_DATABASE } from "../database";
 import {
   ContextBuilder,
   ExecuteService,
@@ -8,6 +9,7 @@ import {
 } from "./services";
 
 export const LIB_COORDINATOR = CreateLibrary({
+  depends: [LIB_DATABASE],
   name: "coordinator",
   services: {
     context: ContextBuilder,

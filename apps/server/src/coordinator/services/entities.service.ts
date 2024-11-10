@@ -27,6 +27,8 @@ export function SynapseEntitiesService({
     value?.startsWith?.("{") ? (JSON.parse(value) as object) : {};
 
   function generate(entity: SynapseEntities) {
+    return;
+    // eslint-disable-next-line sonarjs/no-unreachable
     logger.debug(
       { entity_id: entity.suggested_object_id, name: entity.name },
       `creating entity`,
