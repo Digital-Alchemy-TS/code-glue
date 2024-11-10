@@ -10,7 +10,6 @@ export function LoaderService({
 }: TServiceParams) {
   function reload() {
     const list = database.automation.list();
-    console.log(list);
     list.forEach(i => {
       coordinator.execute(i);
     });

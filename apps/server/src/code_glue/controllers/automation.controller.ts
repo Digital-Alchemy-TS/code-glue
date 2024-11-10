@@ -19,9 +19,6 @@ export function AutomationController({
       .delete("/:id", { schema: { params } }, ({ params: { id } }) =>
         automation.remove(id),
       )
-      .post("/", { schema: { body: AutomationCreateOptions } }, ({ body }) =>
-        automation.create(body),
-      )
       .put(
         "/:id",
         { schema: { body: AutomationCreateOptions, params } },
