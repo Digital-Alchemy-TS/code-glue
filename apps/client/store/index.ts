@@ -1,6 +1,7 @@
 import { proxy } from 'valtio'
 
 import { automationStore, createAutomation } from './automation'
+import { StoredAutomation } from '@code-glue/server/src/utils'
 
 export const store = proxy({
   isReady: false,
@@ -10,7 +11,7 @@ export const store = proxy({
 const getAutomationsFromServer = () => {
   return fetch('http://localhost:3000/api/v1/automation', { method: 'GET' })
     .then((response) => response.json())
-    .then((json) => {
+    .then((json: StoredAutomation[]) => {
       json.map((automation) => {
         const existingAutomation = store.automations.get(automation.id)
 
@@ -18,6 +19,7 @@ const getAutomationsFromServer = () => {
           createAutomation(automation)
         } else {
           Object.keys(automation).forEach((key) => {
+            // @ts-ignore TODO, figure out how to type this UPDATE_CLIENT_TYPESCRIPT
             existingAutomation[key] = automation[key]
           })
         }

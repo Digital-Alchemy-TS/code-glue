@@ -2,7 +2,7 @@ import { createFactory, Store } from '@mfellner/valtio-factory'
 import { v4 as uuid } from 'uuid'
 import { proxyMap } from 'valtio/utils'
 
-import { StoredAutomation } from '@code-glue/server/utils/contracts/automation'
+import { AutomationCreateOptions, AutomationUpdateOptions, StoredAutomation } from '@code-glue/server/utils/contracts/automation'
 
 const automationFactory = createFactory<StoredAutomation>({
   active: false,
@@ -28,19 +28,21 @@ const automationFactory = createFactory<StoredAutomation>({
         body: JSON.stringify(this),
       })
         .then((response) => response.json())
-        .then((json) => {
-          Object.keys(json).forEach((key) => {
-            this[key] = json[key]
+        .then((json: StoredAutomation) => {
+          Object.entries(json).forEach(([key, value]) => {
+            // @ts-ignore TODO, figure out how to type this UPDATE_CLIENT_TYPESCRIPT
+            this[key] = value
           })
         })
         .catch((error) => {
-          console.error(error)
+          console.error('client -> server push error', error)
         })
     },
   })
   .actions({
-    update(updates: StoredAutomation) {
+    update(updates: AutomationUpdateOptions) {
       Object.entries(updates).forEach(([key, value]) => {
+        // @ts-ignore TODO, figure out how to type this UPDATE_CLIENT_TYPESCRIPT
         this[key] = value
       })
 
@@ -52,7 +54,7 @@ const automationFactory = createFactory<StoredAutomation>({
     state.push()
   })
 
-export const createAutomation = (initialData: Partial<StoredAutomation>) => {
+export const createAutomation = (initialData: AutomationCreateOptions) => {
   const now = new Date().toISOString()
 
   const automation = automationFactory.create(undefined, {
