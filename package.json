@@ -17,7 +17,8 @@
     "server:start": "yarn --cwd ./apps/server start",
     "server:test": "yarn --cwd ./apps/server test",
     "client:dev": "yarn --cwd ./apps/client start",
-    "client:lint": "yarn --cwd ./apps/client lint"
+    "client:lint": "yarn --cwd ./apps/client lint",
+    "dev": "concurrently --kill-others \"yarn server:start\" \"yarn client:dev\""
   },
   "dependencies": {
     "@digital-alchemy/automation": "^24.9.3",
@@ -84,6 +85,7 @@
     "@types/react-test-renderer": "^18.0.7",
     "@typescript-eslint/eslint-plugin": "8.13.0",
     "@typescript-eslint/parser": "8.13.0",
+    "concurrently": "^9.1.0",
     "eslint": "^9.14.0",
     "eslint-config-expo": "^7.1.2",
     "eslint-config-prettier": "^9.1.0",
