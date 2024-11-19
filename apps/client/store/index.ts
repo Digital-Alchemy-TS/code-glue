@@ -6,6 +6,7 @@ import { automationStore, createAutomation } from './automation'
 
 export const store = proxy({
   isReady: false,
+  typesReady: false,
   automations: automationStore,
   typeWriter: ''
 })
@@ -15,6 +16,7 @@ const getTypesFromServer = () => {
     .then((response) => response.text())
     .then((types) => {
       store.typeWriter = types
+      store.typesReady = true
     }).catch((error) => {
       console.error(error)
     })

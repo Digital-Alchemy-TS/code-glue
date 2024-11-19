@@ -19,9 +19,9 @@ export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   })
-  const { isReady: storeIsReady, automations } = useSnapshot(store)
+  const { isReady: storeIsReady, typesReady, automations } = useSnapshot(store)
 
-  const appReady = fontsLoaded && storeIsReady
+  const appReady = fontsLoaded && storeIsReady && typesReady
 
   useEffect(() => {
     if (appReady) {
