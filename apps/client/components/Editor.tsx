@@ -54,6 +54,12 @@ export const Editor: React.FC<EditorProps> = ({ defaultValue, onChange }) => {
       onMount={(editor) => {
         editorRef.current = editor
       }}
+      options={{
+        minimap: {
+          enabled: false,
+        },
+        tabSize: 2,
+      }}
     />
   )
 }
