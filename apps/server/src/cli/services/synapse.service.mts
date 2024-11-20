@@ -5,8 +5,9 @@ import {
   SynapseEntities,
   SynapseEntityCreateOptions,
   SynapseEntityTypes,
-} from "../../utils";
-import { DOMAIN_ELEMENTS } from "../helpers";
+} from "../../utils/index.mts";
+import { DOMAIN_ELEMENTS } from "../helpers/index.mts";
+import { v4 } from "uuid";
 
 const cancel = Symbol.for("cancel");
 type cancel = typeof cancel;
@@ -345,6 +346,7 @@ export function CLISynapseService({ terminal, cli, hass }: TServiceParams) {
       documentation: "",
       icon: "",
       locals: "never",
+      id: v4(),
       suggested_object_id: "",
     });
     terminal.screen.printLine(terminal.text.type(result));

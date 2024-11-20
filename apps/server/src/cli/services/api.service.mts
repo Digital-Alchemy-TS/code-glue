@@ -1,13 +1,13 @@
 import { TServiceParams } from "@digital-alchemy/core";
 import { ENTITY_STATE, PICK_ENTITY } from "@digital-alchemy/hass";
 
-import { GENERIC_SUCCESS_RESPONSE } from "../../http";
+import { GENERIC_SUCCESS_RESPONSE } from "../../http/index.mts";
 import {
   AutomationCreateOptions,
   StoredAutomation,
   SynapseEntities,
   SynapseEntityCreateOptions,
-} from "../../utils";
+} from "../../utils/index.mts";
 
 type SpecialInit = Omit<RequestInit, "body"> & {
   body?: object;

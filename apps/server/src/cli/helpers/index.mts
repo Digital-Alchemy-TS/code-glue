@@ -1,1 +1,1 @@
-export * from "./synapse";
+export * from "./synapse.mts";

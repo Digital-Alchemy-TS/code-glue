@@ -7,7 +7,7 @@ import {
   CLIEntry,
   CLISynapseService,
   RestAPIService,
-} from "./services";
+} from "./services/index.mts";
 
 export const CLI_APP = CreateApplication({
   configuration: {

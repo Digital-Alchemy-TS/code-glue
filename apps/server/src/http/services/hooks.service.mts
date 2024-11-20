@@ -118,6 +118,7 @@ export function HttpHooks({ logger, als, metrics, context }: TServiceParams) {
         is.keys(http.trace).forEach(i => {
           const key = ALS_HEADER_LOGS.get(i);
           if (key) {
+            // @ts-expect-error it's fine
             storage.logs[key] = http.trace[i];
             keys.push(key);
           }

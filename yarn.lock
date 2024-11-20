@@ -1827,7 +1827,7 @@ __metadata:
   resolution: "@code-glue/server@workspace:apps/server"
   dependencies:
     tsx: "npm:^4.19.2"
-    typescript: "npm:^5.6.3"
+    typescript: "npm:^5.7.0-beta"
   languageName: unknown
   linkType: soft
 

@@ -1,7 +1,6 @@
 import { CreateLibrary, HALF, MINUTE, SECOND } from "@digital-alchemy/core";
 import { v4 } from "uuid";
 
-import { LIB_CACHE } from "../cache/index.mts";
 import { LIB_METRICS } from "../metrics/index.mts";
 import {
   Bindings,
@@ -78,7 +77,7 @@ export const LIB_HTTP = CreateLibrary({
       type: "number",
     },
   },
-  depends: [LIB_CACHE, LIB_METRICS],
+  depends: [LIB_METRICS],
 
   name: "http",
   services: {

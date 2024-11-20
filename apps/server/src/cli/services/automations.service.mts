@@ -1,6 +1,6 @@
 import { is, TServiceParams } from "@digital-alchemy/core";
 
-import { StoredAutomation } from "../../utils";
+import { StoredAutomation } from "../../utils/index.mts";
 
 export function AutomationsService({ terminal, cli }: TServiceParams) {
   async function main() {
@@ -35,7 +35,7 @@ export function AutomationsService({ terminal, cli }: TServiceParams) {
         return;
       }
       case "create": {
-        await createEntity();
+        // await createEntity();
         await main();
         return;
       }
@@ -44,7 +44,7 @@ export function AutomationsService({ terminal, cli }: TServiceParams) {
     if (is.string(action)) {
       return;
     }
-    await editEntity(action);
+    // await editEntity(action);
     await main();
     //
   }

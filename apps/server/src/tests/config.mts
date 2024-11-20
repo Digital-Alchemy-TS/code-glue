@@ -10,7 +10,7 @@ import {
   TServiceParams,
 } from "@digital-alchemy/core";
 
-import { LIB_TESTING } from "./testing.module";
+import { LIB_TESTING } from "./testing.module.mts";
 
 export type BaseTestRunner = iTestRunner<
   ServiceMap,

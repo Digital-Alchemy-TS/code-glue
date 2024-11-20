@@ -15,7 +15,7 @@ export function HttpLogger({
       if (boot.phase !== "running") {
         return loggerInstance;
       }
-      als.enterWith({ logs: { requestId: v4() } });
+      als.enterWith({ logs: { logger: undefined, requestId: v4() } });
       return loggerInstance;
     },
     debug: NOOP,

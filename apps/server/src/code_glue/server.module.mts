@@ -4,7 +4,6 @@ import { LIB_HASS } from "@digital-alchemy/hass";
 import { LIB_SYNAPSE } from "@digital-alchemy/synapse";
 import { LIB_TYPE_BUILD } from "@digital-alchemy/type-writer";
 
-import { LIB_CACHE } from "../cache/index.mts";
 import { LIB_COORDINATOR } from "../coordinator/index.mts";
 import { LIB_DATABASE } from "../database/index.mts";
 import { LIB_HTTP } from "../http/index.mts";
@@ -26,7 +25,6 @@ export const CODE_GLUE_APP = CreateApplication({
   },
 
   libraries: [
-    LIB_CACHE,
     LIB_DATABASE,
     LIB_HASS,
     LIB_SYNAPSE,

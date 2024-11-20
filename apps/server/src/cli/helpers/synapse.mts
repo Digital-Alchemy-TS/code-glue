@@ -2,7 +2,7 @@ import { DATA_TYPES } from "@digital-alchemy/synapse";
 import { MainMenuEntry, TableBuilderElement } from "@digital-alchemy/terminal";
 import chalk from "chalk";
 
-import { BINARY_SENSOR_DEVICE_CLASSES } from "../../utils";
+import { BINARY_SENSOR_DEVICE_CLASSES } from "../../utils/index.mts";
 
 export const DOMAIN_ELEMENTS = new Map<
   string,
