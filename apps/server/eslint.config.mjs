@@ -49,11 +49,11 @@ export default [
       "plugin:prettier/recommended",
       "plugin:unicorn/recommended",
     )
-    .map(config => ({ ...config, files: ["src/**/*.ts"] })),
+    .map(config => ({ ...config, files: ["src/**/*.mts"] })),
 
   // #MARK: defaults
   {
-    files: ["src/**/*.ts"],
+    files: ["src/**/*.mts"],
     languageOptions: {
       parser: tsParser,
       ecmaVersion: 5,
@@ -111,7 +111,7 @@ export default [
   },
   // #MARK: modules
   {
-    files: ["src/**/*.module.ts"],
+    files: ["src/**/*.module.mts"],
     languageOptions: {
       parser: tsParser,
       ecmaVersion: 5,
@@ -127,8 +127,8 @@ export default [
   // #MARK: tests
   {
     files: [
-      "src/**/*.contract-test.ts",
-      "src/**/*.test.ts"
+      "src/**/*.contract-test.mts",
+      "src/**/*.test.mts"
     ],
     languageOptions: {
       parser: tsParser,

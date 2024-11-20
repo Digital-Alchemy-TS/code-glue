@@ -9,11 +9,11 @@
     "strictNullChecks": false,
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.mts"
   ],
   "exclude": [
     "node_modules",
-    "src/**/*.contract-test.ts",
+    "src/**/*.contract-test.mts",
     "dist"
   ]
 }
