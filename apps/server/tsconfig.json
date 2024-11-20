@@ -23,6 +23,8 @@
     "skipLibCheck": true,
     "noUncheckedIndexedAccess": true,
     "sourceMap": true,
+    "rewriteRelativeImportExtensions": true,
+    "types": ["vitest/globals"],
     "outDir": "../../dist/server/",
     "strict": false,
     "strictBindCallApply": true,
@@ -31,7 +33,7 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.mts"
   ],
   "exclude": [
     "dist"

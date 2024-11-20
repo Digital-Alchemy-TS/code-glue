@@ -7,14 +7,15 @@
     "act": "act -j lint-and-build",
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint src",
-    "start": "tsx src/entry/local/main.ts",
-    "start:inspect": "tsx --inspect src/entry/local/main.ts",
-    "start:brk": "tsx --inspect-brk src/entry/local/main.ts",
-    "cli:brk": "tsx --inspect-brk src/entry/cli/main.ts",
-    "cli": "tsx src/entry/cli/main.ts",
+    "start": "tsx src/entry/local/main.mts",
+    "start:inspect": "tsx --inspect src/entry/local/main.mts",
+    "start:brk": "tsx --inspect-brk src/entry/local/main.mts",
+    "cli:brk": "tsx --inspect-brk src/entry/cli/main.mts",
+    "cli": "tsx src/entry/cli/main.mts",
     "test": "./scripts/test.sh"
   },
   "devDependencies": {
-    "tsx": "^4.19.2"
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.0-beta"
   }
 }
