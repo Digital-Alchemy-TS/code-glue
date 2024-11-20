@@ -14,6 +14,7 @@ import {
   SynapseEntitiesController,
   VariablesController,
 } from "./controllers/index.mts";
+import { LIB_MODULE_PATCHER } from "../patch/patch.module.mts";
 
 export const CODE_GLUE_APP = CreateApplication({
   configuration: {
@@ -30,6 +31,7 @@ export const CODE_GLUE_APP = CreateApplication({
     LIB_SYNAPSE,
     LIB_TYPE_BUILD,
     LIB_COORDINATOR,
+    LIB_MODULE_PATCHER,
     LIB_AUTOMATION,
     LIB_METRICS,
     LIB_HTTP,

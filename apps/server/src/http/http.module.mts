@@ -71,7 +71,7 @@ export const LIB_HTTP = CreateLibrary({
       type: "number",
     },
     PORT: {
-      default: 3000,
+      default: 3789,
       description: "Server port to connect to",
       source: ["env"],
       type: "number",
