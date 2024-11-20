@@ -2428,7 +2428,6 @@ __metadata:
     babel-plugin-module-resolver: "npm:^5.0.2"
     better-sqlite3: "npm:^11.5.0"
     chalk: "npm:^5.3.0"
-    concurrently: "npm:^9.1.0"
     dayjs: "npm:^1.11.13"
     eslint: "npm:^9.15.0"
     eslint-config-expo: "npm:^7.1.2"
@@ -2485,9 +2484,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digital-alchemy/core@portal:/home/zoe/DigitalAlchemyTS/core::locator=%40digital-alchemy%2Fcode-glue%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@digital-alchemy/core@portal:/home/zoe/DigitalAlchemyTS/core::locator=%40digital-alchemy%2Fcode-glue%40workspace%3A."
+"@digital-alchemy/core@npm:^24.11.3":
+  version: 24.11.3
+  resolution: "@digital-alchemy/core@npm:24.11.3"
   dependencies:
     chalk: "npm:^5.3.0"
     dayjs: "npm:^1.11.13"
@@ -2497,8 +2496,9 @@ __metadata:
     minimist: "npm:^1.2.8"
     node-cron: "npm:^3.0.3"
     uuid: "npm:^11.0.3"
+  checksum: 10c0/08966ba52bd920e1304a8752981c0ebae9bea148e852614c9020b75808e024473a4ed4f2dd093b50bb903e9b32549ca7a71f3a8df3fd6a81568ac4c6d8a54a0c
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@digital-alchemy/hass@npm:^24.11.3":
   version: 24.11.3
@@ -2516,9 +2516,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@digital-alchemy/synapse@portal:/home/zoe/DigitalAlchemyTS/synapse::locator=%40digital-alchemy%2Fcode-glue%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@digital-alchemy/synapse@portal:/home/zoe/DigitalAlchemyTS/synapse::locator=%40digital-alchemy%2Fcode-glue%40workspace%3A."
+"@digital-alchemy/synapse@npm:^24.11.4":
+  version: 24.11.4
+  resolution: "@digital-alchemy/synapse@npm:24.11.4"
   dependencies:
     better-sqlite3: "npm:^11.5.0"
   peerDependencies:
@@ -2527,8 +2527,9 @@ __metadata:
     better-sqlite3: ^11
     dayjs: "*"
     uuid: "*"
+  checksum: 10c0/954f4f0645f861862fb3d3aabd44ab856602f77d7ef45d7518bb28061ce19ddb38e72779626c6c63ffdcbb28482e95a58a18dc18c62a28f6f7bc0cdd20330f4c
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@digital-alchemy/terminal@npm:^24.11.1":
   version: 24.11.1
@@ -7516,24 +7517,6 @@ __metadata:
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
   checksum: 10c0/c996b1cfdf95b6c90fee4dae37e332c8b6eb7d106430c17d538034c0ad9a1630cb194d2ab37293b1bdd4d779494beee7786d586a50bd9376fd6f7bcc2bd4c98f
-  languageName: node
-  linkType: hard
-
-"concurrently@npm:^9.1.0":
-  version: 9.1.0
-  resolution: "concurrently@npm:9.1.0"
-  dependencies:
-    chalk: "npm:^4.1.2"
-    lodash: "npm:^4.17.21"
-    rxjs: "npm:^7.8.1"
-    shell-quote: "npm:^1.8.1"
-    supports-color: "npm:^8.1.1"
-    tree-kill: "npm:^1.2.2"
-    yargs: "npm:^17.7.2"
-  bin:
-    conc: dist/bin/concurrently.js
-    concurrently: dist/bin/concurrently.js
-  checksum: 10c0/f2f42f94dde508bfbaf47b5ac654db9e8a4bf07d3d7b6267dd058ae6f362eec677ae7c8ede398d081e5fd0d1de5811dc9a53e57d3f1f68e72ac6459db9e0896b
   languageName: node
   linkType: hard
 
@@ -15782,15 +15765,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.8.1":
-  version: 7.8.1
-  resolution: "rxjs@npm:7.8.1"
-  dependencies:
-    tslib: "npm:^2.1.0"
-  checksum: 10c0/3c49c1ecd66170b175c9cacf5cef67f8914dcbc7cd0162855538d365c83fea631167cacb644b3ce533b2ea0e9a4d0b12175186985f89d75abe73dbd8f7f06f68
-  languageName: node
-  linkType: hard
-
 "safe-array-concat@npm:^1.1.2":
   version: 1.1.2
   resolution: "safe-array-concat@npm:1.1.2"
@@ -16115,7 +16089,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shell-quote@npm:^1.6.1, shell-quote@npm:^1.7.3, shell-quote@npm:^1.8.1":
+"shell-quote@npm:^1.6.1, shell-quote@npm:^1.7.3":
   version: 1.8.1
   resolution: "shell-quote@npm:1.8.1"
   checksum: 10c0/8cec6fd827bad74d0a49347057d40dfea1e01f12a6123bf82c4649f3ef152fc2bc6d6176e6376bffcd205d9d0ccb4f1f9acae889384d20baff92186f01ea455a
@@ -16863,7 +16837,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-color@npm:^8.0.0, supports-color@npm:^8.1.1":
+"supports-color@npm:^8.0.0":
   version: 8.1.1
   resolution: "supports-color@npm:8.1.1"
   dependencies:
@@ -17237,15 +17211,6 @@ __metadata:
     typedarray.prototype.slice: "npm:^1.0.3"
     which-typed-array: "npm:^1.1.15"
   checksum: 10c0/d37619cd650dda26fc9f8c3c55087098e702abc1a91e57a5701644f3aee67a5c61daf47ca883ebe6777ea810424317bd142b8e90ee0d9dc9171bd19df6cf6fd8
-  languageName: node
-  linkType: hard
-
-"tree-kill@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "tree-kill@npm:1.2.2"
-  bin:
-    tree-kill: cli.js
-  checksum: 10c0/7b1b7c7f17608a8f8d20a162e7957ac1ef6cd1636db1aba92f4e072dc31818c2ff0efac1e3d91064ede67ed5dc57c565420531a8134090a12ac10cf792ab14d2
   languageName: node
   linkType: hard
 
@@ -18706,7 +18671,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^17.1.1, yargs@npm:^17.3.1, yargs@npm:^17.6.2, yargs@npm:^17.7.2":
+"yargs@npm:^17.1.1, yargs@npm:^17.3.1, yargs@npm:^17.6.2":
   version: 17.7.2
   resolution: "yargs@npm:17.7.2"
   dependencies:
