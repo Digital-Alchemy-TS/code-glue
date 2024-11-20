@@ -1,36 +1,32 @@
-import { Editor } from '@monaco-editor/react'
-import { useLocalSearchParams } from 'expo-router'
-import { editor } from 'monaco-editor'
+import { Redirect, useLocalSearchParams } from 'expo-router'
 import React from 'react'
 import { Button, Text, View } from 'react-native'
 import { useSnapshot } from 'valtio'
 
+import { Editor } from '../../components/Editor'
 import { store } from '../../store'
 
 export default function AutomationDetail() {
-  const { id } = useLocalSearchParams()
-  const editorRef = React.useRef<editor.IStandaloneCodeEditor>(null)
-  const automation = store.automations.get(id)
+  const { id } = useLocalSearchParams<{ id: string }>()
 
-  const automationSnapshot = useSnapshot(store.automations.get(id))
+  const automation = store.automations.get(id)!
+  const automationSnapshot = useSnapshot(store.automations.get(id)!)
+  const [body, setBody] = React.useState(automationSnapshot.body)
+
+  if (!id) {
+    return <Redirect href="/" />
+  }
 
   return (
     <View>
       <Text>Automation Name: {automationSnapshot.title}</Text>
       <Text>Automation ID: {automationSnapshot.id}</Text>
       <Text>Docs: {automationSnapshot.documentation}</Text>
-      <Editor
-        height="400px"
-        defaultLanguage="typescript"
-        defaultValue={automationSnapshot.body}
-        onMount={(editor) => {
-          editorRef.current = editor
-        }}
-      />
+      <Editor defaultValue={automationSnapshot.body} onChange={setBody} />
       <Button
         title="save"
         onPress={() => {
-          automation.update({ body: editorRef.current.getValue() })
+          automation.update({ body })
         }}
       />
     </View>

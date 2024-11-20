@@ -17,7 +17,8 @@
     "server:start": "yarn --cwd ./apps/server start",
     "server:test": "yarn --cwd ./apps/server test",
     "client:dev": "yarn --cwd ./apps/client start",
-    "client:lint": "yarn --cwd ./apps/client lint"
+    "client:lint": "yarn --cwd ./apps/client lint",
+    "dev": "concurrently --kill-others \"yarn server:start\" \"yarn client:dev\""
   },
   "dependencies": {
     "@digital-alchemy/automation": "^24.11.1",

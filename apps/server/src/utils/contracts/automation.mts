@@ -11,15 +11,15 @@ export const StoredAutomation = Type.Object(
     area: Type.Optional(Type.String({ description: "Home Assistant area_id" })),
     body: Type.String({ description: "Function body, in Typescript" }),
     context: Type.String({ description: "Log context" }),
-    createDate: Type.Optional(Type.String({ description: "ISO timestamp" })),
+    createDate: Type.String({ description: "ISO timestamp" }),
     documentation: Type.String({
       description: "User provided markdown notes",
     }),
-    id: Type.Optional(Type.String({ description: "UUID" })),
+    id: Type.String({ description: "UUID" }),
     labels: Type.Array(Type.String(), {
       description: "Home Assistant label_id",
     }),
-    lastUpdate: Type.Optional(Type.String()),
+    lastUpdate: Type.String({ description: "ISO timestamp" }),
     parent: Type.Optional(
       Type.String({
         description:
@@ -36,10 +36,20 @@ export const StoredAutomation = Type.Object(
 export type StoredAutomation = typeof StoredAutomation.static;
 
 export const AutomationCreateOptions = Type.Omit(StoredAutomation, [
+  "id",
   "lastUpdate",
   "createDate",
 ]);
+
 export type AutomationCreateOptions = typeof AutomationCreateOptions.static;
+
+export const AutomationUpdateOptions = Type.Omit(AutomationCreateOptions, [
+  "id",
+]);
+
+export type AutomationUpdateOptions = Partial<
+  typeof AutomationUpdateOptions.static
+>;
 
 export const StoredAutomationRow = Type.Intersect([
   Type.Omit(StoredAutomation, ["createDate", "lastUpdate", "active", "labels"]),
