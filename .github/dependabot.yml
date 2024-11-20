@@ -21,4 +21,3 @@ updates:
       time: '09:00'
       timezone: 'America/New_York'
     target-branch: 'develop'
-
