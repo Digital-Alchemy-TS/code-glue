@@ -30,4 +30,4 @@ ENV GIT_COMMIT=$GIT_COMMIT
 COPY --from=build /app/server server
 
 CMD ["./server"]
-EXPOSE 3000
+EXPOSE 3789

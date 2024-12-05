@@ -8,13 +8,13 @@ import { LIB_COORDINATOR } from "../coordinator/index.mts";
 import { LIB_DATABASE } from "../database/index.mts";
 import { LIB_HTTP } from "../http/index.mts";
 import { LIB_METRICS } from "../metrics/index.mts";
+import { LIB_MODULE_PATCHER } from "../patch/patch.module.mts";
 import {
   AppController,
   AutomationController,
   SynapseEntitiesController,
   VariablesController,
 } from "./controllers/index.mts";
-import { LIB_MODULE_PATCHER } from "../patch/patch.module.mts";
 
 export const CODE_GLUE_APP = CreateApplication({
   configuration: {

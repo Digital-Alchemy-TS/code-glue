@@ -1,5 +1,6 @@
 import { is, TServiceParams } from "@digital-alchemy/core";
 import chalk from "chalk";
+import { v4 } from "uuid";
 
 import {
   SynapseEntities,
@@ -7,7 +8,6 @@ import {
   SynapseEntityTypes,
 } from "../../utils/index.mts";
 import { DOMAIN_ELEMENTS } from "../helpers/index.mts";
-import { v4 } from "uuid";
 
 const cancel = Symbol.for("cancel");
 type cancel = typeof cancel;
@@ -345,8 +345,8 @@ export function CLISynapseService({ terminal, cli, hass }: TServiceParams) {
       defaultLocals: "{}",
       documentation: "",
       icon: "",
-      locals: "never",
       id: v4(),
+      locals: "never",
       suggested_object_id: "",
     });
     terminal.screen.printLine(terminal.text.type(result));

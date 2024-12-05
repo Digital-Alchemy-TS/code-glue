@@ -60,7 +60,7 @@ export function HttpHooks({ logger, als, metrics, context }: TServiceParams) {
         servers: [
           {
             description: "Development server",
-            url: "http://localhost:3000",
+            url: "http://localhost:3789",
           },
         ],
         tags: [

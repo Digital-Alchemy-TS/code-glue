@@ -20,7 +20,7 @@ const automationFactory = createFactory<StoredAutomation>({
 })
   .actions({
     push() {
-      return fetch(`http://localhost:3000/api/v1/automation/${this.id}`, {
+      return fetch(`http://localhost:3789/api/v1/automation/${this.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -68,6 +68,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@babel/helpers": "^7.26.0",
     "@cspell/eslint-plugin": "^8.16.0",
     "@eslint/compat": "^1.2.3",
     "@eslint/eslintrc": "^3.2.0",

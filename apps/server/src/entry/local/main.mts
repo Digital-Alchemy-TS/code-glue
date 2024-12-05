@@ -10,6 +10,9 @@ await CODE_GLUE_APP.bootstrap({
     boilerplate: {
       LOG_LEVEL: "info",
     },
+    coordinator: {
+      TRANSPILE_CACHE: true,
+    },
     http: {
       ATTACH_STANDARD_MIDDLEWARE: true,
     },

@@ -12,7 +12,7 @@ export const store = proxy({
 })
 
 const getTypesFromServer = () => {
-  fetch('http://localhost:3000/api/v1/type-writer', { method: 'GET' })
+  fetch('http://localhost:3789/api/v1/type-writer', { method: 'GET' })
     .then((response) => response.text())
     .then((types) => {
       store.typeWriter = types
@@ -23,7 +23,7 @@ const getTypesFromServer = () => {
 }
 
 const getAutomationsFromServer = () => {
-  return fetch('http://localhost:3000/api/v1/automation', { method: 'GET' })
+  return fetch('http://localhost:3789/api/v1/automation', { method: 'GET' })
     .then((response) => response.json())
     .then((json: StoredAutomation[]) => {
       json.map((automation) => {

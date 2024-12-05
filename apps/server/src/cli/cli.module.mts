@@ -12,7 +12,7 @@ import {
 export const CLI_APP = CreateApplication({
   configuration: {
     BASE_URL: {
-      default: "http://localhost:3000",
+      default: "http://localhost:3789",
       type: "string",
     },
   },
