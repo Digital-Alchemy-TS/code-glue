@@ -1,6 +1,7 @@
-import { TServiceParams } from "@digital-alchemy/core";
+import { is, TServiceParams } from "@digital-alchemy/core";
+import { readFileSync } from "fs";
 
-import { NotImplementedError } from "../../utils/index.mts";
+import { BadRequestError, NotImplementedError } from "../../utils/index.mts";
 
 /**
  * General purpose / 1 off routes
@@ -23,6 +24,12 @@ export function AppController({
           "https://github.com/Digital-Alchemy-TS/code-glue/issues/9",
         );
       })
-      .get("/type-writer", () => type_build.build()),
+      .get("/type-writer", () => type_build.build())
+      .get("/types-block", (): string => {
+        if (is.empty(config.code_glue.HEADER_CONTENT_FILE)) {
+          throw new BadRequestError(context, "SET YOUR CONFIG VARS!");
+        }
+        return readFileSync(config.code_glue.HEADER_CONTENT_FILE, "utf8");
+      }),
   );
 }

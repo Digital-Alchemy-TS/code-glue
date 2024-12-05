@@ -18,6 +18,9 @@ import {
 
 export const CODE_GLUE_APP = CreateApplication({
   configuration: {
+    HEADER_CONTENT_FILE: {
+      type: "string",
+    },
     V1: {
       default: "/api/v1",
       description: "Route prefix for all controllers in this module",
