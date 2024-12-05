@@ -36,9 +36,11 @@ docker compose up -d
 
 #### Server
 
-| Command | Notes |
-| --- | --- |
-| `yarn server:start` / `yarn server:start:hot` | Start the dev server |
-| `yarn server:lint` / `yarn server:lint --fix` | Run `eslint` |
-| `yarn server:test` / `yarn server:test --coverage` | Run tests |
-| `yarn server:build` | Verify there is no build issues |
+| Command                                            | Notes                                 |
+| -------------------------------------------------- | ------------------------------------- |
+| `yarn server:start` / `yarn server:start:hot`      | Start the dev server                  |
+| `yarn server:lint` / `yarn server:lint --fix`      | Run `eslint`                          |
+| `yarn server:test` / `yarn server:test --coverage` | Run tests                             |
+| `yarn server:build`                                | Verify there is no build issues       |
+| -------------------------------------------------- | ------------------------------------- |
+| `yarn dev`                                         | Run the server and client in dev mode |
