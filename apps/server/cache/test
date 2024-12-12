@@ -1,4 +1,0 @@
-const entity = hass.refBy.id("switch.desk_strip_dog_light");
-scheduler.setInterval(() => {
-    entity.toggle();
-}, 1000);
