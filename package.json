@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "@digital-alchemy/automation": "^24.11.1",
-    "@digital-alchemy/core": "^24.11.3",
-    "@digital-alchemy/hass": "^24.11.3",
+    "@digital-alchemy/core": "^24.11.4",
+    "@digital-alchemy/hass": "^24.11.4",
     "@digital-alchemy/synapse": "^24.11.4",
     "@digital-alchemy/terminal": "^24.11.1",
     "@digital-alchemy/type-writer": "^24.11.3",
