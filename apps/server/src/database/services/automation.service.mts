@@ -115,6 +115,8 @@ export function AutomationTable({
     database.prepare(UPSERT).run({ ...update, id });
     const out = load(update);
     store.set(id, out);
+
+    //
     return out;
   }
 

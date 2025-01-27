@@ -50,6 +50,8 @@ export function ExecuteService({
       ? formatObjectId(automation.title)
       : automation.context;
 
+    const remover = coordinator.teardown.create(child);
+
     // build up TServiceParams
     const params = coordinator.context.build(child);
 
@@ -80,5 +82,6 @@ export function ExecuteService({
     } catch (error) {
       logger.error({ context: child, error }, "service failed to initialize");
     }
+    return remover;
   };
 }

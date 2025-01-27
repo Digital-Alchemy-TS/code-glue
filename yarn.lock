@@ -2386,15 +2386,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@digital-alchemy/automation@npm:^24.11.1":
-  version: 24.11.1
-  resolution: "@digital-alchemy/automation@npm:24.11.1"
+"@digital-alchemy/automation@npm:^25.1.1":
+  version: 25.1.1
+  resolution: "@digital-alchemy/automation@npm:25.1.1"
   peerDependencies:
     "@digital-alchemy/core": "*"
     "@digital-alchemy/hass": "*"
     "@digital-alchemy/synapse": "*"
     dayjs: ^1
-  checksum: 10c0/4fd14c9976f5b4b6c0cf889d56a29d319b886622dadd43944ab9c01cbbe089212b1ee299f94e9c4d5289c9b679f9ea90442f1812840467e4b6d552ef7a06bfb7
+  checksum: 10c0/21ae7ad4abbf379671b0f1d2bf6bf787ed9bbeec1f713cdd0233c12eff06f67eba6722ac21f0ecdb3590c8af84cde5a760766d67f71123013f35377044cf8d59
   languageName: node
   linkType: hard
 
@@ -2405,12 +2405,12 @@ __metadata:
     "@babel/core": "npm:^7.20.0"
     "@babel/helpers": "npm:^7.26.0"
     "@cspell/eslint-plugin": "npm:^8.16.0"
-    "@digital-alchemy/automation": "npm:^24.11.1"
-    "@digital-alchemy/core": "npm:^24.11.4"
-    "@digital-alchemy/hass": "npm:^24.11.4"
-    "@digital-alchemy/synapse": "npm:^24.11.4"
+    "@digital-alchemy/automation": "npm:^25.1.1"
+    "@digital-alchemy/core": "npm:^25.1.1"
+    "@digital-alchemy/hass": "npm:^25.1.1"
+    "@digital-alchemy/synapse": "npm:^25.1.1"
     "@digital-alchemy/terminal": "npm:^24.11.1"
-    "@digital-alchemy/type-writer": "npm:^24.11.3"
+    "@digital-alchemy/type-writer": "npm:^25.1.3"
     "@eslint/compat": "npm:^1.2.3"
     "@eslint/eslintrc": "npm:^3.2.0"
     "@eslint/js": "npm:^9.15.0"
@@ -2496,50 +2496,50 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digital-alchemy/core@npm:^24.11.4":
-  version: 24.11.4
-  resolution: "@digital-alchemy/core@npm:24.11.4"
+"@digital-alchemy/core@npm:^25.1.1":
+  version: 25.1.1
+  resolution: "@digital-alchemy/core@npm:25.1.1"
   dependencies:
-    chalk: "npm:^5.3.0"
+    chalk: "npm:^5.4.1"
     dayjs: "npm:^1.11.13"
-    dotenv: "npm:^16.4.5"
+    dotenv: "npm:^16.4.7"
     ini: "npm:^5.0.0"
     js-yaml: "npm:^4.1.0"
     minimist: "npm:^1.2.8"
     node-cron: "npm:^3.0.3"
-    uuid: "npm:^11.0.3"
-  checksum: 10c0/508aa5e57cf1fc160705ad5d44cbc5500aa598851efa42b9064e8390e0b9e5db841947a06415b12b7283eebd3649493c73f2de9040d9466be97beafc7f4294d3
+    uuid: "npm:^11.0.5"
+  checksum: 10c0/149ecada4fa463b46f0cd5f0f11e9640cba8ce51f074d65e11e5d33b6db280219e7e34297cb44893eac5bbabfc704742212537cc02270e2ed89457ac0ccef1d7
   languageName: node
   linkType: hard
 
-"@digital-alchemy/hass@npm:^24.11.4":
-  version: 24.11.4
-  resolution: "@digital-alchemy/hass@npm:24.11.4"
+"@digital-alchemy/hass@npm:^25.1.1":
+  version: 25.1.1
+  resolution: "@digital-alchemy/hass@npm:25.1.1"
   dependencies:
-    "@digital-alchemy/core": "npm:^24.11.4"
+    "@digital-alchemy/core": "npm:^25.1.1"
     dayjs: "npm:^1.11.13"
     semver: "npm:^7.6.3"
-    type-fest: "npm:^4.28.0"
-    uuid: "npm:^11.0.3"
+    type-fest: "npm:^4.32.0"
+    uuid: "npm:^11.0.5"
     ws: "npm:^8.18.0"
   bin:
     mock-assistant: scripts/mock-assistant.sh
-  checksum: 10c0/c07d4ccb14fd1cf83bed71db6e9f65f6415de4258f07f22c653e0933d098fb1f7b8e2223f9899448fe3feac3315d8933808a6d643477c7829cb8cbca8d4c749c
+  checksum: 10c0/b1c0bc27c58542f9e6453da784ba310bb8f6a7f704215508f843f76fec0f110a309b2fcee105f6ed483bc35948a7fcda9136dd967d35484b23cdd3e44055bc80
   languageName: node
   linkType: hard
 
-"@digital-alchemy/synapse@npm:^24.11.4":
-  version: 24.11.4
-  resolution: "@digital-alchemy/synapse@npm:24.11.4"
+"@digital-alchemy/synapse@npm:^25.1.1":
+  version: 25.1.1
+  resolution: "@digital-alchemy/synapse@npm:25.1.1"
   dependencies:
-    better-sqlite3: "npm:^11.5.0"
+    better-sqlite3: "npm:^11.7.2"
   peerDependencies:
     "@digital-alchemy/core": "*"
     "@digital-alchemy/hass": "*"
     better-sqlite3: ^11
     dayjs: "*"
     uuid: "*"
-  checksum: 10c0/954f4f0645f861862fb3d3aabd44ab856602f77d7ef45d7518bb28061ce19ddb38e72779626c6c63ffdcbb28482e95a58a18dc18c62a28f6f7bc0cdd20330f4c
+  checksum: 10c0/c7e3a54e51e8003f4f9e47ec98c77607f03dbe5f7c4c3efbfb6916373eddc04576a77dfcdba0442d38f261c93c24f321fb12bc5eb4e88edf7bbf30d02ced6032
   languageName: node
   linkType: hard
 
@@ -2562,9 +2562,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@digital-alchemy/type-writer@npm:^24.11.3":
-  version: 24.11.3
-  resolution: "@digital-alchemy/type-writer@npm:24.11.3"
+"@digital-alchemy/type-writer@npm:^25.1.3":
+  version: 25.1.3
+  resolution: "@digital-alchemy/type-writer@npm:25.1.3"
   dependencies:
     js-yaml: "npm:^4.1.0"
     quicktype: "npm:^23.0.170"
@@ -2575,7 +2575,7 @@ __metadata:
     "@digital-alchemy/hass": "*"
   bin:
     type-writer: scripts/run.sh
-  checksum: 10c0/8f50ed8814abb39ab59653a595329fee8b9b5e7dc892fcaf1f85923589dd353dd9c834783ea419106a355b6e3d14c3e671f7e6a6fd5534ba1ec6c3535a8752ac
+  checksum: 10c0/dffe76cc56b10b24f64e893d1126c1757a3b5b4572fe6441f69c1a3eb8872f17f9c1172942c64e74f08baae0d22ea2da196c29f3bc4b72868c2515a9fd08ba0e
   languageName: node
   linkType: hard
 
@@ -6742,6 +6742,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"better-sqlite3@npm:^11.7.2":
+  version: 11.8.1
+  resolution: "better-sqlite3@npm:11.8.1"
+  dependencies:
+    bindings: "npm:^1.5.0"
+    node-gyp: "npm:latest"
+    prebuild-install: "npm:^7.1.1"
+  checksum: 10c0/b6b1844f8ed5668080cc1e2a137656da756af406b616ffbd6139b230c906b9c0571bbdac53cd78cc1415689f5090d25daf95ea596ced0b9ad5e8be9b4a08662e
+  languageName: node
+  linkType: hard
+
 "big-integer@npm:1.6.x":
   version: 1.6.52
   resolution: "big-integer@npm:1.6.52"
@@ -7099,6 +7110,13 @@ __metadata:
   version: 5.3.0
   resolution: "chalk@npm:5.3.0"
   checksum: 10c0/8297d436b2c0f95801103ff2ef67268d362021b8210daf8ddbe349695333eb3610a71122172ff3b0272f1ef2cf7cc2c41fdaa4715f52e49ffe04c56340feed09
+  languageName: node
+  linkType: hard
+
+"chalk@npm:^5.4.1":
+  version: 5.4.1
+  resolution: "chalk@npm:5.4.1"
+  checksum: 10c0/b23e88132c702f4855ca6d25cb5538b1114343e41472d5263ee8a37cccfccd9c4216d111e1097c6a27830407a1dc81fecdf2a56f2c63033d4dbbd88c10b0dcef
   languageName: node
   linkType: hard
 
@@ -8232,10 +8250,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.4.4, dotenv@npm:^16.4.5, dotenv@npm:~16.4.5":
+"dotenv@npm:^16.4.4, dotenv@npm:~16.4.5":
   version: 16.4.5
   resolution: "dotenv@npm:16.4.5"
   checksum: 10c0/48d92870076832af0418b13acd6e5a5a3e83bb00df690d9812e94b24aff62b88ade955ac99a05501305b8dc8f1b0ee7638b18493deb6fe93d680e5220936292f
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^16.4.7":
+  version: 16.4.7
+  resolution: "dotenv@npm:16.4.7"
+  checksum: 10c0/be9f597e36a8daf834452daa1f4cc30e5375a5968f98f46d89b16b983c567398a330580c88395069a77473943c06b877d1ca25b4afafcdd6d4adb549e8293462
   languageName: node
   linkType: hard
 
@@ -17483,10 +17508,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^4.28.0":
-  version: 4.30.0
-  resolution: "type-fest@npm:4.30.0"
-  checksum: 10c0/9441fbbc971f92a53d7dfdb0db3f9c71a5a33ac3e021ca605cba8ad0b5c0a1e191cc778b4980c534b098ccb4e3322809100baf763be125510c993c9b8361f60e
+"type-fest@npm:^4.32.0":
+  version: 4.32.0
+  resolution: "type-fest@npm:4.32.0"
+  checksum: 10c0/e2e877055487d109eba99afc58211db4a480837ff7b243c7de0b3e2ac29fdce55ab55e201c64cb1a8b2aeffce7e8f60ae3ce3a2f7e6fb68261d62743e54288ba
   languageName: node
   linkType: hard
 
@@ -17969,6 +17994,15 @@ __metadata:
   bin:
     uuid: dist/esm/bin/uuid
   checksum: 10c0/cee762fc76d949a2ff9205770334699e0043d52bb766472593a25f150077c9deed821230251ea3d6ab3943a5ea137d2826678797f1d5f6754c7ce5ce27e9f7a6
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^11.0.5":
+  version: 11.0.5
+  resolution: "uuid@npm:11.0.5"
+  bin:
+    uuid: dist/esm/bin/uuid
+  checksum: 10c0/6f59f0c605e02c14515401084ca124b9cb462b4dcac866916a49862bcf831874508a308588c23a7718269226ad11a92da29b39d761ad2b86e736623e3a33b6e7
   languageName: node
   linkType: hard
 
