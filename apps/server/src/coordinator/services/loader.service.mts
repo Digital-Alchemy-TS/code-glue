@@ -1,20 +1,28 @@
 import { TServiceParams } from "@digital-alchemy/core";
 
-import { AUTOMATION_UPDATED } from "../../utils/index.mts";
-
 export function LoaderService({
-  event,
   lifecycle,
   database,
   coordinator,
+  logger,
 }: TServiceParams) {
-  function reload() {
+  function loadAll() {
     const list = database.automation.list();
     list.forEach(i => {
       coordinator.execute(i);
     });
   }
 
-  lifecycle.onReady(() => reload());
-  event.on(AUTOMATION_UPDATED, () => reload());
+  lifecycle.onReady(() => loadAll());
+
+  function reload(id: string) {
+    const remover = coordinator.teardown.byId(id);
+    remover?.teardown();
+    const item = database.automation.get(id);
+    coordinator.execute(item);
+  }
+
+  return {
+    reload,
+  };
 }

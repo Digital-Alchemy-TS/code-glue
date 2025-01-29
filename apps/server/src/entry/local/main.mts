@@ -1,4 +1,4 @@
-import { CODE_GLUE_APP } from "../../code_glue/server.module.mts";
+import { CODE_GLUE_APP } from "../../code_glue/app.module.mts";
 
 await CODE_GLUE_APP.bootstrap({
   configSources: {

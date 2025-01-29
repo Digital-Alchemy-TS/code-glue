@@ -8,6 +8,8 @@ import {
   TServiceParams,
 } from "@digital-alchemy/core";
 
+import { AutomationTeardown } from "../../utils/index.mts";
+
 const REAL_BOILERPLATE = (internal: InternalDefinition) =>
   internal.boot.loadedModules.get("boilerplate") as GetApis<
     typeof LIB_BOILERPLATE
@@ -20,9 +22,18 @@ export function BoilerplatePatchService({
   logger,
   patch,
 }: TServiceParams) {
-  function build(context: TContext): Partial<TServiceParams> {
+  function build(
+    context: TContext,
+    remover: AutomationTeardown,
+  ): Partial<TServiceParams> {
     const scheduler = REAL_BOILERPLATE(internal)?.scheduler?.(context);
     const refs = patch.tracker.track(context, new Set());
+    remover.register(
+      is.removeFn(() => {
+        refs.forEach(({ remove }) => remove());
+      }),
+      `boilerplate`,
+    );
     is.keys(scheduler).forEach(key => {
       const original = scheduler[key];
       // @ts-expect-error I don't feel like fixing
@@ -30,6 +41,7 @@ export function BoilerplatePatchService({
         // @ts-expect-error I don't feel like fixing
         const out = original(a, b);
         const remove = internal.removeFn(() => {
+          logger.warn("REMOVED");
           refs.delete(remove);
           out();
         });

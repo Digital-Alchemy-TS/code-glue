@@ -9,6 +9,7 @@ export function AutomationController({
   http: { controller },
   database: { automation },
   config,
+  code_glue,
 }: TServiceParams) {
   controller([config.code_glue.V1, "/automation"], app =>
     app
@@ -22,9 +23,7 @@ export function AutomationController({
       .put(
         "/:id",
         { schema: { body: AutomationCreateOptions, params } },
-        ({ body, params: { id } }) => {
-          return automation.update(id, body);
-        },
+        ({ body, params: { id } }) => code_glue.automation.reload(id, body),
       ),
   );
 }
