@@ -26,3 +26,4 @@ tamagui-web.css
 # macOS
 .DS_Store
 /.eslintcache
+apps/server/cache/
