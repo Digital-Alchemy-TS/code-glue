@@ -1,3 +1,4 @@
+import { RemoveCallback } from "@digital-alchemy/core";
 import { Type } from "@sinclair/typebox";
 
 /**
@@ -61,3 +62,8 @@ export const StoredAutomationRow = Type.Intersect([
   }),
 ]);
 export type StoredAutomationRow = typeof StoredAutomationRow.static;
+
+export type AutomationTeardown = {
+  register(remove: RemoveCallback, type: string): void;
+  teardown(): void;
+};

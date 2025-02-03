@@ -1,1 +1,1 @@
-export * from "./server.module.mts";
+export * from "./app.module.mts";

@@ -50,8 +50,10 @@ export function ExecuteService({
       ? formatObjectId(automation.title)
       : automation.context;
 
+    const remover = coordinator.teardown.create(automation.id);
+
     // build up TServiceParams
-    const params = coordinator.context.build(child);
+    const params = coordinator.context.build(child, remover);
 
     // create list of keys that will go into fn
     const sortedKeys = is.keys(params).toSorted((a, b) => (a > b ? UP : DOWN));
@@ -80,5 +82,6 @@ export function ExecuteService({
     } catch (error) {
       logger.error({ context: child, error }, "service failed to initialize");
     }
+    return remover;
   };
 }

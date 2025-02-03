@@ -1,5 +1,6 @@
 import {
   GetApis,
+  is,
   RemoveCallback,
   TContext,
   TServiceParams,
@@ -12,6 +13,8 @@ import {
   ReferenceService,
 } from "@digital-alchemy/hass";
 
+import { AutomationTeardown } from "../../utils/index.mts";
+
 type tHass = GetApis<typeof LIB_HASS>;
 
 export function HassPatchService({
@@ -21,7 +24,11 @@ export function HassPatchService({
   patch,
   internal: { removeFn },
 }: TServiceParams) {
-  function build(context: TContext, hass: tHass): tHass {
+  function build(
+    context: TContext,
+    hass: tHass,
+    remover: AutomationTeardown,
+  ): tHass {
     const refs = patch.tracker.track(context, new Set<RemoveCallback>());
     // Building up a new reference extension to not pollute the main app
     const refBy = ReferenceService(params);
@@ -29,6 +36,10 @@ export function HassPatchService({
     // prevent the loaded service from creating a leak here
     // by repeatedly creating refs for the same entity
     const loaded = new Map<PICK_ENTITY, ByIdProxy<PICK_ENTITY>>();
+    remover.register(
+      is.removeFn(() => refs.forEach(({ remove }) => remove())),
+      `hass`,
+    );
 
     // Keep track of all refs that get generated
     refBy.id = function <ENTITY extends PICK_ENTITY>(

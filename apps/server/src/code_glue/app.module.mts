@@ -15,11 +15,17 @@ import {
   SynapseEntitiesController,
   VariablesController,
 } from "./controllers/index.mts";
+import { AutomationLogic } from "./services/automation.service.mts";
+import { CodeGlueLogger } from "./services/logger.service.mts";
 
 export const CODE_GLUE_APP = CreateApplication({
   configuration: {
     HEADER_CONTENT_FILE: {
       type: "string",
+    },
+    LOG_STORAGE_DURATION_MINUTE: {
+      default: 60,
+      type: "number",
     },
     V1: {
       default: "/api/v1",
@@ -45,6 +51,8 @@ export const CODE_GLUE_APP = CreateApplication({
     AutomationController,
     SynapseEntitiesController,
     VariablesController,
+    automation: AutomationLogic,
+    logger: CodeGlueLogger,
   },
 });
 

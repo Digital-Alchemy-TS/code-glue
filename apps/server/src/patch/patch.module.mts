@@ -8,7 +8,6 @@ import {
 
 export const LIB_MODULE_PATCHER = CreateLibrary({
   configuration: {},
-
   name: "patch",
   services: {
     boilerplate: BoilerplatePatchService,
