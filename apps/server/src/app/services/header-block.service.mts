@@ -33,6 +33,7 @@ export function HeaderBlockService() {
       ``,
       `const { ${[...boilerplateKeys, ...extraLibraries].join(", ")} } =`,
       `  undefined as TServiceParams;`,
+      ``,
     ].join(`\n`);
   }
   return { generate };
