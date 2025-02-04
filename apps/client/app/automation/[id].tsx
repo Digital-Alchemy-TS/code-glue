@@ -17,12 +17,25 @@ export default function AutomationDetail() {
     return <Redirect href="/" />
   }
 
+  const fileHeader = `import { TServiceParams } from "@digital-alchemy/core";
+import { LIB_HASS } from "@digital-alchemy/hass";
+import { LIB_SYNAPSE } from "@digital-alchemy/synapse";
+import { LIB_AUTOMATION } from "@digital-alchemy/automation";
+
+const { logger, hass, context, automation, event, synapse, lifecycle, scheduler, config } =
+  undefined as TServiceParams;
+`
+
   return (
     <View>
       <Text>Automation Name: {automationSnapshot.title}</Text>
       <Text>Automation ID: {automationSnapshot.id}</Text>
       <Text>Docs: {automationSnapshot.documentation}</Text>
-      <Editor defaultValue={automationSnapshot.body} onChange={setBody} />
+      <Editor
+        defaultValue={fileHeader + automationSnapshot.body}
+        onChange={setBody}
+        constraints={[{ label: 'body', range: [4, 1, 4, 20], allowMultiline: true }]}
+      />
       <Button
         title="save"
         onPress={() => {

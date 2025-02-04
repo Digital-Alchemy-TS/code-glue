@@ -2,13 +2,39 @@ import { Monaco, Editor as MonacoEditor } from '@monaco-editor/react'
 import type { editor } from 'monaco-editor'
 import React from 'react'
 
+import { constrainedEditor } from '../../../node_modules/constrained-editor-plugin/dist/esm/constrainedEditor'
 import { store } from '../store'
+
 export type EditorProps = {
+  /**
+   * Starting value for the editor. Only read once on init.
+   */
   defaultValue: string
+  /**
+   * Updates every time *anything* in the editor changes and sends the complete body.
+   */
   onChange?: (value: string) => void
+  /**
+   * Constraints for the editor
+   */
+  constraints?: {
+    /**
+     * The range of the constraint, in the format [startLine, startColumn, endLine, endColumn]
+     */
+    range: [number, number, number, number]
+    /**
+     * allow multiline value?
+     */
+    allowMultiline?: boolean
+    /**
+     * Treat this label as an unique ID, allows getting the value as it changes.
+     */
+    label?: string
+  }[]
+  // onConstraintsChange?: (constraints: EditorProps['constraints']) => void
 }
 
-export const Editor: React.FC<EditorProps> = ({ defaultValue, onChange }) => {
+export const Editor: React.FC<EditorProps> = ({ defaultValue, onChange, constraints = [] }) => {
   const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
 
   const handleEditorBeforeMount = (monaco: Monaco) => {
@@ -40,6 +66,28 @@ export const Editor: React.FC<EditorProps> = ({ defaultValue, onChange }) => {
     monaco.editor.createModel(libSource, 'typescript', monaco.Uri.parse(libUri))
   }
 
+  const handleEditorDidMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
+    editorRef.current = editor
+
+    if (constraints.length > 0) {
+      const constrainedInstance = constrainedEditor(monaco)
+      const model = editor.getModel()
+
+      if (!model) throw new Error('Editor Model not found?')
+
+      constrainedInstance.initializeIn(editor)
+      constrainedInstance.addRestrictionsTo(model, constraints)
+
+      model.onDidChangeContentInEditableRange(
+        (currentlyChangedContent, allValuesInEditableRanges, currentEditableRangeObject) => {
+          console.log('currentlyChangedContent', currentlyChangedContent)
+          console.log('allValuesInEditableRanges', allValuesInEditableRanges)
+          console.log('currentEditableRangeObject', currentEditableRangeObject)
+        },
+      )
+    }
+  }
+
   return (
     <MonacoEditor
       height="400px"
@@ -51,9 +99,7 @@ export const Editor: React.FC<EditorProps> = ({ defaultValue, onChange }) => {
           onChange(value)
         }
       }}
-      onMount={(editor) => {
-        editorRef.current = editor
-      }}
+      onMount={handleEditorDidMount}
       options={{
         minimap: {
           enabled: false,
