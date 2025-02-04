@@ -90,5 +90,6 @@ export function HassPatchService({
       },
     };
   }
+
   return { build };
 }

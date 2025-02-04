@@ -1,4 +1,4 @@
-import { CODE_GLUE_APP } from "../../code_glue/app.module.mts";
+import { CODE_GLUE_APP } from "../../app.module.mts";
 
 await CODE_GLUE_APP.bootstrap({
   configSources: {
@@ -23,5 +23,5 @@ await CODE_GLUE_APP.bootstrap({
   loggerOptions: {
     als: true,
   },
-  showExtraBootStats: false,
+  showExtraBootStats: true,
 });

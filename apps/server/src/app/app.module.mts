@@ -16,7 +16,9 @@ import {
   VariablesController,
 } from "./controllers/index.mts";
 import { AutomationLogic } from "./services/automation.service.mts";
+import { HeaderBlockService } from "./services/header-block.service.mts";
 import { CodeGlueLogger } from "./services/logger.service.mts";
+import { StatsService } from "./services/stats.service.mts";
 
 export const CODE_GLUE_APP = CreateApplication({
   configuration: {
@@ -52,7 +54,9 @@ export const CODE_GLUE_APP = CreateApplication({
     SynapseEntitiesController,
     VariablesController,
     automation: AutomationLogic,
+    header: HeaderBlockService,
     logger: CodeGlueLogger,
+    stats: StatsService,
   },
 });
 
