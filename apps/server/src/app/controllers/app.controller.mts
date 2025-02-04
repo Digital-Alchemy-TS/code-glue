@@ -29,6 +29,9 @@ export function AppController({
           throw new BadRequestError(context, "SET YOUR CONFIG VARS!");
         }
         return readFileSync(config.code_glue.HEADER_CONTENT_FILE, "utf8");
+      })
+      .get("/stats", () => {
+        return false;
       }),
   );
 }

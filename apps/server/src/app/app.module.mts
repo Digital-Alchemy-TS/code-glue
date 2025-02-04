@@ -17,6 +17,7 @@ import {
 } from "./controllers/index.mts";
 import { AutomationLogic } from "./services/automation.service.mts";
 import { CodeGlueLogger } from "./services/logger.service.mts";
+import { StatsService } from "./services/stats.service.mts";
 
 export const CODE_GLUE_APP = CreateApplication({
   configuration: {
@@ -53,6 +54,7 @@ export const CODE_GLUE_APP = CreateApplication({
     VariablesController,
     automation: AutomationLogic,
     logger: CodeGlueLogger,
+    stats: StatsService,
   },
 });
 
