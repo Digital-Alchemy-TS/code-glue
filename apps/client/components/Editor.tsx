@@ -59,6 +59,11 @@ export const Editor: React.FC<EditorProps> = ({
             const monaco = monacoRef.current!
 
             const path = 'file://' + _path
+
+            if (path === 'file:///node_modules/@digital-alchemy/hass/dist/dynamic.d.mts') {
+              code = store.typeWriter
+            }
+
             monaco.languages.typescript.typescriptDefaults.addExtraLib(code, path)
 
             console.log(`[ATA] Adding ${path} to runtime`, { code })
@@ -88,10 +93,6 @@ export const Editor: React.FC<EditorProps> = ({
       allowSyntheticDefaultImports: true,
       esModuleInterop: true,
     })
-    // const typeSource = store.typeWriter
-    // const typeUri = 'ts:filename/typeWriter.d.ts'
-    // monaco.languages.typescript.typescriptDefaults.addExtraLib(typeSource, typeUri)
-    // monaco.editor.createModel(typeSource, 'typescript', monaco.Uri.parse(typeUri))
   }
 
   const handleOnMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
