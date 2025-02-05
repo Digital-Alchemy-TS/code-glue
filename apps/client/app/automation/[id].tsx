@@ -9,8 +9,7 @@ import { store } from '../../store'
 export default function AutomationDetail() {
   const { id } = useLocalSearchParams<{ id: string }>()
 
-  const fileHeader = useSnapshot(store).automationHeader + '\n// Start Editable\n'
-  const fileFooter = '\n// End Editable'
+  const automationHeader = useSnapshot(store).automationHeader
 
   const automation = store.automations.get(id)!
   const automationSnapshot = useSnapshot(store.automations.get(id)!)
@@ -19,6 +18,9 @@ export default function AutomationDetail() {
   if (!id) {
     return <Redirect href="/" />
   }
+
+  const fileHeader = automationHeader + '\n// Start Editable\n'
+  const fileFooter = '\n// End Editable'
 
   const bodyStartLine = fileHeader.split('\n').length
   const bodyLines = body.split('\n').length
