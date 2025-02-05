@@ -1,12 +1,12 @@
 import { Monaco, Editor as MonacoEditor } from '@monaco-editor/react'
 import { setupTypeAcquisition } from '@typescript/ata'
+import { constrainedEditor } from 'constrained-editor-plugin'
 import debounce from 'lodash.debounce'
 import type { editor } from 'monaco-editor'
 import React, { useCallback } from 'react'
 import ts from 'typescript'
 
 // @ts-ignore Library isn't typed. (https://github.com/Pranomvignesh/constrained-editor-plugin/issues/68#issuecomment-2635040933)
-import { constrainedEditor } from '../../../node_modules/constrained-editor-plugin/dist/esm/constrainedEditor'
 import { store } from '../store'
 
 export type EditorProps = {
@@ -60,15 +60,9 @@ export const Editor: React.FC<EditorProps> = ({
 
             const path = 'file://' + _path
             monaco.languages.typescript.typescriptDefaults.addExtraLib(code, path)
-            const uri = monaco.Uri.file(path)
-            if (monaco.editor.getModel(uri) === null) {
-              monaco.editor.createModel(code, 'javascript', uri)
-            }
+
             console.log(`[ATA] Adding ${path} to runtime`, { code })
           },
-          // progress: (downloaded: number, total: number) => {
-          //   // console.log({ dl, ttl })
-          // },
           started: () => {
             console.log('ATA start')
           },
@@ -82,10 +76,6 @@ export const Editor: React.FC<EditorProps> = ({
     throw new Error('Monaco not initialized')
   }, [monacoRef])
 
-  const acquireTypes = debounce((code) => {
-    ata()(code)
-  }, 1000)
-
   const handleEditorBeforeMount = (monaco: Monaco) => {
     monacoRef.current = monaco
 
@@ -95,14 +85,16 @@ export const Editor: React.FC<EditorProps> = ({
       moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
       module: monaco.languages.typescript.ModuleKind.CommonJS,
       allowNonTsExtensions: true,
+      allowSyntheticDefaultImports: true,
+      esModuleInterop: true,
     })
-    const typeSource = store.typeWriter
-    const typeUri = 'ts:filename/typeWriter.d.ts'
-    monaco.languages.typescript.typescriptDefaults.addExtraLib(typeSource, typeUri)
-    monaco.editor.createModel(typeSource, 'typescript', monaco.Uri.parse(typeUri))
+    // const typeSource = store.typeWriter
+    // const typeUri = 'ts:filename/typeWriter.d.ts'
+    // monaco.languages.typescript.typescriptDefaults.addExtraLib(typeSource, typeUri)
+    // monaco.editor.createModel(typeSource, 'typescript', monaco.Uri.parse(typeUri))
   }
 
-  const handleEditorDidMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
+  const handleOnMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor
 
     if (constraints.length > 0) {
@@ -138,16 +130,14 @@ export const Editor: React.FC<EditorProps> = ({
       })
     }
 
-    // initial acquire types
-    acquireTypes(defaultValue)
+    // acquire types
+    ata()(defaultValue)
   }
 
   const handleOnChange = (value: string | undefined) => {
     if (onChange && value) {
       onChange(value)
     }
-
-    acquireTypes(value)
   }
 
   return (
@@ -157,7 +147,10 @@ export const Editor: React.FC<EditorProps> = ({
       defaultValue={defaultValue}
       beforeMount={handleEditorBeforeMount}
       onChange={handleOnChange}
-      onMount={handleEditorDidMount}
+      onMount={handleOnMount}
+      language="typescript"
+      defaultPath="index.ts"
+      path="index.ts"
       options={{
         minimap: {
           enabled: false,
