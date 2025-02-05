@@ -34,7 +34,7 @@ export default function AutomationDetail() {
       <Text>Docs: {automationSnapshot.documentation}</Text>
       <Editor
         defaultValue={fileHeader + automationSnapshot.body + fileFooter}
-        onChange={setBody}
+        onConstraintsChange={({ body }) => setBody(body)}
         constraints={[
           {
             label: 'body',
