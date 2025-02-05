@@ -8,16 +8,22 @@ export const store = proxy({
   isReady: false,
   typesReady: false,
   automations: automationStore,
-  typeWriter: ''
+  typeWriter: '',
+  automationHeader: ''
+
 })
 
-const getTypesFromServer = () => {
-  fetch('http://localhost:3789/api/v1/type-writer', { method: 'GET' })
-    .then((response) => response.text())
-    .then((types) => {
+const setupStore = () => {
+  return Promise.all([
+    fetch('http://localhost:3789/api/v1/types-block', { method: 'GET' }).then((response) => response.text()),
+    fetch('http://localhost:3789/api/v1/type-writer', { method: 'GET' }).then((response) => response.text())
+  ])
+    .then(([header, types]) => {
+      store.automationHeader = header
       store.typeWriter = types
       store.typesReady = true
-    }).catch((error) => {
+    })
+    .catch((error) => {
       console.error(error)
     })
 }
@@ -46,5 +52,5 @@ const getAutomationsFromServer = () => {
     })
 }
 
-getTypesFromServer()
+setupStore()
 getAutomationsFromServer()

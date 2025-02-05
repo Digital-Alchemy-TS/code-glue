@@ -2,6 +2,7 @@ import { Monaco, Editor as MonacoEditor } from '@monaco-editor/react'
 import type { editor } from 'monaco-editor'
 import React from 'react'
 
+// @ts-ignore Library isn't typed. (https://github.com/Pranomvignesh/constrained-editor-plugin/issues/68#issuecomment-2635040933)
 import { constrainedEditor } from '../../../node_modules/constrained-editor-plugin/dist/esm/constrainedEditor'
 import { store } from '../store'
 
@@ -11,13 +12,17 @@ export type EditorProps = {
    */
   defaultValue: string
   /**
-   * Updates every time *anything* in the editor changes and sends the complete body.
+   * Updates every time *anything* in the editor changes and sends the complete contents.
    */
   onChange?: (value: string) => void
   /**
    * Constraints for the editor
    */
   constraints?: {
+    /**
+     * Treat this label as an unique ID, allows getting the value as it changes.
+     */
+    label: string
     /**
      * The range of the constraint, in the format [startLine, startColumn, endLine, endColumn]
      */
@@ -26,15 +31,17 @@ export type EditorProps = {
      * allow multiline value?
      */
     allowMultiline?: boolean
-    /**
-     * Treat this label as an unique ID, allows getting the value as it changes.
-     */
-    label?: string
   }[]
-  // onConstraintsChange?: (constraints: EditorProps['constraints']) => void
+  // This will be called on changes only when constraints are set. Otherwise use `onChange`
+  onConstraintsChange?: (changes: { [label: string]: string }) => void
 }
 
-export const Editor: React.FC<EditorProps> = ({ defaultValue, onChange, constraints = [] }) => {
+export const Editor: React.FC<EditorProps> = ({
+  defaultValue,
+  onChange,
+  constraints = [],
+  onConstraintsChange,
+}) => {
   const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
 
   const handleEditorBeforeMount = (monaco: Monaco) => {
@@ -71,20 +78,35 @@ export const Editor: React.FC<EditorProps> = ({ defaultValue, onChange, constrai
 
     if (constraints.length > 0) {
       const constrainedInstance = constrainedEditor(monaco)
-      const model = editor.getModel()
+      constrainedInstance.initializeIn(editor)
+
+      const model = editor.getModel() as editor.ITextModel & {
+        toggleHighlightOfEditableAreas: (options: {
+          cssClassForSingleLine: string
+          cssClassForMultiLine: string
+        }) => void
+        onDidChangeContentInEditableRange: (
+          listener: (
+            currentlyChangedContent: string,
+            allValuesInEditableRanges: { [label: string]: string },
+            currentEditableRangeObject: { [label: string]: string },
+          ) => void,
+        ) => void
+      }
 
       if (!model) throw new Error('Editor Model not found?')
 
-      constrainedInstance.initializeIn(editor)
       constrainedInstance.addRestrictionsTo(model, constraints)
 
-      model.onDidChangeContentInEditableRange(
-        (currentlyChangedContent, allValuesInEditableRanges, currentEditableRangeObject) => {
-          console.log('currentlyChangedContent', currentlyChangedContent)
-          console.log('allValuesInEditableRanges', allValuesInEditableRanges)
-          console.log('currentEditableRangeObject', currentEditableRangeObject)
-        },
-      )
+      // add classes to style editable areas
+      model.toggleHighlightOfEditableAreas({
+        cssClassForSingleLine: 'editable-singleLine',
+        cssClassForMultiLine: 'editable-multiLine',
+      })
+
+      model.onDidChangeContentInEditableRange((_, allValuesInEditableRanges) => {
+        onConstraintsChange && onConstraintsChange(allValuesInEditableRanges)
+      })
     }
   }
 

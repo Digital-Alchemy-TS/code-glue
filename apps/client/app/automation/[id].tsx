@@ -9,6 +9,9 @@ import { store } from '../../store'
 export default function AutomationDetail() {
   const { id } = useLocalSearchParams<{ id: string }>()
 
+  const fileHeader = useSnapshot(store).automationHeader + '\n// Start Editable\n'
+  const fileFooter = '\n// End Editable'
+
   const automation = store.automations.get(id)!
   const automationSnapshot = useSnapshot(store.automations.get(id)!)
   const [body, setBody] = React.useState(automationSnapshot.body)
@@ -17,14 +20,10 @@ export default function AutomationDetail() {
     return <Redirect href="/" />
   }
 
-  const fileHeader = `import { TServiceParams } from "@digital-alchemy/core";
-import { LIB_HASS } from "@digital-alchemy/hass";
-import { LIB_SYNAPSE } from "@digital-alchemy/synapse";
-import { LIB_AUTOMATION } from "@digital-alchemy/automation";
-
-const { logger, hass, context, automation, event, synapse, lifecycle, scheduler, config } =
-  undefined as TServiceParams;
-`
+  const bodyStartLine = fileHeader.split('\n').length
+  const bodyLines = body.split('\n').length
+  const bodyEndLines = bodyStartLine + bodyLines - 1
+  const bodyLastLineLength = body.split('\n').slice(-1)[0].length
 
   return (
     <View>
@@ -32,9 +31,15 @@ const { logger, hass, context, automation, event, synapse, lifecycle, scheduler,
       <Text>Automation ID: {automationSnapshot.id}</Text>
       <Text>Docs: {automationSnapshot.documentation}</Text>
       <Editor
-        defaultValue={fileHeader + automationSnapshot.body}
+        defaultValue={fileHeader + automationSnapshot.body + fileFooter}
         onChange={setBody}
-        constraints={[{ label: 'body', range: [4, 1, 4, 20], allowMultiline: true }]}
+        constraints={[
+          {
+            label: 'body',
+            range: [bodyStartLine, 1, bodyEndLines, bodyLastLineLength + 1],
+            allowMultiline: true,
+          },
+        ]}
       />
       <Button
         title="save"
