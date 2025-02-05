@@ -60,19 +60,12 @@ export const Editor: React.FC<EditorProps> = ({
 
             const path = 'file://' + _path
 
+            // load in the local types in place of the default placeholder ones
             if (path === 'file:///node_modules/@digital-alchemy/hass/dist/dynamic.d.mts') {
               code = store.typeWriter
             }
 
             monaco.languages.typescript.typescriptDefaults.addExtraLib(code, path)
-
-            console.log(`[ATA] Adding ${path} to runtime`, { code })
-          },
-          started: () => {
-            console.log('ATA start')
-          },
-          finished: (f) => {
-            console.log('ATA done')
           },
         },
       })
