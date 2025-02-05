@@ -1,6 +1,9 @@
 import { Monaco, Editor as MonacoEditor } from '@monaco-editor/react'
+import { setupTypeAcquisition } from '@typescript/ata'
+import debounce from 'lodash.debounce'
 import type { editor } from 'monaco-editor'
-import React from 'react'
+import React, { useCallback } from 'react'
+import ts from 'typescript'
 
 // @ts-ignore Library isn't typed. (https://github.com/Pranomvignesh/constrained-editor-plugin/issues/68#issuecomment-2635040933)
 import { constrainedEditor } from '../../../node_modules/constrained-editor-plugin/dist/esm/constrainedEditor'
@@ -43,8 +46,49 @@ export const Editor: React.FC<EditorProps> = ({
   onConstraintsChange,
 }) => {
   const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
+  const monacoRef = React.useRef<Monaco | null>(null)
+
+  const ata = useCallback(() => {
+    if (monacoRef.current !== null) {
+      return setupTypeAcquisition({
+        projectName: 'CodeGlue',
+        typescript: ts,
+        logger: console,
+        delegate: {
+          receivedFile: (code: string, _path: string) => {
+            const monaco = monacoRef.current!
+
+            const path = 'file://' + _path
+            monaco.languages.typescript.typescriptDefaults.addExtraLib(code, path)
+            const uri = monaco.Uri.file(path)
+            if (monaco.editor.getModel(uri) === null) {
+              monaco.editor.createModel(code, 'javascript', uri)
+            }
+            console.log(`[ATA] Adding ${path} to runtime`, { code })
+          },
+          // progress: (downloaded: number, total: number) => {
+          //   // console.log({ dl, ttl })
+          // },
+          started: () => {
+            console.log('ATA start')
+          },
+          finished: (f) => {
+            console.log('ATA done')
+          },
+        },
+      })
+    }
+
+    throw new Error('Monaco not initialized')
+  }, [monacoRef])
+
+  const acquireTypes = debounce((code) => {
+    ata()(code)
+  }, 1000)
 
   const handleEditorBeforeMount = (monaco: Monaco) => {
+    monacoRef.current = monaco
+
     // Configure TypeScript compiler options
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
       target: monaco.languages.typescript.ScriptTarget.Latest,
@@ -56,21 +100,6 @@ export const Editor: React.FC<EditorProps> = ({
     const typeUri = 'ts:filename/typeWriter.d.ts'
     monaco.languages.typescript.typescriptDefaults.addExtraLib(typeSource, typeUri)
     monaco.editor.createModel(typeSource, 'typescript', monaco.Uri.parse(typeUri))
-
-    // extra libraries
-    const libSource = [
-      'declare class TestType {',
-      '    /**',
-      '     * Some Info about the method',
-      '     */',
-      '    static doSomething():string',
-      '}',
-    ].join('\n')
-    const libUri = 'ts:filename/test.d.ts'
-    monaco.languages.typescript.javascriptDefaults.addExtraLib(libSource, libUri)
-    // When resolving definitions and references, the editor will try to use created models.
-    // Creating a model for the library allows "peek definition/references" commands to work with the library.
-    monaco.editor.createModel(libSource, 'typescript', monaco.Uri.parse(libUri))
   }
 
   const handleEditorDidMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
@@ -108,6 +137,17 @@ export const Editor: React.FC<EditorProps> = ({
         onConstraintsChange && onConstraintsChange(allValuesInEditableRanges)
       })
     }
+
+    // initial acquire types
+    acquireTypes(defaultValue)
+  }
+
+  const handleOnChange = (value: string | undefined) => {
+    if (onChange && value) {
+      onChange(value)
+    }
+
+    acquireTypes(value)
   }
 
   return (
@@ -116,11 +156,7 @@ export const Editor: React.FC<EditorProps> = ({
       defaultLanguage="typescript"
       defaultValue={defaultValue}
       beforeMount={handleEditorBeforeMount}
-      onChange={(value) => {
-        if (onChange && value) {
-          onChange(value)
-        }
-      }}
+      onChange={handleOnChange}
       onMount={handleEditorDidMount}
       options={{
         minimap: {
