@@ -2442,7 +2442,7 @@ __metadata:
     better-sqlite3: "npm:^11.5.0"
     chalk: "npm:^5.3.0"
     concurrently: "npm:^9.1.0"
-    constrained-editor-plugin: "npm:^1.3.0"
+    constrained-editor-plugin: "npm:^1.4.0"
     dayjs: "npm:^1.11.13"
     eslint: "npm:^9.15.0"
     eslint-config-expo: "npm:^7.1.2"
@@ -7600,10 +7600,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"constrained-editor-plugin@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "constrained-editor-plugin@npm:1.3.0"
-  checksum: 10c0/46aa4990b036f45515a0d4781aa5cf33f263e1908028d5eb259ba13ebe2af83c5a2b8439f66cb18a9f64df4841f080ed57b1b060aaf8576804c6efdfea975ac4
+"constrained-editor-plugin@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "constrained-editor-plugin@npm:1.4.0"
+  checksum: 10c0/6ea4b6cb4ff0ad7e80e46daeec13ce2b994f529cb1b2280ae15bc2f6fcb54b7bd0cd25078ca6ec16b1e268361887c5d29cb769f48990be82acb204b8498da5e7
   languageName: node
   linkType: hard
 
