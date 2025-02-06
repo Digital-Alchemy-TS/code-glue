@@ -91,9 +91,14 @@ export const Editor: React.FC<EditorProps> = ({
   const handleOnMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor
 
+    // @ts-ignore Hidden API to hide the header of the file
+    editor.setHiddenAreas([new monaco.Range(1, 0, 20, 0)])
+
     if (constraints.length > 0) {
       const constrainedInstance = constrainedEditor(monaco)
       constrainedInstance.initializeIn(editor)
+
+      editor.updateOptions({ foldingImportsByDefault: true })
 
       const model = editor.getModel() as editor.ITextModel & {
         toggleHighlightOfEditableAreas: (options: {
