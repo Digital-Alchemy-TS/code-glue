@@ -11,30 +11,70 @@ const dayjsContent = [
   `dayjs.extend(utc);`,
   `dayjs.extend(weekOfYear);`,
 ];
+const boilerplateKeys = [
+  "logger",
+  "context",
+  "event",
+  "lifecycle",
+  "scheduler",
+  "config",
+];
+
+export type HeaderImportStatement = {
+  /**
+   * ex: "@digital-alchemy/hass"
+   */
+  package: string;
+  /**
+   * ex: "{ LIB_HASS, PICK_ENTITY }"
+   * ex: "dayjs"
+   */
+  statement: string;
+  /**
+   * Property to extract from TServiceParams.
+   * Only relevant for DA based libraries
+   */
+  lib_name?: string;
+  /**
+   *
+   */
+  init?: string;
+};
 
 export function HeaderBlockService() {
-  const boilerplateKeys = [
-    "logger",
-    "context",
-    "event",
-    "lifecycle",
-    "scheduler",
-    "config",
-  ];
-  const extraLibraries = ["hass", "synapse", "automation"];
+  const importStatements = new Map([
+    ["@digital-alchemy/hass", "{ LIB_HASS, PICK_ENTITY }"],
+    ["@digital-alchemy/synapse", "{ LIB_SYNAPSE }"],
+    ["@digital-alchemy/automation", "{ LIB_AUTOMATION }"],
+  ]);
+  const serviceExtract = new Set(["hass", "automation", "synapse"]);
 
-  function generate() {
+  function debugBlock() {
     return [
-      `import { TServiceParams } from "@digital-alchemy/core";`,
-      ...extraLibraries.map(
-        i => `import { LIB_${i.toUpperCase()} } from "@digital-alchemy/${i}";`,
-      ),
+      `import { TServiceParams, is } from "@digital-alchemy/core";`,
+      ...importStatements
+        .entries()
+        .map(([lib, statement]) => `import ${statement} from "${lib}";`),
       ...dayjsContent,
       ``,
-      `const { ${[...boilerplateKeys, ...extraLibraries].join(", ")} } =`,
+      `const { ${[...boilerplateKeys, ...serviceExtract.values()].join(", ")} } =`,
       `  undefined as TServiceParams;`,
       ``,
     ].join(`\n`);
   }
-  return { generate };
+
+  function hiddenBlock() {
+    return [
+      `import { TServiceParams, is } from "@digital-alchemy/core";`,
+      `import { LIB_HASS } from "@digital-alchemy/hass";`,
+      `import { LIB_SYNAPSE } from "@digital-alchemy/synapse";`,
+      `declare global {`,
+      `  var hass: TServiceParams["hass"];`,
+      `  var synapse: TServiceParams["hass"];`,
+      `}`,
+      `export {};`,
+    ].join(`\n`);
+  }
+
+  return { debugBlock, hiddenBlock };
 }

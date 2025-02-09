@@ -21,7 +21,8 @@ export function AppController({
         code_glue.logger(params),
       )
       .get("/type-writer", () => type_build.build())
-      .get("/types-block", () => code_glue.header.generate())
+      .get("/types/debug", () => code_glue.header.debugBlock())
+      .get("/types/hidden", () => code_glue.header.hiddenBlock())
       .get("/stats", () => {
         return false;
       }),
