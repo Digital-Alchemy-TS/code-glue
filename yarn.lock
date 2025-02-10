@@ -2477,7 +2477,6 @@ __metadata:
     better-sqlite3: "npm:^11.8.1"
     chalk: "npm:^5.4.1"
     concurrently: "npm:^9.1.0"
-    constrained-editor-plugin: "npm:^1.4.0"
     dayjs: "npm:^1.11.13"
     eslint: "npm:^9.20.0"
     eslint-config-expo: "npm:^7.1.2"
@@ -7425,13 +7424,6 @@ __metadata:
     parseurl: "npm:~1.3.3"
     utils-merge: "npm:1.0.1"
   checksum: 10c0/f120c6116bb16a0a7d2703c0b4a0cd7ed787dc5ec91978097bf62aa967289020a9f41a9cd3c3276a7b92aaa36f382d2cd35fed7138fd466a55c8e9fdbed11ca8
-  languageName: node
-  linkType: hard
-
-"constrained-editor-plugin@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "constrained-editor-plugin@npm:1.4.0"
-  checksum: 10c0/6ea4b6cb4ff0ad7e80e46daeec13ce2b994f529cb1b2280ae15bc2f6fcb54b7bd0cd25078ca6ec16b1e268361887c5d29cb769f48990be82acb204b8498da5e7
   languageName: node
   linkType: hard
 
@@ -17367,11 +17359,11 @@ __metadata:
 
 "typescript@patch:typescript@npm%3A^5#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.7.3#optional!builtin<compat/typescript>":
   version: 5.7.3
-  resolution: "typescript@patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=5786d5"
+  resolution: "typescript@patch:typescript@npm%3A5.7.3#optional!builtin<compat/typescript>::version=5.7.3&hash=cef18b"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/6fd7e0ed3bf23a81246878c613423730c40e8bdbfec4c6e4d7bf1b847cbb39076e56ad5f50aa9d7ebd89877999abaee216002d3f2818885e41c907caaa192cc4
+  checksum: 10c0/3b56d6afa03d9f6172d0b9cdb10e6b1efc9abc1608efd7a3d2f38773d5d8cfb9bbc68dfb72f0a7de5e8db04fc847f4e4baeddcd5ad9c9feda072234f0d788896
   languageName: node
   linkType: hard
 

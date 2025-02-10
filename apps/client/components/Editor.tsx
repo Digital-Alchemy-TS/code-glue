@@ -1,7 +1,5 @@
 import { Monaco, Editor as MonacoEditor } from '@monaco-editor/react'
 import { setupTypeAcquisition } from '@typescript/ata'
-import { constrainedEditor } from 'constrained-editor-plugin'
-import debounce from 'lodash.debounce'
 import type { editor } from 'monaco-editor'
 import React, { useCallback } from 'react'
 import ts from 'typescript'
@@ -21,30 +19,11 @@ export type EditorProps = {
   /**
    * Constraints for the editor
    */
-  constraints?: {
-    /**
-     * Treat this label as an unique ID, allows getting the value as it changes.
-     */
-    label: string
-    /**
-     * The range of the constraint, in the format [startLine, startColumn, endLine, endColumn]
-     */
-    range: [number, number, number, number]
-    /**
-     * allow multiline value?
-     */
-    allowMultiline?: boolean
-  }[]
-  // This will be called on changes only when constraints are set. Otherwise use `onChange`
-  onConstraintsChange?: (changes: { [label: string]: string }) => void
+  // This will be passed through ATA and loaded into types but not added to the editor
+  globalTypes?: string
 }
 
-export const Editor: React.FC<EditorProps> = ({
-  defaultValue,
-  onChange,
-  constraints = [],
-  onConstraintsChange,
-}) => {
+export const Editor: React.FC<EditorProps> = ({ defaultValue, onChange, globalTypes }) => {
   const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
   const monacoRef = React.useRef<Monaco | null>(null)
 
@@ -85,52 +64,19 @@ export const Editor: React.FC<EditorProps> = ({
       allowNonTsExtensions: true,
       allowSyntheticDefaultImports: true,
       esModuleInterop: true,
+      typeRoots: ['/globals.ts'],
     })
   }
 
   const handleOnMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
     editorRef.current = editor
 
-    // @ts-ignore Hidden API to hide the header of the file
-    editor.setHiddenAreas([new monaco.Range(1, 0, 20, 0)])
+    if (globalTypes) {
+      monaco.languages.typescript.typescriptDefaults.addExtraLib(globalTypes, 'file:///globals.ts')
 
-    if (constraints.length > 0) {
-      const constrainedInstance = constrainedEditor(monaco)
-      constrainedInstance.initializeIn(editor)
-
-      editor.updateOptions({ foldingImportsByDefault: true })
-
-      const model = editor.getModel() as editor.ITextModel & {
-        toggleHighlightOfEditableAreas: (options: {
-          cssClassForSingleLine: string
-          cssClassForMultiLine: string
-        }) => void
-        onDidChangeContentInEditableRange: (
-          listener: (
-            currentlyChangedContent: string,
-            allValuesInEditableRanges: { [label: string]: string },
-            currentEditableRangeObject: { [label: string]: string },
-          ) => void,
-        ) => void
-      }
-
-      if (!model) throw new Error('Editor Model not found?')
-
-      constrainedInstance.addRestrictionsTo(model, constraints)
-
-      // add classes to style editable areas
-      model.toggleHighlightOfEditableAreas({
-        cssClassForSingleLine: 'editable-singleLine',
-        cssClassForMultiLine: 'editable-multiLine',
-      })
-
-      model.onDidChangeContentInEditableRange((_, allValuesInEditableRanges) => {
-        onConstraintsChange && onConstraintsChange(allValuesInEditableRanges)
-      })
+      // acquire types
+      ata()(globalTypes)
     }
-
-    // acquire types
-    ata()(defaultValue)
   }
 
   const handleOnChange = (value: string | undefined) => {
@@ -150,12 +96,7 @@ export const Editor: React.FC<EditorProps> = ({
       language="typescript"
       defaultPath="index.ts"
       path="index.ts"
-      options={{
-        minimap: {
-          enabled: false,
-        },
-        tabSize: 2,
-      }}
+      options={{ minimap: { enabled: false }, tabSize: 2 }}
     />
   )
 }

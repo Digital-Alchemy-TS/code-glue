@@ -9,17 +9,17 @@ export const store = proxy({
   typesReady: false,
   automations: automationStore,
   typeWriter: '',
-  automationHeader: ''
+  globalTypes: ''
 
 })
 
 const setupStore = () => {
   return Promise.all([
-    fetch('http://localhost:3789/api/v1/types/debug', { method: 'GET' }).then((response) => response.text()),
+    fetch('http://localhost:3789/api/v1/types/hidden', { method: 'GET' }).then((response) => response.text()),
     fetch('http://localhost:3789/api/v1/type-writer', { method: 'GET' }).then((response) => response.text())
   ])
     .then(([header, types]) => {
-      store.automationHeader = header
+      store.globalTypes = header
       store.typeWriter = types
       store.typesReady = true
     })
