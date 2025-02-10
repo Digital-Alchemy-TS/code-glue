@@ -55,6 +55,7 @@ export function HeaderBlockService() {
       ...importStatements
         .entries()
         .map(([lib, statement]) => `import ${statement} from "${lib}";`),
+      ``,
       ...dayjsContent,
       ``,
       `const { ${[...boilerplateKeys, ...serviceExtract.values()].join(", ")} } =`,
@@ -66,13 +67,20 @@ export function HeaderBlockService() {
   function hiddenBlock() {
     return [
       `import { TServiceParams, is } from "@digital-alchemy/core";`,
-      `import { LIB_HASS } from "@digital-alchemy/hass";`,
-      `import { LIB_SYNAPSE } from "@digital-alchemy/synapse";`,
+      ...importStatements
+        .entries()
+        .map(([lib, statement]) => `import ${statement} from "${lib}";`),
+      ``,
+      ...dayjsContent,
+      ``,
       `declare global {`,
-      `  var hass: TServiceParams["hass"];`,
-      `  var synapse: TServiceParams["hass"];`,
+      ...[...boilerplateKeys, ...serviceExtract.values()].map(
+        i => `  var ${i}: TServiceParams["${i}"];`,
+      ),
       `}`,
+      ``,
       `export {};`,
+      ``,
     ].join(`\n`);
   }
 
