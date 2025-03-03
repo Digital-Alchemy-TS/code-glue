@@ -35,7 +35,7 @@
     "@fastify/type-provider-typebox": "^5.1.0",
     "@mfellner/valtio-factory": "^1.0.2",
     "@monaco-editor/react": "^4.7.0",
-    "@react-navigation/native": "^6.0.2",
+    "@react-navigation/native": "^7.0.15",
     "@sinclair/typebox": "^0.34.28",
     "@typescript/ata": "^0.9.7",
     "babel-plugin-module-resolver": "^5.0.2",
