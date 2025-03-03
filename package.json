@@ -48,7 +48,7 @@
     "expo-router": "~3.5.23",
     "expo-splash-screen": "~0.29.22",
     "expo-status-bar": "~1.12.1",
-    "expo-system-ui": "~3.0.7",
+    "expo-system-ui": "~4.0.8",
     "expo-web-browser": "~13.0.3",
     "fastify": "^5.2.1",
     "ioredis": "^5.5.0",
