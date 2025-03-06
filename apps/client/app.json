@@ -4,6 +4,7 @@
     "slug": "code-glue",
     "version": "1.0.0",
     "scheme": "codeglue",
+    "newArchEnabled": true,
     "userInterfaceStyle": "automatic",
     "platforms": ["web"],
     "plugins": ["expo-router", "expo-font"],
