@@ -4,6 +4,7 @@ import { LIB_METRICS } from "../metrics/index.mts";
 import {
   AutomationTable,
   SynapseEntitiesTable,
+  TypesTable,
   VariablesTable,
 } from "./services/index.mts";
 
@@ -14,6 +15,7 @@ export const LIB_DATABASE = CreateLibrary({
   services: {
     automation: AutomationTable,
     entity: SynapseEntitiesTable,
+    types: TypesTable,
     variable: VariablesTable,
   },
 });

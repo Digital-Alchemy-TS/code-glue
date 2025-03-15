@@ -47,7 +47,6 @@ export default [
       "plugin:@typescript-eslint/recommended",
       "plugin:jsonc/recommended-with-jsonc",
       "plugin:prettier/recommended",
-      "plugin:unicorn/recommended",
     )
     .map(config => ({ ...config, files: ["src/**/*.mts"] })),
 

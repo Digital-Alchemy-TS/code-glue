@@ -13,6 +13,7 @@ import {
   AppController,
   AutomationController,
   SynapseEntitiesController,
+  TypesController,
   VariablesController,
 } from "./controllers/index.mts";
 import { AutomationLogic } from "./services/automation.service.mts";
@@ -48,10 +49,12 @@ export const CODE_GLUE_APP = CreateApplication({
     LIB_HTTP,
   ],
   name: "code_glue",
+  priorityInit: ["automation", "header", "logger", "stats"],
   services: {
     AppController,
     AutomationController,
     SynapseEntitiesController,
+    TypesController,
     VariablesController,
     automation: AutomationLogic,
     header: HeaderBlockService,
