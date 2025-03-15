@@ -2107,7 +2107,7 @@ __metadata:
     expo-system-ui: "npm:~4.0.8"
     expo-web-browser: "npm:~14.0.2"
     fastify: "npm:^5.2.1"
-    globals: "npm:^15.12.0"
+    globals: "npm:^16.0.0"
     ioredis: "npm:^5.6.0"
     jest: "npm:^29.7.0"
     jest-environment-node: "npm:^29.7.0"
@@ -9529,17 +9529,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^15.12.0":
-  version: 15.12.0
-  resolution: "globals@npm:15.12.0"
-  checksum: 10c0/f34e0a1845b694f45188331742af9f488b07ba7440a06e9d2039fce0386fbbfc24afdbb9846ebdccd4092d03644e43081c49eb27b30f4b88e43af156e1c1dc34
-  languageName: node
-  linkType: hard
-
 "globals@npm:^15.15.0":
   version: 15.15.0
   resolution: "globals@npm:15.15.0"
   checksum: 10c0/f9ae80996392ca71316495a39bec88ac43ae3525a438b5626cd9d5ce9d5500d0a98a266409605f8cd7241c7acf57c354a48111ea02a767ba4f374b806d6861fe
+  languageName: node
+  linkType: hard
+
+"globals@npm:^16.0.0":
+  version: 16.0.0
+  resolution: "globals@npm:16.0.0"
+  checksum: 10c0/8906d5f01838df64a81d6c2a7b7214312e2216cf65c5ed1546dc9a7d0febddf55ffa906cf04efd5b01eec2534d6f14859a89535d1a68241832810e41ef3fd5bb
   languageName: node
   linkType: hard
 
