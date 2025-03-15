@@ -22,7 +22,7 @@ export function HassPatchService({
   params,
   event,
   patch,
-  internal: { removeFn },
+  internal,
 }: TServiceParams) {
   function build(
     context: TContext,
@@ -37,7 +37,7 @@ export function HassPatchService({
     // by repeatedly creating refs for the same entity
     const loaded = new Map<PICK_ENTITY, ByIdProxy<PICK_ENTITY>>();
     remover.register(
-      is.removeFn(() => refs.forEach(({ remove }) => remove())),
+      internal.removeFn(() => refs.forEach(({ remove }) => remove())),
       `hass`,
     );
 
@@ -47,7 +47,7 @@ export function HassPatchService({
     ): ByIdProxy<ENTITY> {
       if (!loaded.has(entity_id)) {
         const out = id(entity_id);
-        refs.add(removeFn(() => out.removeAllListeners()));
+        refs.add(internal.removeFn(() => out.removeAllListeners()));
         logger.trace({ entity_id }, "create reference");
         loaded.set(entity_id, out);
         return out;
@@ -65,9 +65,9 @@ export function HassPatchService({
         ...socket,
         onConnect(callback) {
           const { remove } = hass.socket.onConnect(callback);
-          const rm = removeFn(() => remove());
+          const rm = internal.removeFn(() => remove());
           refs.add(rm);
-          return removeFn(() => {
+          return internal.removeFn(() => {
             if (!refs.has(rm)) {
               return;
             }
@@ -77,9 +77,9 @@ export function HassPatchService({
         },
         onEvent(data) {
           const { remove } = hass.socket.onEvent(data);
-          const rm = removeFn(() => remove());
+          const rm = internal.removeFn(() => remove());
           refs.add(rm);
-          return removeFn(() => {
+          return internal.removeFn(() => {
             if (!refs.has(rm)) {
               return;
             }
