@@ -1,6 +1,6 @@
 {
   "extends": ["../../tsconfig.client"],
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "../server/src/**/*.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "../../packages/paradigm", ".expo/types/**/*.ts", "expo-env.d.ts", "../server/src/**/*.ts"],
   "compilerOptions": {
     "noEmit": true,
     "composite": true,
