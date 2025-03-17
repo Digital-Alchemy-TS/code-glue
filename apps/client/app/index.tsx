@@ -1,5 +1,10 @@
+import { Test } from 'paradigm'
 import { Text } from 'react-native'
 
 export default function Home() {
-  return <Text>Welcome!</Text>
+  return (
+    <Test>
+      <Text>Welcome!</Text>
+    </Test>
+  )
 }

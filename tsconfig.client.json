@@ -11,7 +11,10 @@
       ],
       "@code-glue/server/*": [
         "apps/server/src/*"
-      ]
+      ],
+      "paradigm": [
+        "./packages/paradigm"
+      ],
     },
     // Type checking
     "strict": true,
@@ -24,6 +27,12 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-
+    "plugins": [
+      {
+        // docs: https://github.com/nderscore/tamagui-typescript-plugin#readme
+        "name": "@nderscore/tamagui-typescript-plugin",
+        "pathToApp": "apps/next"
+      }
+    ]
   },
 }
