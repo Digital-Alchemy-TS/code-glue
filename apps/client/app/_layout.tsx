@@ -1,7 +1,7 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { Link, Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
+import { ParadigmProvider } from 'paradigm'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
 import { Text, View } from 'react-native'
@@ -9,13 +9,10 @@ import { useSnapshot } from 'valtio'
 
 import { store } from '../store'
 
-import { useColorScheme } from '@/hooks/useColorScheme'
-
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme()
   const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   })
@@ -34,7 +31,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ParadigmProvider>
       <View style={{ width: '100%', height: '100%', flexDirection: 'row' }}>
         <View style={{ width: 270, height: '100%', flexDirection: 'column', backgroundColor: 'grey' }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -54,6 +51,6 @@ export default function RootLayout() {
           <Stack.Screen name="+not-found" />
         </Stack>
       </View>
-    </ThemeProvider>
+    </ParadigmProvider>
   )
 }
