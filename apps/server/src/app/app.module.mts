@@ -20,6 +20,7 @@ import { AutomationLogic } from "./services/automation.service.mts";
 import { HeaderBlockService } from "./services/header-block.service.mts";
 import { CodeGlueLogger } from "./services/logger.service.mts";
 import { StatsService } from "./services/stats.service.mts";
+import { TypeWriterService } from "./services/type-writer.service.mts";
 
 export const CODE_GLUE_APP = CreateApplication({
   configuration: {
@@ -60,6 +61,7 @@ export const CODE_GLUE_APP = CreateApplication({
     header: HeaderBlockService,
     logger: CodeGlueLogger,
     stats: StatsService,
+    type_build: TypeWriterService,
   },
 });
 

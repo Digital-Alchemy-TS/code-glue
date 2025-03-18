@@ -11,7 +11,6 @@ import { LogSearchParams } from "../services/logger.service.mts";
  */
 export function AppController({
   http: { controller },
-  type_build,
   config,
   code_glue,
 }: TServiceParams) {
@@ -20,7 +19,7 @@ export function AppController({
       .get("/logs", { schema: { params: LogSearchParams } }, ({ params }) =>
         code_glue.logger(params),
       )
-      .get("/type-writer", () => type_build.build())
+      .get("/type-writer", () => code_glue.type_build.build())
       .get("/stats", () => {
         return false;
       }),
