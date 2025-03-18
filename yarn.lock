@@ -1822,7 +1822,7 @@ __metadata:
     dayjs: "npm:^1.11.13"
     eslint: "npm:^9.21.0"
     eslint-config-expo: "npm:~8.0.1"
-    eslint-config-prettier: "npm:^10.0.2"
+    eslint-config-prettier: "npm:^10.1.1"
     eslint-plugin-import: "npm:^2.31.0"
     eslint-plugin-jsonc: "npm:^2.19.1"
     eslint-plugin-no-unsanitized: "npm:^4.1.2"
@@ -1862,7 +1862,7 @@ __metadata:
     react-native-safe-area-context: "npm:4.12.0"
     react-native-screens: "npm:~4.4.0"
     react-native-url-polyfill: "npm:^2.0.0"
-    react-native-web: "npm:~0.19.10"
+    react-native-web: "npm:~0.19.13"
     react-refresh: "npm:^0.16.0"
     react-test-renderer: "npm:18.2.0"
     ts-jest: "npm:^29.2.6"
@@ -5176,7 +5176,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tamagui/babel-plugin@npm:^1.116.12":
+"@tamagui/babel-plugin@npm:^1.125.26":
   version: 1.125.26
   resolution: "@tamagui/babel-plugin@npm:1.125.26"
   dependencies:
@@ -5357,7 +5357,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tamagui/config@npm:^1.116.12":
+"@tamagui/config@npm:^1.125.26":
   version: 1.125.26
   resolution: "@tamagui/config@npm:1.125.26"
   dependencies:
@@ -5723,7 +5723,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tamagui/metro-plugin@npm:^1.116.12":
+"@tamagui/metro-plugin@npm:^1.125.26":
   version: 1.125.26
   resolution: "@tamagui/metro-plugin@npm:1.125.26"
   dependencies:
@@ -6557,9 +6557,9 @@ __metadata:
     "@storybook/react-native": "npm:^8.3.10"
     "@storybook/react-webpack5": "npm:^8.4.2"
     "@storybook/test": "npm:^8.4.2"
-    "@tamagui/babel-plugin": "npm:^1.116.12"
-    "@tamagui/config": "npm:^1.116.12"
-    "@tamagui/metro-plugin": "npm:^1.116.12"
+    "@tamagui/babel-plugin": "npm:^1.125.26"
+    "@tamagui/config": "npm:^1.125.26"
+    "@tamagui/metro-plugin": "npm:^1.125.26"
     "@tiltshift/config": "npm:^2.1.0"
     "@types/babel__core": "npm:^7"
     "@types/node": "npm:^22.8.4"
@@ -6578,8 +6578,8 @@ __metadata:
     expo-system-ui: "npm:~4.0.8"
     expo-web-browser: "npm:~14.0.2"
     prop-types: "npm:^15.8.1"
-    react: "npm:18.2.0"
-    react-dom: "npm:18.2.0"
+    react: "npm:18.3.1"
+    react-dom: "npm:18.3.1"
     react-native: "npm:0.76.7"
     react-native-gesture-handler: "npm:~2.20.2"
     react-native-reanimated: "npm:~3.16.1"
@@ -6587,10 +6587,10 @@ __metadata:
     react-native-screens: "npm:~4.4.0"
     react-native-svg: "npm:15.8.0"
     react-native-url-polyfill: "npm:^2.0.0"
-    react-native-web: "npm:~0.19.10"
+    react-native-web: "npm:~0.19.13"
     react-refresh: "npm:^0.14.2"
     storybook: "npm:^8.4.2"
-    tamagui: "npm:^1.116.12"
+    tamagui: "npm:^1.125.26"
   languageName: unknown
   linkType: soft
 
@@ -10777,7 +10777,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^10.0.2":
+"eslint-config-prettier@npm:^10.1.1":
   version: 10.1.1
   resolution: "eslint-config-prettier@npm:10.1.1"
   peerDependencies:
@@ -17632,7 +17632,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-web@npm:^0.19.0, react-native-web@npm:~0.19.10":
+"react-native-web@npm:^0.19.0, react-native-web@npm:~0.19.13":
   version: 0.19.13
   resolution: "react-native-web@npm:0.19.13"
   dependencies:
@@ -19739,7 +19739,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tamagui@npm:^1.116.12":
+"tamagui@npm:^1.125.26":
   version: 1.125.26
   resolution: "tamagui@npm:1.125.26"
   dependencies:
