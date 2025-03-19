@@ -7,6 +7,7 @@ import { automationStore, createAutomation } from './automation'
 export const store = proxy({
   isReady: false,
   typesReady: false,
+  serverError: false,
   automations: automationStore,
   typeWriter: '',
   globalTypes: ''
@@ -23,8 +24,8 @@ const setupStore = () => {
       store.typeWriter = types
       store.typesReady = true
     })
-    .catch((error) => {
-      console.error(error)
+    .catch(() => {
+      store.serverError = true
     })
 }
 
@@ -47,8 +48,9 @@ const getAutomationsFromServer = () => {
       // once we have all the automations mark the store as ready
       store.isReady = true
     })
-    .catch((error) => {
-      console.error(error)
+    .catch(() => {
+      store.serverError = true
+      store.isReady = true
     })
 }
 
