@@ -13,12 +13,14 @@ import {
   AppController,
   AutomationController,
   SynapseEntitiesController,
+  TypesController,
   VariablesController,
 } from "./controllers/index.mts";
 import { AutomationLogic } from "./services/automation.service.mts";
 import { HeaderBlockService } from "./services/header-block.service.mts";
 import { CodeGlueLogger } from "./services/logger.service.mts";
 import { StatsService } from "./services/stats.service.mts";
+import { TypeWriterService } from "./services/type-writer.service.mts";
 
 export const CODE_GLUE_APP = CreateApplication({
   configuration: {
@@ -48,15 +50,18 @@ export const CODE_GLUE_APP = CreateApplication({
     LIB_HTTP,
   ],
   name: "code_glue",
+  priorityInit: ["automation", "header", "logger", "stats"],
   services: {
     AppController,
     AutomationController,
     SynapseEntitiesController,
+    TypesController,
     VariablesController,
     automation: AutomationLogic,
     header: HeaderBlockService,
     logger: CodeGlueLogger,
     stats: StatsService,
+    type_build: TypeWriterService,
   },
 });
 

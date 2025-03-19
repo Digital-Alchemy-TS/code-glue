@@ -29,7 +29,7 @@ export function BoilerplatePatchService({
     const scheduler = REAL_BOILERPLATE(internal)?.scheduler?.(context);
     const refs = patch.tracker.track(context, new Set());
     remover.register(
-      is.removeFn(() => {
+      internal.removeFn(() => {
         refs.forEach(({ remove }) => remove());
       }),
       `boilerplate`,

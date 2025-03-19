@@ -20,38 +20,19 @@ const boilerplateKeys = [
   "config",
 ];
 
-export type HeaderImportStatement = {
-  /**
-   * ex: "@digital-alchemy/hass"
-   */
-  package: string;
-  /**
-   * ex: "{ LIB_HASS, PICK_ENTITY }"
-   * ex: "dayjs"
-   */
-  statement: string;
-  /**
-   * Property to extract from TServiceParams.
-   * Only relevant for DA based libraries
-   */
-  lib_name?: string;
-  /**
-   *
-   */
-  init?: string;
-};
+const CORE_IMPORT = `import { TServiceParams, is, CronExpression } from "@digital-alchemy/core";`;
+
+const importStatements = new Map([
+  ["@digital-alchemy/hass", "{ LIB_HASS, PICK_ENTITY }"],
+  ["@digital-alchemy/synapse", "{ LIB_SYNAPSE }"],
+  ["@digital-alchemy/automation", "{ LIB_AUTOMATION }"],
+]);
+const serviceExtract = new Set(["hass", "automation", "synapse"]);
 
 export function HeaderBlockService() {
-  const importStatements = new Map([
-    ["@digital-alchemy/hass", "{ LIB_HASS, PICK_ENTITY }"],
-    ["@digital-alchemy/synapse", "{ LIB_SYNAPSE }"],
-    ["@digital-alchemy/automation", "{ LIB_AUTOMATION }"],
-  ]);
-  const serviceExtract = new Set(["hass", "automation", "synapse"]);
-
   function debugBlock() {
     return [
-      `import { TServiceParams, is } from "@digital-alchemy/core";`,
+      CORE_IMPORT,
       ...importStatements
         .entries()
         .map(([lib, statement]) => `import ${statement} from "${lib}";`),
@@ -66,7 +47,7 @@ export function HeaderBlockService() {
 
   function hiddenBlock() {
     return [
-      `import { TServiceParams, is } from "@digital-alchemy/core";`,
+      CORE_IMPORT,
       ...importStatements
         .entries()
         .map(([lib, statement]) => `import ${statement} from "${lib}";`),
