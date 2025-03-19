@@ -1,6 +1,6 @@
 import { proxy } from 'valtio'
 
-import { StoredAutomation } from '@code-glue/server/src/utils'
+import { StoredAutomation } from '@code-glue/server/utils/index.mjs'
 
 import { automationStore, createAutomation } from './automation'
 
