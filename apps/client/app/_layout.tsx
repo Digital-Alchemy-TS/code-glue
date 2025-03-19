@@ -18,7 +18,7 @@ export default function RootLayout() {
   })
   const { isReady: storeIsReady, typesReady, automations } = useSnapshot(store)
 
-  const appReady = fontsLoaded && storeIsReady && typesReady
+  const appReady = fontsLoaded && storeIsReady && (typesReady || store.serverError)
 
   useEffect(() => {
     if (appReady) {
@@ -32,6 +32,11 @@ export default function RootLayout() {
 
   return (
     <ParadigmProvider>
+      {store.serverError && (
+        <View style={{ backgroundColor: 'red' }}>
+          <Text style={{ color: 'white' }}>Server Error: Can't contact code glue server</Text>
+        </View>
+      )}
       <View style={{ width: '100%', height: '100%', flexDirection: 'row' }}>
         <View style={{ width: 270, height: '100%', flexDirection: 'column', backgroundColor: 'grey' }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
