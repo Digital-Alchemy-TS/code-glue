@@ -1,20 +1,11 @@
 {
-  "extends": [
-    "expo/tsconfig.base",
-    "./tsconfig"
-  ],
+  "extends": ["expo/tsconfig.base", "./tsconfig"],
   "compilerOptions": {
     "noEmit": true,
     "paths": {
-      "@/*": [
-        "apps/client/*"
-      ],
-      "@code-glue/server/*": [
-        "apps/server/src/*"
-      ],
-      "paradigm": [
-        "./packages/paradigm"
-      ],
+      "@/*": ["./apps/client/*"],
+      "@code-glue/server/*": ["./apps/server/src/*"],
+      "paradigm": ["./packages/paradigm"]
     },
     // Type checking
     "strict": true,
@@ -31,8 +22,8 @@
       {
         // docs: https://github.com/nderscore/tamagui-typescript-plugin#readme
         "name": "@nderscore/tamagui-typescript-plugin",
-        "pathToApp": "apps/next"
+        "pathToApp": "apps/client"
       }
     ]
-  },
+  }
 }
