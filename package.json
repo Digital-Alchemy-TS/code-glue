@@ -70,7 +70,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",
-    "@babel/helpers": "^7.26.9",
+    "@babel/helpers": "^7.26.10",
     "@cspell/eslint-plugin": "^8.17.5",
     "@eslint/compat": "^1.2.7",
     "@eslint/eslintrc": "^3.3.0",
