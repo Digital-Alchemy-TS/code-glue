@@ -23,10 +23,10 @@
   "dependencies": {
     "@digital-alchemy/automation": "^25.3.1",
     "@digital-alchemy/core": "^25.2.2",
-    "@digital-alchemy/hass": "^25.3.1",
+    "@digital-alchemy/hass": "^25.3.2",
     "@digital-alchemy/synapse": "^25.3.1",
     "@digital-alchemy/terminal": "^24.11.1",
-    "@digital-alchemy/type-writer": "^25.3.1",
+    "@digital-alchemy/type-writer": "^25.3.2",
     "@expo/vector-icons": "^14.0.2",
     "@fastify/cors": "^11.0.0",
     "@fastify/helmet": "^13.0.1",
