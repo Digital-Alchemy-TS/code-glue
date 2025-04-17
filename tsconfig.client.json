@@ -18,6 +18,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
     "plugins": [
       {
         // docs: https://github.com/nderscore/tamagui-typescript-plugin#readme
