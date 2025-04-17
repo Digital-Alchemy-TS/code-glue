@@ -2,8 +2,23 @@ import { createFactory, Store } from '@mfellner/valtio-factory'
 import { v4 as uuid } from 'uuid'
 import { proxyMap } from 'valtio/utils'
 
+import { SynapseEntities, SynapseEntityCreateOptions, SynapseEntityUpdateOptions } from '@code-glue/server/utils/index.mts'
 
-import { SynapseEntities, SynapseEntityCreateOptions, SynapseEntityTypes, SynapseEntityUpdateOptions } from '@code-glue/server/utils/contracts/entities.mjs'
+
+// TODO move this somewhere shared https://github.com/Digital-Alchemy-TS/code-glue/issues/52 
+enum SynapseEntityTypes {
+  binary_sensor = "binary_sensor",
+  button = "button",
+  date = "date",
+  datetime = "datetime",
+  number = "number",
+  scene = "scene",
+  select = "select",
+  sensor = "sensor",
+  switch = "switch",
+  text = "text",
+  time = "time",
+}
 
 const synapseFactory = createFactory<SynapseEntities>({
   createDate: '',
