@@ -1,4 +1,5 @@
 import Editor from '@monaco-editor/react'
+import { Stack } from 'expo-router'
 import { editor } from 'monaco-editor'
 import React from 'react'
 import { Button, Text, TextInput, View } from 'react-native'
@@ -11,6 +12,7 @@ export default function Modal() {
 
   return (
     <View>
+      <Stack.Screen options={{ title: 'Create New Automation' }} />
       <Text>Create Automation</Text>
       <TextInput
         style={{ height: 40, width: '100%', margin: 12, borderWidth: 1, padding: 10 }}

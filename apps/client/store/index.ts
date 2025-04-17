@@ -1,16 +1,22 @@
 import { proxy } from 'valtio'
 
-import { StoredAutomation } from '@code-glue/server/utils/index.mjs'
+import { StoredAutomation, SharedVariables } from '@code-glue/server/utils/index.mjs'
 
 import { automationStore, createAutomation } from './automation'
+import { variableStore, createVariable } from './variables'
 
 export const store = proxy({
   isReady: false,
   typesReady: false,
   serverError: false,
   automations: automationStore,
+  variables: variableStore,
+  /**
+   * Set this to true to show the variable creation UI
+   */
+  createVariable: false,
   typeWriter: '',
-  globalTypes: ''
+  globalTypes: '',
 
 })
 
@@ -54,5 +60,25 @@ const getAutomationsFromServer = () => {
     })
 }
 
+const getVariablesFromServer = () => {
+  return fetch('http://localhost:3789/api/v1/variable', { method: 'GET' })
+    .then((response) => response.json())
+    .then((json: SharedVariables[]) => {
+      json.map((variable) => {
+        const existingVariable = store.variables.get(variable.id)
+
+        if (!existingVariable) {
+          createVariable(variable)
+        } else {
+          Object.keys(variable).forEach((key) => {
+            // @ts-ignore TODO, figure out how to type this UPDATE_CLIENT_TYPESCRIPT
+            existingVariable[key] = variable[key]
+          })
+        }
+      })
+    })
+}
+
 setupStore()
 getAutomationsFromServer()
+getVariablesFromServer()
