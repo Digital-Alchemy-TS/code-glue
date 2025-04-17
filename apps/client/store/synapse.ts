@@ -6,7 +6,7 @@ import { SynapseEntities, SynapseEntityCreateOptions, SynapseEntityUpdateOptions
 
 
 // TODO move this somewhere shared https://github.com/Digital-Alchemy-TS/code-glue/issues/52 
-enum SynapseEntityTypes {
+export enum SynapseEntityTypes {
   binary_sensor = "binary_sensor",
   button = "button",
   date = "date",

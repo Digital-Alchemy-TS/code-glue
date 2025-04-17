@@ -7,7 +7,7 @@ import 'react-native-reanimated'
 import { Text, View } from 'react-native'
 import { useSnapshot } from 'valtio'
 
-import { MainNav, Variables } from '../components'
+import { MainNav, Sidebar } from '../components'
 import { store } from '../store'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -47,9 +47,8 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="automation" />
           <Stack.Screen name="+not-found" />
-          <Stack.Screen name="variable" />
         </Stack>
-        <Variables />
+        <Sidebar />
       </View>
     </ParadigmProvider>
   )
