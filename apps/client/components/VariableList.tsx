@@ -6,7 +6,7 @@ import { store } from '../store'
 import { VariableListItem } from './VariableListItem'
 
 export const Variables = () => {
-  const { variables, createVariable } = useSnapshot(store)
+  const { variables } = useSnapshot(store)
 
   return (
     <YStack

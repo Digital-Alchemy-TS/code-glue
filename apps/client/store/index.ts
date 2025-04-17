@@ -1,22 +1,25 @@
 import { proxy } from 'valtio'
 
-import { StoredAutomation, SharedVariables } from '@code-glue/server/utils/index.mjs'
+import { StoredAutomation, SharedVariables, SynapseEntities } from '@code-glue/server/utils/index.mjs'
 
 import { automationStore, createAutomation } from './automation'
+import { createSynapseEntity, synapseStore } from './synapse'
 import { variableStore, createVariable } from './variables'
 
 export const store = proxy({
   isReady: false,
-  typesReady: false,
   serverError: false,
   automations: automationStore,
   variables: variableStore,
-  /**
-   * Set this to true to show the variable creation UI
-   */
-  createVariable: false,
+  synapse: synapseStore,
   typeWriter: '',
   globalTypes: '',
+  apiStatus: {
+    typesReady: false,
+    synapseReady: false,
+    variablesReady: false,
+    automationsReady: false,
+  }
 
 })
 
@@ -28,7 +31,7 @@ const setupStore = () => {
     .then(([header, types]) => {
       store.globalTypes = header
       store.typeWriter = types
-      store.typesReady = true
+      store.apiStatus.typesReady = true
     })
     .catch(() => {
       store.serverError = true
@@ -52,6 +55,7 @@ const getAutomationsFromServer = () => {
         }
       })
       // once we have all the automations mark the store as ready
+      store.apiStatus.automationsReady = true
       store.isReady = true
     })
     .catch(() => {
@@ -76,9 +80,37 @@ const getVariablesFromServer = () => {
           })
         }
       })
+      store.apiStatus.variablesReady = true
+    }).catch(() => {
+      store.serverError = true
+      store.isReady = true
+    })
+}
+
+const getSynapseFromServer = () => {
+  return fetch('http://localhost:3789/api/v1/synapse', { method: 'GET' })
+    .then((response) => response.json())
+    .then((json: SynapseEntities[]) => {
+      json.map((synapseEntity) => {
+        const existingSynapseEntity = store.synapse.get(synapseEntity.id)
+
+        if (!existingSynapseEntity) {
+          createSynapseEntity(synapseEntity)
+        } else {
+          Object.keys(synapseEntity).forEach((key) => {
+            // @ts-ignore TODO, figure out how to type this UPDATE_CLIENT_TYPESCRIPT
+            existingSynapseEntity[key] = synapseEntity[key]
+          })
+        }
+      })
+      store.apiStatus.synapseReady = true
+    }).catch(() => {
+      store.serverError = true
+      store.isReady = true
     })
 }
 
 setupStore()
 getAutomationsFromServer()
 getVariablesFromServer()
+getSynapseFromServer()
