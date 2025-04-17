@@ -1,10 +1,9 @@
-import { Slot, Stack } from 'expo-router'
+import { Stack } from 'expo-router'
 import React from 'react'
-import { View } from 'react-native'
 
 export default function ContentLayout() {
   return (
-    <Stack>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen
         name="create"

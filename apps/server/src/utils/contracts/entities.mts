@@ -48,11 +48,21 @@ export const SynapseEntities = Type.Object(
 export type SynapseEntities = typeof SynapseEntities.static;
 
 export const SynapseEntityCreateOptions = Type.Omit(SynapseEntities, [
+  "id",
   "lastUpdate",
   "createDate",
 ]);
 export type SynapseEntityCreateOptions =
   typeof SynapseEntityCreateOptions.static;
+
+export const SynapseEntityUpdateOptions = Type.Omit(
+  SynapseEntityCreateOptions,
+  ["id"],
+);
+
+export type SynapseEntityUpdateOptions = Partial<
+  typeof SynapseEntityUpdateOptions.static
+>;
 
 export const SynapseEntityRow = Type.Intersect([
   Type.Omit(SynapseEntities, ["createDate", "lastUpdate", "labels"]),

@@ -1,27 +1,28 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { Link, Stack } from 'expo-router'
+import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
+import { ParadigmProvider } from 'paradigm'
 import { useEffect } from 'react'
 import 'react-native-reanimated'
 import { Text, View } from 'react-native'
 import { useSnapshot } from 'valtio'
 
+import { MainNav, Sidebar } from '../components'
 import { store } from '../store'
-
-import { useColorScheme } from '@/hooks/useColorScheme'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme()
   const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   })
-  const { isReady: storeIsReady, typesReady, automations } = useSnapshot(store)
+  const {
+    isReady: storeIsReady,
+    apiStatus: { typesReady },
+  } = useSnapshot(store)
 
-  const appReady = fontsLoaded && storeIsReady && typesReady
+  const appReady = fontsLoaded && storeIsReady && (typesReady || store.serverError)
 
   useEffect(() => {
     if (appReady) {
@@ -34,26 +35,21 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <View style={{ width: '100%', height: '100%', flexDirection: 'row' }}>
-        <View style={{ width: 270, height: '100%', flexDirection: 'column', backgroundColor: 'grey' }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text>Automations</Text>
-            <Link href="/automation/create">
-              <Text>+</Text>
-            </Link>
-          </View>
-          {Array.from(automations, ([, automation]) => (
-            <Link key={automation.id} href={`/automation/${automation.id}`}>
-              <Text>{automation.title}</Text>
-            </Link>
-          ))}
+    <ParadigmProvider>
+      {store.serverError && (
+        <View style={{ backgroundColor: 'red' }}>
+          <Text style={{ color: 'white' }}>Server Error: Can&rsquo;t contact code glue server</Text>
         </View>
-        <Stack>
+      )}
+
+      <View style={{ width: '100%', height: '100%', flexDirection: 'row' }}>
+        <MainNav />
+        <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="automation" />
           <Stack.Screen name="+not-found" />
         </Stack>
+        <Sidebar />
       </View>
-    </ThemeProvider>
+    </ParadigmProvider>
   )
 }
