@@ -161,7 +161,7 @@ export const VariableListItem = ({ variable: variableSnapshot }: VariableListIte
           }}
         >
           <XStack justifyContent="space-between" alignItems="center">
-            <YStack>
+            <YStack alignItems="flex-start">
               <SizableText size="$4">{variableSnapshot.title}</SizableText>
               <SizableText size="$3" backgroundColor="$blue10" color="$gray1" padding={4} borderRadius={4}>
                 {variableSnapshot.type}
