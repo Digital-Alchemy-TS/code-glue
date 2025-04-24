@@ -26,6 +26,7 @@ export default function AutomationDetail() {
       <Text>Automation ID: {automationSnapshot.id}</Text>
       <Text>Docs: {automationSnapshot.documentation}</Text>
       <Editor
+        path={`/automations/${automationSnapshot.id}.ts`}
         defaultValue={automationSnapshot.body}
         onChange={(body) => setBody(body)}
         globalTypes={globalTypes}

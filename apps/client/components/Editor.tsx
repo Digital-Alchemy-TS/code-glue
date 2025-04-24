@@ -9,7 +9,11 @@ import { store } from '../store'
 
 export type EditorProps = {
   /**
-   * Starting value for the editor. Only read once on init.
+   * The 'path' for the current file. This should match up with whatever is sent for default value.
+   */
+  path: string
+  /**
+   * Starting value for the editor and the given path. This should be updated as the path changes, but will only be read in once for each path value.
    */
   defaultValue: string
   /**
@@ -23,7 +27,7 @@ export type EditorProps = {
   globalTypes?: string
 }
 
-export const Editor: React.FC<EditorProps> = ({ defaultValue, onChange, globalTypes }) => {
+export const Editor: React.FC<EditorProps> = ({ path, defaultValue, onChange, globalTypes }) => {
   const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
   const monacoRef = React.useRef<Monaco | null>(null)
 
@@ -37,14 +41,14 @@ export const Editor: React.FC<EditorProps> = ({ defaultValue, onChange, globalTy
           receivedFile: (code: string, _path: string) => {
             const monaco = monacoRef.current!
 
-            const path = 'file://' + _path
+            const filePath = 'file://' + _path
 
             // load in the local types in place of the default placeholder ones
-            if (path === 'file:///node_modules/@digital-alchemy/hass/dist/dynamic.d.mts') {
+            if (filePath === 'file:///node_modules/@digital-alchemy/hass/dist/dynamic.d.mts') {
               code = store.typeWriter
             }
 
-            monaco.languages.typescript.typescriptDefaults.addExtraLib(code, path)
+            monaco.languages.typescript.typescriptDefaults.addExtraLib(code, filePath)
           },
         },
       })
@@ -94,8 +98,7 @@ export const Editor: React.FC<EditorProps> = ({ defaultValue, onChange, globalTy
       onChange={handleOnChange}
       onMount={handleOnMount}
       language="typescript"
-      defaultPath="index.ts"
-      path="index.ts"
+      path={path}
       options={{ minimap: { enabled: false }, tabSize: 2 }}
     />
   )
