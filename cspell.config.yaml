@@ -10,6 +10,7 @@ words:
   - fastify
   - hass
   - luxon
+  - nderscore
   - nocomment
   - sonarjs
   - tseslint

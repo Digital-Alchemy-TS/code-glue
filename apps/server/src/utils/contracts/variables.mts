@@ -20,11 +20,21 @@ export const SharedVariables = Type.Object(
 export type SharedVariables = typeof SharedVariables.static;
 
 export const SharedVariableCreateOptions = Type.Omit(SharedVariables, [
+  "id",
   "lastUpdate",
   "createDate",
 ]);
 export type SharedVariableCreateOptions =
   typeof SharedVariableCreateOptions.static;
+
+export const SharedVariableUpdateOptions = Type.Omit(
+  SharedVariableCreateOptions,
+  ["id"],
+);
+
+export type SharedVariableUpdateOptions = Partial<
+  typeof SharedVariableUpdateOptions.static
+>;
 
 export const SharedVariableRow = Type.Intersect([
   Type.Omit(SharedVariables, ["createDate", "lastUpdate", "labels"]),

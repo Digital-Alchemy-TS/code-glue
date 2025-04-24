@@ -1,4 +1,4 @@
-import { Redirect, useLocalSearchParams } from 'expo-router'
+import { Redirect, Stack, useLocalSearchParams } from 'expo-router'
 import React from 'react'
 import { Button, Text, View } from 'react-native'
 import { useSnapshot } from 'valtio'
@@ -12,7 +12,7 @@ export default function AutomationDetail() {
   const globalTypes = useSnapshot(store).globalTypes
 
   const automation = store.automations.get(id)!
-  const automationSnapshot = useSnapshot(store.automations.get(id)!)
+  const automationSnapshot = useSnapshot(automation)
   const [body, setBody] = React.useState(automationSnapshot.body)
 
   if (!id) {
@@ -21,6 +21,7 @@ export default function AutomationDetail() {
 
   return (
     <View>
+      <Stack.Screen options={{ title: automationSnapshot.title }} />
       <Text>Automation Name: {automationSnapshot.title}</Text>
       <Text>Automation ID: {automationSnapshot.id}</Text>
       <Text>Docs: {automationSnapshot.documentation}</Text>
