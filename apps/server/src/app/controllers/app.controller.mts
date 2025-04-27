@@ -19,7 +19,7 @@ export function AppController({
       .get("/logs", { schema: { params: LogSearchParams } }, ({ params }) =>
         code_glue.logger(params),
       )
-      .get("/type-writer", () => code_glue.type_build.build())
+      .get("/type-writer", async () => await code_glue.type_build.build())
       .get("/stats", () => {
         return false;
       }),

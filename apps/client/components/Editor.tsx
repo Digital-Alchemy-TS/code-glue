@@ -44,8 +44,14 @@ export const Editor: React.FC<EditorProps> = ({ path, defaultValue, onChange, gl
             const filePath = 'file://' + _path
 
             // load in the local types in place of the default placeholder ones
-            if (filePath === 'file:///node_modules/@digital-alchemy/hass/dist/dynamic.d.mts') {
-              code = store.typeWriter
+            if (path === 'file:///node_modules/@digital-alchemy/hass/dist/dev/mappings.d.mts') {
+              code = store.typeWriterMappings
+            }
+            if (path === 'file:///node_modules/@digital-alchemy/hass/dist/dev/registry.d.mts') {
+              code = store.typeWriterRegistry
+            }
+            if (path === 'file:///node_modules/@digital-alchemy/hass/dist/dev/services.d.mts') {
+              code = store.typeWriterServices
             }
 
             monaco.languages.typescript.typescriptDefaults.addExtraLib(code, filePath)
@@ -76,7 +82,10 @@ export const Editor: React.FC<EditorProps> = ({ path, defaultValue, onChange, gl
     editorRef.current = editor
 
     if (globalTypes) {
-      monaco.languages.typescript.typescriptDefaults.addExtraLib(globalTypes, 'file:///globals.ts')
+      monaco.languages.typescript.typescriptDefaults.addExtraLib(
+        store.typeWriter + '\n\n' + globalTypes,
+        'file:///globals.ts',
+      )
 
       // acquire types
       ata()(globalTypes)

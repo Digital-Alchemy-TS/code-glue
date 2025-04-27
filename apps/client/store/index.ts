@@ -12,26 +12,30 @@ export const store = proxy({
   automations: automationStore,
   variables: variableStore,
   synapse: synapseStore,
-  typeWriter: '',
   globalTypes: '',
   apiStatus: {
     typesReady: false,
     synapseReady: false,
     variablesReady: false,
     automationsReady: false,
-  }
+  },
 
+  typeWriterMappings: '',
+  typeWriterRegistry: '',
+  typeWriterServices: '',
 })
 
 const setupStore = () => {
   return Promise.all([
     fetch('http://localhost:3789/api/v1/types/hidden', { method: 'GET' }).then((response) => response.text()),
-    fetch('http://localhost:3789/api/v1/type-writer', { method: 'GET' }).then((response) => response.text())
+    fetch('http://localhost:3789/api/v1/type-writer', { method: 'GET' }).then((response) => response.json()),
   ])
     .then(([header, types]) => {
       store.globalTypes = header
-      store.typeWriter = types
       store.apiStatus.typesReady = true
+      store.typeWriterMappings = types.mappings
+      store.typeWriterRegistry = types.registry
+      store.typeWriterServices = types.services
     })
     .catch(() => {
       store.serverError = true
