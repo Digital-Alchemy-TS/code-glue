@@ -44,14 +44,14 @@ export const Editor: React.FC<EditorProps> = ({ path, defaultValue, onChange, gl
             const filePath = 'file://' + _path
 
             // load in the local types in place of the default placeholder ones
-            if (path === 'file:///node_modules/@digital-alchemy/hass/dist/dev/mappings.d.mts') {
-              code = store.typeWriterMappings
+            if (filePath === 'file:///node_modules/@digital-alchemy/hass/dist/dev/mappings.d.mts') {
+              code = store.typeWriter.mappings
             }
-            if (path === 'file:///node_modules/@digital-alchemy/hass/dist/dev/registry.d.mts') {
-              code = store.typeWriterRegistry
+            if (filePath === 'file:///node_modules/@digital-alchemy/hass/dist/dev/registry.d.mts') {
+              code = store.typeWriter.registry
             }
-            if (path === 'file:///node_modules/@digital-alchemy/hass/dist/dev/services.d.mts') {
-              code = store.typeWriterServices
+            if (filePath === 'file:///node_modules/@digital-alchemy/hass/dist/dev/services.d.mts') {
+              code = store.typeWriter.services
             }
 
             monaco.languages.typescript.typescriptDefaults.addExtraLib(code, filePath)

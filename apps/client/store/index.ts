@@ -19,10 +19,11 @@ export const store = proxy({
     variablesReady: false,
     automationsReady: false,
   },
-
-  typeWriterMappings: '',
-  typeWriterRegistry: '',
-  typeWriterServices: '',
+  typeWriter: {
+    mappings: '',
+    registry: '',
+    services: '',
+  }
 })
 
 const setupStore = () => {
@@ -33,9 +34,9 @@ const setupStore = () => {
     .then(([header, types]) => {
       store.globalTypes = header
       store.apiStatus.typesReady = true
-      store.typeWriterMappings = types.mappings
-      store.typeWriterRegistry = types.registry
-      store.typeWriterServices = types.services
+      store.typeWriter.mappings = types.mappings
+      store.typeWriter.registry = types.registry
+      store.typeWriter.services = types.services
     })
     .catch(() => {
       store.serverError = true
