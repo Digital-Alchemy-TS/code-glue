@@ -1860,7 +1860,7 @@ __metadata:
     expo-system-ui: "npm:~4.0.8"
     expo-web-browser: "npm:~14.0.2"
     fastify: "npm:^5.2.1"
-    globals: "npm:^15.12.0"
+    globals: "npm:^16.1.0"
     ioredis: "npm:^5.6.0"
     jest: "npm:^29.7.0"
     jest-environment-node: "npm:^29.7.0"
@@ -12322,10 +12322,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^15.12.0, globals@npm:^15.15.0":
+"globals@npm:^15.15.0":
   version: 15.15.0
   resolution: "globals@npm:15.15.0"
   checksum: 10c0/f9ae80996392ca71316495a39bec88ac43ae3525a438b5626cd9d5ce9d5500d0a98a266409605f8cd7241c7acf57c354a48111ea02a767ba4f374b806d6861fe
+  languageName: node
+  linkType: hard
+
+"globals@npm:^16.1.0":
+  version: 16.1.0
+  resolution: "globals@npm:16.1.0"
+  checksum: 10c0/51df6319b5b9e679338baf058ecf1125af0d3148b97e57592deabd65fca5c5dcdcca321d7589282bd6afbea9f5a40bc7329c746f46d56780813d7d1c457209a2
   languageName: node
   linkType: hard
 
@@ -19891,11 +19898,11 @@ __metadata:
 
 "typescript@patch:typescript@npm%3A^5#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.6.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.8.2#optional!builtin<compat/typescript>":
   version: 5.8.3
-  resolution: "typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=cef18b"
+  resolution: "typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/92ea03509e06598948559ddcdd8a4ae5a7ab475766d5589f1b796f5731b3d631a4c7ddfb86a3bd44d58d10102b132cd4b4994dda9b63e6273c66d77d6a271dbd
+  checksum: 10c0/39117e346ff8ebd87ae1510b3a77d5d92dae5a89bde588c747d25da5c146603a99c8ee588c7ef80faaf123d89ed46f6dbd918d534d641083177d5fac38b8a1cb
   languageName: node
   linkType: hard
 
