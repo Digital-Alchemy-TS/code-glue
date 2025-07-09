@@ -1,0 +1,50 @@
+{
+  "name": "@code-glue/client",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "android": "one run:android",
+    "build:web": "one build",
+    "clean": "one clean",
+    "dev": "one dev",
+    "dev:clean": "one dev --clean",
+    "ios": "one run:ios",
+    "prebuild:native": "one prebuild",
+    "serve": "one serve",
+    "typecheck": "tsc --noEmit",
+    "upgrade:tamagui": "$npm_execpath up '*tamagui*' '@tamagui/*'"
+  },
+  "dependencies": {
+    "@tamagui/animations-css": "^1.128.1",
+    "@tamagui/animations-moti": "^1.128.1",
+    "@tamagui/colors": "^1.128.1",
+    "@tamagui/config": "^1.128.1",
+    "@tamagui/image-next": "^1.128.1",
+    "@tamagui/lucide-icons": "^1.128.1",
+    "@tamagui/react-native-media-driver": "^1.128.1",
+    "@tamagui/shorthands": "^1.128.1",
+    "@vxrn/color-scheme": "1.1.501",
+    "expo": "^53.0.4",
+    "expo-linear-gradient": "^14.1.5",
+    "expo-modules-core": "2.3.13",
+    "one": "1.1.501",
+    "react": "~19.0.0",
+    "react-dom": "~19.0.0",
+    "react-native": "~0.79.2",
+    "react-native-reanimated": "^3.18.0",
+    "react-native-safe-area-context": "5.4.1",
+    "react-native-screens": "4.10.0",
+    "react-native-svg": "15.12.0",
+    "react-native-web": "~0.20.0",
+    "tamagui": "^1.128.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@react-native-community/cli": "19.0.0",
+    "@tamagui/vite-plugin": "^1.128.1",
+    "@types/react": "^18.3.11",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  }
+}
