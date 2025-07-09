@@ -1,33 +1,37 @@
-# * Step 1: Build
-FROM oven/bun AS build
-WORKDIR /app
+ARG BUILD_FROM
+FROM $BUILD_FROM
 
-# - Install dependencies
-COPY package.json package.json
-COPY bun.lockb bun.lockb
+# Install Node.js and yarn
+RUN apt-get update && apt-get install -y \
+    curl \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g yarn \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN bun install
+# Copy git configuration and package files
+COPY .gitmodules package.json yarn.lock .yarnrc.yml tsconfig.json tsconfig.client.json ./
+COPY apps/client/package.json ./apps/client/
+COPY apps/server/package.json ./apps/server/
 
-# - Create build
-COPY ./src ./src
-RUN bun build \
-    --compile \
-    --sourcemap \
-    --bytecode \
-    --minify-whitespace \
-    --minify-syntax \
-    --target=bun \
-    --outfile server \
-    build/entry/prod/main.ts
+# Copy source code
+COPY apps/ ./apps/
+COPY packages/ ./packages/
 
-# * Step 2: Finalize
-FROM gcr.io/distroless/base
-LABEL org.opencontainers.image.source="https://github.com/Digital-Alchemy-TS/code-glue"
+# Install dependencies
+RUN yarn install --frozen-lockfile
 
-ARG GIT_COMMIT
-ENV GIT_COMMIT=$GIT_COMMIT
+# Build the server application
+RUN yarn server:build
 
-COPY --from=build /app/server server
+# Create a non-root user for security
+RUN useradd -r -u 1001 appuser && chown -R appuser:appuser /app
+USER appuser
 
-CMD ["./server"]
+# Expose port (server runs on 3789 by default)
 EXPOSE 3789
+
+# Start the server
+CMD ["yarn", "server:start"]
+

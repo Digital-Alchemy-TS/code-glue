@@ -3,6 +3,8 @@ ignorePaths: []
 dictionaryDefinitions: []
 dictionaries: []
 words:
+  - armhf
+  - armv
   - automations
   - cobertura
   - datetime
