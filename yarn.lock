@@ -1800,8 +1800,8 @@ __metadata:
     "@babel/helpers": "npm:^7.26.9"
     "@cspell/eslint-plugin": "npm:^8.17.5"
     "@digital-alchemy/automation": "npm:^25.3.1"
-    "@digital-alchemy/core": "npm:^25.2.2"
-    "@digital-alchemy/hass": "npm:^25.3.2"
+    "@digital-alchemy/core": "npm:^25.5.1"
+    "@digital-alchemy/hass": "npm:^25.5.1"
     "@digital-alchemy/synapse": "npm:^25.3.1"
     "@digital-alchemy/terminal": "npm:^24.11.1"
     "@digital-alchemy/type-writer": "npm:^25.3.2"
@@ -1893,9 +1893,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digital-alchemy/core@npm:^25.2.2":
-  version: 25.4.2
-  resolution: "@digital-alchemy/core@npm:25.4.2"
+"@digital-alchemy/core@npm:^25.5.1":
+  version: 25.5.1
+  resolution: "@digital-alchemy/core@npm:25.5.1"
   dependencies:
     chalk: "npm:^5.4.1"
     dayjs: "npm:^1.11.13"
@@ -1905,23 +1905,24 @@ __metadata:
     minimist: "npm:^1.2.8"
     node-cron: "npm:^3.0.3"
     uuid: "npm:^11.1.0"
-  checksum: 10c0/189f4f50c7621e1efe4ff482c4d96a03b4cb621d35408cb849538f85013023a1957f6ef66314132cfb7c013035a016f60c53bc6237a7f4a254f7f37d9dcdc5a1
+  checksum: 10c0/fe2dfea514a836090db3fa474715e002167d5e895bc05c8fb2288c4855db6b8d8e19916badca7823e08b44edaa8a1d15e4ffb7d398e54aa4a1a95b048f292800
   languageName: node
   linkType: hard
 
-"@digital-alchemy/hass@npm:^25.3.2":
-  version: 25.3.2
-  resolution: "@digital-alchemy/hass@npm:25.3.2"
+"@digital-alchemy/hass@npm:^25.5.1":
+  version: 25.5.1
+  resolution: "@digital-alchemy/hass@npm:25.5.1"
   dependencies:
-    "@digital-alchemy/core": "npm:^25.2.2"
     dayjs: "npm:^1.11.13"
     semver: "npm:^7.7.1"
-    type-fest: "npm:^4.37.0"
+    type-fest: "npm:^4.41.0"
     uuid: "npm:^11.1.0"
-    ws: "npm:^8.18.1"
+    ws: "npm:^8.18.2"
+  peerDependencies:
+    "@digital-alchemy/core": ^25.5.1
   bin:
     mock-assistant: scripts/mock-assistant.sh
-  checksum: 10c0/a66b17a6046e5c7b575834891f789e0007d1c8af7723419352cafb6d203283336d546e12444016f5be383fc33e7b0db3b1bc7289b9a611d001a8a8dce33ec2b2
+  checksum: 10c0/13788b1f2b9f2c92e70e7fcc8f6a20878c0af92708ef381ddc6172102ae71f3d57ed1e38d57f27468ddbc53903bc62b74577b635ac50bace456f5691d3b346fd
   languageName: node
   linkType: hard
 
@@ -19812,6 +19813,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"type-fest@npm:^4.41.0":
+  version: 4.41.0
+  resolution: "type-fest@npm:4.41.0"
+  checksum: 10c0/f5ca697797ed5e88d33ac8f1fec21921839871f808dc59345c9cf67345bfb958ce41bd821165dbf3ae591cedec2bf6fe8882098dfdd8dc54320b859711a2c1e4
+  languageName: node
+  linkType: hard
+
 "typed-array-buffer@npm:^1.0.3":
   version: 1.0.3
   resolution: "typed-array-buffer@npm:1.0.3"
@@ -21007,6 +21015,21 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10c0/e498965d6938c63058c4310ffb6967f07d4fa06789d3364829028af380d299fe05762961742971c764973dce3d1f6a2633fe8b2d9410c9b52e534b4b882a99fa
+  languageName: node
+  linkType: hard
+
+"ws@npm:^8.18.2":
+  version: 8.18.2
+  resolution: "ws@npm:8.18.2"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 10c0/4b50f67931b8c6943c893f59c524f0e4905bbd183016cfb0f2b8653aa7f28dad4e456b9d99d285bbb67cca4fedd9ce90dfdfaa82b898a11414ebd66ee99141e4
   languageName: node
   linkType: hard
 
