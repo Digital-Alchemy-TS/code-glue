@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "@digital-alchemy/automation": "^25.3.1",
-    "@digital-alchemy/core": "^25.2.2",
-    "@digital-alchemy/hass": "^25.3.2",
+    "@digital-alchemy/core": "^25.5.1",
+    "@digital-alchemy/hass": "^25.5.1",
     "@digital-alchemy/synapse": "^25.3.1",
     "@digital-alchemy/terminal": "^24.11.1",
     "@digital-alchemy/type-writer": "^25.3.2",
@@ -118,7 +118,7 @@
     "typescript-eslint": "^8.26.1",
     "vitest": "^3.0.8"
   },
-  "packageManager": "yarn@4.6.0",
+  "packageManager": "yarn@4.9.2",
   "volta": {
     "node": "22.11.0",
     "yarn": "4.5.1"
