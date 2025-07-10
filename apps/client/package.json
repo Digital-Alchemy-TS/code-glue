@@ -5,7 +5,8 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start --web --clear",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build": "expo export --platform web --output-dir ../../dist/client"
   },
   "dependencies": {
     "@code-glue/server": "*"
