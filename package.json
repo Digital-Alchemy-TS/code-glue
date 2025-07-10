@@ -9,7 +9,6 @@
   "description": "Super top secret idea",
   "repository": "https://github.com/Digital-Alchemy-TS/code-glue",
   "scripts": {
-    "postinstall": "git submodule update --init --recursive",
     "act": "act -j lint-and-build",
     "clean": "sh ./scripts/clean.sh",
     "server:cli": "yarn --cwd ./apps/server cli",
