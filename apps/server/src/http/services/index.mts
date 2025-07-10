@@ -6,3 +6,4 @@ export * from "./logger.service.mts";
 export * from "./middleware.service.mts";
 export * from "./routes.service.mts";
 export * from "./session.service.mts";
+export * from "./static.service.mts";
