@@ -10,28 +10,14 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy git configuration and package files
-COPY .gitmodules package.json yarn.lock .yarnrc.yml tsconfig.json tsconfig.client.json ./
-COPY apps/client/package.json ./apps/client/
-COPY apps/server/package.json ./apps/server/
-
-# Copy source code
-COPY apps/ ./apps/
-COPY packages/ ./packages/
+# add submodules
+RUN git submodule update --init --recursive
 
 # Install dependencies
 RUN yarn install --frozen-lockfile
 
-# Build the server application
-RUN yarn server:build
+# Build the client and server application
+RUN yarn build
 
-# Create a non-root user for security
-RUN useradd -r -u 1001 appuser && chown -R appuser:appuser /app
-USER appuser
-
-# Expose port (server runs on 3789 by default)
-EXPOSE 3789
-
-# Start the server
-CMD ["yarn", "server:start"]
-
+# Copy the builds to the container
+COPY dist ./
