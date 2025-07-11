@@ -55,4 +55,5 @@ ENV NODE_ENV=production
 EXPOSE 3789
 
 # Start the server (serves both API and static assets)
-CMD ["node", "dist/server/app/environments/prod/main.js"]
+# Map SUPERVISOR_TOKEN to HASS_TOKEN at runtime
+CMD ["sh", "-c", "export HASS_TOKEN=$SUPERVISOR_TOKEN && npx tsx dist/server/app/environments/prod/main.mjs"]
