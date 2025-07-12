@@ -3,9 +3,12 @@ description: "Write Automations and create entities in typescript."
 version: "1.0.0"
 slug: "code_glue"
 init: false
+homeassistant_api: true
 arch:
   - aarch64
   - amd64
   - armhf
   - armv7
   - i386
+ports:
+  3789/tcp: 3789
