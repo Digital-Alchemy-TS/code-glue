@@ -52,7 +52,7 @@ COPY --from=build /app/node_modules ./node_modules
 ENV NODE_ENV=production
 
 # Home Assistant addon configuration
-ENV HASS_BASE_URL=http://supervisor/core
+ENV HASS_BASE_URL=http://supervisor/core/api
 
 # Expose port 3789
 EXPOSE 3789
