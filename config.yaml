@@ -11,4 +11,6 @@ arch:
   - armv7
   - i386
 ports:
-  3789/tcp: 3789
+  80/tcp: 1331
+ports_description:
+  80/tcp: Web interface

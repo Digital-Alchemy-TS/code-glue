@@ -51,12 +51,5 @@ COPY --from=build /app/node_modules ./node_modules
 # Set production environment
 ENV NODE_ENV=production
 
-# Home Assistant addon configuration
-ENV HASS_BASE_URL=http://supervisor
-
-# Expose port 3789
-EXPOSE 3789
-
 # Start the server (serves both API and static assets)
-# Map SUPERVISOR_TOKEN to HASS_TOKEN at runtime
-CMD ["sh", "-c", "export HASS_TOKEN=$SUPERVISOR_TOKEN && npx tsx dist/server/app/environments/prod/main.mjs"]
+CMD ["npx", "tsx", "dist/server/app/environments/prod/main.mjs"]
