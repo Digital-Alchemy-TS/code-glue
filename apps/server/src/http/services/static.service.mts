@@ -36,7 +36,7 @@ export function StaticFileService({ logger, lifecycle, http }: TServiceParams) {
     // Register fastify-static plugin
     await http.bindings.httpServer.register(fastifyStatic, {
       prefix: "/",
-      root: clientPath, // No prefix
+      root: clientPath,
     });
 
     // Add catch-all route for SPA routing
