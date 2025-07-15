@@ -1,5 +1,6 @@
 import { TServiceParams } from "@digital-alchemy/core";
 import fastifyStatic from "@fastify/static";
+import { existsSync, readdirSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -19,8 +20,18 @@ export function StaticFileService({ logger, lifecycle, http }: TServiceParams) {
 
     logger.info("Enabling static file serving for client files");
 
-    // Path to the built client files - dist/client from project root
-    const clientPath = path.join(__dirname, "../../../../../dist/client");
+    const clientPath = path.resolve(process.cwd(), "dist/client");
+
+    // Debug logging
+    logger.info(
+      {
+        __dirname,
+        clientPath,
+        cwd: process.cwd(),
+        nodeEnv: process.env.NODE_ENV,
+      },
+      "Static file service configuration",
+    );
 
     // Register fastify-static plugin
     await http.bindings.httpServer.register(fastifyStatic, {
