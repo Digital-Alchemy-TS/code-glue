@@ -22,6 +22,12 @@ export function AppController({
       .get("/type-writer", async () => await code_glue.type_build.build())
       .get("/stats", () => {
         return false;
+      })
+      .get("/health", () => {
+        return {
+          status: "ok",
+          timestamp: new Date().toISOString(),
+        };
       }),
   );
 }

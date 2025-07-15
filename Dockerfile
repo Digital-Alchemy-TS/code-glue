@@ -1,33 +1,55 @@
-# * Step 1: Build
-FROM oven/bun AS build
+# Multi-stage Dockerfile for building client and server
+
+# Stage 1: Base stage - Install dependencies
+FROM node:22-alpine AS base
 WORKDIR /app
 
-# - Install dependencies
-COPY package.json package.json
-COPY bun.lockb bun.lockb
+# Install git (needed for submodules) and yarn
+RUN apk add --no-cache git
 
-RUN bun install
+# Enable Corepack to use the correct Yarn version
+RUN corepack enable
 
-# - Create build
-COPY ./src ./src
-RUN bun build \
-    --compile \
-    --sourcemap \
-    --bytecode \
-    --minify-whitespace \
-    --minify-syntax \
-    --target=bun \
-    --outfile server \
-    build/entry/prod/main.ts
+# Copy git configuration and submodule files
+COPY .git .git
+COPY .gitmodules .gitmodules
 
-# * Step 2: Finalize
-FROM gcr.io/distroless/base
-LABEL org.opencontainers.image.source="https://github.com/Digital-Alchemy-TS/code-glue"
+# Initialize and update submodules
+RUN git submodule update --init --recursive
 
-ARG GIT_COMMIT
-ENV GIT_COMMIT=$GIT_COMMIT
+# Copy package.json files first (for better caching)
+COPY package.json yarn.lock ./
+COPY apps/client/package.json ./apps/client/
+COPY apps/server/package.json ./apps/server/
 
-COPY --from=build /app/server server
+# Install all dependencies
+RUN yarn install
 
-CMD ["./server"]
-EXPOSE 3789
+# Stage 2: Build stage - Build client and server
+FROM base AS build
+
+# Copy all source files
+COPY . .
+
+# Run yarn install again to ensure all dependencies are available
+RUN yarn install
+
+# Build the applications (populates dist/**)
+RUN yarn build
+
+# Stage 3: Production stage - Final runtime image
+FROM node:22-alpine AS production
+
+WORKDIR /app
+
+# Copy built applications from build stage
+COPY --from=build /app/dist ./dist
+
+# Copy production node_modules from build stage
+COPY --from=build /app/node_modules ./node_modules
+
+# Set production environment
+ENV NODE_ENV=production
+
+# Start the server (serves both API and static assets)
+CMD ["npx", "tsx", "dist/server/app/environments/prod/main.mjs"]

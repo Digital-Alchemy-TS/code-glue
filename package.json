@@ -18,7 +18,9 @@
     "server:test": "yarn --cwd ./apps/server test",
     "client:dev": "yarn --cwd ./apps/client start",
     "client:lint": "yarn --cwd ./apps/client lint",
-    "dev": "concurrently --kill-others \"yarn server:start\" \"yarn client:dev\""
+    "client:build": "yarn --cwd ./apps/client build",
+    "dev": "concurrently --kill-others \"yarn server:start\" \"yarn client:dev\"",
+    "build": "yarn client:build && yarn server:build"
   },
   "dependencies": {
     "@digital-alchemy/automation": "^25.3.1",
@@ -30,6 +32,7 @@
     "@expo/vector-icons": "^14.0.2",
     "@fastify/cors": "^11.0.0",
     "@fastify/helmet": "^13.0.1",
+    "@fastify/static": "^8.0.2",
     "@fastify/swagger": "^9.4.2",
     "@fastify/swagger-ui": "^5.2.2",
     "@fastify/type-provider-typebox": "^5.1.0",

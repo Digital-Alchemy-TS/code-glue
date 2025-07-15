@@ -11,6 +11,7 @@ import {
   HttpLogger,
   HttpMiddleware,
   HttpSession,
+  StaticFileService,
 } from "./services/index.mts";
 import { RequestLocals } from "./types/index.mts";
 
@@ -95,6 +96,7 @@ export const LIB_HTTP = CreateLibrary({
     logger: HttpLogger,
     middleware: HttpMiddleware,
     session: HttpSession,
+    static: StaticFileService,
   },
 });
 

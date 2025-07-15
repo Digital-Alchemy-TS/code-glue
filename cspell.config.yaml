@@ -3,12 +3,15 @@ ignorePaths: []
 dictionaryDefinitions: []
 dictionaries: []
 words:
+  - armhf
+  - armv
   - automations
   - cobertura
   - datetime
   - falsey
   - fastify
   - hass
+  - hassio
   - luxon
   - nderscore
   - nocomment
