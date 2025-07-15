@@ -1,17 +1,22 @@
-name: "Code Glue"
-description: "Write Automations and create entities in typescript."
-version: "1.0.0"
-slug: "code_glue"
-init: false
-homeassistant_api: true
-hassio_api: true
+name: Code Glue
+version: 1.0.0
+slug: code_glue
+description: Write Automations and create entities in typescript.
 arch:
   - aarch64
   - amd64
   - armhf
   - armv7
   - i386
+url: https://github.com/Digital-Alchemy-TS/code-glue
+init: false
+homeassistant_api: true
+hassio_api: true
+ingress: true
+ingress_port: 3789
+panel_icon: mdi:application-braces
+panel_title: Code Glue
 ports:
-  80/tcp: 1331
+  80/tcp: 3789
 ports_description:
   80/tcp: Web interface
