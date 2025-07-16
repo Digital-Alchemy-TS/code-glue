@@ -22,32 +22,46 @@ export function StaticFileService({ logger, lifecycle, http }: TServiceParams) {
 
     const clientPath = path.resolve(process.cwd(), "dist/client");
 
-    // Debug logging
-    logger.info(
-      {
-        __dirname,
-        clientPath,
-        cwd: process.cwd(),
-        nodeEnv: process.env.NODE_ENV,
-      },
-      "Static file service configuration",
-    );
+    // Check if client directory exists
+    if (!existsSync(clientPath)) {
+      logger.warn({ clientPath }, "Client directory does not exist");
+      return;
+    }
 
-    // Register fastify-static plugin
+    // Register fastify-static plugin for all static assets
     await http.bindings.httpServer.register(fastifyStatic, {
-      prefix: "/",
       root: clientPath,
+      prefix: "/",
+      // Serve index files for directory requests
+      index: ["index.html"],
+      // Set proper MIME types and caching headers
+      setHeaders: (res, path) => {
+        // Set cache headers for static assets
+        if (path.includes("/_expo/static/")) {
+          res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+        } else if (path.endsWith(".html")) {
+          res.setHeader("Cache-Control", "no-cache");
+        }
+      },
     });
 
     // Add catch-all route for SPA routing
     http.bindings.httpServer.setNotFoundHandler(async (request, reply) => {
-      // Only serve index.html for non-API routes
+      // Only serve index.html for non-API routes and non-asset routes
       if (request.url.startsWith("/api/")) {
         // eslint-disable-next-line @typescript-eslint/no-magic-numbers
         return reply.code(404).send({ error: "Not Found" });
       }
 
-      // For all other routes, serve index.html
+      // Don't serve index.html for asset requests that should return 404
+      if (request.url.startsWith("/_expo/") || 
+          request.url.startsWith("/assets/") || 
+          request.url.includes(".") && !request.url.endsWith(".html")) {
+        // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+        return reply.code(404).send({ error: "Asset not found" });
+      }
+
+      // For all other routes (app routes), serve index.html
       return reply.sendFile("index.html");
     });
 
