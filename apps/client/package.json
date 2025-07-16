@@ -9,7 +9,7 @@
     "build": "expo export --platform web --output-dir ../../dist/client"
   },
   "dependencies": {
-    "@code-glue/server": "*"
+    "@code-glue/server": "workspace:*"
   },
   "prettier": "@tiltshift/config/prettier"
 }
