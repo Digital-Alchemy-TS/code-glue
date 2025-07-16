@@ -21,4 +21,4 @@ ports:
   80/tcp: 3789
 ports_description:
   80/tcp: Web interface
-watchdog: "http://localhost:3789/api/v1/health"
+watchdog: "http://[HOST]:3789/api/v1/health"
