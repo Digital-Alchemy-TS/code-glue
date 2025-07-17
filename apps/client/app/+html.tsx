@@ -19,8 +19,11 @@ export default function Root({ children }: PropsWithChildren) {
         */}
         <ScrollViewStyleReset />
 
-        {/* Using raw CSS styles as an escape-hatch to ensure the background color never flickers in dark-mode. */}
-        <style dangerouslySetInnerHTML={{ __html: tamaguiConfig.getCSS() }} />
+        {/* Add base tag for production builds to fix ingress asset paths */}
+        {process.env.NODE_ENV === 'production' && <base href="./" />}
+        
+        {/* Link to generated Tamagui CSS file */}
+        {process.env.NODE_ENV === 'production' && <link rel="stylesheet" href="assets/css/tamagui-web.css" />}
         {/* Add any additional <head> elements that you want globally available on web... */}
       </head>
       <body>{children}</body>
