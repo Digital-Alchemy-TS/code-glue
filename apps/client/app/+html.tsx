@@ -1,5 +1,4 @@
 import { ScrollViewStyleReset } from 'expo-router/html'
-import { tamaguiConfig } from 'paradigm'
 import { type PropsWithChildren } from 'react'
 /**
  * This file is web-only and used to configure the root HTML for every web page during static rendering.
@@ -19,12 +18,10 @@ export default function Root({ children }: PropsWithChildren) {
         */}
         <ScrollViewStyleReset />
 
-        {/* Add base tag for production builds to fix ingress asset paths */}
-        {process.env.NODE_ENV === 'production' && <base href="./" />}
-        
         {/* Link to generated Tamagui CSS file */}
-        {process.env.NODE_ENV === 'production' && <link rel="stylesheet" href="assets/css/tamagui-web.css" />}
-        {/* Add any additional <head> elements that you want globally available on web... */}
+        {process.env.NODE_ENV === 'production' && (
+          <link rel="stylesheet" href="./assets/css/tamagui-web.css" />
+        )}
       </head>
       <body>{children}</body>
     </html>
