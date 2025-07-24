@@ -17,11 +17,6 @@ export default function Root({ children }: PropsWithChildren) {
           However, body scrolling is often nice to have for mobile web. If you want to enable it, remove this line.
         */}
         <ScrollViewStyleReset />
-
-        {/* Link to generated Tamagui CSS file */}
-        {process.env.NODE_ENV === 'production' && (
-          <link rel="stylesheet" href="./assets/css/tamagui-web.css" />
-        )}
       </head>
       <body>{children}</body>
     </html>
