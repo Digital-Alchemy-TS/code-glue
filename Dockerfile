@@ -37,6 +37,10 @@ RUN yarn install
 # Build the applications (populates dist/**)
 RUN yarn build
 
+# Copy and run the asset path fixing script
+COPY scripts/fix_asset_paths.sh ./scripts/
+RUN chmod +x ./scripts/fix_asset_paths.sh && ./scripts/fix_asset_paths.sh
+
 # Stage 3: Production stage - Final runtime image
 FROM node:22-alpine AS production
 
