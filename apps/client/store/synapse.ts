@@ -4,6 +4,8 @@ import { proxyMap } from 'valtio/utils'
 
 import { SynapseEntities, SynapseEntityCreateOptions, SynapseEntityUpdateOptions } from '@code-glue/server/utils/index.mts'
 
+import { SERVER_URL } from '../server'
+
 
 // TODO move this somewhere shared https://github.com/Digital-Alchemy-TS/code-glue/issues/52 
 export enum SynapseEntityTypes {
@@ -38,7 +40,7 @@ const synapseFactory = createFactory<SynapseEntities>({
 })
   .actions({
     push() {
-      return fetch(`http://localhost:3789/api/v1/synapse/${this.id}`, {
+      return fetch(`${SERVER_URL}/api/v1/synapse/${this.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

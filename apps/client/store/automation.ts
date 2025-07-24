@@ -4,6 +4,11 @@ import { proxyMap } from 'valtio/utils'
 
 import { AutomationCreateOptions, AutomationUpdateOptions, StoredAutomation } from '@code-glue/server/utils/contracts/automation.mts'
 
+import { SERVER_URL } from '../server'
+
+
+
+
 const automationFactory = createFactory<StoredAutomation>({
   active: false,
   area: '',
@@ -20,7 +25,7 @@ const automationFactory = createFactory<StoredAutomation>({
 })
   .actions({
     push() {
-      return fetch(`http://localhost:3789/api/v1/automation/${this.id}`, {
+      return fetch(`${SERVER_URL}/api/v1/automation/${this.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
