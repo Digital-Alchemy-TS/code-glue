@@ -3,6 +3,7 @@
 # Stage 1: Base stage - Install dependencies
 FROM node:22-alpine AS base
 WORKDIR /app
+ADD https://google.com cache_bust
 
 # Install git (needed for submodules) and yarn
 RUN apk add --no-cache git
@@ -17,21 +18,12 @@ COPY .gitmodules .gitmodules
 # Initialize and update submodules
 RUN git submodule update --init --recursive
 
-# Copy package.json files first (for better caching)
-COPY package.json yarn.lock ./
-COPY apps/client/package.json ./apps/client/
-COPY apps/server/package.json ./apps/server/
-
-# Install all dependencies
-RUN yarn install
-
 # Stage 2: Build stage - Build client and server
 FROM base AS build
 
 # Copy all source files
 COPY . .
 
-# Run yarn install again to ensure all dependencies are available
 RUN yarn install
 
 # Build the applications (populates dist/**)
