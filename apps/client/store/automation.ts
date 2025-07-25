@@ -2,12 +2,13 @@ import { createFactory, Store } from '@mfellner/valtio-factory'
 import { v4 as uuid } from 'uuid'
 import { proxyMap } from 'valtio/utils'
 
-import { AutomationCreateOptions, AutomationUpdateOptions, StoredAutomation } from '@code-glue/server/utils/contracts/automation.mts'
+import {
+  AutomationCreateOptions,
+  AutomationUpdateOptions,
+  StoredAutomation,
+} from '@code-glue/server/utils/contracts/automation.mts'
 
 import { SERVER_URL } from '../server'
-
-
-
 
 const automationFactory = createFactory<StoredAutomation>({
   active: false,
