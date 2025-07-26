@@ -4,7 +4,7 @@ import { proxyMap } from 'valtio/utils'
 
 import { SharedVariables, SharedVariableCreateOptions, SharedVariableUpdateOptions } from '@code-glue/server/utils/contracts/variables.mjs'
 
-import { SERVER_URL } from '../server'
+import { getServerUrl } from '../server'
 
 const variableFactory = createFactory<SharedVariables>({
   createDate: '',
@@ -17,8 +17,9 @@ const variableFactory = createFactory<SharedVariables>({
   value: '',
 })
   .actions({
-    push() {
-      return fetch(`${SERVER_URL}/api/v1/variable/${this.id}`, {
+    async push() {
+      const serverUrl = await getServerUrl();
+      return fetch(`${serverUrl}/api/v1/variable/${this.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

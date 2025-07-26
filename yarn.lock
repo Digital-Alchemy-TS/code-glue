@@ -1212,6 +1212,7 @@ __metadata:
   resolution: "@code-glue/client@workspace:apps/client"
   dependencies:
     "@code-glue/server": "workspace:*"
+    "@tiltshift/paradigm": "workspace:*"
   languageName: unknown
   linkType: soft
 
@@ -6637,7 +6638,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tiltshift/paradigm@workspace:packages/paradigm":
+"@tiltshift/paradigm@workspace:*, @tiltshift/paradigm@workspace:packages/paradigm":
   version: 0.0.0-use.local
   resolution: "@tiltshift/paradigm@workspace:packages/paradigm"
   dependencies:

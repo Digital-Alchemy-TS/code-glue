@@ -28,6 +28,13 @@ export function AppController({
           status: "ok",
           timestamp: new Date().toISOString(),
         };
+      })
+      .get("/base-path", (request) => {
+        // Extract the X-Ingress-Path header for Home Assistant ingress support
+        const ingressPath = request.headers['x-ingress-path'] as string || '';
+        return {
+          basePath: ingressPath
+        };
       }),
   );
 }

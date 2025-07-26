@@ -2,7 +2,7 @@ import { proxy } from 'valtio'
 
 import { StoredAutomation, SharedVariables, SynapseEntities } from '@code-glue/server/utils/index.mjs'
 
-import { SERVER_URL } from '../server'
+import { getServerUrl } from '../server'
 
 import { automationStore, createAutomation } from './automation'
 import { createSynapseEntity, synapseStore } from './synapse'
@@ -28,10 +28,11 @@ export const store = proxy({
   }
 })
 
-const setupStore = () => {
+const setupStore = async () => {
+  const serverUrl = await getServerUrl();
   return Promise.all([
-    fetch(`${SERVER_URL}/api/v1/types/hidden`, { method: 'GET' }).then((response) => response.text()),
-    fetch(`${SERVER_URL}/api/v1/type-writer`, { method: 'GET' }).then((response) => response.json()),
+    fetch(`${serverUrl}/api/v1/types/hidden`, { method: 'GET' }).then((response) => response.text()),
+    fetch(`${serverUrl}/api/v1/type-writer`, { method: 'GET' }).then((response) => response.json()),
   ])
     .then(([header, types]) => {
       store.globalTypes = header
@@ -45,8 +46,9 @@ const setupStore = () => {
     })
 }
 
-const getAutomationsFromServer = () => {
-  return fetch(`${SERVER_URL}/api/v1/automation`, { method: 'GET' })
+const getAutomationsFromServer = async () => {
+  const serverUrl = await getServerUrl();
+  return fetch(`${serverUrl}/api/v1/automation`, { method: 'GET' })
     .then((response) => response.json())
     .then((json: StoredAutomation[]) => {
       json.map((automation) => {
@@ -71,8 +73,9 @@ const getAutomationsFromServer = () => {
     })
 }
 
-const getVariablesFromServer = () => {
-  return fetch(`${SERVER_URL}/api/v1/variable`, { method: 'GET' })
+const getVariablesFromServer = async () => {
+  const serverUrl = await getServerUrl();
+  return fetch(`${serverUrl}/api/v1/variable`, { method: 'GET' })
     .then((response) => response.json())
     .then((json: SharedVariables[]) => {
       json.map((variable) => {
@@ -94,8 +97,9 @@ const getVariablesFromServer = () => {
     })
 }
 
-const getSynapseFromServer = () => {
-  return fetch(`${SERVER_URL}/api/v1/synapse`, { method: 'GET' })
+const getSynapseFromServer = async () => {
+  const serverUrl = await getServerUrl();
+  return fetch(`${serverUrl}/api/v1/synapse`, { method: 'GET' })
     .then((response) => response.json())
     .then((json: SynapseEntities[]) => {
       json.map((synapseEntity) => {
