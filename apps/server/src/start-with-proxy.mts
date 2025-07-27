@@ -20,6 +20,7 @@ const proxy = spawn("node", [join(__dirname, "proxy.mjs")], {
     ...process.env,
     PORT: PROXY_PORT,
     TARGET_PORT: APP_PORT,
+    INGRESS_PATH: process.env.INGRESS_PATH,
   },
   stdio: "inherit",
 });

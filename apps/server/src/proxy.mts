@@ -7,6 +7,15 @@ const app = express();
 const port = parseInt(process.env.PORT || '3789');
 const targetPort = parseInt(process.env.TARGET_PORT || '3790'); // Your actual app runs on this port
 
+// Middleware to strip ingress prefix
+const ingress = process.env.INGRESS_PATH?.replace(/\/+$/,'') || '';
+app.use((req,res,next)=>{
+  if (ingress && req.url.startsWith(ingress)) {
+    req.url = req.url.slice(ingress.length) || '/';
+  }
+  next();
+});
+
 // Create proxy middleware
 const proxy = createProxyMiddleware({
   target: `http://localhost:${targetPort}`,

@@ -8,7 +8,7 @@ import {
   StoredAutomation,
 } from '@code-glue/server/utils/contracts/automation.mts'
 
-import { SERVER_URL } from '../server'
+import { getApiPath } from '../utils/getServerUrl'
 
 const automationFactory = createFactory<StoredAutomation>({
   active: false,
@@ -26,7 +26,7 @@ const automationFactory = createFactory<StoredAutomation>({
 })
   .actions({
     push() {
-      return fetch(`${SERVER_URL}/api/v1/automation/${this.id}`, {
+      return fetch(getApiPath(`/api/v1/automation/${this.id}`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
