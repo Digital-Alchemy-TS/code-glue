@@ -2,24 +2,27 @@ import { createFactory, Store } from '@mfellner/valtio-factory'
 import { v4 as uuid } from 'uuid'
 import { proxyMap } from 'valtio/utils'
 
-import { SynapseEntities, SynapseEntityCreateOptions, SynapseEntityUpdateOptions } from '@code-glue/server/utils/index.mts'
+import {
+  SynapseEntities,
+  SynapseEntityCreateOptions,
+  SynapseEntityUpdateOptions,
+} from '@code-glue/server/utils/index.mts'
 
-import { getApiPath } from '../utils/getServerUrl'
+import { baseUrl } from '../utils/baseUrl'
 
-
-// TODO move this somewhere shared https://github.com/Digital-Alchemy-TS/code-glue/issues/52 
+// TODO move this somewhere shared https://github.com/Digital-Alchemy-TS/code-glue/issues/52
 export enum SynapseEntityTypes {
-  binary_sensor = "binary_sensor",
-  button = "button",
-  date = "date",
-  datetime = "datetime",
-  number = "number",
-  scene = "scene",
-  select = "select",
-  sensor = "sensor",
-  switch = "switch",
-  text = "text",
-  time = "time",
+  binary_sensor = 'binary_sensor',
+  button = 'button',
+  date = 'date',
+  datetime = 'datetime',
+  number = 'number',
+  scene = 'scene',
+  select = 'select',
+  sensor = 'sensor',
+  switch = 'switch',
+  text = 'text',
+  time = 'time',
 }
 
 const synapseFactory = createFactory<SynapseEntities>({
@@ -36,11 +39,11 @@ const synapseFactory = createFactory<SynapseEntities>({
   defaultLocals: '',
   icon: '',
   locals: '',
-  suggested_object_id: ''
+  suggested_object_id: '',
 })
   .actions({
     push() {
-      return fetch(getApiPath(`/api/v1/synapse/${this.id}`), {
+      return fetch(`${baseUrl}/api/v1/synapse/${this.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

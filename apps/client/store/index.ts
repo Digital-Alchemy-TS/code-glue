@@ -2,7 +2,7 @@ import { proxy } from 'valtio'
 
 import { StoredAutomation, SharedVariables, SynapseEntities } from '@code-glue/server/utils/index.mjs'
 
-import { getApiPath } from '../utils/getServerUrl'
+import { baseUrl, initializeBaseUrl } from '../utils/baseUrl'
 
 import { automationStore, createAutomation } from './automation'
 import { createSynapseEntity, synapseStore } from './synapse'
@@ -25,13 +25,13 @@ export const store = proxy({
     mappings: '',
     registry: '',
     services: '',
-  }
+  },
 })
 
 const setupStore = () => {
   return Promise.all([
-    fetch(getApiPath('/api/v1/types/hidden'), { method: 'GET' }).then((response) => response.text()),
-    fetch(getApiPath('/api/v1/type-writer'), { method: 'GET' }).then((response) => response.json()),
+    fetch(`${baseUrl}/api/v1/types/hidden`, { method: 'GET' }).then((response) => response.text()),
+    fetch(`${baseUrl}/api/v1/type-writer`, { method: 'GET' }).then((response) => response.json()),
   ])
     .then(([header, types]) => {
       store.globalTypes = header
@@ -46,7 +46,7 @@ const setupStore = () => {
 }
 
 const getAutomationsFromServer = () => {
-  return fetch(getApiPath('/api/v1/automation'), { method: 'GET' })
+  return fetch(`${baseUrl}/api/v1/automation`, { method: 'GET' })
     .then((response) => response.json())
     .then((json: StoredAutomation[]) => {
       json.map((automation) => {
@@ -72,7 +72,7 @@ const getAutomationsFromServer = () => {
 }
 
 const getVariablesFromServer = () => {
-  return fetch(getApiPath('/api/v1/variable'), { method: 'GET' })
+  return fetch(`${baseUrl}/api/v1/variable`, { method: 'GET' })
     .then((response) => response.json())
     .then((json: SharedVariables[]) => {
       json.map((variable) => {
@@ -88,14 +88,15 @@ const getVariablesFromServer = () => {
         }
       })
       store.apiStatus.variablesReady = true
-    }).catch(() => {
+    })
+    .catch(() => {
       store.serverError = true
       store.isReady = true
     })
 }
 
 const getSynapseFromServer = () => {
-  return fetch(getApiPath('/api/v1/synapse'), { method: 'GET' })
+  return fetch(`${baseUrl}/api/v1/synapse`, { method: 'GET' })
     .then((response) => response.json())
     .then((json: SynapseEntities[]) => {
       json.map((synapseEntity) => {
@@ -111,13 +112,32 @@ const getSynapseFromServer = () => {
         }
       })
       store.apiStatus.synapseReady = true
-    }).catch(() => {
+    })
+    .catch(() => {
       store.serverError = true
       store.isReady = true
     })
 }
 
-setupStore()
-getAutomationsFromServer()
-getVariablesFromServer()
-getSynapseFromServer()
+// Initialize app
+async function initializeApp() {
+  try {
+    // Initialize base URL first
+    await initializeBaseUrl()
+
+    // Then load all the data
+    await Promise.all([
+      setupStore(),
+      getAutomationsFromServer(),
+      getVariablesFromServer(),
+      getSynapseFromServer(),
+    ])
+  } catch (error) {
+    console.error('Failed to initialize app:', error)
+    store.serverError = true
+    store.isReady = true
+  }
+}
+
+// Start the initialization
+initializeApp()

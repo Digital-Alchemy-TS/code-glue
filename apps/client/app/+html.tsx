@@ -1,7 +1,5 @@
 import { ScrollViewStyleReset } from 'expo-router/html'
 import { type PropsWithChildren } from 'react'
-
-const ingressPath = process.env.INGRESS_PATH?.replace(/\/+$/, '') || ''
 export default function Root({ children }: PropsWithChildren) {
   return (
     <html lang="en">
@@ -10,7 +8,6 @@ export default function Root({ children }: PropsWithChildren) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-        <base href={ingressPath + '/'} />
         <ScrollViewStyleReset />
       </head>
       <body>{children}</body>
