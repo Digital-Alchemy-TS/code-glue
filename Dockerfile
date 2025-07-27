@@ -47,5 +47,5 @@ COPY --from=build /app/node_modules ./node_modules
 # Set production environment
 ENV NODE_ENV=production
 
-# Start the server (serves both API and static assets)
-CMD ["npx", "tsx", "dist/server/app/environments/prod/main.mjs"]
+# Start the server with proxy (serves both API and static assets)
+CMD ["node", "dist/server/start-with-proxy.mjs"]
