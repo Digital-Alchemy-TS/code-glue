@@ -2,7 +2,7 @@ import { proxy } from 'valtio'
 
 import { StoredAutomation, SharedVariables, SynapseEntities } from '@code-glue/server/utils/index.mjs'
 
-import { baseUrl, initializeBaseUrl } from '../utils/baseUrl'
+import { baseUrl } from '../utils/baseUrl'
 
 import { automationStore, createAutomation } from './automation'
 import { createSynapseEntity, synapseStore } from './synapse'
@@ -122,10 +122,7 @@ const getSynapseFromServer = () => {
 // Initialize app
 async function initializeApp() {
   try {
-    // Initialize base URL first
-    await initializeBaseUrl()
-
-    // Then load all the data
+    // Load all the data
     await Promise.all([
       setupStore(),
       getAutomationsFromServer(),
