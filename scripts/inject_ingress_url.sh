@@ -64,3 +64,21 @@ echo "Extracted ingress path: $INGRESS_PATH"
 # Export as environment variable for the build process
 export EXPO_PUBLIC_INGRESS_PATH="$INGRESS_PATH"
 echo "Exported EXPO_PUBLIC_INGRESS_PATH=$INGRESS_PATH for build process"
+
+# Update app.json to use ingress path for static assets
+APP_JSON_PATH="./apps/client/app.json"
+if [ -f "$APP_JSON_PATH" ]; then
+    echo "Updating app.json baseUrl to: $INGRESS_PATH"
+    
+    # Create a temporary file with the updated baseUrl
+    jq --arg ingress_path "$INGRESS_PATH" '
+        .expo.experiments.baseUrl = $ingress_path
+    ' "$APP_JSON_PATH" > "$APP_JSON_PATH.tmp"
+    
+    # Replace the original file
+    mv "$APP_JSON_PATH.tmp" "$APP_JSON_PATH"
+    
+    echo "Updated app.json with ingress baseUrl"
+else
+    echo "Warning: app.json not found at $APP_JSON_PATH"
+fi
