@@ -61,10 +61,6 @@ fi
 
 echo "Extracted ingress path: $INGRESS_PATH"
 
-# Export as environment variable for the build process
-export EXPO_PUBLIC_INGRESS_PATH="$INGRESS_PATH"
-echo "Exported EXPO_PUBLIC_INGRESS_PATH=$INGRESS_PATH for build process"
-
 # Update app.json to use ingress path for static assets
 APP_JSON_PATH="./apps/client/app.json"
 if [ -f "$APP_JSON_PATH" ]; then

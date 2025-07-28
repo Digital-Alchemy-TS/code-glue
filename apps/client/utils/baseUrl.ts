@@ -1,1 +1,8 @@
-export const baseUrl = process.env.EXPO_PUBLIC_INGRESS_PATH || 'http://localhost:3790'
+import Constants from 'expo-constants'
+
+const appBaseUrl = Constants.expoConfig?.experiments?.baseUrl
+
+export const baseUrl =
+  appBaseUrl === './'
+    ? 'http://localhost:3790' // Development
+    : appBaseUrl // Production (ingress path)
