@@ -22,3 +22,5 @@ ports:
 ports_description:
   80/tcp: Web interface
 watchdog: "http://[HOST]:3789/api/v1/health"
+backup_exclude:
+  - "node_modules"

@@ -1,12 +1,10 @@
-# Multi-stage Dockerfile for building client and server
+# Dockerfile for Code Glue addon with runtime build
 
-# Stage 1: Base stage - Install dependencies
-FROM node:22-alpine AS base
+FROM node:22-alpine
 WORKDIR /app
-ADD https://google.com cache_bust
 
-# Install git (needed for submodules) and yarn
-RUN apk add --no-cache git
+# Install system dependencies
+RUN apk add --no-cache git jq wget bash
 
 # Enable Corepack to use the correct Yarn version
 RUN corepack enable
@@ -18,34 +16,18 @@ COPY .gitmodules .gitmodules
 # Initialize and update submodules
 RUN git submodule update --init --recursive
 
-# Stage 2: Build stage - Build client and server
-FROM base AS build
-
 # Copy all source files
 COPY . .
 
+# Install dependencies
 RUN yarn install
 
-# Build the applications (populates dist/**)
-RUN yarn build
-
-# Copy and run the asset path fixing script
-COPY scripts/fix_asset_paths.sh ./fix_asset_paths.sh
-RUN chmod +x ./fix_asset_paths.sh && ./fix_asset_paths.sh
-
-# Stage 3: Production stage - Final runtime image
-FROM node:22-alpine AS production
-
-WORKDIR /app
-
-# Copy built applications from build stage
-COPY --from=build /app/dist ./dist
-
-# Copy production node_modules from build stage
-COPY --from=build /app/node_modules ./node_modules
+# Create runtime build script
+COPY scripts/runtime-build-start.sh ./runtime-build-start.sh
+RUN chmod +x ./runtime-build-start.sh
 
 # Set production environment
 ENV NODE_ENV=production
 
-# Start the server (serves both API and static assets)
-CMD ["npx", "tsx", "dist/server/app/environments/prod/main.mjs"]
+# Runtime script will: fetch ingress → update app.json → build → start
+CMD ["./runtime-build-start.sh"]

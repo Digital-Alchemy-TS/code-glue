@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "main": "expo-router/entry",
+  "_comment_env_vars": {
+    "INGRESS_PATH": "Base path for the application when deployed behind a reverse proxy or in a subpath. Defaults to '/' for root deployment. Set to '/subpath' for subpath deployments."
+  },
   "scripts": {
     "start": "expo start --web --clear",
     "lint": "eslint .",

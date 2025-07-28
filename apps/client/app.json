@@ -9,13 +9,13 @@
     "platforms": ["web"],
     "plugins": ["expo-router", "expo-font"],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "baseUrl": "/"
     },
     "web": {
       "favicon": "./assets/images/favicon.png",
       "bundler": "metro",
-      "output": "static",
-      "baseUrl": "./"
+      "output": "static"
     }
   }
 }
