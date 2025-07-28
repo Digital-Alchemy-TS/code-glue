@@ -1,48 +1,51 @@
 #!/usr/bin/env node
-import express from 'express';
-import { createProxyMiddleware } from 'http-proxy-middleware';
-import type { IncomingMessage, ServerResponse } from 'http';
+import express from "express";
+import type { ClientRequest, IncomingMessage } from "http";
+import { createProxyMiddleware, Options } from "http-proxy-middleware";
 
 const app = express();
-const port = parseInt(process.env.PORT || '3789');
-const targetPort = parseInt(process.env.TARGET_PORT || '3790'); // Your actual app runs on this port
+const port = parseInt(process.env.PORT || "3789");
+const targetPort = parseInt(process.env.TARGET_PORT || "3790"); // Your actual app runs on this port
 
 // Middleware to strip ingress prefix
-const ingress = process.env.INGRESS_PATH?.replace(/\/+$/,'') || '';
-app.use((req,res,next)=>{
-  if (ingress && req.url.startsWith(ingress)) {
-    req.url = req.url.slice(ingress.length) || '/';
-  }
-  next();
-});
+const ingress = process.env.INGRESS_PATH?.replace(/\/+$/, "") || "";
+app.use(
+  (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (ingress && req.url.startsWith(ingress)) {
+      req.url = req.url.slice(ingress.length) || "/";
+    }
+    next();
+  },
+);
 
-// Create proxy middleware
+// Create proxy middleware options
 const proxy = createProxyMiddleware({
-  target: `http://localhost:${targetPort}`,
   changeOrigin: true,
-  pathRewrite: {},
-  onProxyReq: (proxyReq: any, req: IncomingMessage, res: ServerResponse) => {
+  onProxyReq: (proxyReq: ClientRequest, req: IncomingMessage) => {
     // Add the original ingress path as a header for the target app
-    const ingressPath = req.headers['x-ingress-path'];
+    const ingressPath = req.headers["x-ingress-path"];
     if (ingressPath) {
-      proxyReq.setHeader('x-original-ingress-path', ingressPath);
+      proxyReq.setHeader("x-original-ingress-path", ingressPath);
     }
   },
-  onProxyRes: (proxyRes: any, req: IncomingMessage, res: ServerResponse) => {
+  onProxyRes: (proxyRes: IncomingMessage, req: IncomingMessage) => {
     // Rewrite location headers if needed
     const location = proxyRes.headers.location;
-    if (location && req.headers['x-ingress-path']) {
-      const ingressPath = req.headers['x-ingress-path'];
-      if (location.startsWith('/')) {
+    if (location && req.headers["x-ingress-path"]) {
+      const ingressPath = req.headers["x-ingress-path"];
+      if (location.startsWith("/")) {
         proxyRes.headers.location = ingressPath + location;
       }
     }
-  }
-} as any);
+  },
+  pathRewrite: {},
+  target: `http://localhost:${targetPort}`,
+} as Options);
 
-app.use('/', proxy);
+app.use("/", proxy);
 
 app.listen(port, () => {
-  console.log(`Ingress proxy listening on port ${port}, forwarding to ${targetPort}`);
+  console.log(
+    `Ingress proxy listening on port ${port}, forwarding to ${targetPort}`,
+  );
 });
-
