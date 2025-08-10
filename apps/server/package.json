@@ -13,7 +13,7 @@
     "test": "./scripts/test.sh"
   },
   "devDependencies": {
-    "tsx": "^4.19.3",
-    "typescript": "^5.8.2"
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
   }
 }
