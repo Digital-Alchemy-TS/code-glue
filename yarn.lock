@@ -1227,6 +1227,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@code-glue/server@workspace:apps/server"
   dependencies:
+    drizzle-kit: "npm:^0.31.4"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.9.2"
   languageName: unknown
