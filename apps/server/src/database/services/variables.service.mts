@@ -26,13 +26,13 @@ export function VariablesTable({
 }: TServiceParams) {
   const store = new Map<string, SharedVariables>();
 
-  lifecycle.onBootstrap(() => {
+  lifecycle.onBootstrap(function () {
     loadFromDB();
   });
 
   // Database-specific implementations
   const sqlite = {
-    create: (data: SharedVariableCreateOptions) => {
+    async create(data: SharedVariableCreateOptions) {
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzle
       >;
@@ -44,20 +44,21 @@ export function VariablesTable({
       return out;
     },
 
-    load: (row: Partial<SharedVariableRow>): SharedVariables =>
-      ({
+    load(row: Partial<SharedVariableRow>): SharedVariables {
+      return {
         ...row,
         labels: row.labels?.split("|") || [],
-      }) as SharedVariables,
+      } as SharedVariables;
+    },
 
-    loadFromDB: () => {
+    async loadFromDB() {
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzle
       >;
       store.clear();
-      metrics.measure([context, "loadFromDB"], () => {
+      metrics.measure([context, "loadFromDB"], function () {
         const rows = database.select().from(sqliteSharedVariablesTable).all();
-        rows.forEach(row => {
+        rows.forEach(function (row) {
           const loaded = sqlite.load(row);
           store.set(loaded.id, loaded);
         });
@@ -65,7 +66,7 @@ export function VariablesTable({
       logger.debug({ count: store.size }, `loaded variables from sqlite`);
     },
 
-    remove: (id: string) => {
+    async remove(id: string) {
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzle
       >;
@@ -75,7 +76,7 @@ export function VariablesTable({
         .where(eq(sqliteSharedVariablesTable.id, id));
     },
 
-    save: (data: SharedVariableCreateOptions) => {
+    save(data: SharedVariableCreateOptions) {
       const now = new Date().toISOString();
       return {
         create_date: (data as SharedVariables).createDate ?? now,
@@ -89,7 +90,7 @@ export function VariablesTable({
       };
     },
 
-    update: (id: string, data: Partial<SharedVariableCreateOptions>) => {
+    async update(id: string, data: Partial<SharedVariableCreateOptions>) {
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzle
       >;
@@ -106,7 +107,7 @@ export function VariablesTable({
   };
 
   const mysql = {
-    create: async (data: SharedVariableCreateOptions) => {
+    async create(data: SharedVariableCreateOptions) {
       const database = synapse.database.getDatabase() as MySql2Database<
         Record<string, unknown>
       >;
@@ -118,23 +119,24 @@ export function VariablesTable({
       return out;
     },
 
-    load: (row: Partial<SharedVariableRow>): SharedVariables =>
-      ({
+    load(row: Partial<SharedVariableRow>): SharedVariables {
+      return {
         ...row,
         labels: row.labels?.split("|") || [],
-      }) as SharedVariables,
+      } as SharedVariables;
+    },
 
-    loadFromDB: async () => {
+    async loadFromDB() {
       const database = synapse.database.getDatabase() as MySql2Database<
         Record<string, unknown>
       >;
       store.clear();
-      metrics.measure([context, "loadFromDB"], async () => {
+      metrics.measure([context, "loadFromDB"], async function () {
         const rows = await database
           .select()
           .from(mysqlSharedVariablesTable)
           .execute();
-        rows.forEach(row => {
+        rows.forEach(function (row) {
           const loaded = mysql.load(row);
           store.set(loaded.id, loaded);
         });
@@ -142,7 +144,7 @@ export function VariablesTable({
       logger.debug({ count: store.size }, `loaded variables from mysql`);
     },
 
-    remove: async (id: string) => {
+    async remove(id: string) {
       const database = synapse.database.getDatabase() as MySql2Database<
         Record<string, unknown>
       >;
@@ -152,7 +154,7 @@ export function VariablesTable({
         .where(eq(mysqlSharedVariablesTable.id, id));
     },
 
-    save: (data: SharedVariableCreateOptions) => {
+    save(data: SharedVariableCreateOptions) {
       const now = new Date();
       return {
         create_date: (data as SharedVariables).createDate
@@ -168,7 +170,7 @@ export function VariablesTable({
       };
     },
 
-    update: async (id: string, data: Partial<SharedVariableCreateOptions>) => {
+    async update(id: string, data: Partial<SharedVariableCreateOptions>) {
       const database = synapse.database.getDatabase() as MySql2Database<
         Record<string, unknown>
       >;
@@ -185,7 +187,7 @@ export function VariablesTable({
   };
 
   const postgres = {
-    create: async (data: SharedVariableCreateOptions) => {
+    async create(data: SharedVariableCreateOptions) {
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzlePostgres
       >;
@@ -197,23 +199,24 @@ export function VariablesTable({
       return out;
     },
 
-    load: (row: Partial<SharedVariableRow>): SharedVariables =>
-      ({
+    load(row: Partial<SharedVariableRow>): SharedVariables {
+      return {
         ...row,
         labels: row.labels?.split("|") || [],
-      }) as SharedVariables,
+      } as SharedVariables;
+    },
 
-    loadFromDB: async () => {
+    async loadFromDB() {
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzlePostgres
       >;
       store.clear();
-      metrics.measure([context, "loadFromDB"], async () => {
+      metrics.measure([context, "loadFromDB"], async function () {
         const rows = await database
           .select()
           .from(postgresSharedVariablesTable)
           .execute();
-        rows.forEach(row => {
+        rows.forEach(function (row) {
           const loaded = postgres.load(row);
           store.set(loaded.id, loaded);
         });
@@ -221,7 +224,7 @@ export function VariablesTable({
       logger.debug({ count: store.size }, `loaded variables from postgres`);
     },
 
-    remove: async (id: string) => {
+    async remove(id: string) {
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzlePostgres
       >;
@@ -231,7 +234,7 @@ export function VariablesTable({
         .where(eq(postgresSharedVariablesTable.id, id));
     },
 
-    save: (data: SharedVariableCreateOptions) => {
+    save(data: SharedVariableCreateOptions) {
       const now = new Date();
       return {
         create_date: (data as SharedVariables).createDate
@@ -247,7 +250,7 @@ export function VariablesTable({
       };
     },
 
-    update: async (id: string, data: Partial<SharedVariableCreateOptions>) => {
+    async update(id: string, data: Partial<SharedVariableCreateOptions>) {
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzlePostgres
       >;
