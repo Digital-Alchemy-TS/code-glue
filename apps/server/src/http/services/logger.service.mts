@@ -26,6 +26,9 @@ export function HttpLogger({
     silent: NOOP,
     trace: NOOP,
     warn: logger.warn.bind(logger),
+    get msgPrefix(): string | undefined {
+      return undefined;
+    },
   } as FastifyBaseLogger;
 
   http.bindings.configure({ loggerInstance });
