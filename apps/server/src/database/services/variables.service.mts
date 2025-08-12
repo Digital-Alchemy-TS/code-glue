@@ -1,5 +1,8 @@
 import { TServiceParams } from "@digital-alchemy/core";
-import { Database } from "better-sqlite3";
+import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/better-sqlite3";
+import { MySql2Database } from "drizzle-orm/mysql2";
+import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
 import { v4 } from "uuid";
 
 import {
@@ -7,107 +10,329 @@ import {
   SharedVariableRow,
   SharedVariables,
 } from "../../utils/index.mts";
-
-const CREATE = `CREATE TABLE IF NOT EXISTS SharedVariables (
-  createDate DATETIME NOT NULL,
-  documentation TEXT NOT NULL,
-  id TEXT PRIMARY KEY NOT NULL,
-  labels TEXT NOT NULL,
-  lastUpdate DATETIME NOT NULL,
-  title TEXT NOT NULL,
-  type TEXT NOT NULL,
-  value TEXT NOT NULL
-)`;
-
-const UPSERT = `INSERT INTO SharedVariables (
-  createDate, documentation, id, labels, lastUpdate, title, type, value
-) VALUES (
-  @createDate, @documentation, @id, @labels, @lastUpdate, @title, @type, @value
-) ON CONFLICT(id) DO UPDATE SET
-  documentation = excluded.documentation,
-  labels = excluded.labels,
-  lastUpdate = excluded.lastUpdate,
-  title = excluded.title,
-  type = excluded.type,
-  value = excluded.value`;
-
-const REMOVE = `DELETE FROM SharedVariables WHERE id = $id`;
-
-const SELECT_ALL = `SELECT * FROM SharedVariables`;
+import {
+  mysqlSharedVariablesTable,
+  postgresSharedVariablesTable,
+  sqliteSharedVariablesTable,
+} from "../schemas/index.mts";
 
 export function VariablesTable({
   lifecycle,
+  config,
   logger,
   synapse,
   context,
   metrics,
 }: TServiceParams) {
-  let database: Database;
-  let store = new Map<string, SharedVariables>();
+  const store = new Map<string, SharedVariables>();
 
-  lifecycle.onBootstrap(() => {
-    database = synapse.sqlite.getDatabase();
-    database.prepare(CREATE).run();
+  lifecycle.onBootstrap(function () {
     loadFromDB();
   });
 
-  // #MARK: load
-  function load(row: Partial<SharedVariableRow>): SharedVariables {
-    return {
-      ...row,
-      labels: row.labels.split("|"),
-    } as SharedVariables;
-  }
+  // Database-specific implementations
+  const sqlite = {
+    async create(data: SharedVariableCreateOptions) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      const id = v4();
+      const row = { id, ...sqlite.save(data) };
+      database.insert(sqliteSharedVariablesTable).values(row);
+      const out = sqlite.load(row);
+      store.set(row.id, out);
+      return out;
+    },
 
-  // #MARK: save
-  function save(data: SharedVariables | SharedVariableCreateOptions) {
-    const now = new Date().toISOString();
-    return {
-      ...data,
-      createDate: (data as SharedVariables).createDate ?? now,
-      labels: data.labels.join("|"),
-      lastUpdate: now,
-    };
-  }
+    load(row: Partial<SharedVariableRow>): SharedVariables {
+      return {
+        ...row,
+        labels: row.labels?.split("|") || [],
+      } as SharedVariables;
+    },
+
+    async loadFromDB() {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      store.clear();
+      metrics.measure([context, "loadFromDB"], function () {
+        const rows = database.select().from(sqliteSharedVariablesTable).all();
+        rows.forEach(function (row) {
+          const loaded = sqlite.load(row);
+          store.set(loaded.id, loaded);
+        });
+      });
+      logger.debug({ count: store.size }, `loaded variables from sqlite`);
+    },
+
+    async remove(id: string) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      store.delete(id);
+      database
+        .delete(sqliteSharedVariablesTable)
+        .where(eq(sqliteSharedVariablesTable.id, id));
+    },
+
+    save(data: SharedVariableCreateOptions) {
+      const now = new Date().toISOString();
+      return {
+        create_date: (data as SharedVariables).createDate ?? now,
+        documentation: data.documentation,
+        id: (data as SharedVariables).id || "",
+        labels: data.labels.join("|"),
+        last_update: now,
+        title: data.title,
+        type: data.type,
+        value: data.value,
+      };
+    },
+
+    async update(id: string, data: Partial<SharedVariableCreateOptions>) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      const current = store.get(id);
+      const update = sqlite.save({ ...current, ...data });
+      database
+        .update(sqliteSharedVariablesTable)
+        .set(update)
+        .where(eq(sqliteSharedVariablesTable.id, id));
+      const out = sqlite.load(update);
+      store.set(id, out);
+      return out;
+    },
+  };
+
+  const mysql = {
+    async create(data: SharedVariableCreateOptions) {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      const id = v4();
+      const row = { id, ...mysql.save(data) };
+      await database.insert(mysqlSharedVariablesTable).values(row);
+      const out = mysql.load(row);
+      store.set(row.id, out);
+      return out;
+    },
+
+    load(row: Partial<SharedVariableRow>): SharedVariables {
+      return {
+        ...row,
+        labels: row.labels?.split("|") || [],
+      } as SharedVariables;
+    },
+
+    async loadFromDB() {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      store.clear();
+      metrics.measure([context, "loadFromDB"], async function () {
+        const rows = await database
+          .select()
+          .from(mysqlSharedVariablesTable)
+          .execute();
+        rows.forEach(function (row) {
+          const loaded = mysql.load(row);
+          store.set(loaded.id, loaded);
+        });
+      });
+      logger.debug({ count: store.size }, `loaded variables from mysql`);
+    },
+
+    async remove(id: string) {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      store.delete(id);
+      await database
+        .delete(mysqlSharedVariablesTable)
+        .where(eq(mysqlSharedVariablesTable.id, id));
+    },
+
+    save(data: SharedVariableCreateOptions) {
+      const now = new Date();
+      return {
+        create_date: (data as SharedVariables).createDate
+          ? new Date((data as SharedVariables).createDate)
+          : now,
+        documentation: data.documentation,
+        id: (data as SharedVariables).id || "",
+        labels: data.labels.join("|"),
+        last_update: now,
+        title: data.title,
+        type: data.type,
+        value: data.value,
+      };
+    },
+
+    async update(id: string, data: Partial<SharedVariableCreateOptions>) {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      const current = store.get(id);
+      const update = mysql.save({ ...current, ...data });
+      await database
+        .update(mysqlSharedVariablesTable)
+        .set(update)
+        .where(eq(mysqlSharedVariablesTable.id, id));
+      const out = mysql.load(update);
+      store.set(id, out);
+      return out;
+    },
+  };
+
+  const postgres = {
+    async create(data: SharedVariableCreateOptions) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      const id = v4();
+      const row = { id, ...postgres.save(data) };
+      await database.insert(postgresSharedVariablesTable).values(row);
+      const out = postgres.load(row);
+      store.set(row.id, out);
+      return out;
+    },
+
+    load(row: Partial<SharedVariableRow>): SharedVariables {
+      return {
+        ...row,
+        labels: row.labels?.split("|") || [],
+      } as SharedVariables;
+    },
+
+    async loadFromDB() {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      store.clear();
+      metrics.measure([context, "loadFromDB"], async function () {
+        const rows = await database
+          .select()
+          .from(postgresSharedVariablesTable)
+          .execute();
+        rows.forEach(function (row) {
+          const loaded = postgres.load(row);
+          store.set(loaded.id, loaded);
+        });
+      });
+      logger.debug({ count: store.size }, `loaded variables from postgres`);
+    },
+
+    async remove(id: string) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      store.delete(id);
+      await database
+        .delete(postgresSharedVariablesTable)
+        .where(eq(postgresSharedVariablesTable.id, id));
+    },
+
+    save(data: SharedVariableCreateOptions) {
+      const now = new Date();
+      return {
+        create_date: (data as SharedVariables).createDate
+          ? new Date((data as SharedVariables).createDate)
+          : now,
+        documentation: data.documentation,
+        id: (data as SharedVariables).id || "",
+        labels: data.labels.join("|"),
+        last_update: now,
+        title: data.title,
+        type: data.type,
+        value: data.value,
+      };
+    },
+
+    async update(id: string, data: Partial<SharedVariableCreateOptions>) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      const current = store.get(id);
+      const update = postgres.save({ ...current, ...data });
+      await database
+        .update(postgresSharedVariablesTable)
+        .set(update)
+        .where(eq(postgresSharedVariablesTable.id, id));
+      const out = postgres.load(update);
+      store.set(id, out);
+      return out;
+    },
+  };
 
   // #MARK: loadFromDB
-  function loadFromDB() {
-    store = new Map();
-    metrics.measure([context, loadFromDB], () => {
-      database
-        .prepare<[], SharedVariableRow>(SELECT_ALL)
-        .all()
-        .forEach(row => store.set(row.id, load(row)));
-    });
-    logger.debug({ count: store.size }, `loaded variables`);
+  async function loadFromDB() {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        await mysql.loadFromDB();
+        break;
+      case "postgresql":
+        await postgres.loadFromDB();
+        break;
+      case "sqlite":
+      default:
+        sqlite.loadFromDB();
+        break;
+    }
   }
 
   // #MARK: create
-  function create(data: SharedVariableCreateOptions) {
-    const id = v4();
-    const row = { id, ...save(data) };
-    database.prepare(UPSERT).run(row);
-    store.set(row.id, load(row));
+  async function create(data: SharedVariableCreateOptions) {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        return await mysql.create(data);
+      case "postgresql":
+        return await postgres.create(data);
+      case "sqlite":
+      default:
+        return sqlite.create(data);
+    }
   }
 
   // #MARK: update
-  function update(id: string, data: Partial<SharedVariableCreateOptions>) {
-    const current = store.get(id);
-    const update = save({ ...current, ...data });
-    database.prepare(UPSERT).run({ ...update, id });
-    const out = load(update);
-    store.set(id, out);
-    return out;
+  async function update(
+    id: string,
+    data: Partial<SharedVariableCreateOptions>,
+  ) {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        return await mysql.update(id, data);
+      case "postgresql":
+        return await postgres.update(id, data);
+      case "sqlite":
+      default:
+        return sqlite.update(id, data);
+    }
   }
 
   // #MARK: remove
-  function remove(id: string): void {
-    store.delete(id);
-    database.prepare(REMOVE).run({ id });
+  async function remove(id: string): Promise<void> {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        await mysql.remove(id);
+        break;
+      case "postgresql":
+        await postgres.remove(id);
+        break;
+      case "sqlite":
+      default:
+        sqlite.remove(id);
+        break;
+    }
   }
 
   // #MARK: get
-  function get(id: string): SharedVariables {
+  function get(id: string): SharedVariables | undefined {
     return store.get(id);
   }
 

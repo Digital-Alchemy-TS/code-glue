@@ -3,6 +3,7 @@ import { CreateLibrary } from "@digital-alchemy/core";
 import { LIB_METRICS } from "../metrics/index.mts";
 import {
   AutomationTable,
+  DatabaseInternalsService,
   SynapseEntitiesTable,
   TypesTable,
   VariablesTable,
@@ -15,6 +16,7 @@ export const LIB_DATABASE = CreateLibrary({
   services: {
     automation: AutomationTable,
     entity: SynapseEntitiesTable,
+    internal: DatabaseInternalsService,
     types: TypesTable,
     variable: VariablesTable,
   },
