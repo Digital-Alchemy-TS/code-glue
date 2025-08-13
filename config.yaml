@@ -1,5 +1,5 @@
 name: Code Glue
-version: 1.0.1
+version: 1.0.0
 slug: code_glue
 description: Write Automations and create entities in typescript.
 arch:
