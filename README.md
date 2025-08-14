@@ -1,8 +1,49 @@
-## 🏗️ Workspace Setup
+# Code Glue
 
-1. Install node
+## ❓ Overview
 
-> ⚠️ DO NOT USE NODE PROVIDED BY BREW ⚠️
+Code Glue is a Home Assistant add-on that lets you create and edit entities and automations using TypeScript and Digital Alchemy from within an embedded IDE.
+
+## 🔧 Install (Add custom add-on repository)
+
+1. In Home Assistant, go to: Settings → Add-ons → Add-on Store
+2. Click the three dots (⋮) in the top-right → Repositories
+3. Add this URL as a custom repository:
+
+- https://github.com/Digital-Alchemy-TS/code-glue
+
+4. Close the dialog, search for “Code Glue,” and open the add-on
+5. Click Install, then Start
+6. Optional: enable “Start on boot” and “Show in sidebar”
+7. Open the add-on via the sidebar or its Web UI
+8. 💰 Profit!
+
+## 🏗️ Developer Setup
+
+**⚠️ NOTE: This section is for contributors working on Code Glue itself (not end‑users). ⚠️**
+
+#### Repository layout
+
+```
+/               # Yarn workspaces monorepo, TypeScript-first
+/apps
+  /server       # API and runtime for Code Glue features
+  /client       # Embedded IDE / UI used inside the add-on
+/packages       # Shared libraries (types, utils, SDK)
+  /paradigm     # UI Component Library for the client
+```
+
+#### Dev Container info
+
+- This workspace provides a development container that boots a real Home Assistant instance so the add-on can be exercised in a “real world” environment (ingress, auth, CORS, sidebar, permissions).
+
+Setup Instructions: https://developers.home-assistant.io/docs/add-ons/testing
+
+### Setup
+
+1. Install Node
+
+> ⚠️ Do not use Node from Homebrew ⚠️
 
 ```bash
 curl -fsSL https://fnm.vercel.app/install | bash
