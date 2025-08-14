@@ -35,11 +35,17 @@ Code Glue is a Home Assistant add-on that lets you create and edit entities and 
 
 #### Dev Container info
 
-- This workspace provides a development container that boots a real Home Assistant instance so the add-on can be exercised in a “real world” environment (ingress, auth, CORS, sidebar, permissions).
+There are two ways to dev on this project.
 
-Setup Instructions: https://developers.home-assistant.io/docs/add-ons/testing
+### Option 1: Local
 
-### Setup
+When to use:
+
+- working on client/UI and want hot reloading
+- want to work using your own HASS data
+- faster dev loop
+
+#### Setup
 
 1. Install Node
 
@@ -52,7 +58,13 @@ fnm use 22
 fnm default 22
 ```
 
-2. Install dependencies
+2. Init Submodules
+
+```bash
+git submodule update --init --recursive
+```
+
+3. Install dependencies
 
 ```bash
 # you may need to do this first to properly set up yarn
@@ -82,6 +94,23 @@ docker compose up -d
 yarn server:db:migrate
 ```
 
+7. Start the client and server
+
+```bash
+yarn dev
+```
+
+Access the application at `http://localhost:8081`
+Access swagger: `http://localhost:3789/swagger/`
+
+### Option 2: Dev Container
+
+This workspace provides a development container that boots a real Home Assistant instance so the add-on can be exercised in a “real world” environment (ingress, auth, CORS, sidebar, permissions).
+
+Setup Instructions: https://developers.home-assistant.io/docs/add-ons/testing
+
+Once running you can rebuild and deploy updated code using: TBD
+
 ### 🎛️ General Commands
 
 #### Server
@@ -94,24 +123,3 @@ yarn server:db:migrate
 | `yarn server:build`                                | Verify there is no build issues       |
 | -------------------------------------------------- | ------------------------------------- |
 | `yarn dev`                                         | Run the server and client in dev mode |
-
-## 🔧 Development Workflows
-
-### Option 1: Full Local Development
-
-Run both client and server on your local machine:
-
-```bash
-yarn dev
-```
-
-Access the application at `http://localhost:8081` (Expo dev server)
-
-### Option 2: Addon Development (Testing addon integration)
-
-Develop and test the addon within Home Assistant:
-
-1. **Open the addon in Home Assistant:** `http://localhost:7123`
-2. **Go to Settings → Add-ons → Store -> Code Glue** and install
-3. **Start the addon**
-4. **Access through the addon panel**
