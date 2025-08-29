@@ -76,6 +76,7 @@ export const Editor: React.FC<EditorProps> = ({ path, defaultValue, onChange, gl
       esModuleInterop: true,
       typeRoots: ['/globals.ts'],
     })
+    monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true)
   }
 
   const handleOnMount = (editor: editor.IStandaloneCodeEditor, monaco: Monaco) => {
