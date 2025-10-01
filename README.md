@@ -109,6 +109,10 @@ This workspace provides a development container that boots a real Home Assistant
 
 Setup Instructions: https://developers.home-assistant.io/docs/add-ons/testing
 
+1. Open the project in VSCode
+2. Run the task (Terminal -> Run Task) 'Start Home Assistant'
+3. visit http://localhost:7123/
+
 Once running you can rebuild and deploy updated code using: TBD
 
 ### 🎛️ General Commands
