@@ -1,5 +1,8 @@
 import { is, TServiceParams } from "@digital-alchemy/core";
-import { Database } from "better-sqlite3";
+import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/better-sqlite3";
+import { MySql2Database } from "drizzle-orm/mysql2";
+import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
 import { v4 } from "uuid";
 
 import {
@@ -7,126 +10,452 @@ import {
   SYNAPSE_ENTITIES_REMOVED,
   SynapseEntities,
   SynapseEntityCreateOptions,
-  SynapseEntityRow,
+  SynapseEntityTypes,
 } from "../../utils/index.mts";
+import {
+  mysqlSynapseEntitiesTable,
+  postgresSynapseEntitiesTable,
+  sqliteSynapseEntitiesTable,
+} from "../schemas/index.mts";
 
-const CREATE = `CREATE TABLE IF NOT EXISTS SynapseEntities (
-  createDate DATETIME NOT NULL,
-  documentation TEXT NOT NULL,
-  id TEXT PRIMARY KEY NOT NULL,
-  labels TEXT NOT NULL,
-  lastUpdate DATETIME NOT NULL,
-  name TEXT NOT NULL,
-  type TEXT NOT NULL,
-  attributes TEXT NOT NULL,
-  defaultConfig TEXT NOT NULL,
-  icon TEXT NOT NULL,
-  locals TEXT NOT NULL,
-  suggested_object_id TEXT NOT NULL,
-  defaultAttributes TEXT NOT NULL,
-  defaultLocals TEXT NOT NULL
-)`;
-const UPSERT = `INSERT INTO SynapseEntities (
-  createDate, documentation, id, labels, lastUpdate, name, type, attributes, defaultConfig, icon, locals, suggested_object_id, defaultAttributes, defaultLocals
-) VALUES (
-  @createDate, @documentation, @id, @labels, @lastUpdate, @name, @type, @attributes, @defaultConfig, @icon, @locals, @suggested_object_id, @defaultAttributes, @defaultLocals
-) ON CONFLICT(id) DO UPDATE SET
-  documentation = excluded.documentation,
-  labels = excluded.labels,
-  lastUpdate = excluded.lastUpdate,
-  name = excluded.name,
-  type = excluded.type,
-  attributes = excluded.attributes,
-  defaultConfig = excluded.defaultConfig,
-  icon = excluded.icon,
-  locals = excluded.locals,
-  suggested_object_id = excluded.suggested_object_id,
-  defaultAttributes = excluded.defaultAttributes,
-  defaultLocals = excluded.defaultLocals`;
+// Common base type for all database entities
+type CommonEntityRow = {
+  id: string;
+  name: string;
+  type: string;
+  attributes: string;
+  default_config: string;
+  icon: string;
+  locals: string;
+  suggested_object_id: string;
+  default_attributes: string;
+  default_locals: string;
+  documentation: string;
+  labels: string;
+};
 
-const REMOVE = `DELETE FROM SynapseEntities WHERE id = $id`;
-const SELECT_ALL = `SELECT * FROM SynapseEntities`;
+// Database-specific extensions
+type SqliteEntityRow = CommonEntityRow & {
+  create_date: string;
+  last_update: string;
+};
+
+type MysqlEntityRow = CommonEntityRow & {
+  create_date: Date;
+  last_update: Date;
+};
+
+type PostgresEntityRow = CommonEntityRow & {
+  create_date: Date;
+  last_update: Date;
+};
+
+// Database save result types
+type SqliteEntitySave = CommonEntityRow & {
+  create_date: string;
+  last_update: string;
+};
+
+type MysqlEntitySave = CommonEntityRow & {
+  create_date: Date;
+  last_update: Date;
+};
+
+type PostgresEntitySave = CommonEntityRow & {
+  create_date: Date;
+  last_update: Date;
+};
 
 export function SynapseEntitiesTable({
   lifecycle,
+  config,
   logger,
   event,
   synapse,
   context,
   metrics,
 }: TServiceParams) {
-  let database: Database;
-  let store = new Map<string, SynapseEntities>();
+  const store = new Map<string, SynapseEntities>();
 
-  lifecycle.onBootstrap(() => {
-    database = synapse.sqlite.getDatabase();
-    database.prepare(CREATE).run();
+  lifecycle.onBootstrap(function () {
     loadFromDB();
   });
 
-  // #MARK: load
-  function load(row: Partial<SynapseEntityRow>): SynapseEntities {
-    return {
-      ...row,
-      labels: is.empty(row.labels) ? [] : row.labels.split("|"),
-    } as SynapseEntities;
-  }
+  // Database-specific implementations
+  const sqlite = {
+    async create(data: SynapseEntityCreateOptions) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      const id = v4();
+      const row = { id, ...sqlite.save(data) };
+      database.insert(sqliteSynapseEntitiesTable).values(row);
+      const out = sqlite.load(row);
+      store.set(row.id, out);
+      event.emit(SYNAPSE_ENTITIES_ADDED, out);
+      return out;
+    },
 
-  // #MARK: save
-  function save(data: SynapseEntities | SynapseEntityCreateOptions) {
-    const now = new Date().toISOString();
-    return {
-      ...data,
-      createDate: (data as SynapseEntities).createDate ?? now,
-      labels: data.labels.join("|"),
-      lastUpdate: now,
-    };
-  }
+    load(row: SqliteEntityRow): SynapseEntities {
+      return {
+        attributes: row.attributes,
+        createDate: row.create_date,
+        defaultAttributes: row.default_attributes,
+        defaultConfig: row.default_config,
+        defaultLocals: row.default_locals,
+        documentation: row.documentation,
+        icon: row.icon,
+        id: row.id,
+        labels: is.empty(row.labels) ? [] : row.labels.split("|"),
+        lastUpdate: row.last_update,
+        locals: row.locals,
+        name: row.name,
+        suggested_object_id: row.suggested_object_id,
+        type: row.type as SynapseEntityTypes,
+      } as SynapseEntities;
+    },
+
+    async loadFromDB() {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      store.clear();
+      metrics.measure([context, "loadFromDB"], function () {
+        const rows = database.select().from(sqliteSynapseEntitiesTable).all();
+        rows.forEach(function (row) {
+          const loaded = sqlite.load(row);
+          store.set(loaded.id, loaded);
+        });
+      });
+      logger.debug({ count: store.size }, `loaded entities from sqlite`);
+    },
+
+    async remove(id: string) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      store.delete(id);
+      database
+        .delete(sqliteSynapseEntitiesTable)
+        .where(eq(sqliteSynapseEntitiesTable.id, id));
+      event.emit(SYNAPSE_ENTITIES_REMOVED, id);
+    },
+
+    save(data: SynapseEntities | SynapseEntityCreateOptions): SqliteEntitySave {
+      const now = new Date().toISOString();
+      return {
+        attributes: data.attributes,
+        create_date: (data as SynapseEntities).createDate ?? now,
+        default_attributes: data.defaultAttributes,
+        default_config: data.defaultConfig,
+        default_locals: data.defaultLocals,
+        documentation: data.documentation,
+        icon: data.icon,
+        id: (data as SynapseEntities).id || "",
+        labels: data.labels.join("|"),
+        last_update: now,
+        locals: data.locals,
+        name: data.name,
+        suggested_object_id: data.suggested_object_id,
+        type: data.type,
+      };
+    },
+
+    async update(id: string, data: Partial<SynapseEntityCreateOptions>) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      const current = store.get(id);
+      const update = sqlite.save({ ...current, ...data });
+      database
+        .update(sqliteSynapseEntitiesTable)
+        .set(update)
+        .where(eq(sqliteSynapseEntitiesTable.id, id));
+      const out = sqlite.load(update);
+      store.set(id, out);
+      // does not emit anything
+      // in order to affect the entity, a rebuild is needed
+      return out;
+    },
+  };
+
+  const mysql = {
+    async create(data: SynapseEntityCreateOptions) {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      const id = v4();
+      const row = { id, ...mysql.save(data) };
+      await database.insert(mysqlSynapseEntitiesTable).values(row);
+      const out = mysql.load(row);
+      store.set(row.id, out);
+      event.emit(SYNAPSE_ENTITIES_ADDED, out);
+      return out;
+    },
+
+    load(row: MysqlEntityRow): SynapseEntities {
+      return {
+        attributes: row.attributes,
+        createDate: row.create_date.toISOString(),
+        defaultAttributes: row.default_attributes,
+        defaultConfig: row.default_config,
+        defaultLocals: row.default_locals,
+        documentation: row.documentation,
+        icon: row.icon,
+        id: row.id,
+        labels: is.empty(row.labels) ? [] : row.labels.split("|"),
+        lastUpdate: row.last_update.toISOString(),
+        locals: row.locals,
+        name: row.name,
+        suggested_object_id: row.suggested_object_id,
+        type: row.type as SynapseEntityTypes,
+      } as SynapseEntities;
+    },
+
+    async loadFromDB() {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      store.clear();
+      metrics.measure([context, "loadFromDB"], async function () {
+        const rows = await database
+          .select()
+          .from(mysqlSynapseEntitiesTable)
+          .execute();
+        rows.forEach(function (row) {
+          const loaded = mysql.load(row);
+          store.set(loaded.id, loaded);
+        });
+      });
+      logger.debug({ count: store.size }, `loaded entities from mysql`);
+    },
+
+    async remove(id: string) {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      store.delete(id);
+      await database
+        .delete(mysqlSynapseEntitiesTable)
+        .where(eq(mysqlSynapseEntitiesTable.id, id));
+      event.emit(SYNAPSE_ENTITIES_REMOVED, id);
+    },
+
+    save(data: SynapseEntities | SynapseEntityCreateOptions): MysqlEntitySave {
+      const now = new Date();
+      return {
+        attributes: data.attributes,
+        create_date: (data as SynapseEntities).createDate
+          ? new Date((data as SynapseEntities).createDate)
+          : now,
+        default_attributes: data.defaultAttributes,
+        default_config: data.defaultConfig,
+        default_locals: data.defaultLocals,
+        documentation: data.documentation,
+        icon: data.icon,
+        id: (data as SynapseEntities).id || "",
+        labels: data.labels.join("|"),
+        last_update: now,
+        locals: data.locals,
+        name: data.name,
+        suggested_object_id: data.suggested_object_id,
+        type: data.type,
+      };
+    },
+
+    async update(id: string, data: Partial<SynapseEntityCreateOptions>) {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      const current = store.get(id);
+      if (!current) {
+        throw new Error(`Entity with id ${id} not found`);
+      }
+      // Convert the current entity to the format expected by save
+      const currentForSave: SynapseEntityCreateOptions = {
+        ...current,
+      };
+      const update = mysql.save({ ...currentForSave, ...data });
+      await database
+        .update(mysqlSynapseEntitiesTable)
+        .set(update)
+        .where(eq(mysqlSynapseEntitiesTable.id, id));
+      const out = mysql.load(update);
+      store.set(id, out);
+      // does not emit anything
+      // in order to affect the entity, a rebuild is needed
+      return out;
+    },
+  };
+
+  const postgres = {
+    async create(data: SynapseEntityCreateOptions) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      const id = v4();
+      const row = { id, ...postgres.save(data) };
+      await database.insert(postgresSynapseEntitiesTable).values(row);
+      const out = postgres.load(row);
+      store.set(row.id, out);
+      event.emit(SYNAPSE_ENTITIES_ADDED, out);
+      return out;
+    },
+
+    load(row: PostgresEntityRow): SynapseEntities {
+      return {
+        attributes: row.attributes,
+        createDate: row.create_date.toISOString(),
+        defaultAttributes: row.default_attributes,
+        defaultConfig: row.default_config,
+        defaultLocals: row.default_locals,
+        documentation: row.documentation,
+        icon: row.icon,
+        id: row.id,
+        labels: is.empty(row.labels) ? [] : row.labels.split("|"),
+        lastUpdate: row.last_update.toISOString(),
+        locals: row.locals,
+        name: row.name,
+        suggested_object_id: row.suggested_object_id,
+        type: row.type as SynapseEntityTypes,
+      } as SynapseEntities;
+    },
+
+    async loadFromDB() {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      store.clear();
+      metrics.measure([context, "loadFromDB"], async function () {
+        const rows = await database
+          .select()
+          .from(postgresSynapseEntitiesTable)
+          .execute();
+        rows.forEach(function (row) {
+          const loaded = postgres.load(row);
+          store.set(loaded.id, loaded);
+        });
+      });
+      logger.debug({ count: store.size }, `loaded entities from postgres`);
+    },
+
+    async remove(id: string) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      store.delete(id);
+      await database
+        .delete(postgresSynapseEntitiesTable)
+        .where(eq(postgresSynapseEntitiesTable.id, id));
+      event.emit(SYNAPSE_ENTITIES_REMOVED, id);
+    },
+
+    save(
+      data: SynapseEntities | SynapseEntityCreateOptions,
+    ): PostgresEntitySave {
+      const now = new Date();
+      return {
+        attributes: data.attributes,
+        create_date: (data as SynapseEntities).createDate
+          ? new Date((data as SynapseEntities).createDate)
+          : now,
+        default_attributes: data.defaultAttributes,
+        default_config: data.defaultConfig,
+        default_locals: data.defaultLocals,
+        documentation: data.documentation,
+        icon: data.icon,
+        id: (data as SynapseEntities).id || "",
+        labels: data.labels.join("|"),
+        last_update: now,
+        locals: data.locals,
+        name: data.name,
+        suggested_object_id: data.suggested_object_id,
+        type: data.type,
+      };
+    },
+
+    async update(id: string, data: Partial<SynapseEntityCreateOptions>) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      const current = store.get(id);
+      const update = postgres.save({ ...current, ...data });
+      await database
+        .update(postgresSynapseEntitiesTable)
+        .set(update)
+        .where(eq(postgresSynapseEntitiesTable.id, id));
+      const out = postgres.load(update);
+      store.set(id, out);
+      // does not emit anything
+      // in order to affect the entity, a rebuild is needed
+      return out;
+    },
+  };
 
   // #MARK: loadFromDB
-  function loadFromDB() {
-    store = new Map();
-    metrics.measure([context, loadFromDB], () => {
-      database
-        .prepare<[], SynapseEntityRow>(SELECT_ALL)
-        .all()
-        .forEach(row => store.set(row.id, load(row)));
-    });
-    logger.debug({ count: store.size }, `loaded entities`);
+  async function loadFromDB() {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        await mysql.loadFromDB();
+        break;
+      case "postgresql":
+        await postgres.loadFromDB();
+        break;
+      case "sqlite":
+      default:
+        sqlite.loadFromDB();
+        break;
+    }
   }
 
   // #MARK: create
-  function create(data: SynapseEntityCreateOptions) {
-    const id = v4();
-    const row = { id, ...save(data) };
-    database.prepare(UPSERT).run(row);
-    const out = load(row);
-    store.set(row.id, out);
-    event.emit(SYNAPSE_ENTITIES_ADDED, out);
-    return out;
+  async function create(data: SynapseEntityCreateOptions) {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        return await mysql.create(data);
+      case "postgresql":
+        return await postgres.create(data);
+      case "sqlite":
+      default:
+        return sqlite.create(data);
+    }
   }
 
   // #MARK: update
-  function update(id: string, data: Partial<SynapseEntityCreateOptions>) {
-    const current = store.get(id);
-    const update = save({ ...current, ...data });
-    database.prepare(UPSERT).run({ ...update, id });
-    const out = load(update);
-    store.set(id, out);
-    // does not emit anything
-    // in order to affect the entity, a rebuild is needed
-    return out;
+  async function update(id: string, data: Partial<SynapseEntityCreateOptions>) {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        return await mysql.update(id, data);
+      case "postgresql":
+        return await postgres.update(id, data);
+      case "sqlite":
+      default:
+        return sqlite.update(id, data);
+    }
   }
 
   // #MARK: remove
-  function remove(id: string): void {
-    store.delete(id);
-    database.prepare(REMOVE).run({ id });
-    event.emit(SYNAPSE_ENTITIES_REMOVED, id);
+  async function remove(id: string): Promise<void> {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        await mysql.remove(id);
+        break;
+      case "postgresql":
+        await postgres.remove(id);
+        break;
+      case "sqlite":
+      default:
+        sqlite.remove(id);
+        break;
+    }
   }
 
   // #MARK: get
-  function get(id: string): SynapseEntities {
+  function get(id: string): SynapseEntities | undefined {
     return store.get(id);
   }
 

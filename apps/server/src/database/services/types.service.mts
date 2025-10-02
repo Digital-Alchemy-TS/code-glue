@@ -1,73 +1,377 @@
 import { TServiceParams } from "@digital-alchemy/core";
-import { Database } from "better-sqlite3";
+import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/better-sqlite3";
+import { MySql2Database } from "drizzle-orm/mysql2";
+import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
+import { v4 } from "uuid";
 
-export interface HeaderImportStatement {
-  /**
-   * ex: "@digital-alchemy/hass"
-   */
-  package: string;
-  /**
-   * ex: "{ LIB_HASS, PICK_ENTITY }"
-   * ex: "dayjs"
-   */
-  statement: string;
-  /**
-   * Property to extract from TServiceParams.
-   * Only relevant for DA based libraries
-   */
-  lib_name?: string;
-  /**
-   *
-   */
-  init?: string;
-}
+import {
+  ImportType,
+  ImportTypeCreateOptions,
+  ImportTypeRow,
+} from "../schemas/common.mts";
+import {
+  mysqlImportTypesTable,
+  postgresImportTypesTable,
+  sqliteImportTypesTable,
+} from "../schemas/index.mts";
 
-const CREATE = `CREATE TABLE IF NOT EXISTS ImportTypes (
-  active TEXT NOT NULL,
-  area TEXT,
-  body TEXT NOT NULL,
-  context TEXT NOT NULL,
-  createDate DATETIME NOT NULL,
-  id TEXT PRIMARY KEY NOT NULL,
-  labels TEXT NOT NULL,
-  lastUpdate DATETIME NOT NULL,
-  parent TEXT,
-  title TEXT NOT NULL,
-  documentation TEXT NOT NULL,
-  version TEXT NOT NULL
-)`;
+// Database-specific row types
+type SqliteImportTypeRow = Omit<
+  ImportTypeRow,
+  "create_date" | "last_update"
+> & {
+  create_date: string;
+  last_update: string;
+};
 
-const UPSERT = `INSERT INTO ImportTypes (
-  active, area, body, context, labels, parent, title, version, documentation, id, createDate, lastUpdate
-) VALUES (
-  @active, @area, @body, @context, @labels, @parent, @title, @version, @documentation, @id,
-  datetime('now'), datetime('now')
-) ON CONFLICT(id) DO UPDATE SET
-  active = excluded.active,
-  area = excluded.area,
-  body = excluded.body,
-  context = excluded.context,
-  labels = excluded.labels,
-  documentation = excluded.documentation,
-  parent = excluded.parent,
-  title = excluded.title,
-  version = excluded.version,
-  lastUpdate = datetime('now')`;
+type MysqlImportTypeRow = Omit<ImportTypeRow, "create_date" | "last_update"> & {
+  create_date: Date;
+  last_update: Date;
+};
 
-const REMOVE = `DELETE FROM ImportTypes WHERE id = $id`;
-const SELECT_ALL = `SELECT * FROM ImportTypes`;
+type PostgresImportTypeRow = Omit<
+  ImportTypeRow,
+  "create_date" | "last_update"
+> & {
+  create_date: Date;
+  last_update: Date;
+};
 
 export function TypesTable({
   lifecycle,
+  config,
   logger,
   synapse,
   context,
   metrics,
 }: TServiceParams) {
-  // let database: Database;
+  const store = new Map<string, ImportType>();
 
-  lifecycle.onBootstrap(() => {
-    // database = synapse.sqlite.getDatabase();
-    // database.prepare(CREATE).run();
+  lifecycle.onBootstrap(function () {
+    loadFromDB();
   });
+
+  // Database-specific implementations
+  const sqlite = {
+    async create(data: ImportTypeCreateOptions) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      const id = v4();
+      const row = { id, ...sqlite.save(data) };
+      database.insert(sqliteImportTypesTable).values(row);
+      const out = sqlite.load(row);
+      store.set(row.id, out);
+      return out;
+    },
+
+    load(row: Partial<SqliteImportTypeRow>): ImportType {
+      return {
+        ...row,
+        labels: row.labels?.split("|") || [],
+      } as ImportType;
+    },
+
+    async loadFromDB() {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      store.clear();
+      metrics.measure([context, "loadFromDB"], function () {
+        const rows = database.select().from(sqliteImportTypesTable).all();
+        rows.forEach(function (row) {
+          const loaded = sqlite.load(row);
+          store.set(loaded.id, loaded);
+        });
+      });
+      logger.debug({ count: store.size }, `loaded import types from sqlite`);
+    },
+
+    async remove(id: string) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      store.delete(id);
+      database
+        .delete(sqliteImportTypesTable)
+        .where(eq(sqliteImportTypesTable.id, id));
+    },
+
+    save(data: ImportTypeCreateOptions): Omit<SqliteImportTypeRow, "id"> {
+      const now = new Date().toISOString();
+      return {
+        active: data.active,
+        area: data.area,
+        body: data.body,
+        context: data.context,
+        create_date: (data as ImportType).create_date ?? now,
+        documentation: data.documentation,
+        labels: data.labels.join("|"),
+        last_update: now,
+        parent: data.parent,
+        title: data.title,
+        version: data.version,
+      };
+    },
+
+    async update(id: string, data: Partial<ImportTypeCreateOptions>) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzle
+      >;
+      const current = store.get(id);
+      const update = sqlite.save({ ...current, ...data });
+      database
+        .update(sqliteImportTypesTable)
+        .set(update)
+        .where(eq(sqliteImportTypesTable.id, id));
+      const out = sqlite.load({ id, ...update });
+      store.set(id, out);
+      return out;
+    },
+  };
+
+  const mysql = {
+    async create(data: ImportTypeCreateOptions) {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      const id = v4();
+      const row = { id, ...mysql.save(data) };
+      await database.insert(mysqlImportTypesTable).values(row);
+      const out = mysql.load(row);
+      store.set(row.id, out);
+      return out;
+    },
+
+    load(row: Partial<MysqlImportTypeRow>): ImportType {
+      return {
+        ...row,
+        create_date: row.create_date?.toISOString() || new Date().toISOString(),
+        labels: row.labels?.split("|") || [],
+        last_update: row.last_update?.toISOString() || new Date().toISOString(),
+      } as ImportType;
+    },
+
+    async loadFromDB() {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      store.clear();
+      metrics.measure([context, "loadFromDB"], async function () {
+        const rows = await database
+          .select()
+          .from(mysqlImportTypesTable)
+          .execute();
+        rows.forEach(function (row) {
+          const loaded = mysql.load(row);
+          store.set(loaded.id, loaded);
+        });
+      });
+      logger.debug({ count: store.size }, `loaded import types from mysql`);
+    },
+
+    async remove(id: string) {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      store.delete(id);
+      await database
+        .delete(mysqlImportTypesTable)
+        .where(eq(mysqlImportTypesTable.id, id));
+    },
+
+    save(data: ImportTypeCreateOptions): Omit<MysqlImportTypeRow, "id"> {
+      const now = new Date();
+      return {
+        active: data.active,
+        area: data.area,
+        body: data.body,
+        context: data.context,
+        create_date: (data as ImportType).create_date
+          ? new Date((data as ImportType).create_date)
+          : now,
+        documentation: data.documentation,
+        labels: data.labels.join("|"),
+        last_update: now,
+        parent: data.parent,
+        title: data.title,
+        version: data.version,
+      };
+    },
+
+    async update(id: string, data: Partial<ImportTypeCreateOptions>) {
+      const database = synapse.database.getDatabase() as MySql2Database<
+        Record<string, unknown>
+      >;
+      const current = store.get(id);
+      const update = mysql.save({ ...current, ...data });
+      await database
+        .update(mysqlImportTypesTable)
+        .set(update)
+        .where(eq(mysqlImportTypesTable.id, id));
+      const out = mysql.load({ id, ...update });
+      store.set(id, out);
+      return out;
+    },
+  };
+
+  const postgres = {
+    async create(data: ImportTypeCreateOptions) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      const id = v4();
+      const row = { id, ...postgres.save(data) };
+      await database.insert(postgresImportTypesTable).values(row);
+      const out = postgres.load(row);
+      store.set(row.id, out);
+      return out;
+    },
+
+    load(row: Partial<PostgresImportTypeRow>): ImportType {
+      return {
+        ...row,
+        create_date: row.create_date?.toISOString() || new Date().toISOString(),
+        labels: row.labels?.split("|") || [],
+        last_update: row.last_update?.toISOString() || new Date().toISOString(),
+      } as ImportType;
+    },
+
+    async loadFromDB() {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      store.clear();
+      metrics.measure([context, "loadFromDB"], async function () {
+        const rows = await database
+          .select()
+          .from(postgresImportTypesTable)
+          .execute();
+        rows.forEach(function (row) {
+          const loaded = postgres.load(row);
+          store.set(loaded.id, loaded);
+        });
+      });
+      logger.debug({ count: store.size }, `loaded import types from postgres`);
+    },
+
+    async remove(id: string) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      store.delete(id);
+      await database
+        .delete(postgresImportTypesTable)
+        .where(eq(postgresImportTypesTable.id, id));
+    },
+
+    save(data: ImportTypeCreateOptions): Omit<PostgresImportTypeRow, "id"> {
+      const now = new Date();
+      return {
+        active: data.active,
+        area: data.area,
+        body: data.body,
+        context: data.context,
+        create_date: (data as ImportType).create_date
+          ? new Date((data as ImportType).create_date)
+          : now,
+        documentation: data.documentation,
+        labels: data.labels.join("|"),
+        last_update: now,
+        parent: data.parent,
+        title: data.title,
+        version: data.version,
+      };
+    },
+
+    async update(id: string, data: Partial<ImportTypeCreateOptions>) {
+      const database = synapse.database.getDatabase() as ReturnType<
+        typeof drizzlePostgres
+      >;
+      const current = store.get(id);
+      const update = postgres.save({ ...current, ...data });
+      await database
+        .update(postgresImportTypesTable)
+        .set(update)
+        .where(eq(postgresImportTypesTable.id, id));
+      const out = postgres.load({ id, ...update });
+      store.set(id, out);
+      return out;
+    },
+  };
+
+  // #MARK: loadFromDB
+  async function loadFromDB() {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        await mysql.loadFromDB();
+        break;
+      case "postgresql":
+        await postgres.loadFromDB();
+        break;
+      case "sqlite":
+      default:
+        sqlite.loadFromDB();
+        break;
+    }
+  }
+
+  // #MARK: create
+  async function create(data: ImportTypeCreateOptions) {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        return await mysql.create(data);
+      case "postgresql":
+        return await postgres.create(data);
+      case "sqlite":
+      default:
+        return sqlite.create(data);
+    }
+  }
+
+  // #MARK: update
+  async function update(id: string, data: Partial<ImportTypeCreateOptions>) {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        return await mysql.update(id, data);
+      case "postgresql":
+        return await postgres.update(id, data);
+      case "sqlite":
+      default:
+        return sqlite.update(id, data);
+    }
+  }
+
+  // #MARK: remove
+  async function remove(id: string): Promise<void> {
+    const dbType = config.synapse.DATABASE_TYPE;
+    switch (dbType) {
+      case "mysql":
+        await mysql.remove(id);
+        break;
+      case "postgresql":
+        await postgres.remove(id);
+        break;
+      case "sqlite":
+      default:
+        sqlite.remove(id);
+        break;
+    }
+  }
+
+  // #MARK: get
+  function get(id: string): ImportType | undefined {
+    return store.get(id);
+  }
+
+  // #MARK: list
+  function list(): ImportType[] {
+    return [...store.values()];
+  }
+
+  return { create, get, list, loadFromDB, remove, update };
 }

@@ -7,13 +7,18 @@
     "act": "act -j lint-and-build",
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint src",
+    "db:generate:sqlite": "DATABASE_TYPE=sqlite drizzle-kit generate",
+    "db:generate:postgresql": "DATABASE_TYPE=postgresql drizzle-kit generate",
+    "db:generate:mysql": "DATABASE_TYPE=mysql drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
     "start": "tsx src/app/environments/local/main.mts",
     "start:inspect": "tsx --inspect src/app/environments/local/main.mts",
     "start:brk": "tsx --inspect-brk src/app/environments/local/main.mts",
     "test": "./scripts/test.sh"
   },
   "devDependencies": {
-    "tsx": "^4.19.3",
-    "typescript": "^5.8.2"
+    "drizzle-kit": "^0.31.4",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
   }
 }
