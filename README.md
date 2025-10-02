@@ -32,6 +32,12 @@ docker compose up -d
 
 - `.code_glue.template` to `.code_glue` & fill in variables (for server)
 
+5. Migrate the database:
+
+```bash
+yarn server:db:migrate
+```
+
 ### 🎛️ General Commands
 
 #### Server

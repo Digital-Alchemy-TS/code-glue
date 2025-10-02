@@ -16,6 +16,7 @@
     "server:lint": "yarn --cwd ./apps/server lint",
     "server:start": "yarn --cwd ./apps/server start",
     "server:test": "yarn --cwd ./apps/server test",
+    "server:db:migrate": "yarn --cwd ./apps/server db:migrate",
     "client:dev": "yarn --cwd ./apps/client start",
     "client:lint": "yarn --cwd ./apps/client lint",
     "client:build": "yarn --cwd ./apps/client build",
