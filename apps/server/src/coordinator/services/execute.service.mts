@@ -45,6 +45,12 @@ export function ExecuteService({
   }
 
   return async function contextLoader(automation: StoredAutomation) {
+    // Safety check: if automation is undefined, log and return early
+    if (!automation) {
+      logger.warn("automation content is undefined, skipping");
+      return () => {}; // return a no-op teardown function
+    }
+    
     // create a log context
     const child = is.empty(automation.context)
       ? formatObjectId(automation.title)
@@ -80,7 +86,10 @@ export function ExecuteService({
         logger.info({ hash }, "starting service: [%s]", child);
       });
     } catch (error) {
-      logger.error({ context: child, error }, "service failed to initialize");
+      logger.error(
+        { context: child, error },
+        `service failed to initialize: ${error}`,
+      );
     }
     return remover;
   };

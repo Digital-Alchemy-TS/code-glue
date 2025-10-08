@@ -87,9 +87,9 @@ export function SynapseEntitiesTable({
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzle
       >;
-      const id = v4();
+      const id = (data as any).id || v4();
       const row = { id, ...sqlite.save(data) };
-      database.insert(sqliteSynapseEntitiesTable).values(row);
+      await database.insert(sqliteSynapseEntitiesTable).values(row);
       const out = sqlite.load(row);
       store.set(row.id, out);
       event.emit(SYNAPSE_ENTITIES_ADDED, out);
@@ -127,7 +127,6 @@ export function SynapseEntitiesTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded entities from sqlite`);
     },
 
     async remove(id: string) {
@@ -135,9 +134,9 @@ export function SynapseEntitiesTable({
         typeof drizzle
       >;
       store.delete(id);
-      database
+      await database
         .delete(sqliteSynapseEntitiesTable)
-        .where(eq(sqliteSynapseEntitiesTable.id, id));
+        .where(eq(sqliteSynapseEntitiesTable.id, id)).run();
       event.emit(SYNAPSE_ENTITIES_REMOVED, id);
     },
 
@@ -166,8 +165,20 @@ export function SynapseEntitiesTable({
         typeof drizzle
       >;
       const current = store.get(id);
+      
+      if (!current) {
+        // If entity doesn't exist, create it with the provided ID
+        const row = { id, ...sqlite.save(data as SynapseEntityCreateOptions) };
+        await database.insert(sqliteSynapseEntitiesTable).values(row);
+        const out = sqlite.load(row);
+        store.set(id, out);
+        event.emit(SYNAPSE_ENTITIES_ADDED, out);
+        return out;
+      }
+      
+      // Otherwise update existing entity
       const update = sqlite.save({ ...current, ...data });
-      database
+      await database
         .update(sqliteSynapseEntitiesTable)
         .set(update)
         .where(eq(sqliteSynapseEntitiesTable.id, id));
@@ -184,7 +195,7 @@ export function SynapseEntitiesTable({
       const database = synapse.database.getDatabase() as MySql2Database<
         Record<string, unknown>
       >;
-      const id = v4();
+      const id = (data as any).id || v4();
       const row = { id, ...mysql.save(data) };
       await database.insert(mysqlSynapseEntitiesTable).values(row);
       const out = mysql.load(row);
@@ -227,7 +238,6 @@ export function SynapseEntitiesTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded entities from mysql`);
     },
 
     async remove(id: string) {
@@ -268,9 +278,18 @@ export function SynapseEntitiesTable({
         Record<string, unknown>
       >;
       const current = store.get(id);
+      
       if (!current) {
-        throw new Error(`Entity with id ${id} not found`);
+        // If entity doesn't exist, create it with the provided ID
+        const row = { id, ...mysql.save(data as SynapseEntityCreateOptions) };
+        await database.insert(mysqlSynapseEntitiesTable).values(row);
+        const out = mysql.load(row);
+        store.set(id, out);
+        event.emit(SYNAPSE_ENTITIES_ADDED, out);
+        return out;
       }
+      
+      // Otherwise update existing entity
       // Convert the current entity to the format expected by save
       const currentForSave: SynapseEntityCreateOptions = {
         ...current,
@@ -293,7 +312,7 @@ export function SynapseEntitiesTable({
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzlePostgres
       >;
-      const id = v4();
+      const id = (data as any).id || v4();
       const row = { id, ...postgres.save(data) };
       await database.insert(postgresSynapseEntitiesTable).values(row);
       const out = postgres.load(row);
@@ -336,7 +355,6 @@ export function SynapseEntitiesTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded entities from postgres`);
     },
 
     async remove(id: string) {
@@ -379,6 +397,18 @@ export function SynapseEntitiesTable({
         typeof drizzlePostgres
       >;
       const current = store.get(id);
+      
+      if (!current) {
+        // If entity doesn't exist, create it with the provided ID
+        const row = { id, ...postgres.save(data as SynapseEntityCreateOptions) };
+        await database.insert(postgresSynapseEntitiesTable).values(row);
+        const out = postgres.load(row);
+        store.set(id, out);
+        event.emit(SYNAPSE_ENTITIES_ADDED, out);
+        return out;
+      }
+      
+      // Otherwise update existing entity
       const update = postgres.save({ ...current, ...data });
       await database
         .update(postgresSynapseEntitiesTable)
@@ -404,7 +434,7 @@ export function SynapseEntitiesTable({
         break;
       case "sqlite":
       default:
-        sqlite.loadFromDB();
+        await sqlite.loadFromDB();
         break;
     }
   }

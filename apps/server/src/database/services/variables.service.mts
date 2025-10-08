@@ -36,9 +36,9 @@ export function VariablesTable({
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzle
       >;
-      const id = v4();
+      const id = (data as any).id || v4();
       const row = { id, ...sqlite.save(data) };
-      database.insert(sqliteSharedVariablesTable).values(row);
+      await database.insert(sqliteSharedVariablesTable).values(row);
       const out = sqlite.load(row);
       store.set(row.id, out);
       return out;
@@ -63,7 +63,6 @@ export function VariablesTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded variables from sqlite`);
     },
 
     async remove(id: string) {
@@ -71,9 +70,9 @@ export function VariablesTable({
         typeof drizzle
       >;
       store.delete(id);
-      database
+      await database
         .delete(sqliteSharedVariablesTable)
-        .where(eq(sqliteSharedVariablesTable.id, id));
+        .where(eq(sqliteSharedVariablesTable.id, id)).run();
     },
 
     save(data: SharedVariableCreateOptions) {
@@ -95,8 +94,19 @@ export function VariablesTable({
         typeof drizzle
       >;
       const current = store.get(id);
+      
+      if (!current) {
+        // If variable doesn't exist, create it with the provided ID
+        const row = { id, ...sqlite.save(data as SharedVariableCreateOptions) };
+        await database.insert(sqliteSharedVariablesTable).values(row);
+        const out = sqlite.load(row);
+        store.set(id, out);
+        return out;
+      }
+      
+      // Otherwise update existing variable
       const update = sqlite.save({ ...current, ...data });
-      database
+      await database
         .update(sqliteSharedVariablesTable)
         .set(update)
         .where(eq(sqliteSharedVariablesTable.id, id));
@@ -111,7 +121,7 @@ export function VariablesTable({
       const database = synapse.database.getDatabase() as MySql2Database<
         Record<string, unknown>
       >;
-      const id = v4();
+      const id = (data as any).id || v4();
       const row = { id, ...mysql.save(data) };
       await database.insert(mysqlSharedVariablesTable).values(row);
       const out = mysql.load(row);
@@ -141,7 +151,6 @@ export function VariablesTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded variables from mysql`);
     },
 
     async remove(id: string) {
@@ -175,6 +184,17 @@ export function VariablesTable({
         Record<string, unknown>
       >;
       const current = store.get(id);
+      
+      if (!current) {
+        // If variable doesn't exist, create it with the provided ID
+        const row = { id, ...mysql.save(data as SharedVariableCreateOptions) };
+        await database.insert(mysqlSharedVariablesTable).values(row);
+        const out = mysql.load(row);
+        store.set(id, out);
+        return out;
+      }
+      
+      // Otherwise update existing variable
       const update = mysql.save({ ...current, ...data });
       await database
         .update(mysqlSharedVariablesTable)
@@ -191,7 +211,7 @@ export function VariablesTable({
       const database = synapse.database.getDatabase() as ReturnType<
         typeof drizzlePostgres
       >;
-      const id = v4();
+      const id = (data as any).id || v4();
       const row = { id, ...postgres.save(data) };
       await database.insert(postgresSharedVariablesTable).values(row);
       const out = postgres.load(row);
@@ -221,7 +241,6 @@ export function VariablesTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded variables from postgres`);
     },
 
     async remove(id: string) {
@@ -255,6 +274,17 @@ export function VariablesTable({
         typeof drizzlePostgres
       >;
       const current = store.get(id);
+      
+      if (!current) {
+        // If variable doesn't exist, create it with the provided ID
+        const row = { id, ...postgres.save(data as SharedVariableCreateOptions) };
+        await database.insert(postgresSharedVariablesTable).values(row);
+        const out = postgres.load(row);
+        store.set(id, out);
+        return out;
+      }
+      
+      // Otherwise update existing variable
       const update = postgres.save({ ...current, ...data });
       await database
         .update(postgresSharedVariablesTable)
@@ -278,7 +308,7 @@ export function VariablesTable({
         break;
       case "sqlite":
       default:
-        sqlite.loadFromDB();
+        await sqlite.loadFromDB();
         break;
     }
   }
@@ -293,7 +323,7 @@ export function VariablesTable({
         return await postgres.create(data);
       case "sqlite":
       default:
-        return sqlite.create(data);
+        return await sqlite.create(data);
     }
   }
 
@@ -310,7 +340,7 @@ export function VariablesTable({
         return await postgres.update(id, data);
       case "sqlite":
       default:
-        return sqlite.update(id, data);
+        return await sqlite.update(id, data);
     }
   }
 
@@ -326,7 +356,7 @@ export function VariablesTable({
         break;
       case "sqlite":
       default:
-        sqlite.remove(id);
+        await sqlite.remove(id);
         break;
     }
   }

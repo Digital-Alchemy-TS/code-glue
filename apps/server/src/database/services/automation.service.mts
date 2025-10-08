@@ -38,7 +38,7 @@ export function AutomationTable({
       >;
       const id = v4();
       const row = { id, ...sqlite.save(data) };
-      database.insert(sqliteStoredAutomationTable).values(row);
+      await database.insert(sqliteStoredAutomationTable).values(row);
       const out = sqlite.load(row);
       store.set(row.id, out);
       return out;
@@ -64,7 +64,6 @@ export function AutomationTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded automations from sqlite`);
     },
 
     async remove(id: string) {
@@ -72,7 +71,7 @@ export function AutomationTable({
         typeof drizzle
       >;
       store.delete(id);
-      database
+      await database
         .delete(sqliteStoredAutomationTable)
         .where(eq(sqliteStoredAutomationTable.id, id));
     },
@@ -100,8 +99,19 @@ export function AutomationTable({
         typeof drizzle
       >;
       const current = store.get(id);
+      
+      if (!current) {
+        // If automation doesn't exist, create it with the provided ID
+        const row = { id, ...sqlite.save(data as AutomationCreateOptions) };
+        await database.insert(sqliteStoredAutomationTable).values(row);
+        const out = sqlite.load(row);
+        store.set(id, out);
+        return out;
+      }
+      
+      // Otherwise update existing automation
       const update = sqlite.save({ ...current, ...data });
-      database
+      await database
         .update(sqliteStoredAutomationTable)
         .set(update)
         .where(eq(sqliteStoredAutomationTable.id, id));
@@ -147,7 +157,6 @@ export function AutomationTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded automations from mysql`);
     },
 
     async remove(id: string) {
@@ -185,6 +194,17 @@ export function AutomationTable({
         Record<string, unknown>
       >;
       const current = store.get(id);
+      
+      if (!current) {
+        // If automation doesn't exist, create it with the provided ID
+        const row = { id, ...mysql.save(data as AutomationCreateOptions) };
+        await database.insert(mysqlStoredAutomationTable).values(row);
+        const out = mysql.load(row);
+        store.set(id, out);
+        return out;
+      }
+      
+      // Otherwise update existing automation
       const update = mysql.save({ ...current, ...data });
       await database
         .update(mysqlStoredAutomationTable)
@@ -232,7 +252,6 @@ export function AutomationTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded automations from postgres`);
     },
 
     async remove(id: string) {
@@ -270,6 +289,17 @@ export function AutomationTable({
         typeof drizzlePostgres
       >;
       const current = store.get(id);
+      
+      if (!current) {
+        // If automation doesn't exist, create it with the provided ID
+        const row = { id, ...postgres.save(data as AutomationCreateOptions) };
+        await database.insert(postgresStoredAutomationTable).values(row);
+        const out = postgres.load(row);
+        store.set(id, out);
+        return out;
+      }
+      
+      // Otherwise update existing automation
       const update = postgres.save({ ...current, ...data });
       await database
         .update(postgresStoredAutomationTable)
@@ -293,7 +323,7 @@ export function AutomationTable({
         break;
       case "sqlite":
       default:
-        sqlite.loadFromDB();
+        await sqlite.loadFromDB();
         break;
     }
   }
@@ -308,7 +338,7 @@ export function AutomationTable({
         return await postgres.create(data);
       case "sqlite":
       default:
-        return sqlite.create(data);
+        return await sqlite.create(data);
     }
   }
 
@@ -322,7 +352,7 @@ export function AutomationTable({
         return await postgres.update(id, data);
       case "sqlite":
       default:
-        return sqlite.update(id, data);
+        return await sqlite.update(id, data);
     }
   }
 
@@ -338,7 +368,7 @@ export function AutomationTable({
         break;
       case "sqlite":
       default:
-        sqlite.remove(id);
+        await sqlite.remove(id);
         break;
     }
   }

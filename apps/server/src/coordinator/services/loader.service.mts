@@ -19,7 +19,11 @@ export function LoaderService({
     const remover = coordinator.teardown.byId(id);
     remover?.teardown();
     const item = database.automation.get(id);
-    coordinator.execute(item);
+    if (item) {
+      coordinator.execute(item);
+    } else {
+      logger.warn({ id }, "automation not found for reload");
+    }
   }
 
   return {

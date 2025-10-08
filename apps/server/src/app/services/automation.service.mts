@@ -7,8 +7,8 @@ export function AutomationLogic({
   database: { automation },
   coordinator,
 }: TServiceParams) {
-  function reload(id: string, body: AutomationCreateOptions) {
-    const out = automation.update(id, body);
+  async function reload(id: string, body: AutomationCreateOptions) {
+    const out = await automation.update(id, body);
     coordinator.loader.reload(id);
     return out;
   }

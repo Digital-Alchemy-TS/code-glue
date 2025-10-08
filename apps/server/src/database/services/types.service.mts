@@ -60,7 +60,7 @@ export function TypesTable({
       >;
       const id = v4();
       const row = { id, ...sqlite.save(data) };
-      database.insert(sqliteImportTypesTable).values(row);
+      await database.insert(sqliteImportTypesTable).values(row).run();
       const out = sqlite.load(row);
       store.set(row.id, out);
       return out;
@@ -85,7 +85,6 @@ export function TypesTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded import types from sqlite`);
     },
 
     async remove(id: string) {
@@ -93,9 +92,9 @@ export function TypesTable({
         typeof drizzle
       >;
       store.delete(id);
-      database
+      await database
         .delete(sqliteImportTypesTable)
-        .where(eq(sqliteImportTypesTable.id, id));
+        .where(eq(sqliteImportTypesTable.id, id)).run();
     },
 
     save(data: ImportTypeCreateOptions): Omit<SqliteImportTypeRow, "id"> {
@@ -121,10 +120,10 @@ export function TypesTable({
       >;
       const current = store.get(id);
       const update = sqlite.save({ ...current, ...data });
-      database
+      await database
         .update(sqliteImportTypesTable)
         .set(update)
-        .where(eq(sqliteImportTypesTable.id, id));
+        .where(eq(sqliteImportTypesTable.id, id)).run();
       const out = sqlite.load({ id, ...update });
       store.set(id, out);
       return out;
@@ -168,7 +167,6 @@ export function TypesTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded import types from mysql`);
     },
 
     async remove(id: string) {
@@ -253,7 +251,6 @@ export function TypesTable({
           store.set(loaded.id, loaded);
         });
       });
-      logger.debug({ count: store.size }, `loaded import types from postgres`);
     },
 
     async remove(id: string) {
@@ -313,7 +310,7 @@ export function TypesTable({
         break;
       case "sqlite":
       default:
-        sqlite.loadFromDB();
+        await sqlite.loadFromDB();
         break;
     }
   }
@@ -328,7 +325,7 @@ export function TypesTable({
         return await postgres.create(data);
       case "sqlite":
       default:
-        return sqlite.create(data);
+        return await sqlite.create(data);
     }
   }
 
@@ -342,7 +339,7 @@ export function TypesTable({
         return await postgres.update(id, data);
       case "sqlite":
       default:
-        return sqlite.update(id, data);
+        return await sqlite.update(id, data);
     }
   }
 
@@ -358,7 +355,7 @@ export function TypesTable({
         break;
       case "sqlite":
       default:
-        sqlite.remove(id);
+        await sqlite.remove(id);
         break;
     }
   }
