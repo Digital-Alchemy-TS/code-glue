@@ -16,7 +16,7 @@ export const LIB_DATABASE = CreateLibrary({
   services: {
     automation: AutomationTable,
     entity: SynapseEntitiesTable,
-    internal: DatabaseInternalsService,
+    // internal: DatabaseInternalsService,
     types: TypesTable,
     variable: VariablesTable,
   },
