@@ -9,7 +9,7 @@
   "scripts": {
     "start": "expo start --web --clear",
     "lint": "eslint .",
-    "build": "expo export --platform web --output-dir ../../dist/client --clear"
+    "build": "expo export --platform web"
   },
   "dependencies": {
     "@code-glue/server": "workspace:*",

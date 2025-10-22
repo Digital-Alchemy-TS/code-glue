@@ -10,12 +10,12 @@
     "plugins": ["expo-router", "expo-font"],
     "experiments": {
       "typedRoutes": true,
-      "baseUrl": "/"
+      "baseUrl": "./"
     },
     "web": {
       "favicon": "./assets/images/favicon.png",
       "bundler": "metro",
-      "output": "static"
+      "output": "single"
     }
   }
 }

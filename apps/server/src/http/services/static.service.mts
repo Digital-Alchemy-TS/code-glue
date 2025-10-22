@@ -20,6 +20,8 @@ export function StaticFileService({ logger, lifecycle, http }: TServiceParams) {
     // Register fastify-static plugin for all static assets
     await http.bindings.httpServer.register(fastifyStatic, {
       root: clientPath,
+      prefix: '/',
+      decorateReply: true,
     });
 
     http.bindings.httpServer.setNotFoundHandler(async (request, reply) => {

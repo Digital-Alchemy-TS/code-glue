@@ -1,5 +1,5 @@
 name: Code Glue
-version: 1.0.1
+version: 1.0.14
 slug: code_glue
 description: Write Automations and create entities in typescript.
 arch:
@@ -8,6 +8,7 @@ arch:
   - armhf
   - armv7
   - i386
+image: ghcr.io/digital-alchemy-ts/code-glue:{arch}-{version}
 url: https://github.com/Digital-Alchemy-TS/code-glue
 init: false
 homeassistant_api: true
