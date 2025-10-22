@@ -41,7 +41,8 @@ RUN yarn build
 # Verify build artifacts exist
 RUN test -d apps/client/dist && echo "✅ Client build found"
 RUN test -d dist/server && echo "✅ Server build found"
-RUN test -f dist/server/app/environments/prebuilt/main.mjs && echo "✅ Prebuilt environment found"
+RUN ls -la dist/server/app/environments/ || echo "⚠️ Environments directory not found"
+RUN test -f dist/server/app/environments/prebuilt/main.mjs && echo "✅ Prebuilt environment found" || echo "❌ Prebuilt environment missing"
 
 FROM node:22-bookworm-slim AS runner
 
