@@ -11,9 +11,9 @@
     "db:generate:postgresql": "DATABASE_TYPE=postgresql drizzle-kit generate",
     "db:generate:mysql": "DATABASE_TYPE=mysql drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "start": "tsx src/app/environments/local/main.mts",
-    "start:inspect": "tsx --inspect src/app/environments/local/main.mts",
-    "start:brk": "tsx --inspect-brk src/app/environments/local/main.mts",
+    "start": "SERVE_STATIC=true tsx src/app/environments/local/main.mts",
+    "start:inspect": "SERVE_STATIC=true tsx --inspect src/app/environments/local/main.mts",
+    "start:brk": "SERVE_STATIC=true tsx --inspect-brk src/app/environments/local/main.mts",
     "test": "./scripts/test.sh"
   },
   "devDependencies": {
