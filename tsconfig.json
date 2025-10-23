@@ -1,6 +1,14 @@
 {
   "compilerOptions": {
-    "baseUrl": "."
-  },
-  "exclude": ["node_modules"]
+    "strict": true,
+    "alwaysStrict": true,
+    "skipLibCheck": true,
+    "allowJs": false,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "useUnknownInCatchVariables": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true
+  }
 }

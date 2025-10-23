@@ -9,5 +9,6 @@
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"eslint.workingDirectories": [
 		"apps/server"
-	]
+	],
+	"biome.configurationPath": "workspace folder",
 }
