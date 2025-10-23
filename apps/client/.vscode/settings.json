@@ -8,11 +8,20 @@
 		"source.fixAll.biome": "explicit",
 		"source.organizeImports.biome": "explicit"
 	},
-	"[json, typescriptreact, jsonc, typescript]": {
+	"[jsonc]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
 	"files.exclude": {
 		"**/.tanstack": true,
-		"**/routeTree.gen.ts": true,
+		"**/routeTree.gen.ts": true
 	}
 }
