@@ -36,13 +36,9 @@
 	},
 	"javascript": {
 		"formatter": {
-			"quoteStyle": "double"
+			"quoteStyle": "double",
+			"semicolons": "asNeeded"
 		},
 		"globals": ["React"]
-	},
-	"json": {
-		"formatter": {
-			"enabled": true
-		}
 	}
 }
