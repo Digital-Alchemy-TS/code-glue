@@ -1,3 +1,0 @@
-[submodule "packages/paradigm"]
-	path = packages/paradigm
-	url = https://github.com/tiltshift/paradigm.git
