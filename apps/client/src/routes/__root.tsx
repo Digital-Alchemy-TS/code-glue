@@ -16,7 +16,17 @@ export const Route = createRootRoute({
 				title: "Code Glue",
 			},
 		],
-		links: [],
+		links: [
+			{
+				rel: "icon",
+				href: "/favicon-32x32.png",
+				type: "image/png",
+			},
+			{
+				rel: "manifest",
+				href: "/manifest.json",
+			},
+		],
 	}),
 
 	shellComponent: RootDocument,
