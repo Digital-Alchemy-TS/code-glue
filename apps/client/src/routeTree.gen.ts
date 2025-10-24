@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AutomationCreateRouteImport } from './routes/automation/create'
+import { Route as AutomationIdRouteImport } from './routes/automation/$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AutomationCreateRoute = AutomationCreateRouteImport.update({
+  id: '/automation/create',
+  path: '/automation/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AutomationIdRoute = AutomationIdRouteImport.update({
+  id: '/automation/$id',
+  path: '/automation/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/automation/$id': typeof AutomationIdRoute
+  '/automation/create': typeof AutomationCreateRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/automation/$id': typeof AutomationIdRoute
+  '/automation/create': typeof AutomationCreateRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/automation/$id': typeof AutomationIdRoute
+  '/automation/create': typeof AutomationCreateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/automation/$id' | '/automation/create'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/automation/$id' | '/automation/create'
+  id: '__root__' | '/' | '/automation/$id' | '/automation/create'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AutomationIdRoute: typeof AutomationIdRoute
+  AutomationCreateRoute: typeof AutomationCreateRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/automation/create': {
+      id: '/automation/create'
+      path: '/automation/create'
+      fullPath: '/automation/create'
+      preLoaderRoute: typeof AutomationCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/automation/$id': {
+      id: '/automation/$id'
+      path: '/automation/$id'
+      fullPath: '/automation/$id'
+      preLoaderRoute: typeof AutomationIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AutomationIdRoute: AutomationIdRoute,
+  AutomationCreateRoute: AutomationCreateRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
