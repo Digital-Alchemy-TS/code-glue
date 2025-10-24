@@ -43,6 +43,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",
+						openHotkey: ["Meta", "d"],
+						triggerImage: "dev.png",
 					}}
 					plugins={[
 						{
