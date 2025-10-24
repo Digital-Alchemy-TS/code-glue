@@ -50,7 +50,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					config={{
 						position: "bottom-right",
 						openHotkey: ["Meta", "d"],
-						triggerImage: "dev.png",
+						triggerImage: "/dev.png",
 					}}
 					plugins={[
 						{
