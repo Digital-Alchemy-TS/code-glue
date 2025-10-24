@@ -1,15 +1,10 @@
 {
-  "extends": "../../tsconfig",
+  "extends": "../../tsconfig.json",
   "compileOnSave": true,
   "compilerOptions": {
-    "allowJs": false,
-    "alwaysStrict": true,
-    "esModuleInterop": true,
     "importHelpers": true,
     "isolatedModules": true,
-    "lib": [
-      "ESNext"
-    ],
+    "lib": ["ESNext"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noImplicitAny": true,
@@ -28,13 +23,8 @@
     "strict": false,
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
-    "target": "ESNext",
-    "allowSyntheticDefaultImports": true
+    "target": "ESNext"
   },
-  "include": [
-    "src/**/*.mts"
-  ],
-  "exclude": [
-    "dist"
-  ]
+  "include": ["src/**/*.mts"],
+  "exclude": ["dist"]
 }
