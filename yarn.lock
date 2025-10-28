@@ -572,6 +572,8 @@ __metadata:
   dependencies:
     "@biomejs/biome": "npm:2.2.4"
     "@chromatic-com/storybook": "npm:^4.1.1"
+    "@mfellner/valtio-factory": "npm:^1.0.2"
+    "@monaco-editor/react": "npm:^4.7.0"
     "@storybook/addon-a11y": "npm:^9.1.13"
     "@storybook/addon-docs": "npm:^9.1.13"
     "@storybook/addon-onboarding": "npm:^9.1.13"
@@ -589,15 +591,19 @@ __metadata:
     "@types/node": "npm:^22.10.2"
     "@types/react": "npm:^19.2.0"
     "@types/react-dom": "npm:^19.2.0"
+    "@typescript/ata": "npm:^0.9.8"
     "@vitejs/plugin-react": "npm:^5.0.4"
     "@vitest/browser": "npm:3.2.4"
     "@vitest/coverage-v8": "npm:3.2.4"
     jsdom: "npm:^27.0.0"
+    monaco-editor: "npm:^0.54.0"
     playwright: "npm:^1.56.1"
     react: "npm:^19.2.0"
     react-dom: "npm:^19.2.0"
     storybook: "npm:^9.1.13"
     typescript: "npm:^5.7.2"
+    uuid: "npm:^13.0.0"
+    valtio: "npm:^2.1.8"
     vite: "npm:^7.1.7"
     vite-tsconfig-paths: "npm:^5.1.4"
     vitest: "npm:^3.0.5"
@@ -2656,6 +2662,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mfellner/valtio-factory@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@mfellner/valtio-factory@npm:1.0.2"
+  peerDependencies:
+    valtio: ">=1.2.11"
+  checksum: 10/da3cd980fe61e69d681caf7700fe9c94ac59283a7d9ec862242a9cbaf5eb33967b2f94f69c9d1a0b9b6b801c18beccf945cfb1c755de1fa5f3ed16985f3a6eed
+  languageName: node
+  linkType: hard
+
+"@monaco-editor/loader@npm:^1.5.0":
+  version: 1.6.1
+  resolution: "@monaco-editor/loader@npm:1.6.1"
+  dependencies:
+    state-local: "npm:^1.0.6"
+  checksum: 10/16e2bc752cf5826805be268b86fd313a7a6f6d19fc6e1254cc66c87c643c753142cea940e8d2e086a9d67c323700d3d1c1cbf51fd51b37a30f787fc41afab405
+  languageName: node
+  linkType: hard
+
+"@monaco-editor/react@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "@monaco-editor/react@npm:4.7.0"
+  dependencies:
+    "@monaco-editor/loader": "npm:^1.5.0"
+  peerDependencies:
+    monaco-editor: ">= 0.25.0 < 1"
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10/d72392c4ed6faf8d830ba43421461e1b767b5978edba0739457d7781aa9533c66982be7f59bb156a77a2b578eddfb4711f50e0d84f0f0d25d28b5ab11140f5cc
+  languageName: node
+  linkType: hard
+
 "@napi-rs/wasm-runtime@npm:^1.0.7":
   version: 1.0.7
   resolution: "@napi-rs/wasm-runtime@npm:1.0.7"
@@ -4313,6 +4350,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript/ata@npm:^0.9.8":
+  version: 0.9.8
+  resolution: "@typescript/ata@npm:0.9.8"
+  peerDependencies:
+    typescript: ">=4.4.4"
+  checksum: 10/c0f9daf7818fff7f94030387e6bb6e8e270b1d6191ce2937040f039fedb977f5c96363610bb4ff99cb061b87a4b00213a5b79b28d85759ed876984e802b01cd9
+  languageName: node
+  linkType: hard
+
 "@vitejs/plugin-react@npm:^5.0.4":
   version: 5.0.4
   resolution: "@vitejs/plugin-react@npm:5.0.4"
@@ -5838,6 +5884,13 @@ __metadata:
   dependencies:
     domelementtype: "npm:^2.3.0"
   checksum: 10/809b805a50a9c6884a29f38aec0a4e1b4537f40e1c861950ed47d10b049febe6b79ab72adaeeebb3cc8fc1cd33f34e97048a72a9265103426d93efafa78d3e96
+  languageName: node
+  linkType: hard
+
+"dompurify@npm:3.1.7":
+  version: 3.1.7
+  resolution: "dompurify@npm:3.1.7"
+  checksum: 10/dc637a064306f83cf911caa267ffe1f973552047602020e3b6723c90f67962813edf8a65a0b62e8c9bc13fcd173a2691212a3719bc116226967f46bcd6181277
   languageName: node
   linkType: hard
 
@@ -9285,6 +9338,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"marked@npm:14.0.0":
+  version: 14.0.0
+  resolution: "marked@npm:14.0.0"
+  bin:
+    marked: bin/marked.js
+  checksum: 10/5f69e58e177bde75fb6145127c939c096d05494c5dff92d73af8a550097d6631c82e919f8a375e3743379a2623418151086b925a902a2be123590b887716f2bb
+  languageName: node
+  linkType: hard
+
 "math-intrinsics@npm:^1.1.0":
   version: 1.1.0
   resolution: "math-intrinsics@npm:1.1.0"
@@ -9506,6 +9568,16 @@ __metadata:
   bin:
     mkdirp: dist/cjs/src/bin.js
   checksum: 10/16fd79c28645759505914561e249b9a1f5fe3362279ad95487a4501e4467abeb714fd35b95307326b8fd03f3c7719065ef11a6f97b7285d7888306d1bd2232ba
+  languageName: node
+  linkType: hard
+
+"monaco-editor@npm:^0.54.0":
+  version: 0.54.0
+  resolution: "monaco-editor@npm:0.54.0"
+  dependencies:
+    dompurify: "npm:3.1.7"
+    marked: "npm:14.0.0"
+  checksum: 10/654aa19e8ed859627f8c545026e41955fd015eeac4a26330a5176b955e0afbcd590bbfba06fa9f22fa1bc97d7a33100059e26c754f9541b64d753379a6396711
   languageName: node
   linkType: hard
 
@@ -10289,6 +10361,13 @@ __metadata:
     forwarded: "npm:0.2.0"
     ipaddr.js: "npm:1.9.1"
   checksum: 10/f24a0c80af0e75d31e3451398670d73406ec642914da11a2965b80b1898ca6f66a0e3e091a11a4327079b2b268795f6fa06691923fef91887215c3d0e8ea3f68
+  languageName: node
+  linkType: hard
+
+"proxy-compare@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "proxy-compare@npm:3.0.1"
+  checksum: 10/fa9ae15adc53577054405254da64cecb2b76ab30024c424f14e4556a165f6693773ee2eb73667e6d4be11244fa0581c235720165cc32e7ff77ed7156c4f88379
   languageName: node
   linkType: hard
 
@@ -11295,6 +11374,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"state-local@npm:^1.0.6":
+  version: 1.0.7
+  resolution: "state-local@npm:1.0.7"
+  checksum: 10/1d956043e270861d40a639ff3457938cf61dbc7e25209d21b55060d8dfaf74742b8a1e525ed6fcb0c2d89b7d3e305bb8589bf27392012889456b3ad82a4b7d0a
+  languageName: node
+  linkType: hard
+
 "statuses@npm:2.0.1":
   version: 2.0.1
   resolution: "statuses@npm:2.0.1"
@@ -12177,6 +12263,32 @@ __metadata:
   bin:
     uuid: dist/esm/bin/uuid
   checksum: 10/d2da43b49b154d154574891ced66d0c83fc70caaad87e043400cf644423b067542d6f3eb641b7c819224a7cd3b4c2f21906acbedd6ec9c6a05887aa9115a9cf5
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "uuid@npm:13.0.0"
+  bin:
+    uuid: dist-node/bin/uuid
+  checksum: 10/2742b24d1e00257e60612572e4d28679423469998cafbaf1fe9f1482e3edf9c40754b31bfdb3d08d71b29239f227a304588f75210b3b48f2609f0673f1feccef
+  languageName: node
+  linkType: hard
+
+"valtio@npm:^2.1.8":
+  version: 2.1.8
+  resolution: "valtio@npm:2.1.8"
+  dependencies:
+    proxy-compare: "npm:^3.0.1"
+  peerDependencies:
+    "@types/react": ">=18.0.0"
+    react: ">=18.0.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    react:
+      optional: true
+  checksum: 10/d0ff884b0510d74f47ea41065f8c568a221545fbbbab2bd77d628d0e2de0b510ca58d337c1444c7be6c3a2c50114d17126f1dbccea4977ca3c51b5b3b0773fa8
   languageName: node
   linkType: hard
 

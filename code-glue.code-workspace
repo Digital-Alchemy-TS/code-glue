@@ -13,5 +13,7 @@
       "path": "apps/server"
     }
   ],
-  "settings": {}
+  "settings": {
+    "typescript.tsdk": "client/node_modules/typescript/lib"
+  }
 }
