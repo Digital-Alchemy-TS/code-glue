@@ -24,7 +24,21 @@
 		"actions": {
 			"source": {
 				"recommended": true,
-				"organizeImports": "on"
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							{ "type": false, "source": [":PACKAGE:", ":NODE:"] },
+							":BLANK_LINE:",
+							{ "type": false, "source": ["@code-glue/**", ":PATH:"] },
+							":BLANK_LINE:",
+							{
+								"type": true,
+								"source": [":PACKAGE:", "@code-glue/**", ":PATH:"]
+							}
+						]
+					}
+				}
 			}
 		}
 	},
