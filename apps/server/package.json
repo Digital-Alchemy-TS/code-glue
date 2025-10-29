@@ -17,6 +17,9 @@
     "db:generate:mysql": "DATABASE_TYPE=mysql drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate"
   },
+  "volta": {
+    "extends": "../../package.json"
+  },
   "dependencies": {
     "@digital-alchemy/automation": "^25.8.21",
     "@digital-alchemy/core": "^25.8.21",
