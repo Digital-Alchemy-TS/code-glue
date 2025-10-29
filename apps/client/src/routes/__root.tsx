@@ -6,6 +6,9 @@ import {
 	Scripts,
 } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
+import { useSnapshot } from "valtio"
+
+import { store } from "../store"
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -38,6 +41,16 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+	const {
+		isReady: storeIsReady,
+		apiStatus: { typesReady },
+	} = useSnapshot(store)
+
+	const fontsLoaded = true // TODO: implement font loading check
+
+	const appReady =
+		fontsLoaded && storeIsReady && (typesReady || store.serverError)
+
 	return (
 		<html lang="en">
 			<head>
@@ -45,6 +58,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				<Link to="/">Home</Link>
+				<div>Store status: {storeIsReady ? "Ready" : "Loading..."}</div>
+				<div>API status: {typesReady ? "Ready" : "Loading..."}</div>
+				<div>App status: {appReady ? "Ready" : "Loading..."}</div>
 				{children}
 				<TanStackDevtools
 					config={{

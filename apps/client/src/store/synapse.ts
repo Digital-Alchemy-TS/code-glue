@@ -1,4 +1,4 @@
-import { createFactory, type Store } from "@mfellner/valtio-factory"
+import { createFactory, type Store } from "@tiltshift/valtio-factory"
 import { v4 as uuid } from "uuid"
 import { proxyMap } from "valtio/utils"
 

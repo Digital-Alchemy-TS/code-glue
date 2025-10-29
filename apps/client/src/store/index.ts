@@ -17,7 +17,7 @@ export const store = proxy({
 	automations: automationStore,
 	variables: variableStore,
 	synapse: synapseStore,
-	globalTypes: "",
+	automationHeader: "",
 	apiStatus: {
 		typesReady: false,
 		synapseReady: false,
@@ -31,7 +31,7 @@ export const store = proxy({
 	},
 })
 
-const setupStore = () => {
+const setupStore = async () => {
 	return Promise.all([
 		fetch(`${baseUrl}/api/v1/types/hidden`, { method: "GET" }).then(
 			(response) => response.text(),
@@ -41,7 +41,7 @@ const setupStore = () => {
 		),
 	])
 		.then(([header, types]) => {
-			store.globalTypes = header
+			store.automationHeader = header
 			store.apiStatus.typesReady = true
 			store.typeWriter.mappings = types.mappings
 			store.typeWriter.registry = types.registry
@@ -52,8 +52,8 @@ const setupStore = () => {
 		})
 }
 
-const getAutomationsFromServer = () => {
-	return fetch(`${baseUrl}/api/v1/automation`, { method: "GET" })
+const getAutomationsFromServer = async () => {
+	return await fetch(`${baseUrl}/api/v1/automation`, { method: "GET" })
 		.then((response) => response.json())
 		.then((json: StoredAutomation[]) => {
 			json.forEach((automation) => {
@@ -62,10 +62,7 @@ const getAutomationsFromServer = () => {
 				if (!existingAutomation) {
 					createAutomation(automation)
 				} else {
-					Object.keys(automation).forEach((key) => {
-						existingAutomation[key as keyof StoredAutomation] =
-							automation[key as keyof StoredAutomation]
-					})
+					Object.assign(existingAutomation, automation)
 				}
 			})
 			// once we have all the automations mark the store as ready
@@ -78,8 +75,8 @@ const getAutomationsFromServer = () => {
 		})
 }
 
-const getVariablesFromServer = () => {
-	return fetch(`${baseUrl}/api/v1/variable`, { method: "GET" })
+const getVariablesFromServer = async () => {
+	return await fetch(`${baseUrl}/api/v1/variable`, { method: "GET" })
 		.then((response) => response.json())
 		.then((json: SharedVariables[]) => {
 			json.forEach((variable) => {
@@ -88,10 +85,7 @@ const getVariablesFromServer = () => {
 				if (!existingVariable) {
 					createVariable(variable)
 				} else {
-					Object.keys(variable).forEach((key) => {
-						existingVariable[key as keyof SharedVariables] =
-							variable[key as keyof SharedVariables]
-					})
+					Object.assign(existingVariable, variable)
 				}
 			})
 			store.apiStatus.variablesReady = true
@@ -102,8 +96,8 @@ const getVariablesFromServer = () => {
 		})
 }
 
-const getSynapseFromServer = () => {
-	return fetch(`${baseUrl}/api/v1/synapse`, { method: "GET" })
+const getSynapseFromServer = async () => {
+	return await fetch(`${baseUrl}/api/v1/synapse`, { method: "GET" })
 		.then((response) => response.json())
 		.then((json: SynapseEntities[]) => {
 			json.forEach((synapseEntity) => {
@@ -112,10 +106,7 @@ const getSynapseFromServer = () => {
 				if (!existingSynapseEntity) {
 					createSynapseEntity(synapseEntity)
 				} else {
-					Object.keys(synapseEntity).forEach((key) => {
-						existingSynapseEntity[key as keyof SynapseEntities] =
-							synapseEntity[key as keyof SynapseEntities]
-					})
+					Object.assign(existingSynapseEntity, synapseEntity)
 				}
 			})
 			store.apiStatus.synapseReady = true
