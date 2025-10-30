@@ -6,8 +6,10 @@ import {
 	Scripts,
 } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
+import { TamaguiProvider } from "tamagui"
 import { useSnapshot } from "valtio"
 
+import { tamaguiConfig } from "../../design/tamagui.config"
 import { store } from "../store"
 
 export const Route = createRootRoute({
@@ -61,7 +63,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<div>Store status: {storeIsReady ? "Ready" : "Loading..."}</div>
 				<div>API status: {typesReady ? "Ready" : "Loading..."}</div>
 				<div>App status: {appReady ? "Ready" : "Loading..."}</div>
-				{children}
+				<TamaguiProvider config={tamaguiConfig}>{children}</TamaguiProvider>
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",

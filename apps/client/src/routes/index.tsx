@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
+import { Text, View } from "tamagui"
 import { useSnapshot } from "valtio/react"
 
 import { store } from "../store"
@@ -9,21 +10,21 @@ function App() {
 	const { automations } = useSnapshot(store)
 
 	return (
-		<div>
-			<ul>
-				{Array.from(automations, ([, automation]) => (
-					<Link
-						key={automation.id}
-						to="/automation/$id"
-						params={{ id: automation.id }}
-					>
-						<li>{automation.title}</li>
-					</Link>
-				))}
-				<li>
-					<Link to="/automation/create">Create Automation</Link>
-				</li>
-			</ul>
-		</div>
+		<View>
+			{Array.from(automations, ([, automation]) => (
+				<Link
+					key={automation.id}
+					to="/automation/$id"
+					params={{ id: automation.id }}
+				>
+					<Text>{automation.title}</Text>
+				</Link>
+			))}
+			<View>
+				<Link to="/automation/create">
+					<Text>Create Automation</Text>
+				</Link>
+			</View>
+		</View>
 	)
 }
