@@ -1,19 +1,66 @@
 {
   "name": "@code-glue/client",
-  "version": "1.0.0",
   "private": true,
-  "main": "expo-router/entry",
-  "_comment_env_vars": {
-    "INGRESS_PATH": "Base path for the application when deployed behind a reverse proxy or in a subpath. Defaults to '/' for root deployment. Set to '/subpath' for subpath deployments."
-  },
+  "type": "module",
   "scripts": {
-    "start": "expo start --web --clear",
-    "lint": "eslint .",
-    "build": "expo export --platform web"
+    "dev": "cd .. && yarn dev",
+    "start": "vite dev --port 3000",
+    "start:preview": "vite preview",
+    "build": "vite build",
+    "test": "vitest run",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build"
+  },
+  "volta": {
+    "extends": "../../package.json"
   },
   "dependencies": {
-    "@code-glue/server": "workspace:*",
-    "@tiltshift/paradigm": "workspace:*"
+    "@monaco-editor/react": "^4.7.0",
+    "@storybook/react-vite": "^9.1.9",
+    "@tailwindcss/vite": "^4.0.6",
+    "@tamagui/vite-plugin": "1.135.6",
+    "@tanstack/react-devtools": "^0.7.0",
+    "@tanstack/react-router": "^1.132.0",
+    "@tanstack/react-router-devtools": "^1.132.0",
+    "@tanstack/react-router-ssr-query": "^1.131.7",
+    "@tanstack/react-start": "^1.132.0",
+    "@tanstack/router-plugin": "^1.132.0",
+    "@tiltshift/valtio-factory": "2.0.3",
+    "@typescript/ata": "^0.9.8",
+    "monaco-editor": "^0.54.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-native-web": "^0.21.2",
+    "tamagui": "1.135.6",
+    "uuid": "^13.0.0",
+    "valtio": "^2.1.8",
+    "vite-tsconfig-paths": "^5.1.4"
   },
-  "prettier": "@tiltshift/config/prettier"
+  "devDependencies": {
+    "@biomejs/biome": "2.2.4",
+    "@chromatic-com/storybook": "^4.1.1",
+    "@storybook/addon-a11y": "^9.1.13",
+    "@storybook/addon-docs": "^9.1.13",
+    "@storybook/addon-onboarding": "^9.1.13",
+    "@storybook/addon-vitest": "^9.1.13",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.2.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/react-native-web": "^0.19.2",
+    "@vitejs/plugin-react": "^5.0.4",
+    "@vitest/browser": "3.2.4",
+    "@vitest/coverage-v8": "3.2.4",
+    "jsdom": "^27.0.0",
+    "playwright": "^1.56.1",
+    "storybook": "^9.1.13",
+    "typescript": "^5.7.2",
+    "vite": "^7.1.7",
+    "vitest": "^3.0.5",
+    "web-vitals": "^5.1.0"
+  }
 }

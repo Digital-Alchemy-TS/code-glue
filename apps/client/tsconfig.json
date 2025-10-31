@@ -1,17 +1,23 @@
 {
-  "extends": ["../../tsconfig.client"],
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "../../packages/paradigm",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts",
-    "../server/src/**/*.mts"
-  ],
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "noEmit": true,
-    "composite": true,
-    "jsx": "react-jsx"
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "baseUrl": ".",
+    "types": ["vite/client"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@code-glue/server/*": ["../server/src/*"]
+    },
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
   },
-  "references": []
+  "include": ["**/*.ts", "**/*.tsx",  "../server/**/*.mts"]
 }
