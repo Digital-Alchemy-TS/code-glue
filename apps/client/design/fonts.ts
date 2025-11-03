@@ -1,7 +1,8 @@
 import { createFont } from "tamagui"
 
 export const Nuntito = createFont({
-	family: '"NunitoSans_600SemiBold"',
+	family: '"Nunito Sans"',
+	weight: { 1: "600" },
 	size: {
 		1: 12,
 		2: 14,
@@ -14,7 +15,8 @@ export const Nuntito = createFont({
 })
 
 export const NuntitoBold = createFont({
-	family: '"NunitoSans_800ExtraBold"',
+	family: '"Nunito Sans"',
+	weight: { 1: "800" },
 	size: {
 		1: 12,
 		2: 14,

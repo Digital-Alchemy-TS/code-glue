@@ -130,7 +130,12 @@ export const Editor: React.FC<EditorProps> = ({
 			onMount={handleOnMount}
 			language="typescript"
 			path={path}
-			options={{ minimap: { enabled: false }, tabSize: 2 }}
+			options={{
+				minimap: { enabled: false },
+				tabSize: 2,
+				fontFamily: "Space Mono",
+				fontSize: 16,
+			}}
 		/>
 	)
 }

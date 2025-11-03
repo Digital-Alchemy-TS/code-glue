@@ -6,8 +6,9 @@ import {
 	Scripts,
 } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
-import { TamaguiProvider } from "tamagui"
+import { SizableText, TamaguiProvider } from "tamagui"
 import { useSnapshot } from "valtio"
+import "unfonts.css"
 
 import { tamaguiConfig } from "../../design/tamagui.config"
 import { store } from "../store"
@@ -59,25 +60,35 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body>
-				<Link to="/">Home</Link>
-				<div>Store status: {storeIsReady ? "Ready" : "Loading..."}</div>
-				<div>API status: {typesReady ? "Ready" : "Loading..."}</div>
-				<div>App status: {appReady ? "Ready" : "Loading..."}</div>
-				<TamaguiProvider config={tamaguiConfig}>{children}</TamaguiProvider>
-				<TanStackDevtools
-					config={{
-						position: "bottom-right",
-						openHotkey: ["Meta", "d"],
-						triggerImage: "/dev.png",
-					}}
-					plugins={[
-						{
-							name: "Tanstack Router",
-							render: <TanStackRouterDevtoolsPanel />,
-						},
-					]}
-				/>
-				<Scripts />
+				<TamaguiProvider config={tamaguiConfig}>
+					<Link to="/">
+						<SizableText>Home</SizableText>
+					</Link>
+					<SizableText>
+						Store status: {storeIsReady ? "Ready" : "Loading..."}
+					</SizableText>
+					<SizableText>
+						API status: {typesReady ? "Ready" : "Loading..."}
+					</SizableText>
+					<SizableText>
+						App status: {appReady ? "Ready" : "Loading..."}
+					</SizableText>
+					{children}
+					<TanStackDevtools
+						config={{
+							position: "bottom-right",
+							openHotkey: ["Meta", "d"],
+							triggerImage: "/dev.png",
+						}}
+						plugins={[
+							{
+								name: "Tanstack Router",
+								render: <TanStackRouterDevtoolsPanel />,
+							},
+						]}
+					/>
+					<Scripts />
+				</TamaguiProvider>
 			</body>
 		</html>
 	)

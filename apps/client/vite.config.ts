@@ -1,7 +1,7 @@
-// import { tamaguiPlugin } from "@tamagui/vite-plugin"
 import { tamaguiPlugin } from "@tamagui/vite-plugin"
 import { tanstackStart } from "@tanstack/react-start/plugin/vite"
 import viteReact from "@vitejs/plugin-react"
+import Unfonts from "unplugin-fonts/vite"
 import { defineConfig } from "vite"
 import viteTsConfigPaths from "vite-tsconfig-paths"
 
@@ -14,13 +14,31 @@ const config = defineConfig({
 		tanstackStart(),
 		viteReact(),
 		tamaguiPlugin({
-			// points to your tamagui config file
 			config: "./design/tamagui.config.ts",
-			// points to any linked packages or node_modules
-			// that have tamagui components to optimize
 			components: ["tamagui"],
-			// turns on the optimizing compiler
 			optimize: true,
+		}),
+		Unfonts({
+			custom: {
+				preload: true,
+				families: [
+					{
+						name: "Nunito Sans",
+						local: "Nunito Sans",
+						src: "./public/fonts/NunitoSans.ttf",
+					},
+					{
+						name: "Anonymous Pro",
+						local: "Anonymous Pro",
+						src: "./public/fonts/AnonymousPro-Regular.ttf",
+					},
+					{
+						name: "Space Mono",
+						local: "Space Mono",
+						src: "./public/fonts/SpaceMono-Regular.ttf",
+					},
+				],
+			},
 		}),
 	],
 })
