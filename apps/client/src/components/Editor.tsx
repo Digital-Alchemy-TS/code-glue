@@ -102,6 +102,11 @@ export const Editor: React.FC<EditorProps> = ({
 	) => {
 		editorRef.current = editor
 
+		// Measure Fonts
+		document.fonts.ready.then(() => {
+			monaco.editor.remeasureFonts()
+		})
+
 		if (fileHeader) {
 			monaco.languages.typescript.typescriptDefaults.addExtraLib(
 				`${store.typeWriter}\n\n${fileHeader}`,
@@ -133,8 +138,7 @@ export const Editor: React.FC<EditorProps> = ({
 			options={{
 				minimap: { enabled: false },
 				tabSize: 2,
-				fontFamily: "Space Mono",
-				fontSize: 16,
+				fontFamily: "Monaspace Argon",
 			}}
 		/>
 	)
