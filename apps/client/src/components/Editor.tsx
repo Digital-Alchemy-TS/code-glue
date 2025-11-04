@@ -2,6 +2,7 @@ import { type Monaco, Editor as MonacoEditor } from "@monaco-editor/react"
 import { setupTypeAcquisition } from "@typescript/ata"
 import React, { useCallback } from "react"
 import ts from "typescript"
+import { useSnapshot } from "valtio"
 
 import { store } from "../store"
 
@@ -33,8 +34,10 @@ export const Editor: React.FC<EditorProps> = ({
 	onChange,
 	fileHeader,
 }) => {
+	const snapshot = useSnapshot(store)
 	const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
 	const monacoRef = React.useRef<Monaco | null>(null)
+	const [monacoReady, setMonacoReady] = React.useState(false)
 
 	const ata = useCallback(() => {
 		const monaco = monacoRef.current
@@ -53,19 +56,19 @@ export const Editor: React.FC<EditorProps> = ({
 							filePath ===
 							"file:///node_modules/@digital-alchemy/hass/dist/dev/mappings.d.mts"
 						) {
-							code = store.typeWriter.mappings
+							code = snapshot.typeWriter.mappings
 						}
 						if (
 							filePath ===
 							"file:///node_modules/@digital-alchemy/hass/dist/dev/registry.d.mts"
 						) {
-							code = store.typeWriter.registry
+							code = snapshot.typeWriter.registry
 						}
 						if (
 							filePath ===
 							"file:///node_modules/@digital-alchemy/hass/dist/dev/services.d.mts"
 						) {
-							code = store.typeWriter.services
+							code = snapshot.typeWriter.services
 						}
 
 						monaco.languages.typescript.typescriptDefaults.addExtraLib(
@@ -78,7 +81,11 @@ export const Editor: React.FC<EditorProps> = ({
 		}
 
 		throw new Error("Monaco not initialized")
-	}, [])
+	}, [
+		snapshot.typeWriter.mappings,
+		snapshot.typeWriter.registry,
+		snapshot.typeWriter.services,
+	])
 
 	const handleEditorBeforeMount = (monaco: Monaco) => {
 		monacoRef.current = monaco
@@ -107,17 +114,19 @@ export const Editor: React.FC<EditorProps> = ({
 			monaco.editor.remeasureFonts()
 		})
 
-		if (fileHeader) {
-			monaco.languages.typescript.typescriptDefaults.addExtraLib(
-				`${store.typeWriter}\n\n${fileHeader}`,
+		setMonacoReady(true)
+	}
+
+	React.useEffect(() => {
+		if (fileHeader && monacoReady && monacoRef.current) {
+			monacoRef.current.languages.typescript.typescriptDefaults.addExtraLib(
+				`${snapshot.typeWriter}\n\n${fileHeader}`,
 				"file:///globals.ts",
 			)
 
-			// acquire types
-			console.log("running ata")
 			ata()(fileHeader)
 		}
-	}
+	}, [fileHeader, ata, snapshot.typeWriter, monacoReady])
 
 	const handleOnChange = (value: string | undefined) => {
 		if (onChange && value) {
