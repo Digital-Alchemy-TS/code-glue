@@ -12,7 +12,7 @@ export const Route = createFileRoute("/automation/$id")({
 function RouteComponent() {
 	const { id } = Route.useParams()
 
-	const fileHeader = useSnapshot(store).automationHeader
+	const { automationHeader: fileHeader } = useSnapshot(store)
 
 	const automation = store.automations.get(id)!
 	const automationSnapshot = useSnapshot(automation)
