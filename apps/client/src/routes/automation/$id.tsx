@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, notFound } from "@tanstack/react-router"
 import { useState } from "react"
 import { useSnapshot } from "valtio/react"
 
@@ -14,9 +14,12 @@ function RouteComponent() {
 
 	const { automationHeader: fileHeader } = useSnapshot(store)
 
-	const automation = store.automations.get(id)!
-	const automationSnapshot = useSnapshot(automation)
+	const automation = store.automations.get(id)
+
+	const automationSnapshot = useSnapshot(automation ?? { id: "", body: "" })
 	const [body, setBody] = useState(automationSnapshot.body)
+
+	if (!automation) throw notFound()
 
 	return (
 		<div>
