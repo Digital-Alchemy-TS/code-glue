@@ -1,5 +1,15 @@
-import { type Monaco, Editor as MonacoEditor } from "@monaco-editor/react"
+import {
+	loader,
+	type Monaco,
+	Editor as MonacoEditor,
+} from "@monaco-editor/react"
 import { setupTypeAcquisition } from "@typescript/ata"
+import * as monaco from "monaco-editor"
+import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
+import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker"
+import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker"
+import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker"
+import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
 import React, { useCallback } from "react"
 import ts from "typescript"
 import { useSnapshot } from "valtio"
@@ -7,6 +17,27 @@ import { useSnapshot } from "valtio"
 import { store } from "../store"
 
 import type { editor } from "monaco-editor"
+
+self.MonacoEnvironment = {
+	getWorker(_, label) {
+		if (label === "json") {
+			return new jsonWorker()
+		}
+		if (label === "css" || label === "scss" || label === "less") {
+			return new cssWorker()
+		}
+		if (label === "html" || label === "handlebars" || label === "razor") {
+			return new htmlWorker()
+		}
+		if (label === "typescript" || label === "javascript") {
+			return new tsWorker()
+		}
+		return new editorWorker()
+	},
+}
+
+loader.config({ monaco })
+loader.init()
 
 export type EditorProps = {
 	/**
