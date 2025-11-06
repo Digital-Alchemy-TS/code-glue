@@ -3,6 +3,7 @@ import {
 	type Monaco,
 	Editor as MonacoEditor,
 } from "@monaco-editor/react"
+import { useMatch, useMatches } from "@tanstack/react-router"
 import { setupTypeAcquisition } from "@typescript/ata"
 import * as monaco from "monaco-editor"
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
@@ -39,32 +40,20 @@ self.MonacoEnvironment = {
 loader.config({ monaco })
 loader.init()
 
-export type EditorProps = {
-	/**
-	 * The 'path' for the current file. This should match up with whatever is sent for default value.
-	 */
-	path: string
-	/**
-	 * Starting value for the editor and the given path. This should be updated as the path changes, but will only be read in once for each path value.
-	 */
-	defaultValue: string
-	/**
-	 * Updates every time *anything* in the editor changes and sends the complete contents.
-	 */
-	onChange?: (value: string) => void
-	/**
-	 * Constraints for the editor
-	 */
-	// This will be passed through ATA and loaded into types but not added to the editor shown to the user
-	fileHeader?: string
-}
+export const Editor: React.FC = () => {
+	const match = useMatch({ from: "/automation/$id", shouldThrow: false })
+	const automationId = match ? match.params.id : undefined
 
-export const Editor: React.FC<EditorProps> = ({
-	path,
-	defaultValue,
-	onChange,
-	fileHeader,
-}) => {
+	const path = automationId ? `/automations/${automationId}.ts` : undefined
+	const automation = automationId
+		? store.automations.get(automationId)
+		: undefined
+
+	const automationSnapshot = useSnapshot(
+		automation || { body: "// Empty File" },
+	)
+	const [body, setBody] = React.useState(automationSnapshot.body)
+
 	const snapshot = useSnapshot(store)
 	const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
 	const monacoRef = React.useRef<Monaco | null>(null)
@@ -149,36 +138,33 @@ export const Editor: React.FC<EditorProps> = ({
 	}
 
 	React.useEffect(() => {
-		if (fileHeader && monacoReady && monacoRef.current) {
+		if (monacoReady && monacoRef.current) {
 			monacoRef.current.languages.typescript.typescriptDefaults.addExtraLib(
-				`${snapshot.typeWriter}\n\n${fileHeader}`,
+				`${snapshot.typeWriter}\n\n${snapshot.automationHeader}`,
 				"file:///globals.ts",
 			)
 
-			ata()(fileHeader)
+			ata()(snapshot.automationHeader)
 		}
-	}, [fileHeader, ata, snapshot.typeWriter, monacoReady])
-
-	const handleOnChange = (value: string | undefined) => {
-		if (onChange && value) {
-			onChange(value)
-		}
-	}
+	}, [ata, snapshot.typeWriter, monacoReady, snapshot.automationHeader])
 
 	return (
 		<MonacoEditor
-			height="400px"
-			defaultLanguage="typescript"
-			defaultValue={defaultValue}
-			beforeMount={handleEditorBeforeMount}
-			onChange={handleOnChange}
-			onMount={handleOnMount}
-			language="typescript"
-			path={path}
-			options={{
-				minimap: { enabled: false },
-				tabSize: 2,
-				fontFamily: "Monaspace Argon",
+			{...{
+				language: "typescript",
+				defaultValue: automationSnapshot.body,
+				beforeMount: handleEditorBeforeMount,
+				onChange: (value: string | undefined) => {
+					setBody(value || "")
+				},
+				onMount: handleOnMount,
+				options: {
+					minimap: { enabled: false },
+					tabSize: 2,
+					fontFamily: "Monaspace Argon",
+				},
+
+				...(path && { path }),
 			}}
 		/>
 	)

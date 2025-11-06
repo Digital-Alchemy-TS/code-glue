@@ -2,8 +2,8 @@ import { createFileRoute, notFound } from "@tanstack/react-router"
 import { useState } from "react"
 import { useSnapshot } from "valtio/react"
 
-import { Editor } from "../../components/Editor"
-import { store } from "../../store"
+import { Editor } from "@/components/Editor"
+import { store } from "@/store"
 
 export const Route = createFileRoute("/automation/$id")({
 	component: RouteComponent,

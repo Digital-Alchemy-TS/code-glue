@@ -9,22 +9,5 @@ export const Route = createFileRoute("/")({ component: App })
 function App() {
 	const { automations } = useSnapshot(store)
 
-	return (
-		<View>
-			{Array.from(automations, ([, automation]) => (
-				<Link
-					key={automation.id}
-					to="/automation/$id"
-					params={{ id: automation.id }}
-				>
-					<Text>{automation.title}</Text>
-				</Link>
-			))}
-			<View>
-				<Link to="/automation/create">
-					<Text>Create Automation</Text>
-				</Link>
-			</View>
-		</View>
-	)
+	return <View>Index</View>
 }

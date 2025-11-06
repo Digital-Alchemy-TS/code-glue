@@ -6,14 +6,18 @@ import {
 	Outlet,
 	type RouteComponent,
 	Scripts,
+	useLocation,
+	useMatch,
+	useMatches,
 } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
-import { SizableText, TamaguiProvider } from "tamagui"
+import { SizableText, TamaguiProvider, View } from "tamagui"
 import { useSnapshot } from "valtio"
 import "unfonts.css"
 
-import { tamaguiConfig } from "../../design/tamagui.config"
-import { store } from "../store"
+import { Frame } from "@/components/Frame"
+import { tamaguiConfig } from "@/design/tamagui.config"
+import { store } from "@/store"
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -74,12 +78,19 @@ function RootComponent() {
 	const appReady =
 		fontsLoaded && storeIsReady && (typesReady || store.serverError)
 
+	const match = useMatch({ from: "/automation/$id", shouldThrow: false })
+
+	if (!appReady) {
+		return <View>Loading...</View>
+	}
+
 	return (
 		<TamaguiProvider config={tamaguiConfig}>
-			<Link to="/">
-				<SizableText>Home</SizableText>
-			</Link>
-			<Outlet />
+			<Frame>
+				match: {JSON.stringify(match)}
+				<Outlet />
+			</Frame>
+
 			<TanStackDevtools
 				config={{
 					position: "bottom-right",
