@@ -15,6 +15,8 @@ import { SizableText, TamaguiProvider, View } from "tamagui"
 import { useSnapshot } from "valtio"
 import "unfonts.css"
 
+import type React from "react"
+import { Editor } from "@/components/Editor"
 import { Frame } from "@/components/Frame"
 import { tamaguiConfig } from "@/design/tamagui.config"
 import { store } from "@/store"
@@ -87,7 +89,7 @@ function RootComponent() {
 	return (
 		<TamaguiProvider config={tamaguiConfig}>
 			<Frame>
-				match: {JSON.stringify(match)}
+				<Editor />
 				<Outlet />
 			</Frame>
 

@@ -48,10 +48,7 @@ export function Frame({
 					overflow="hidden"
 					backgroundColor="#fff"
 				>
-					<ScrollView flex={1} padding="$4" showsVerticalScrollIndicator>
-						{children}
-						<Spacer />
-					</ScrollView>
+					{children}
 				</YStack>
 			</YStack>
 		</XStack>
