@@ -1,56 +1,44 @@
-import { ScrollView, SizableText, Spacer, XStack, YStack } from "tamagui"
+import { Outlet } from "@tanstack/react-router"
+import { SizableText, TamaguiProvider, View, XStack, YStack } from "tamagui"
+import { useSnapshot } from "valtio/react"
 
+import { AutomationDetails } from "./AutomationDetails"
 import { Nav } from "./Nav"
 
-/**
- * A simple two-column page layout using Tamagui.
- * Left column is a fixed-width sidebar, right column is flexible content.
- */
-export function Frame({
-	sidebar,
-	children,
-	header,
-}: {
-	/**
-	 * Content to render into the left sidebar.
-	 */
-	sidebar?: React.ReactNode
-	/**
-	 * Main content area (children).
-	 */
-	children: React.ReactNode
-	/**
-	 * Optional header rendered above the main content area.
-	 */
-	header?: React.ReactNode
-}) {
+import { Editor } from "@/components/Editor"
+import tamaguiConfig from "@/design/tamagui.config"
+import { store } from "@/store"
+
+export const Frame: React.FC = () => {
+	const {
+		isReady: storeIsReady,
+		apiStatus: { typesReady },
+	} = useSnapshot(store)
+
+	const fontsLoaded = true // TODO: implement font loading check
+
+	const appReady =
+		fontsLoaded && storeIsReady && (typesReady || store.serverError)
+
+	if (!appReady) {
+		return <View>Loading...</View>
+	}
+
 	return (
-		<XStack fullscreen>
-			<Nav />
+		<TamaguiProvider config={tamaguiConfig}>
+			<XStack fullscreen>
+				<Nav />
 
-			{/* Main content */}
-			<YStack flex={1} padding="$4" backgroundColor="#f8f9fb">
-				<XStack ai="center" jc="space-between" mb="$3">
-					<XStack ai="center" space>
-						<SizableText size="$6">App Title</SizableText>
-					</XStack>
+				{/* Main content */}
+				<YStack flex={1}>
+					<AutomationDetails />
 
-					{header ?? (
-						<SizableText size="$3" color="#666">
-							Right header area
-						</SizableText>
-					)}
-				</XStack>
-
-				<YStack
-					flex={1}
-					borderRadius={8}
-					overflow="hidden"
-					backgroundColor="#fff"
-				>
-					{children}
+					<YStack flex={1} borderRadius={8}>
+						<Editor />
+						<Outlet />
+					</YStack>
 				</YStack>
-			</YStack>
-		</XStack>
+			</XStack>
+		</TamaguiProvider>
 	)
 }

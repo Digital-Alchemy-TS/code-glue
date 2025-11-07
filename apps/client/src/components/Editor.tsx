@@ -1,32 +1,18 @@
-import {
-	loader,
-	type Monaco,
-	Editor as MonacoEditor,
-} from "@monaco-editor/react"
-import { useMatch } from "@tanstack/react-router"
+import { type Monaco, Editor as MonacoEditor } from "@monaco-editor/react"
 import { setupTypeAcquisition } from "@typescript/ata"
-import * as monaco from "monaco-editor"
 import React, { useCallback } from "react"
 import ts from "typescript"
-import { proxy, useSnapshot } from "valtio"
-
-import { store } from "../store"
+import { useSnapshot } from "valtio"
 
 import type { editor } from "monaco-editor"
+import { useCurrentAutomation } from "@/hooks/useAutomation"
+import { store } from "@/store"
 
 export const Editor: React.FC = () => {
-	const match = useMatch({ from: "/automation/$id", shouldThrow: false })
-	const automationId = match ? match.params.id : undefined
-
+	const { automationId, automationSnapshot } = useCurrentAutomation()
 	const path = automationId ? `/automations/${automationId}.ts` : undefined
-	const automation = automationId
-		? store.automations.get(automationId)
-		: undefined
 
-	const automationSnapshot = useSnapshot(
-		automation || proxy({ body: "// Empty File" }),
-	)
-	const [body, setBody] = React.useState(automationSnapshot.body)
+	const [, setBody] = React.useState(automationSnapshot.body)
 
 	const snapshot = useSnapshot(store)
 	const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
@@ -93,6 +79,7 @@ export const Editor: React.FC = () => {
 			allowSyntheticDefaultImports: true,
 			esModuleInterop: true,
 			typeRoots: ["/globals.ts"],
+			moduleDetection: 3, // https://github.com/microsoft/monaco-editor/issues/2976
 		})
 		monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true)
 	}

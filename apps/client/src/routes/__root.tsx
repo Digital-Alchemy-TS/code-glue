@@ -1,25 +1,10 @@
 import { TanStackDevtools } from "@tanstack/react-devtools"
-import {
-	createRootRoute,
-	HeadContent,
-	Link,
-	Outlet,
-	type RouteComponent,
-	Scripts,
-	useLocation,
-	useMatch,
-	useMatches,
-} from "@tanstack/react-router"
+import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
-import { SizableText, TamaguiProvider, View } from "tamagui"
-import { useSnapshot } from "valtio"
 import "unfonts.css"
 
 import type React from "react"
-import { Editor } from "@/components/Editor"
 import { Frame } from "@/components/Frame"
-import { tamaguiConfig } from "@/design/tamagui.config"
-import { store } from "@/store"
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -49,10 +34,9 @@ export const Route = createRootRoute({
 	}),
 
 	shellComponent: RootShell,
-	component: RootComponent,
+	component: Frame,
 	errorComponent: () => <div>Error</div>,
 	notFoundComponent: () => <div>Not found</div>,
-	ssr: false,
 })
 
 function RootShell({ children }: { children: React.ReactNode }) {
@@ -63,49 +47,21 @@ function RootShell({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				{children}
+				<TanStackDevtools
+					config={{
+						position: "bottom-right",
+						openHotkey: ["Meta", "d"],
+						triggerImage: "/dev.png",
+					}}
+					plugins={[
+						{
+							name: "Tanstack Router",
+							render: <TanStackRouterDevtoolsPanel />,
+						},
+					]}
+				/>
 				<Scripts />
 			</body>
 		</html>
-	)
-}
-
-function RootComponent() {
-	const {
-		isReady: storeIsReady,
-		apiStatus: { typesReady },
-	} = useSnapshot(store)
-
-	const fontsLoaded = true // TODO: implement font loading check
-
-	const appReady =
-		fontsLoaded && storeIsReady && (typesReady || store.serverError)
-
-	const match = useMatch({ from: "/automation/$id", shouldThrow: false })
-
-	if (!appReady) {
-		return <View>Loading...</View>
-	}
-
-	return (
-		<TamaguiProvider config={tamaguiConfig}>
-			<Frame>
-				<Editor />
-				<Outlet />
-			</Frame>
-
-			<TanStackDevtools
-				config={{
-					position: "bottom-right",
-					openHotkey: ["Meta", "d"],
-					triggerImage: "/dev.png",
-				}}
-				plugins={[
-					{
-						name: "Tanstack Router",
-						render: <TanStackRouterDevtoolsPanel />,
-					},
-				]}
-			/>
-		</TamaguiProvider>
 	)
 }

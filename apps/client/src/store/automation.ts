@@ -10,7 +10,7 @@ import type {
 	StoredAutomation,
 } from "@code-glue/server/utils/contracts/automation.mts"
 
-const automationFactory = createFactory<StoredAutomation>({
+export const emptyAutomation: StoredAutomation = {
 	active: false,
 	area: "",
 	body: "",
@@ -23,7 +23,9 @@ const automationFactory = createFactory<StoredAutomation>({
 	parent: "",
 	title: "",
 	version: "",
-})
+}
+
+const automationFactory = createFactory<StoredAutomation>(emptyAutomation)
 	.actions({
 		push() {
 			return fetch(`${baseUrl}/api/v1/automation/${this.id}`, {

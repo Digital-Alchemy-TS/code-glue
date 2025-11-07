@@ -136,3 +136,5 @@ async function initializeApp() {
 
 // Start the initialization
 initializeApp()
+
+export * from "./automation"
