@@ -11,9 +11,7 @@ const config = defineConfig({
 		viteTsConfigPaths({
 			projects: ["./tsconfig.json"],
 		}),
-		tanstackStart({
-			spa: { enabled: true, prerender: { enabled: false } },
-		}),
+		tanstackStart(),
 		viteReact(),
 		tamaguiPlugin({
 			config: "./design/tamagui.config.ts",

@@ -5,7 +5,4 @@ if (typeof window !== "undefined") {
 	import("@/components/monacoInit")
 }
 
-export const startInstance = createStart(() => ({
-	// Disable SSR by default
-	defaultSsr: false,
-}))
+export const startInstance = createStart(() => ({}))
