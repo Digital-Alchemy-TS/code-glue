@@ -9,9 +9,9 @@ export const Nav = () => {
 
 	return (
 		<YStack
-			backgroundColor="$background"
-			borderBottomWidth={1}
-			borderBottomColor="$borderColor"
+			backgroundColor="$CardStock"
+			borderRightWidth={1}
+			borderRightColor="$UIStroke"
 			paddingTop={10}
 			paddingBottom={10}
 			paddingLeft={20}

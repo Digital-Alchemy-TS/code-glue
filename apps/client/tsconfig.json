@@ -10,7 +10,7 @@
     "types": ["vite/client"],
     "paths": {
 
-      "@/*": ["./src/*", "./*"],
+      "@/*": ["./src/*"],
       "@code-glue/server/*": ["../server/src/*"]
     },
     "allowImportingTsExtensions": true,

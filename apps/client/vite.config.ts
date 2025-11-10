@@ -14,7 +14,7 @@ const config = defineConfig({
 		tanstackStart(),
 		viteReact(),
 		tamaguiPlugin({
-			config: "./design/tamagui.config.ts",
+			config: "./src/design/tamagui.config.ts",
 			components: ["tamagui"],
 			optimize: true,
 		}),
