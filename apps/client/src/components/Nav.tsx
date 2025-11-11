@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router"
-import { SizableText, YGroup, YStack } from "tamagui"
+import { H3, SizableText, View, XStack, YGroup, YStack } from "tamagui"
 import { useSnapshot } from "valtio/react"
 
 import { store } from "../store"
@@ -9,19 +9,31 @@ export const Nav = () => {
 
 	return (
 		<YStack
-			backgroundColor="$CardStock"
-			borderRightWidth={1}
-			borderRightColor="$UIStroke"
-			paddingTop={10}
-			paddingBottom={10}
-			paddingLeft={20}
-			paddingRight={20}
+			backgroundColor="$cardStock"
+			borderRightColor="$borderColor"
+			borderRightWidth="$size.stroke"
 			width={240}
 		>
-			<Link to="/">
-				<SizableText size="$4">Home</SizableText>
-			</Link>
-			<YGroup flexDirection="column" gap={10} marginTop={10} paddingBottom={20}>
+			<XStack alignItems="center" background="$background" height={49}>
+				<View>
+					<img
+						src="./favicon-196x196.png"
+						alt="CodeGlue"
+						width={42}
+						height={42}
+						paddingLeft={6}
+						paddingRight={6}
+					/>
+				</View>
+
+				<H3>Code Glue</H3>
+			</XStack>
+			<YGroup
+				flexDirection="column"
+				gap={10}
+				marginTop={10}
+				padding="$space.edgeInset"
+			>
 				{Array.from(automations, ([, automation]) => (
 					<Link
 						key={automation.id}

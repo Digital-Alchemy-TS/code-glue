@@ -1,16 +1,20 @@
 import { createTamagui, createTokens } from "tamagui"
 
 import { Nuntito, NuntitoBold } from "./fonts"
+import { shorthands } from "./shorthands"
 
 const tokens = createTokens({
 	color: {},
-	space: {
-		sm: 2,
-		true: 2,
-	},
 	size: {
-		sm: 2,
-		true: 2,
+		true: 1,
+		stroke: 1,
+		thinStroke: 0.5,
+	},
+	space: {
+		space: 16,
+		true: 16,
+		edgeInset: 12,
+		edgeInsetClose: 6,
 	},
 	radius: {
 		sm: 2,
@@ -21,6 +25,14 @@ const tokens = createTokens({
 		true: 2,
 	},
 })
+
+const special = {
+	background: "#FFFFFF",
+	cardStock: "#F9F9F9",
+	surface: "#FFFFFF",
+	controlShadow: "rgba(18, 18, 18, 0.06)",
+	holeShadow: "rgba(18, 18, 18, 0.24)",
+}
 
 const gray = {
 	100: "#E9EBED",
@@ -70,23 +82,25 @@ const red = {
 type Theme = {
 	primary: string
 	destructive: string
-	text: string
-	secondaryText: string
-	disabledText: string
-	UIStroke: string
-	CardStock: string
-	Surface: string
-	ControlShadow: string
-	HoleShadow: string
+	color: string // text
+	secondaryColor: string // secondary text
+	disabledColor: string
+	placeholderColor: string
+	borderColor: string // ui stroke
+	cardStock: string
+	background: string // surface
+	controlShadow: string
+	holeShadow: string
 }
 
 export const tamaguiConfig = createTamagui({
 	settings: {
 		allowedStyleValues: "strict",
+		styleCompat: "react-native",
 	},
 	shouldAddPrefersColorThemes: true,
 	themeClassNameOnRoot: true,
-	shorthands: {},
+	shorthands,
 	fonts: {
 		heading: NuntitoBold,
 		body: Nuntito,
@@ -96,14 +110,15 @@ export const tamaguiConfig = createTamagui({
 		light: {
 			primary: blue[500],
 			destructive: red[500],
-			text: gray[900],
-			secondaryText: gray[600],
-			disabledText: gray[300],
-			UIStroke: gray[100],
-			CardStock: "#F9F9F9",
-			Surface: "FFFFFF",
-			ControlShadow: "rgba(18, 18, 18, 0.06)",
-			HoleShadow: "rgba(18, 18, 18, 0.24)",
+			color: gray[900],
+			secondaryColor: gray[600],
+			disabledColor: gray[300],
+			placeholderColor: gray[400],
+			borderColor: gray[100],
+			cardStock: special.cardStock,
+			background: special.background,
+			controlShadow: special.controlShadow,
+			holeShadow: special.holeShadow,
 		} as Theme,
 	},
 	media: {

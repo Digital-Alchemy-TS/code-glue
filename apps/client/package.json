@@ -11,7 +11,7 @@
     "lint": "biome check .",
     "format": "biome format --write .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --no-open --quiet",
     "storybook:build": "storybook build"
   },
   "volta": {

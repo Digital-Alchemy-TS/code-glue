@@ -8,12 +8,12 @@
   "description": "Super top secret idea",
   "repository": "https://github.com/Digital-Alchemy-TS/code-glue",
   "scripts": {
-    "dev": "yarn workspaces foreach -A -p -i run start",
-    "build": "yarn workspaces foreach -A -p -i run build",
-    "test": "yarn workspaces foreach -A -p -i run test",
-    "lint": "yarn workspaces foreach -A -v -i run lint",
-    "format": "yarn workspaces foreach -A -v -i run format",
-    "typecheck": "yarn workspaces foreach -A -v -i run typecheck",
+    "dev": "yarn workspaces foreach -Api run start && yarn workspaces foreach -Api run storybook",
+    "build": "yarn workspaces foreach -Api run build",
+    "test": "yarn workspaces foreach -Api run test",
+    "lint": "yarn workspaces foreach -Avi run lint",
+    "format": "yarn workspaces foreach -Avi run format",
+    "typecheck": "yarn workspaces foreach -Avi run typecheck",
     "clean": "sh ./scripts/clean.sh"
   },
   "packageManager": "yarn@4.10.3",
