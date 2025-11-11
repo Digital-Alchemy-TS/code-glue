@@ -1,21 +1,19 @@
-import type { Preview } from "@storybook/react-vite";
+import addonA11y from "@storybook/addon-a11y"
+import { definePreview } from "@storybook/react-vite"
 
-const preview: Preview = {
-  parameters: {
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
-      },
-    },
-
-    a11y: {
-      // 'todo' - show a11y violations in the test UI only
-      // 'error' - fail CI on a11y violations
-      // 'off' - skip a11y checks entirely
-      test: "todo",
-    },
-  },
-};
-
-export default preview;
+export default definePreview({
+	// 👇 Add your addons here
+	addons: [addonA11y()],
+	parameters: {
+		// type-safe!
+		a11y: {
+			options: { xpath: true },
+		},
+		controls: {
+			matchers: {
+				color: /(background|color)$/i,
+				date: /Date$/i,
+			},
+		},
+	},
+})

@@ -9,7 +9,7 @@
 		"ignoreUnknown": false,
 		"includes": [
 			"**/src/**/*",
-			"**/design/**/*",
+			"**/.storybook/**/*",
 			"**/.vscode/**/*",
 			"**/vite.config.ts",
 			"!**/src/routeTree.gen.ts",
