@@ -4,17 +4,21 @@
       "name": "root",
       "path": "."
     },
+        {
+      "name": "server",
+      "path": "apps/server"
+    },
     {
       "name": "client",
       "path": "apps/client"
     },
     {
-      "name": "server",
-      "path": "apps/server"
+      "name": "paradigm",
+      "path": "packages/paradigm"
     }
   ],
   "settings": {
-    "typescript.tsdk": "client/node_modules/typescript/lib",
+    "typescript.tsdk": "node_modules/typescript/lib",
     "cSpell.words": [
       "Unfonts",
       "unplugin"

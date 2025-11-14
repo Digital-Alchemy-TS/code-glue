@@ -1,10 +1,9 @@
 import { createRouter } from "@tanstack/react-router"
 import { subscribe } from "valtio"
 
+import { store } from "@/store"
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen"
-
-import { store } from "@/store"
 
 // Wait for store to be ready before allowing router creation
 const waitForStore = async () => {

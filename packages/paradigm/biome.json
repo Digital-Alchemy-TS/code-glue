@@ -8,11 +8,10 @@
 	"files": {
 		"ignoreUnknown": false,
 		"includes": [
+			"**/*.json",
 			"**/src/**/*",
 			"**/.storybook/**/*",
-			"**/.vscode/**/*",
-			"vite.config.ts",
-			"!**/src/routeTree.gen.ts"
+			"**/.vscode/**/*"
 		]
 	},
 	"formatter": {
@@ -27,19 +26,13 @@
 					"level": "on",
 					"options": {
 						"groups": [
-							{
-								"type": false,
-								"source": [":PACKAGE:", ":NODE:", "!@code-glue/**"]
-							},
+							{ "type": false, "source": [":PACKAGE:", ":NODE:"] },
 							":BLANK_LINE:",
-							{
-								"type": false,
-								"source": ["@/**", "@code-glue/**", ":PATH:"]
-							},
+							{ "type": false, "source": [":PATH:"] },
 							":BLANK_LINE:",
 							{
 								"type": true,
-								"source": [":PACKAGE:", "@/**", "@code-glue/**", ":PATH:"]
+								"source": [":PACKAGE:", ":PATH:"]
 							}
 						]
 					}

@@ -3,12 +3,13 @@
   "private": true,
   "version": "25.10.1",
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "description": "Super top secret idea",
   "repository": "https://github.com/Digital-Alchemy-TS/code-glue",
   "scripts": {
-    "dev": "yarn workspaces foreach -Api run start && yarn workspaces foreach -Api run storybook",
+    "dev": "yarn workspaces foreach -Api run start",
     "build": "yarn workspaces foreach -Api run build",
     "test": "yarn workspaces foreach -Api run test",
     "lint": "yarn workspaces foreach -Avi run lint",

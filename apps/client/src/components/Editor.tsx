@@ -4,9 +4,10 @@ import React, { useCallback } from "react"
 import ts from "typescript"
 import { useSnapshot } from "valtio"
 
-import type { editor } from "monaco-editor"
 import { useCurrentAutomation } from "@/hooks/useAutomation"
 import { store } from "@/store"
+
+import type { editor } from "monaco-editor"
 
 export const Editor: React.FC = () => {
 	const { automationId, automationSnapshot } = useCurrentAutomation()

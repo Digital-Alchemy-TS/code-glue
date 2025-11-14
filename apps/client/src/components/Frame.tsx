@@ -1,14 +1,14 @@
 import { Outlet } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
-import { SizableText, TamaguiProvider, XStack, YStack } from "tamagui"
+import { SizableText, XStack, YStack } from "tamagui"
 import { useSnapshot } from "valtio/react"
 
-import { AutomationDetails } from "./AutomationDetails"
-import { Nav } from "./Nav"
-
+import { ParadigmProvider } from "@code-glue/paradigm"
 import { Editor } from "@/components/Editor"
 import tamaguiConfig from "@/design/tamagui.config"
 import { store } from "@/store"
+import { AutomationDetails } from "./AutomationDetails"
+import { Nav } from "./Nav"
 
 export const Frame: React.FC = () => {
 	const {
@@ -28,7 +28,7 @@ export const Frame: React.FC = () => {
 		fontsLoaded && storeIsReady && (typesReady || store.serverError)
 
 	return (
-		<TamaguiProvider config={tamaguiConfig}>
+		<ParadigmProvider config={tamaguiConfig}>
 			{!appReady ? (
 				<YStack
 					fullscreen
@@ -53,6 +53,6 @@ export const Frame: React.FC = () => {
 					</YStack>
 				</XStack>
 			)}
-		</TamaguiProvider>
+		</ParadigmProvider>
 	)
 }

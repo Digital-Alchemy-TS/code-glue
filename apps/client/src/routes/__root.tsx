@@ -3,8 +3,9 @@ import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import "unfonts.css"
 
-import type React from "react"
 import { Frame } from "@/components/Frame"
+
+import type React from "react"
 
 export const Route = createRootRoute({
 	head: () => ({

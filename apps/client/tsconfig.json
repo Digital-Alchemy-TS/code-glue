@@ -6,13 +6,13 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "jsx": "react-jsx",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "baseUrl": ".",
     "types": ["vite/client"],
     "paths": {
-
       "@/*": ["./src/*"],
-      "@code-glue/server/*": ["../server/src/*"]
+      "@code-glue/server/*": ["../server/src/*"],
+      "@code-glue/paradigm": ["../../packages/paradigm/src/index.ts"]
     },
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": false,
