@@ -1,31 +1,58 @@
-.expo/
-/dist
-/build
-/tmp
-/backup
-/out-tsc
-**/node_modules
-npm-debug.log
-yarn-error.log
-.ds_store
-apps/server/cache
-thumbs.db
-.yarn/
+# Node/Yarn
+node_modules/
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Builds & caches
+dist/
+build/
+coverage/
+*.tsbuildinfo
+out-tsc/
+.eslintcache
+
+# Vite/others
+.vite/
+tmp/
+temp/
+backup/
 .transform_cache
+
+# Project specific
+apps/server/cache/
+**/synapse_storage.db
+tagui-web.css
+.tamagui
 .schemas
-.env
-.code_glue
 .cli
 .VSCodeCounter
-coverage
 
-**/synapse_storage.db
+# Environment & secrets
+.env
+.env.*
+!.env.example
+.code_glue
 
-tamagui-web.css
-.tamagui
+# Logs
+npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+
+# VSCode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
 
 # macOS
 .DS_Store
-/.eslintcache
-apps/server/cache/
-/apps/client/dist
+.ds_store
+thumbs.db
+
+*storybook.log
+storybook-static

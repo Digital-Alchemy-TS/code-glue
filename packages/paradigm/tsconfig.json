@@ -1,0 +1,24 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"target": "ES2022",
+		"noEmit": false,
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"jsx": "react-jsx",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"baseUrl": ".",
+		"outDir": "./dist",
+		"verbatimModuleSyntax": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true,
+		"paths": {
+			"@/paradigm": ["./src/index.ts"],
+			"@/*": ["./src/*"],
+			"@/storybook/*": ["./.storybook/*"]
+		}
+	},
+	"include": ["**/*.ts", "**/*.tsx", ".storybook/**/*.ts"]
+}
