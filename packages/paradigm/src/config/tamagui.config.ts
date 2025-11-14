@@ -1,5 +1,5 @@
 import { defaultConfig } from "@tamagui/config/v4"
-import { createTamagui, createTokens } from "tamagui"
+import { type CreateTamaguiProps, createTamagui, createTokens } from "tamagui"
 
 import { shorthands } from "./shorthands"
 
@@ -79,7 +79,7 @@ const red = {
 	900: "#900101",
 }
 
-type Theme = {
+export type Theme = {
 	primary: string
 	destructive: string
 	color: string // text
@@ -93,7 +93,7 @@ type Theme = {
 	holeShadow: string
 }
 
-export const paradigmConfig = createTamagui({
+export const paradigmConfig: CreateTamaguiProps = {
 	settings: {
 		allowedStyleValues: "strict",
 		styleCompat: "react-native",
@@ -134,12 +134,14 @@ export const paradigmConfig = createTamagui({
 		hoverNone: { hover: "none" },
 		pointerCoarse: { pointer: "coarse" },
 	},
-})
+}
 
-export type AppConfig = typeof paradigmConfig
+const tamaguiConfig = createTamagui(paradigmConfig)
+
+export type AppConfig = typeof tamaguiConfig
 
 declare module "tamagui" {
 	interface TamaguiCustomConfig extends AppConfig {}
 }
 
-export default paradigmConfig
+export default tamaguiConfig
