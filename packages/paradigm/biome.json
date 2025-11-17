@@ -28,7 +28,10 @@
 						"groups": [
 							{ "type": false, "source": [":PACKAGE:", ":NODE:"] },
 							":BLANK_LINE:",
-							{ "type": false, "source": [":PATH:"] },
+							{
+								"type": false,
+								"source": [":ALIAS:", ":PATH:"]
+							},
 							":BLANK_LINE:",
 							{
 								"type": true,

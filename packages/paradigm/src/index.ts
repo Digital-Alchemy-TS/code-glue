@@ -1,13 +1,11 @@
+// Config
+
+export * from "./config/tamagui.config"
+
 // Components
 
 export * from "./components/ParadigmProvider"
 export * from "./components/View"
-
-// Config
-
-export * from "./config/fonts"
-export * from "./config/shorthands"
-export * from "./config/tamagui.config"
 
 // Hooks
 

@@ -16,9 +16,10 @@
 		"extends": "../../package.json"
 	},
 	"dependencies": {
-		"@tamagui/config": "1.137.1",
+		"@nderscore/tamagui-typescript-plugin": "^0.6.0",
+		"@tamagui/config": "1.137.3",
 		"react-native-web": "^0.21.2",
-		"tamagui": "1.137.1"
+		"tamagui": "1.137.3"
 	},
 	"peerDependencies": {
 		"react": "^19.2.0",
@@ -31,7 +32,7 @@
 		"@storybook/addon-docs": "^10.0.7",
 		"@storybook/addon-vitest": "^10.0.7",
 		"@storybook/react-vite": "^10.0.7",
-		"@tamagui/vite-plugin": "1.137.1",
+		"@tamagui/vite-plugin": "1.137.3",
 		"@types/node": "^22.10.2",
 		"@types/react": "^19.2.0",
 		"@types/react-dom": "^19.2.0",

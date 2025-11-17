@@ -1,6 +1,4 @@
-import { createShorthands } from "tamagui"
-
-export const shorthands = createShorthands({
+export const shorthands = {
 	// view
 	m: "margin",
 	mb: "marginBottom",
@@ -16,4 +14,4 @@ export const shorthands = createShorthands({
 	pt: "paddingTop",
 	px: "paddingHorizontal",
 	py: "paddingVertical",
-})
+} as const

@@ -15,7 +15,7 @@ export const Nav = () => {
 			width={240}
 		>
 			<XStack alignItems="center" background="$background" height={49}>
-				<View>
+				<View mx={12}>
 					<img
 						src="./favicon-196x196.png"
 						alt="CodeGlue"
