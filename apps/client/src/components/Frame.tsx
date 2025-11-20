@@ -1,9 +1,8 @@
 import { Outlet } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
-import { SizableText, XStack, YStack } from "tamagui"
 import { useSnapshot } from "valtio/react"
 
-import { ParadigmProvider } from "@code-glue/paradigm"
+import { Column, ParadigmProvider, Row, Text } from "@code-glue/paradigm"
 import { Editor } from "@/components/Editor"
 import tamaguiConfig from "@/design/tamagui.config"
 import { store } from "@/store"
@@ -30,28 +29,28 @@ export const Frame: React.FC = () => {
 	return (
 		<ParadigmProvider config={tamaguiConfig}>
 			{!appReady ? (
-				<YStack
+				<Column
 					fullscreen
 					alignItems="center"
 					justifyContent="center"
 					background="red"
 				>
-					<SizableText>Loading...</SizableText>
-				</YStack>
+					<Text>Loading...</Text>
+				</Column>
 			) : (
-				<XStack fullscreen>
+				<Row fullscreen>
 					<Nav />
 
 					{/* Main content */}
-					<YStack flex={1}>
+					<Column flex={1}>
 						<AutomationDetails />
 
-						<YStack flex={1} borderRadius={8}>
+						<Column flex={1} borderRadius={8}>
 							<Editor />
 							<Outlet />
-						</YStack>
-					</YStack>
-				</XStack>
+						</Column>
+					</Column>
+				</Row>
 			)}
 		</ParadigmProvider>
 	)

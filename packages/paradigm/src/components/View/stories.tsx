@@ -5,5 +5,5 @@ const meta = preview.meta({
 	component: View,
 })
 export const Story = meta.story({
-	render: () => <View>View Content</View>,
+	render: () => <View px="$edgeInset">View Content</View>,
 })

@@ -1,34 +1,32 @@
 import { Link } from "@tanstack/react-router"
-import { H3, SizableText, View, XStack, YGroup, YStack } from "tamagui"
 import { useSnapshot } from "valtio/react"
 
+import { Column, Row, Text, View } from "@code-glue/paradigm"
 import { store } from "../store"
 
 export const Nav = () => {
 	const { automations } = useSnapshot(store)
 
 	return (
-		<YStack
+		<Column
 			backgroundColor="$cardStock"
 			borderRightColor="$borderColor"
 			borderRightWidth="$size.stroke"
 			width={240}
 		>
-			<XStack alignItems="center" background="$background" height={49}>
+			<Row alignItems="center" background="$background" height={49}>
 				<View mx={12}>
 					<img
-						src="./favicon-196x196.png"
+						src="/mstile-310x310.png"
 						alt="CodeGlue"
 						width={42}
 						height={42}
-						paddingLeft={6}
-						paddingRight={6}
 					/>
 				</View>
 
-				<H3>Code Glue</H3>
-			</XStack>
-			<YGroup
+				<Text size="$5">Code Glue</Text>
+			</Row>
+			<Column
 				flexDirection="column"
 				gap={10}
 				marginTop={10}
@@ -40,10 +38,10 @@ export const Nav = () => {
 						to="/automation/$id"
 						params={{ id: automation.id }}
 					>
-						<SizableText size="$3">{automation.title}</SizableText>
+						<Text size="$3">{automation.title}</Text>
 					</Link>
 				))}
-			</YGroup>
-		</YStack>
+			</Column>
+		</Column>
 	)
 }
