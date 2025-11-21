@@ -706,7 +706,6 @@ __metadata:
     "@biomejs/biome": "npm:2.3.5"
     "@code-glue/paradigm": "workspace:^"
     "@monaco-editor/react": "npm:^4.7.0"
-    "@nderscore/tamagui-typescript-plugin": "npm:^0.6.0"
     "@tanstack/react-devtools": "npm:^0.7.0"
     "@tanstack/react-router": "npm:^1.132.0"
     "@tanstack/react-router-devtools": "npm:^1.132.0"
@@ -774,12 +773,12 @@ __metadata:
   resolution: "@code-glue/server@workspace:apps/server"
   dependencies:
     "@cspell/eslint-plugin": "npm:^8.17.5"
-    "@digital-alchemy/automation": "npm:^25.8.21"
-    "@digital-alchemy/core": "npm:^25.8.21"
-    "@digital-alchemy/hass": "npm:^25.8.21"
+    "@digital-alchemy/automation": "npm:^25.11.18"
+    "@digital-alchemy/core": "npm:^25.11.19"
+    "@digital-alchemy/hass": "npm:^25.11.16"
     "@digital-alchemy/synapse": "npm:^25.8.21"
     "@digital-alchemy/terminal": "npm:^24.11.1"
-    "@digital-alchemy/type-writer": "npm:^25.8.21"
+    "@digital-alchemy/type-writer": "npm:^25.11.16"
     "@eslint/compat": "npm:^1.2.7"
     "@eslint/eslintrc": "npm:^3.3.0"
     "@eslint/js": "npm:^9.22.0"
@@ -1436,15 +1435,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@digital-alchemy/automation@npm:^25.8.21":
-  version: 25.8.21
-  resolution: "@digital-alchemy/automation@npm:25.8.21"
+"@digital-alchemy/automation@npm:^25.11.18":
+  version: 25.11.18
+  resolution: "@digital-alchemy/automation@npm:25.11.18"
   peerDependencies:
     "@digital-alchemy/core": "*"
     "@digital-alchemy/hass": "*"
     "@digital-alchemy/synapse": "*"
     dayjs: ^1
-  checksum: 10/cddd881e9d4d0fcab01534de98222b9846a45daf9a3f3924eba66f9fa6ef985c2585027c2719a294db731753c12b66e5d15b841fd2efbcaae934fd309dcd7505
+  checksum: 10/35dff4d6bd9884f24275f31ac83c455748e9f61b9cb95740a1870b2326f70a1b1a1a27e084919256112608132b38a89d256df5c2b66663d5f1124c420f261889
   languageName: node
   linkType: hard
 
@@ -1454,9 +1453,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digital-alchemy/core@npm:^25.8.21":
-  version: 25.11.7
-  resolution: "@digital-alchemy/core@npm:25.11.7"
+"@digital-alchemy/core@npm:^25.11.19":
+  version: 25.11.19
+  resolution: "@digital-alchemy/core@npm:25.11.19"
   dependencies:
     "@dotenvx/dotenvx": "npm:^1.51.1"
     chalk: "npm:^5.6.2"
@@ -1466,13 +1465,13 @@ __metadata:
     js-yaml: "npm:^4.1.0"
     minimist: "npm:^1.2.8"
     uuid: "npm:^13.0.0"
-  checksum: 10/4f195d00b516b34ca1df12c7cd7c7a486e9c792c9d9b4c871d5422bd895af01adbf9ccd68b1db391726b31211c8bfb3c72f4346865443b02bba2ee74e74f4d43
+  checksum: 10/5b6773477994c00c2b198f557a796c82e61c98dd1e093673ec9bbb06b213dc495ecb3540f42a6068caa2723d9d1d39838954619ce08e5ea050386a5010759a5e
   languageName: node
   linkType: hard
 
-"@digital-alchemy/hass@npm:^25.8.21":
-  version: 25.10.26
-  resolution: "@digital-alchemy/hass@npm:25.10.26"
+"@digital-alchemy/hass@npm:^25.11.16":
+  version: 25.11.16
+  resolution: "@digital-alchemy/hass@npm:25.11.16"
   dependencies:
     dayjs: "npm:^1.11.18"
     semver: "npm:^7.7.3"
@@ -1483,7 +1482,7 @@ __metadata:
     "@digital-alchemy/core": "*"
   bin:
     mock-assistant: scripts/mock-assistant.sh
-  checksum: 10/adc60e630d0611d83122821f41d3db37615cd9b533f5073bc090f927a549e9b43a802b09cf678cb28bf9264c82ec28d8fde1de97ad4ef2f1227f7da2bf5d9973
+  checksum: 10/3c087a35bc6c3c3d4986dcb5ee7f69f4fefda374d79763bad77f8c357bca0a3d9ee31b5c9dc645a2665fd53d59de2cbd5ef3ffa0909dee2fa99afe0307844d8e
   languageName: node
   linkType: hard
 
@@ -1523,20 +1522,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@digital-alchemy/type-writer@npm:^25.8.21":
-  version: 25.10.12
-  resolution: "@digital-alchemy/type-writer@npm:25.10.12"
+"@digital-alchemy/type-writer@npm:^25.11.16":
+  version: 25.11.16
+  resolution: "@digital-alchemy/type-writer@npm:25.11.16"
   dependencies:
-    js-yaml: "npm:^4.1.0"
+    js-yaml: "npm:^4.1.1"
     prettier: "npm:^3.6.2"
-    type-fest: "npm:^4.41.0"
-    typescript: "npm:^5.9.2"
+    type-fest: "npm:^5.2.0"
+    typescript: "npm:^5.9.3"
   peerDependencies:
     "@digital-alchemy/core": "*"
     "@digital-alchemy/hass": "*"
   bin:
     type-writer: scripts/run.sh
-  checksum: 10/9669e870aca277111cf0e87951301d2a0ce436ca5cc60adb486c93f6ca24715c075270055453bee31302b8c52c997fde9ee9d79aa8e312169c8109396d4db734
+  checksum: 10/71b2c26ea5a3d0acdef2e22fc7dc87a08bd3bb6c38b2e9a5539ad93a8d3aff5539516ccaa24316368534de247ca2961f0cd67770bad893ae5271098fa1847397
   languageName: node
   linkType: hard
 
@@ -11319,7 +11318,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:^4.1.0":
+"js-yaml@npm:^4.1.0, js-yaml@npm:^4.1.1":
   version: 4.1.1
   resolution: "js-yaml@npm:4.1.1"
   dependencies:
@@ -15381,7 +15380,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^5.1.0":
+"type-fest@npm:^5.1.0, type-fest@npm:^5.2.0":
   version: 5.2.0
   resolution: "type-fest@npm:5.2.0"
   dependencies:
