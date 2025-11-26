@@ -43,7 +43,9 @@ export function BoilerplatePatchService({
         const remove = internal.removeFn(() => {
           logger.warn("REMOVED");
           refs.delete(remove);
-          out();
+          if (typeof out === "function") {
+            out();
+          }
         });
         refs.add(remove);
         return remove;

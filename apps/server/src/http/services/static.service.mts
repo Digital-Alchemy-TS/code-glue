@@ -1,5 +1,6 @@
 import { TServiceParams } from "@digital-alchemy/core";
 import fastifyStatic from "@fastify/static";
+import { existsSync } from "fs";
 import path from "path";
 
 export function StaticFileService({ logger, lifecycle, http }: TServiceParams) {
@@ -15,7 +16,14 @@ export function StaticFileService({ logger, lifecycle, http }: TServiceParams) {
 
     logger.info("Enabling static file serving for client files");
 
-    const clientPath = path.resolve(process.cwd(), "dist/client");
+    // Support both local development and container paths
+    // In dev: cwd is /path/to/code-glue/apps/server, client is at ../../apps/client/dist
+    // In container: cwd is /app, client is at /app/dist/client
+    let clientPath = path.resolve(process.cwd(), "dist/client");
+    if (!existsSync(clientPath)) {
+      // Try local dev path relative to server directory
+      clientPath = path.resolve(process.cwd(), "../../apps/client/dist");
+    }
 
     // Register fastify-static plugin for all static assets
     await http.bindings.httpServer.register(fastifyStatic, {
