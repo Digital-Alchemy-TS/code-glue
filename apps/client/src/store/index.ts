@@ -18,6 +18,9 @@ export const store = proxy({
 	variables: variableStore,
 	synapse: synapseStore,
 	automationHeader: "",
+	state: {
+		currentAutomationId: null as string | null,
+	},
 	apiStatus: {
 		typesReady: false,
 		synapseReady: false,

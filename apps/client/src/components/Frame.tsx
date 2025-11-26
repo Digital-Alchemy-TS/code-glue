@@ -1,4 +1,3 @@
-import { Outlet } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
 import { useSnapshot } from "valtio/react"
 
@@ -9,7 +8,7 @@ import { store } from "@/store"
 import { AutomationDetails } from "./AutomationDetails"
 import { Nav } from "./Nav"
 
-export const Frame: React.FC = () => {
+export const Frame = ({ children }: { children?: React.ReactNode }) => {
 	const {
 		isReady: storeIsReady,
 		apiStatus: { typesReady },
@@ -47,7 +46,7 @@ export const Frame: React.FC = () => {
 
 						<Column flex={1} borderRadius={8}>
 							<Editor />
-							<Outlet />
+							{children}
 						</Column>
 					</Column>
 				</Row>

@@ -1,8 +1,7 @@
-import { Link } from "@tanstack/react-router"
 import { useSnapshot } from "valtio/react"
 
 import { Column, Row, Text, View } from "@code-glue/paradigm"
-import { store } from "../store"
+import { store } from "@/store"
 
 export const Nav = () => {
 	const { automations } = useSnapshot(store)
@@ -33,13 +32,14 @@ export const Nav = () => {
 				padding="$space.edgeInset"
 			>
 				{Array.from(automations, ([, automation]) => (
-					<Link
+					<View
 						key={automation.id}
-						to="/automation/$id"
-						params={{ id: automation.id }}
+						onPress={() => {
+							store.state.currentAutomationId = automation.id
+						}}
 					>
 						<Text size="$3">{automation.title}</Text>
-					</Link>
+					</View>
 				))}
 			</Column>
 		</Column>
