@@ -5,6 +5,7 @@ import viteTsConfigPaths from "vite-tsconfig-paths"
 import { paradigmPlugin } from "../../packages/paradigm/src/plugins/vite"
 
 const config = defineConfig({
+	base: "./",
 	plugins: [
 		// this is the plugin that enables path aliases
 		viteTsConfigPaths({
