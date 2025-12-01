@@ -34,12 +34,12 @@
 							":BLANK_LINE:",
 							{
 								"type": false,
-								"source": ["@/**", "@code-glue/**", ":PATH:"]
+								"source": ["@code-glue/**", ":ALIAS:", ":PATH:"]
 							},
 							":BLANK_LINE:",
 							{
 								"type": true,
-								"source": [":PACKAGE:", "@/**", "@code-glue/**", ":PATH:"]
+								"source": ["**"]
 							}
 						]
 					}
