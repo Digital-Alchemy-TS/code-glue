@@ -16,7 +16,7 @@ export const Nav = () => {
 			<Row alignItems="center" background="$background" height={49}>
 				<View mx={12}>
 					<img
-						src="/mstile-310x310.png"
+						src="./mstile-310x310.png"
 						alt="CodeGlue"
 						width={42}
 						height={42}
