@@ -6,16 +6,20 @@ import { createAutomation, store } from "@/store"
 
 export const AutomationDetails: React.FC = () => {
 	const { automation, automationSnapshot } = useCurrentAutomation()
-	const { isBodyEdited, newAutomationTitle } = useSnapshot(store.state)
+	const { isBodyEdited, newAutomationTitle, currentEditorBody } = useSnapshot(
+		store.state,
+	)
 
 	return (
 		<Column borderBottomColor="$borderColor" borderBottomWidth="$size.stroke">
 			<Row mx={12}>
 				<Text>Name:</Text>
 				<TextInput
-					onChangeText={(text) => {
+					onChangeText={(title) => {
 						if (automation) {
-							automation.update({ title: text })
+							automation.update({ title })
+						} else {
+							store.state.newAutomationTitle = title
 						}
 					}}
 					value={automation ? automationSnapshot.title : newAutomationTitle}
@@ -23,7 +27,7 @@ export const AutomationDetails: React.FC = () => {
 			</Row>
 			<Row>
 				<Text>Status:</Text>
-				<Text>isBodyEdited ? "Edited" : "Unedited"</Text>
+				<Text>{isBodyEdited ? "Edited" : "Unedited"}</Text>
 				<Button
 					label="Save"
 					onPress={() => {
@@ -32,11 +36,16 @@ export const AutomationDetails: React.FC = () => {
 								body: store.state.currentEditorBody,
 							})
 						} else {
-							createAutomation({
-								...automationSnapshot,
-								body: store.state.currentEditorBody,
+							const newAutomation = createAutomation({
+								title: newAutomationTitle,
+								body: currentEditorBody,
 							})
+
+							store.state.currentAutomationId = newAutomation.id
 						}
+
+						// reset edited state
+						store.state.isBodyEdited = false
 					}}
 				/>
 			</Row>

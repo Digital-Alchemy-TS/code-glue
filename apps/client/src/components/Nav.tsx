@@ -31,6 +31,13 @@ export const Nav = () => {
 				marginTop={10}
 				padding="$space.edgeInset"
 			>
+				<View
+					onPress={() => {
+						store.state.currentAutomationId = null
+					}}
+				>
+					<Text>New Automation</Text>
+				</View>
 				{Array.from(automations, ([, automation]) => (
 					<View
 						key={automation.id}
