@@ -6,8 +6,6 @@
 	"scripts": {
 		"start": "storybook dev -p 6006 --no-open --quiet",
 		"storybook:build": "storybook build",
-		"build": "tsup",
-		"dev": "tsup --watch",
 		"lint": "biome check .",
 		"format": "biome format --write .",
 		"typecheck": "tsc -p tsconfig.json --noEmit"
@@ -43,7 +41,6 @@
 		"jsdom": "^27.0.0",
 		"playwright": "^1.56.1",
 		"storybook": "^10.0.7",
-		"tsup": "^8.5.1",
 		"typescript": "^5.9.3",
 		"unplugin-fonts": "^1.4.0",
 		"vite": "^7.1.7",

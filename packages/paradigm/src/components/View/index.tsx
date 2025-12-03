@@ -14,10 +14,10 @@ type ParadigmViewProps = {
 	ref?: React.Ref<TamaguiElement>
 }
 
-export type ViewProps = TamaguiViewProps & ParadigmViewProps
-export type ColProps = YStackProps & ParadigmViewProps
-export type RowProps = XStackProps & ParadigmViewProps
-export type StackProps = ZStackProps & ParadigmViewProps
+export type ViewProps = Omit<TamaguiViewProps, never> & ParadigmViewProps
+export type ColProps = Omit<YStackProps, never> & ParadigmViewProps
+export type RowProps = Omit<XStackProps, never> & ParadigmViewProps
+export type StackProps = Omit<ZStackProps, never> & ParadigmViewProps
 
 const View = (props: ViewProps) => {
 	const { children, ref, ...otherProps } = props

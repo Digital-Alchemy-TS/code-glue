@@ -10,11 +10,4 @@ export const tamaguiConfig = createTamagui({
 		body: Nuntito,
 	},
 })
-
-export type AppConfig = typeof tamaguiConfig
-
-declare module "tamagui" {
-	interface TamaguiCustomConfig extends AppConfig {}
-}
-
 export default tamaguiConfig

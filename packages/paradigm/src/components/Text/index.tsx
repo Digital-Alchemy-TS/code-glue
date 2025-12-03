@@ -8,7 +8,7 @@ type ParadigmTextProps = {
 	ref?: React.Ref<TamaguiTextElement>
 }
 
-export type TextProps = TamaguiTextProps & ParadigmTextProps
+export type TextProps = Omit<TamaguiTextProps, never> & ParadigmTextProps
 
 const Text = (props: TextProps) => {
 	const { children, ref, ...otherProps } = props

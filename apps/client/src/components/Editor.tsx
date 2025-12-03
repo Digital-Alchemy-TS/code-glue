@@ -13,8 +13,6 @@ export const Editor: React.FC = () => {
 	const { automationId, automationSnapshot } = useCurrentAutomation()
 	const path = automationId ? `/automations/${automationId}.ts` : undefined
 
-	const [, setBody] = React.useState(automationSnapshot.body)
-
 	const snapshot = useSnapshot(store)
 	const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
 	const monacoRef = React.useRef<Monaco | null>(null)
@@ -117,7 +115,8 @@ export const Editor: React.FC = () => {
 				defaultValue: automationSnapshot.body,
 				beforeMount: handleEditorBeforeMount,
 				onChange: (value: string | undefined) => {
-					setBody(value || "")
+					store.state.isBodyEdited = true
+					store.state.currentEditorBody = value || ""
 				},
 				onMount: handleOnMount,
 				options: {

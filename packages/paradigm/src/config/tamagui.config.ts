@@ -62,6 +62,7 @@ const tokens = createTokens({
 		true: 1,
 		stroke: 1,
 		thinStroke: 0.5,
+		input: 32,
 	},
 	space: {
 		space: 16,
