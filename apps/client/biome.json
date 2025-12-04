@@ -12,6 +12,7 @@
 			"**/.storybook/**/*",
 			"**/.vscode/**/*",
 			"vite.config.ts",
+			"app.config.ts",
 			"!**/src/routeTree.gen.ts"
 		]
 	},

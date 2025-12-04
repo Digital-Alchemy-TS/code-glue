@@ -3,7 +3,7 @@ import { useSnapshot } from "valtio/react"
 import { Column, Row, Text, View } from "@code-glue/paradigm"
 import { store } from "@/store"
 
-export const Nav = () => {
+export const MainNav = () => {
 	const { automations } = useSnapshot(store)
 
 	return (

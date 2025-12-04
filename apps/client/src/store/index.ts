@@ -10,6 +10,7 @@ import type {
 	StoredAutomation,
 	SynapseEntities,
 } from "@code-glue/server/utils/index.mts"
+import type { SectionIds } from "@/config"
 
 export const store = proxy({
 	isReady: false,
@@ -19,6 +20,7 @@ export const store = proxy({
 	synapse: synapseStore,
 	automationHeader: "",
 	state: {
+		currentNavSection: null as SectionIds | null,
 		currentAutomationId: null as string | null,
 		newAutomationTitle: "New Automation",
 		currentEditorBody: "",
