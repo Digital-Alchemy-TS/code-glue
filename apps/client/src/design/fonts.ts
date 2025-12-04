@@ -27,3 +27,31 @@ export const NuntitoBold = createFont({
 		7: 30,
 	},
 })
+
+export const MonaspaceKrypton = createFont({
+	family: '"Monaspace Krypton"',
+	weight: { 1: "300" },
+	size: {
+		1: 12,
+		2: 14,
+		3: 16,
+		4: 18,
+		5: 20,
+		6: 24,
+		7: 30,
+	},
+})
+
+export const MonaspaceArgon = createFont({
+	family: '"Monaspace Argon"',
+	weight: { 1: "400" },
+	size: {
+		1: 12,
+		2: 14,
+		3: 16,
+		4: 18,
+		5: 20,
+		6: 24,
+		7: 30,
+	},
+})
