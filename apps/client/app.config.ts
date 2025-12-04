@@ -11,7 +11,7 @@ export const appConfig = {
 		{ id: "variables", title: "Variables" },
 		{
 			id: "synapse",
-			title: "Virtual Entities",
+			title: "Entities",
 		},
 	] satisfies SectionType[],
 } as const
