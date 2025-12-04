@@ -4,6 +4,7 @@ import React, { useCallback } from "react"
 import ts from "typescript"
 import { useSnapshot } from "valtio"
 
+import { MonaspaceArgon } from "@/design/fonts"
 import { useCurrentAutomation } from "@/hooks/useAutomation"
 import { store } from "@/store"
 
@@ -81,7 +82,35 @@ export const Editor: React.FC = () => {
 			moduleDetection: 3, // https://github.com/microsoft/monaco-editor/issues/2976
 		})
 		monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true)
+
+		monaco.editor.defineTheme("glue-light", {
+			base: "vs",
+			colors: {
+				"editor.background": "#ffffff",
+				"editor.foreground": "#8f8c8c",
+				"editorLineNumber.foreground": "#ececec",
+				"editorLineNumber.activeForeground": "#b0b0b0",
+				"editor.lineHighlightBackground": "#f6f6f6",
+				"editor.lineHighlightBorder": "#f6f6f6",
+				"editor.selectionBackground": "#0069d91c",
+				"editorCursor.foreground": "#3f8ffa",
+				"editorIndentGuide.background": "#e0e0e0",
+				"editorIndentGuide.activeBackground": "#3f8ffa",
+				"scrollbarSlider.background": "#c0c0c06b",
+				"scrollbarSlider.activeBackground": "#8f8c8c6b",
+				"scrollbarSlider.hoverBackground": "#8f8c8c6b",
+			},
+			inherit: true,
+			rules: [],
+		})
 	}
+
+	React.useEffect(() => {
+		if (monacoReady && monacoRef.current) {
+			console.log("Setting monaco theme to glue-light")
+			monacoRef.current.editor.setTheme("glue-light")
+		}
+	}, [monacoReady])
 
 	const handleOnMount = (
 		editor: editor.IStandaloneCodeEditor,
@@ -122,7 +151,13 @@ export const Editor: React.FC = () => {
 				options: {
 					minimap: { enabled: false },
 					tabSize: 2,
-					fontFamily: "Monaspace Argon",
+					fontSize: 14,
+					fontFamily: MonaspaceArgon.family,
+					fontLigatures:
+						"'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'ss10', 'liga'",
+					fontVariations: true,
+					allowVariableFonts: true,
+					automaticLayout: true,
 				},
 
 				...(path && { path }),
