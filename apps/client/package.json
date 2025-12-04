@@ -23,11 +23,13 @@
     "monaco-editor": "^0.54.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "shiki": "^3.19.0",
     "uuid": "^13.0.0",
     "valtio": "^2.1.8"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.5",
+    "@shikijs/monaco": "^3.19.0",
     "@types/node": "^22.10.2",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",

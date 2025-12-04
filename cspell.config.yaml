@@ -16,8 +16,11 @@ words:
   - mstile
   - nderscore
   - nocomment
+  - shiki
+  - shikijs
   - sonarjs
   - tseslint
   - typebox
+  - vitesse
 ignoreWords: []
 import: []

@@ -105,12 +105,12 @@ export const Editor: React.FC = () => {
 		})
 	}
 
-	React.useEffect(() => {
-		if (monacoReady && monacoRef.current) {
-			console.log("Setting monaco theme to glue-light")
-			monacoRef.current.editor.setTheme("glue-light")
-		}
-	}, [monacoReady])
+	// React.useEffect(() => {
+	// 	if (monacoReady && monacoRef.current) {
+	// 		console.log("Setting monaco theme to glue-light")
+	// 		monacoRef.current.editor.setTheme("glue-light")
+	// 	}
+	// }, [monacoReady])
 
 	const handleOnMount = (
 		editor: editor.IStandaloneCodeEditor,
@@ -141,6 +141,7 @@ export const Editor: React.FC = () => {
 		<MonacoEditor
 			{...{
 				language: "typescript",
+				theme: "vitesse-light",
 				defaultValue: automationSnapshot.body,
 				beforeMount: handleEditorBeforeMount,
 				onChange: (value: string | undefined) => {
