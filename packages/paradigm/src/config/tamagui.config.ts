@@ -1,6 +1,7 @@
 import { defaultConfig } from "@tamagui/config/v4"
 import { type CreateTamaguiProps, createTamagui, createTokens } from "tamagui"
 
+import { Nuntito, NuntitoBold } from "./fonts"
 import { shorthands } from "./shorthands"
 
 const special = {
@@ -99,6 +100,10 @@ export const paradigmConfig = {
 	settings: {
 		...defaultConfig.settings,
 		styleCompat: "react-native",
+	},
+	fonts: {
+		heading: NuntitoBold,
+		body: Nuntito,
 	},
 	shorthands,
 	tokens,
