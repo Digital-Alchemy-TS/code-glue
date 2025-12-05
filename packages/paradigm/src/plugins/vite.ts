@@ -1,7 +1,9 @@
+import { resolve } from "node:path"
 import { tamaguiPlugin } from "@tamagui/vite-plugin"
 import Unfonts from "unplugin-fonts/vite"
 
 import type { PluginOption } from "vite"
+import type { ParadigmConfig } from "../config/paradigm.config"
 
 export type FontFamily = {
 	name: string
@@ -10,7 +12,7 @@ export type FontFamily = {
 }
 
 export type ParadigmViteOptions = {
-	config: string
+	config: ParadigmConfig
 	fontFamilies: FontFamily[]
 }
 
@@ -26,7 +28,7 @@ export function paradigmPlugin({
 
 	return [
 		tamaguiPlugin({
-			config,
+			config: resolve(__dirname, "../config/tamagui.config.ts"),
 			components: ["tamagui"],
 			optimize: true,
 		}),

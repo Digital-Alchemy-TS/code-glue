@@ -1,6 +1,6 @@
 // Config
 
-export * from "./config/tamagui.config"
+export * from "./config/paradigm.config"
 
 // Components
 

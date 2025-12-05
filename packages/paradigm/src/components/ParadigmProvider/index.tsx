@@ -1,18 +1,20 @@
-import { type TamaguiInternalConfig, TamaguiProvider } from "tamagui"
+import React from "react"
+import { TamaguiProvider } from "tamagui"
 
-import paradigmConfig from "../../config/tamagui.config"
+import { baseConfig, type ParadigmConfig } from "../../config/paradigm.config"
+import tamaguiConfig from "../../config/tamagui.config"
 
+export const ParadigmContext = React.createContext(baseConfig)
 export const ParadigmProvider: React.FC<{
 	children: React.ReactNode
 	/**
-	 * Optional Tamagui config to override the default.
-	 * Make sure you extend the paradigm config so components continue to work as expected.
+	 * Optional Paradigm config to override the default.
 	 */
-	config?: TamaguiInternalConfig
+	config?: ParadigmConfig
 }> = ({ children, config }) => {
 	return (
-		<TamaguiProvider config={config || paradigmConfig}>
-			{children}
-		</TamaguiProvider>
+		<ParadigmContext value={config || baseConfig}>
+			<TamaguiProvider config={tamaguiConfig}>{children}</TamaguiProvider>
+		</ParadigmContext>
 	)
 }

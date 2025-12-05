@@ -98,7 +98,6 @@ export const paradigmConfig = {
 	...defaultConfig,
 	settings: {
 		...defaultConfig.settings,
-		allowedStyleValues: "strict-web",
 		styleCompat: "react-native",
 	},
 	shorthands,

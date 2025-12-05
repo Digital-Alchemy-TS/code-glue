@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react"
 import { useSnapshot } from "valtio/react"
 
-import { Column, ParadigmProvider, Row, Text } from "@code-glue/paradigm"
+import {
+	Column,
+	createParadigmConfig,
+	ParadigmProvider,
+	Row,
+	Text,
+} from "@code-glue/paradigm"
 import { Editor } from "@/components/Editor"
-import tamaguiConfig from "@/design/tamagui.config"
 import { store } from "@/store"
 import { AutomationDetails } from "./AutomationDetails"
 import { Nav } from "./Nav"
@@ -26,7 +31,7 @@ export const Frame = ({ children }: { children?: React.ReactNode }) => {
 		fontsLoaded && storeIsReady && (typesReady || store.serverError)
 
 	return (
-		<ParadigmProvider config={tamaguiConfig}>
+		<ParadigmProvider config={createParadigmConfig()}>
 			{!appReady ? (
 				<Column
 					fullscreen
