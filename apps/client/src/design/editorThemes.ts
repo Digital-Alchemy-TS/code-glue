@@ -21,6 +21,8 @@ export const codeGlueLight = {
 		"scrollbarSlider.activeBackground": "#8f8c8c6b",
 		"scrollbarSlider.hoverBackground": "#8f8c8c6b",
 		"editorError.foreground": "#f10520",
+		"editorBracketMatch.border": "#0069d918",
+		"editorBracketMatch.background": "#0069d918",
 		"editorBracketHighlight.foreground1": "#8f8c8c",
 		"editorBracketHighlight.foreground2": "#8f8c8c",
 		"editorBracketHighlight.foreground3": "#8f8c8c",
