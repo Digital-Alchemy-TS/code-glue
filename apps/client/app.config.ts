@@ -1,3 +1,5 @@
+import { codeGlueLight } from "./src/design/editorThemes"
+
 import type {
 	BundledLanguage,
 	BundledTheme,
@@ -14,7 +16,7 @@ type SectionType = {
 export const appConfig = {
 	editor: {
 		// themes to load into the editor via shiki
-		themes: ["vitesse-dark", "vitesse-light"] satisfies (
+		themes: [codeGlueLight, "vitesse-dark", "vitesse-light"] satisfies (
 			| ThemeInput
 			| "none"
 			| StringLiteralUnion<BundledTheme, string>
