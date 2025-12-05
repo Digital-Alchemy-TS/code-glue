@@ -13,13 +13,7 @@ const config = defineConfig({
 		}),
 		viteReact(),
 		paradigmPlugin({
-			config: "./src/design/tamagui.config.ts",
 			fontFamilies: [
-				{
-					name: "Nunito Sans",
-					local: "Nunito Sans",
-					src: "./public/fonts/NunitoSans/NunitoSans.ttf",
-				},
 				{
 					name: "Monaspace Argon",
 					local: "Monaspace Argon",

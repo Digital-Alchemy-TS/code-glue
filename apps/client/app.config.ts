@@ -15,6 +15,7 @@ type SectionType = {
 }
 export const appConfig = {
 	editor: {
+		font: "Monaspace Argon",
 		// themes to load into the editor via shiki
 		themes: [codeGlueLight, "vitesse-dark", "vitesse-light"] satisfies (
 			| ThemeInput

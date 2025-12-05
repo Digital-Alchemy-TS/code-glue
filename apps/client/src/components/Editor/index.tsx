@@ -4,8 +4,8 @@ import React, { useCallback } from "react"
 import ts from "typescript"
 import { useSnapshot } from "valtio"
 
+import { appConfig } from "@/config"
 import { codeGlueLight } from "@/design/editorThemes"
-import { MonaspaceArgon } from "@/design/fonts"
 import { useCurrentAutomation } from "@/hooks/useAutomation"
 import { store } from "@/store"
 
@@ -132,7 +132,7 @@ export const Editor: React.FC = () => {
 					minimap: { enabled: false },
 					tabSize: 2,
 					fontSize: 14,
-					fontFamily: MonaspaceArgon.family,
+					fontFamily: appConfig.editor.font,
 					fontWeight: "260",
 					fontLigatures:
 						"'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'ss10', 'liga'",

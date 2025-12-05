@@ -3,7 +3,6 @@ import { tamaguiPlugin } from "@tamagui/vite-plugin"
 import Unfonts from "unplugin-fonts/vite"
 
 import type { PluginOption } from "vite"
-import type { ParadigmConfig } from "../config/paradigm.config"
 
 export type FontFamily = {
 	name: string
@@ -12,20 +11,12 @@ export type FontFamily = {
 }
 
 export type ParadigmViteOptions = {
-	config: ParadigmConfig
-	fontFamilies: FontFamily[]
+	fontFamilies?: FontFamily[]
 }
 
-console.log("Loading paradigm vite plugin")
-
 export function paradigmPlugin({
-	config,
-	fontFamilies: families,
+	fontFamilies: families = [],
 }: ParadigmViteOptions): PluginOption {
-	if (!config) {
-		throw new Error('paradigmPlugin: "config" is required')
-	}
-
 	return [
 		tamaguiPlugin({
 			config: resolve(__dirname, "../config/tamagui.config.ts"),
@@ -33,6 +24,15 @@ export function paradigmPlugin({
 			optimize: true,
 		}),
 		Unfonts({
+			fontsource: {
+				families: [
+					{
+						name: "Nunito Sans",
+						weights: [600, 800],
+						styles: ["normal"],
+					},
+				],
+			},
 			custom: {
 				preload: true,
 				families,
