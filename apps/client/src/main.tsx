@@ -6,7 +6,7 @@ import "unfonts.css"
 import { Frame } from "@/components/Frame"
 
 // init the editor
-import "@/components/monacoInit"
+import "@/components/Editor/init"
 
 const rootElement = document.getElementById("root")
 if (!rootElement) {

@@ -79,9 +79,7 @@ export const Editor: React.FC = () => {
 			allowSyntheticDefaultImports: true,
 			esModuleInterop: true,
 			typeRoots: ["/globals.ts"],
-			moduleDetection: 3, // https://github.com/microsoft/monaco-editor/issues/2976
 		})
-		monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true)
 
 		monaco.editor.defineTheme("glue-light", {
 			base: "vs",
