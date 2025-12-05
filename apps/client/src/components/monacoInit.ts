@@ -8,6 +8,8 @@ import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker"
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
 import { createHighlighter } from "shiki"
 
+import { appConfig } from "@/config"
+
 // Load Monaco locally vs. via the CDN
 self.MonacoEnvironment = {
 	getWorker(_, label) {
@@ -27,17 +29,20 @@ self.MonacoEnvironment = {
 	},
 }
 
-// Create the highlighter, it can be reused
+// Create the language highlighter, add themes and languages in appConfig
 const highlighter = await createHighlighter({
-	themes: ["vitesse-dark", "vitesse-light"],
-	langs: ["javascript", "typescript", "vue"],
+	themes: appConfig.editor.themes,
+	langs: appConfig.editor.languages,
 })
 
-// Register TS and JS
-monaco.languages.register({ id: "typescript" })
-monaco.languages.register({ id: "javascript" })
+// Register Languages with Monaco
+appConfig.editor.languages.forEach((language) => {
+	monaco.languages.register({ id: language })
+})
 
+// Sync Shiki with Monaco
 shikiToMonaco(highlighter, monaco)
 
+// Load Monaco via the loader
 loader.config({ monaco })
 loader.init()
