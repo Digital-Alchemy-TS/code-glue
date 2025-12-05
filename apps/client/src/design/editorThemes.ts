@@ -20,55 +20,63 @@ export const codeGlueLight = {
 		"scrollbarSlider.background": "#c0c0c06b",
 		"scrollbarSlider.activeBackground": "#8f8c8c6b",
 		"scrollbarSlider.hoverBackground": "#8f8c8c6b",
+		"editorError.foreground": "#f10520",
+		"editorBracketHighlight.foreground1": "#8f8c8c",
+		"editorBracketHighlight.foreground2": "#8f8c8c",
+		"editorBracketHighlight.foreground3": "#8f8c8c",
+		"editorBracketHighlight.foreground4": "#8f8c8c",
+		"editorBracketHighlight.foreground5": "#8f8c8c",
+		"editorBracketHighlight.foreground6": "#8f8c8c",
+		"editorSuggestionWidget.background": "#e0e0e0",
+		"editorSuggestionWidget.foreground": "#8f8c8c",
+		"editorSuggestWidget.background": "#f6f6f6",
+		"editorSuggestWidget.highlightForeground": "#3f8ffa",
+		"editorSuggestWidget.selectedBackground": "#3f8ffa",
+		"editorSuggestWidget.border": "#c0c0c0",
 	},
 	settings: [
 		{
 			name: "Comments",
-			scope: ["comment", "punctuation.definition.comment"],
+			scope: [
+				"comment",
+				"punctuation.definition.comment",
+				"comment.block.preprocessor",
+				"comment.documentation",
+				"comment.block.documentation",
+			],
 			settings: {
 				fontStyle: "italic",
 				foreground: "#b0b0b0",
 			},
 		},
 		{
-			name: "Comments: Preprocessor",
-			scope: "comment.block.preprocessor",
-			settings: {
-				fontStyle: "",
-				foreground: "#b0b0b0",
-			},
-		},
-		{
-			name: "Comments: Documentation",
-			scope: ["comment.documentation", "comment.block.documentation"],
-			settings: {
-				foreground: "#b0b0b0",
-			},
-		},
-		{
-			name: "Invalid - Illegal",
-			scope: "invalid.illegal",
+			name: "Invalid - Illegal & Exceptions & Markup: Error & Markup: Traceback",
+			scope: [
+				"invalid.illegal",
+				"entity.name.exception",
+				"markup.error",
+				"markup.traceback",
+			],
 			settings: {
 				foreground: "#660000",
 			},
 		},
 		{
-			name: "Operators",
-			scope: "keyword.operator",
+			name: "Operators & Strings: Escape Sequences & Markup: Output & Markup: Prompt",
+			scope: [
+				"keyword.operator",
+				"constant.character.escape",
+				"markup.output",
+				"markup.raw",
+				"markup.prompt",
+			],
 			settings: {
 				foreground: "#777777",
 			},
 		},
 		{
-			name: "Keywords",
-			scope: ["keyword", "storage"],
-			settings: {
-				foreground: "#b460c6",
-			},
-		},
-		{
-			name: "Types",
-			scope: ["storage.type", "support.type"],
+			name: "Keywords & Types",
+			scope: ["keyword", "storage", "storage.type", "support.type"],
 			settings: {
 				foreground: "#b460c6",
 			},
@@ -81,42 +89,48 @@ export const codeGlueLight = {
 			},
 		},
 		{
-			name: "Language Constants",
-			scope: ["constant.language", "support.constant", "variable.language"],
+			name: "Language Constants & Numbers, Characters & Strings: Regular Expressions & Type & Type",
+			scope: [
+				"constant.language",
+				"support.constant",
+				"variable.language",
+				"constant.numeric",
+				"constant.character",
+				"constant",
+				"string.regexp",
+				"meta.type entity.name.type",
+				"meta.type entity.name.type.module",
+			],
+			settings: {
+				foreground: "#f10520",
+			},
+		},
+		{
+			name: "Variables & Functions Type & Classes & Module & Exceptions",
+			scope: [
+				"variable",
+				"support.variable",
+				"meta.object.type entity.name.function",
+				"entity.name.type",
+				"entity.other.inherited-class",
+				"support.class",
+				"entity.name.type.module",
+			],
 			settings: {
 				foreground: "#fc6d24",
 			},
 		},
 		{
-			name: "Variables",
-			scope: ["variable", "support.variable"],
-			settings: {
-				foreground: "#f10520",
-			},
-		},
-		{
-			name: "Functions",
-			scope: ["entity.name.function", "support.function"],
-			settings: {
-				foreground: "#297dc2",
-			},
-		},
-		{
-			name: "Functions Type",
-			scope: "meta.object.type entity.name.function",
-			settings: {
-				foreground: "#f10520",
-			},
-		},
-		{
-			name: "Classes",
+			name: "Functions & CSS: Property Names & Sub Module",
 			scope: [
+				"entity.name.function",
+				"support.function",
+				"meta.property-name",
+				"support.type.property-name",
 				"entity.name.type",
-				"entity.other.inherited-class",
-				"support.class",
 			],
 			settings: {
-				foreground: "#f10520",
+				foreground: "#297dc2",
 			},
 		},
 		{
@@ -127,81 +141,14 @@ export const codeGlueLight = {
 			},
 		},
 		{
-			name: "Module",
-			scope: "entity.name.type.module",
-			settings: {
-				foreground: "#f10520",
-			},
-		},
-		{
-			name: "Sub Module",
-			scope: "entity.name.type",
-			settings: {
-				foreground: "#297dc2",
-			},
-		},
-		{
-			name: "Type",
+			name: "Punctuation & HTML: Tags",
 			scope: [
-				"meta.type entity.name.type",
-				"meta.type entity.name.type.module",
+				"punctuation",
+				"meta.tag",
+				"punctuation.definition.tag.html",
+				"punctuation.definition.tag.begin.html",
+				"punctuation.definition.tag.end.html",
 			],
-			settings: {
-				foreground: "#fc6d24",
-			},
-		},
-		{
-			name: "Exceptions",
-			scope: "entity.name.exception",
-			settings: {
-				foreground: "#660000",
-			},
-		},
-		{
-			name: "Sections",
-			scope: "entity.name.section",
-			settings: {
-				fontStyle: "bold",
-			},
-		},
-		{
-			name: "Numbers, Characters",
-			scope: ["constant.numeric", "constant.character", "constant"],
-			settings: {
-				foreground: "#fc6d24",
-			},
-		},
-		{
-			name: "Strings",
-			scope: "string",
-			settings: {
-				foreground: "#a1c659",
-			},
-		},
-		{
-			name: "Strings: Escape Sequences",
-			scope: "constant.character.escape",
-			settings: {
-				foreground: "#777777",
-			},
-		},
-		{
-			name: "Strings: Regular Expressions",
-			scope: "string.regexp",
-			settings: {
-				foreground: "#4B83CD",
-			},
-		},
-		{
-			name: "Strings: Symbols",
-			scope: "constant.other.symbol",
-			settings: {
-				foreground: "#AB6526",
-			},
-		},
-		{
-			name: "Punctuation",
-			scope: "punctuation",
 			settings: {
 				foreground: "#8f8c8c",
 			},
@@ -219,27 +166,15 @@ export const codeGlueLight = {
 			},
 		},
 		{
-			name: "HTML: Tags",
-			scope: [
-				"meta.tag",
-				"punctuation.definition.tag.html",
-				"punctuation.definition.tag.begin.html",
-				"punctuation.definition.tag.end.html",
-			],
-			settings: {
-				foreground: "#8f8c8c",
-			},
-		},
-		{
-			name: "HTML: Tags | inside",
-			scope: ["meta.object-literal.key"],
+			name: "HTML: Tags | inside & Strings",
+			scope: ["meta.object-literal.key", "string"],
 			settings: {
 				foreground: "#a1c659",
 			},
 		},
 		{
-			name: "HTML: Tag Names",
-			scope: "entity.name.tag",
+			name: "HTML: Tag Names & Strings: Regular Expressions & Markup: Link & Markup Lists",
+			scope: ["entity.name.tag", "string.regexp", "meta.link", "markup.list"],
 			settings: {
 				foreground: "#4B83CD",
 			},
@@ -256,29 +191,28 @@ export const codeGlueLight = {
 			},
 		},
 		{
-			name: "HTML: Entities",
-			scope: ["constant.character.entity", "punctuation.definition.entity"],
+			name: "HTML: Entities & Strings: Symbols & Markup Inline",
+			scope: [
+				"constant.character.entity",
+				"punctuation.definition.entity",
+				"constant.other.symbol",
+				"markup.inline.raw",
+			],
 			settings: {
 				foreground: "#AB6526",
 			},
 		},
 		{
-			name: "CSS: Selectors",
+			name: "CSS: Selectors & Markup Quote",
 			scope: [
 				"meta.selector",
 				"meta.selector entity",
 				"meta.selector entity punctuation",
 				"entity.name.tag.css",
+				"markup.quote",
 			],
 			settings: {
 				foreground: "#7A3E9D",
-			},
-		},
-		{
-			name: "CSS: Property Names",
-			scope: ["meta.property-name", "support.type.property-name"],
-			settings: {
-				foreground: "#297dc2",
 			},
 		},
 		{
@@ -293,66 +227,24 @@ export const codeGlueLight = {
 			},
 		},
 		{
-			name: "CSS: Important Keyword",
-			scope: "keyword.other.important",
+			name: "Sections & CSS: Important Keyword & Markup: Strong",
+			scope: ["entity.name.section", "keyword.other.important", "markup.bold"],
 			settings: {
 				fontStyle: "bold",
 			},
 		},
 		{
-			name: "Markup: Changed",
-			scope: "markup.changed",
+			name: "Markup: Changed & Markup: Deletion & Markup: Insertion",
+			scope: ["markup.changed", "markup.deleted", "markup.inserted"],
 			settings: {
 				foreground: "#000000",
 			},
 		},
 		{
-			name: "Markup: Deletion",
-			scope: "markup.deleted",
-			settings: {
-				foreground: "#000000",
-			},
-		},
-		{
-			name: "Markup: Emphasis",
-			scope: "markup.italic",
+			name: "Markup: Emphasis & Markup: Underline",
+			scope: ["markup.italic", "markup.underline"],
 			settings: {
 				fontStyle: "italic",
-			},
-		},
-		{
-			name: "Markup: Error",
-			scope: "markup.error",
-			settings: {
-				foreground: "#660000",
-			},
-		},
-		{
-			name: "Markup: Insertion",
-			scope: "markup.inserted",
-			settings: {
-				foreground: "#000000",
-			},
-		},
-		{
-			name: "Markup: Link",
-			scope: "meta.link",
-			settings: {
-				foreground: "#4B83CD",
-			},
-		},
-		{
-			name: "Markup: Output",
-			scope: ["markup.output", "markup.raw"],
-			settings: {
-				foreground: "#777777",
-			},
-		},
-		{
-			name: "Markup: Prompt",
-			scope: "markup.prompt",
-			settings: {
-				foreground: "#777777",
 			},
 		},
 		{
@@ -363,41 +255,6 @@ export const codeGlueLight = {
 			},
 		},
 		{
-			name: "Markup: Strong",
-			scope: "markup.bold",
-			settings: {
-				fontStyle: "bold",
-			},
-		},
-		{
-			name: "Markup: Traceback",
-			scope: "markup.traceback",
-			settings: {
-				foreground: "#660000",
-			},
-		},
-		{
-			name: "Markup: Underline",
-			scope: "markup.underline",
-			settings: {
-				fontStyle: "underline",
-			},
-		},
-		{
-			name: "Markup Quote",
-			scope: "markup.quote",
-			settings: {
-				foreground: "#7A3E9D",
-			},
-		},
-		{
-			name: "Markup Lists",
-			scope: "markup.list",
-			settings: {
-				foreground: "#4B83CD",
-			},
-		},
-		{
 			name: "Markup Styling",
 			scope: ["markup.bold", "markup.italic"],
 			settings: {
@@ -405,30 +262,14 @@ export const codeGlueLight = {
 			},
 		},
 		{
-			name: "Markup Inline",
-			scope: "markup.inline.raw",
-			settings: {
-				fontStyle: "",
-				foreground: "#AB6526",
-			},
-		},
-		{
-			name: "Extra: Diff Range",
-			scope: ["meta.diff.range", "meta.diff.index", "meta.separator"],
-			settings: {
-				foreground: "#434343",
-			},
-		},
-		{
-			name: "Extra: Diff From",
-			scope: "meta.diff.header.from-file",
-			settings: {
-				foreground: "#434343",
-			},
-		},
-		{
-			name: "Extra: Diff To",
-			scope: "meta.diff.header.to-file",
+			name: "Extra: Diff Range & Headers",
+			scope: [
+				"meta.diff.range",
+				"meta.diff.index",
+				"meta.separator",
+				"meta.diff.header.from-file",
+				"meta.diff.header.to-file",
+			],
 			settings: {
 				foreground: "#434343",
 			},
