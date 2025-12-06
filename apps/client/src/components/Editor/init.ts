@@ -29,7 +29,6 @@ self.MonacoEnvironment = {
 
 // # Configure Prettier
 
-const printWidth = 80
 configureMonacoPrettier(monaco, {
 	// Map Monaco language IDs to a Prettier parser
 	parsers: {
@@ -38,7 +37,7 @@ configureMonacoPrettier(monaco, {
 
 	// Prettier options.
 	prettier: {
-		printWidth,
+		printWidth: appConfig.editor.printWidth,
 		semi: false,
 	},
 })

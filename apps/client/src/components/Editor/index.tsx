@@ -128,10 +128,14 @@ export const Editor: React.FC = () => {
 					store.state.currentEditorBody = value || ""
 				},
 				onMount: handleOnMount,
+
 				options: {
+					formatOnPaste: true,
+					formatOnType: true,
 					minimap: { enabled: false },
-					tabSize: 2,
-					fontSize: 14,
+					tabSize: appConfig.editor.tabSize,
+					rulers: [appConfig.editor.printWidth],
+					fontSize: appConfig.editor.defaultFontSize,
 					fontFamily: appConfig.editor.font,
 					fontWeight: "260",
 					fontLigatures:

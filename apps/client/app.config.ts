@@ -28,6 +28,9 @@ export const appConfig = {
 		[id: string]: QueryString<any>
 	},
 	editor: {
+		tabSize: 2,
+		printWidth: 80,
+		defaultFontSize: 14,
 		font: "Monaspace Argon",
 		// themes to load into the editor via shiki
 		themes: [codeGlueLight, "vitesse-dark", "vitesse-light"] satisfies (
