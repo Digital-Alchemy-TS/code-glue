@@ -21,7 +21,6 @@ export const store = proxy({
 	automationHeader: "",
 	state: {
 		currentNavSection: null as SectionIds | null,
-		currentAutomationId: null as string | null,
 		newAutomationTitle: "New Automation",
 		currentEditorBody: "",
 		isBodyEdited: false,

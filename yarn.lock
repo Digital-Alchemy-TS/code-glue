@@ -591,6 +591,7 @@ __metadata:
     "@typescript/ata": "npm:^0.9.8"
     "@vitejs/plugin-react": "npm:^5.0.4"
     monaco-editor: "npm:^0.54.0"
+    nuqs: "npm:^2.8.3"
     react: "npm:^19.2.0"
     react-dom: "npm:^19.2.0"
     shiki: "npm:^3.19.0"
@@ -609,7 +610,6 @@ __metadata:
   dependencies:
     "@biomejs/biome": "npm:2.3.5"
     "@chromatic-com/storybook": "npm:^4.1.2"
-    "@fontsource-variable/nunito-sans": "npm:^5.2.7"
     "@fontsource/nunito-sans": "npm:^5.2.7"
     "@nderscore/tamagui-typescript-plugin": "npm:^0.6.0"
     "@storybook/addon-a11y": "npm:^10.0.7"
@@ -2154,13 +2154,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource-variable/nunito-sans@npm:^5.2.7":
-  version: 5.2.7
-  resolution: "@fontsource-variable/nunito-sans@npm:5.2.7"
-  checksum: 10/3acb6b349ba809d72caced776592a7b26d554d1f29f6344e483247591ebe1d7ddbeb2972cb0d24f8b2eb4ebaa564c62025477795b5d7327545b7c9d8e6a37abc
-  languageName: node
-  linkType: hard
-
 "@fontsource/nunito-sans@npm:^5.2.7":
   version: 5.2.7
   resolution: "@fontsource/nunito-sans@npm:5.2.7"
@@ -3271,6 +3264,13 @@ __metadata:
   dependencies:
     "@sinonjs/commons": "npm:^3.0.0"
   checksum: 10/78155c7bd866a85df85e22028e046b8d46cf3e840f72260954f5e3ed5bd97d66c595524305a6841ffb3f681a08f6e5cef572a2cce5442a8a232dc29fb409b83e
+  languageName: node
+  linkType: hard
+
+"@standard-schema/spec@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@standard-schema/spec@npm:1.0.0"
+  checksum: 10/aee780cc1431888ca4b9aba9b24ffc8f3073fc083acc105e3951481478a2f4dc957796931b2da9e2d8329584cf211e4542275f188296c1cdff3ed44fd93a8bc8
   languageName: node
   linkType: hard
 
@@ -11524,6 +11524,33 @@ __metadata:
   version: 1.1.1
   resolution: "nullthrows@npm:1.1.1"
   checksum: 10/c7cf377a095535dc301d81cf7959d3784d090a609a2a4faa40b6121a0c1d7f70d3a3aa534a34ab852e8553b66848ec503c28f2c19efd617ed564dc07dfbb6d33
+  languageName: node
+  linkType: hard
+
+"nuqs@npm:^2.8.3":
+  version: 2.8.3
+  resolution: "nuqs@npm:2.8.3"
+  dependencies:
+    "@standard-schema/spec": "npm:1.0.0"
+  peerDependencies:
+    "@remix-run/react": ">=2"
+    "@tanstack/react-router": ^1
+    next: ">=14.2.0"
+    react: ">=18.2.0 || ^19.0.0-0"
+    react-router: ^5 || ^6 || ^7
+    react-router-dom: ^5 || ^6 || ^7
+  peerDependenciesMeta:
+    "@remix-run/react":
+      optional: true
+    "@tanstack/react-router":
+      optional: true
+    next:
+      optional: true
+    react-router:
+      optional: true
+    react-router-dom:
+      optional: true
+  checksum: 10/ab8d66207c15751e723e3665968a50cfa016861ce1d6c8a2615a036d2b86b563af888111551176662f43324899699801355eb96e1d51d5b6024fcd1f54130367
   languageName: node
   linkType: hard
 

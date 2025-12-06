@@ -1,13 +1,18 @@
 import { useSnapshot } from "valtio"
 
 import { Button, Column, Row, Text, TextInput } from "@code-glue/paradigm"
+import { appConfig } from "@/config"
 import { useCurrentAutomation } from "@/hooks/useAutomation"
+import { useQuery } from "@/hooks/useQuery"
 import { createAutomation, store } from "@/store"
 
 export const AutomationDetails: React.FC = () => {
 	const { automation, automationSnapshot } = useCurrentAutomation()
 	const { isBodyEdited, newAutomationTitle, currentEditorBody } = useSnapshot(
 		store.state,
+	)
+	const [, setCurrentAutomationId] = useQuery(
+		appConfig.queryStrings.currentAutomationId,
 	)
 
 	return (
@@ -41,7 +46,7 @@ export const AutomationDetails: React.FC = () => {
 								body: currentEditorBody,
 							})
 
-							store.state.currentAutomationId = newAutomation.id
+							setCurrentAutomationId(newAutomation.id)
 						}
 
 						// reset edited state

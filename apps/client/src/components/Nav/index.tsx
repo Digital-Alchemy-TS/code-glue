@@ -2,14 +2,14 @@ import { useSnapshot } from "valtio"
 
 import { Column, Row, Stack, Text, View } from "@code-glue/paradigm"
 import { appConfig } from "@/config"
+import { useQuery } from "@/hooks/useQuery"
 import { store } from "@/store"
 import { MainListItem } from "./MainListItem"
-import { Section } from "./Section"
 export const Nav = () => {
-	const {
-		automations,
-		state: { currentNavSection },
-	} = useSnapshot(store)
+	const { automations } = useSnapshot(store)
+	const [currentAutomationId, setCurrentAutomationId] = useQuery(
+		appConfig.queryStrings.currentAutomationId,
+	)
 	return (
 		<Column
 			backgroundColor="$cardStock"
@@ -34,11 +34,10 @@ export const Nav = () => {
 					{appConfig.sections.map(({ id, title }) => (
 						<MainListItem key={id} title={title} section={id} />
 					))}
-				</Column>
-			</Stack>
-			{currentNavSection === "automations" && (
-				<Section title="Automations">
 					<View
+						backgroundColor={
+							currentAutomationId === null ? "$background" : undefined
+						}
 						onPress={() => {
 							store.state.currentAutomationId = null
 						}}
@@ -48,15 +47,20 @@ export const Nav = () => {
 					{Array.from(automations, ([, automation]) => (
 						<View
 							key={automation.id}
+							backgroundColor={
+								automation.id === currentAutomationId
+									? "$background"
+									: undefined
+							}
 							onPress={() => {
-								store.state.currentAutomationId = automation.id
+								setCurrentAutomationId(automation.id)
 							}}
 						>
 							<Text size="$3">{automation.title}</Text>
 						</View>
 					))}
-				</Section>
-			)}
+				</Column>
+			</Stack>
 		</Column>
 	)
 }

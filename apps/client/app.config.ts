@@ -1,5 +1,6 @@
 import { codeGlueLight } from "./src/design/editorThemes"
 
+import type { UseQueryStateOptions } from "nuqs"
 import type {
 	BundledLanguage,
 	BundledTheme,
@@ -9,11 +10,23 @@ import type {
 	ThemeInput,
 } from "shiki/types"
 
-type SectionType = {
+type Section = {
 	title: string
 	id: "automations" | "variables" | "synapse"
 }
+
+export type QueryString<T> = {
+	key: string
+	options?: UseQueryStateOptions<T>
+}
+
 export const appConfig = {
+	queryStrings: {
+		currentAutomationId: { key: "currentAutomationId" },
+	} satisfies {
+		// biome-ignore lint/suspicious/noExplicitAny: This can take any parser, including custom ones
+		[id: string]: QueryString<any>
+	},
 	editor: {
 		font: "Monaspace Argon",
 		// themes to load into the editor via shiki
@@ -34,12 +47,12 @@ export const appConfig = {
 			id: "automations",
 			title: "Automations",
 		},
-		{ id: "variables", title: "Variables" },
-		{
-			id: "synapse",
-			title: "Entities",
-		},
-	] satisfies SectionType[],
+		// { id: "variables", title: "Variables" },
+		// {
+		// 	id: "synapse",
+		// 	title: "Entities",
+		// },
+	] satisfies Section[],
 } as const
 
 export type SectionIds = (typeof appConfig.sections)[number]["id"]

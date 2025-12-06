@@ -1,6 +1,6 @@
+import { NuqsAdapter } from "nuqs/adapters/react"
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
-
 import "unfonts.css"
 
 import { Frame } from "@/components/Frame"
@@ -15,6 +15,8 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
 	<StrictMode>
-		<Frame />
+		<NuqsAdapter>
+			<Frame />
+		</NuqsAdapter>
 	</StrictMode>,
 )
