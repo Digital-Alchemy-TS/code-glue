@@ -591,7 +591,9 @@ __metadata:
     "@typescript/ata": "npm:^0.9.8"
     "@vitejs/plugin-react": "npm:^5.0.4"
     monaco-editor: "npm:^0.54.0"
+    monaco-prettier: "npm:^1.0.0"
     nuqs: "npm:^2.8.3"
+    prettier: "npm:^3.7.4"
     react: "npm:^19.2.0"
     react-dom: "npm:^19.2.0"
     shiki: "npm:^3.19.0"
@@ -11304,6 +11306,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"monaco-prettier@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "monaco-prettier@npm:1.0.0"
+  dependencies:
+    monaco-types: "npm:^0.1.0"
+    monaco-worker-manager: "npm:^2.0.0"
+  peerDependencies:
+    prettier: ^3.0.0
+  checksum: 10/8373cb3e75f0c3305fc99efc97b3aa4d608e0aa505df459b91df26bda8c90d896071a12d3615da4d1977a76ae0dfbb25b34edb078d525945faec7c01dc97eb9c
+  languageName: node
+  linkType: hard
+
+"monaco-types@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "monaco-types@npm:0.1.0"
+  checksum: 10/aebfb3896f0340468f5a8b987009ecaeb105f0f01d91092c6a5a0d08cc155f30840693c4333afe9aaf1f63e21f36fa33fd5630f1e8cdf22d251930ba2a242d5e
+  languageName: node
+  linkType: hard
+
+"monaco-worker-manager@npm:^2.0.0":
+  version: 2.0.1
+  resolution: "monaco-worker-manager@npm:2.0.1"
+  peerDependencies:
+    monaco-editor: ">=0.30.0"
+  checksum: 10/3b12a0bb83354a9b2bf576b6cba7b2e4bfc2233b988fdc1de7f9fb3f6ec2709a1d9178d458aa43e31c424e55d4b555c0223d434fb98dabf2443417cc1cfb7d66
+  languageName: node
+  linkType: hard
+
 "moti@npm:^0.30.0":
   version: 0.30.0
   resolution: "moti@npm:0.30.0"
@@ -12168,6 +12198,15 @@ __metadata:
   bin:
     prettier: bin/prettier.cjs
   checksum: 10/1213691706bcef1371d16ef72773c8111106c3533b660b1cc8ec158bd109cdf1462804125f87f981f23c4a3dba053b6efafda30ab0114cc5b4a725606bb9ff26
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^3.7.4":
+  version: 3.7.4
+  resolution: "prettier@npm:3.7.4"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 10/b4d00ea13baed813cb777c444506632fb10faaef52dea526cacd03085f01f6db11fc969ccebedf05bf7d93c3960900994c6adf1b150e28a31afd5cfe7089b313
   languageName: node
   linkType: hard
 
