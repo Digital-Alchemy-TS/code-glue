@@ -8,7 +8,7 @@ import { MainListItem } from "./MainListItem"
 export const Nav = () => {
 	const { automations } = useSnapshot(store)
 	const [currentAutomationId, setCurrentAutomationId] = useQuery(
-		appConfig.queryStrings.currentAutomationId,
+		useQuery.queries.currentAutomationId,
 	)
 	return (
 		<Column

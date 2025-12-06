@@ -1,11 +1,10 @@
 import { proxy, useSnapshot } from "valtio"
 
-import { appConfig } from "@/config"
 import { emptyAutomation, store } from "@/store"
 import { useQuery } from "./useQuery"
 
 export const useCurrentAutomation = () => {
-	const [automationId] = useQuery(appConfig.queryStrings.currentAutomationId)
+	const [automationId] = useQuery(useQuery.queries.currentAutomationId)
 
 	const automation = automationId
 		? store.automations.get(automationId)

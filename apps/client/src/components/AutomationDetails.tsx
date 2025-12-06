@@ -1,7 +1,6 @@
 import { useSnapshot } from "valtio"
 
 import { Button, Column, Row, Text, TextInput } from "@code-glue/paradigm"
-import { appConfig } from "@/config"
 import { useCurrentAutomation } from "@/hooks/useAutomation"
 import { useQuery } from "@/hooks/useQuery"
 import { createAutomation, store } from "@/store"
@@ -12,7 +11,7 @@ export const AutomationDetails: React.FC = () => {
 		store.state,
 	)
 	const [, setCurrentAutomationId] = useQuery(
-		appConfig.queryStrings.currentAutomationId,
+		useQuery.queries.currentAutomationId,
 	)
 
 	return (
