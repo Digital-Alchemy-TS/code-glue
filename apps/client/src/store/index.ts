@@ -72,11 +72,11 @@ const setupStore = async () => {
 		),
 	])
 		.then(([header, types]) => {
-			store.automationHeader = header
+			store.editorSupport.automationHeader = header
+			store.editorSupport.typeWriter.mappings = types.mappings
+			store.editorSupport.typeWriter.registry = types.registry
+			store.editorSupport.typeWriter.services = types.services
 			store.apiStatus.typesReady = true
-			store.typeWriter.mappings = types.mappings
-			store.typeWriter.registry = types.registry
-			store.typeWriter.services = types.services
 		})
 		.catch(() => {
 			store.serverError = true

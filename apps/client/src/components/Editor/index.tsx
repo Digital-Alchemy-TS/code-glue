@@ -16,6 +16,7 @@ export const Editor: React.FC = () => {
 	const path = automationId ? `/automations/${automationId}.ts` : undefined
 
 	const snapshot = useSnapshot(store.editorSupport)
+	const { typesReady } = useSnapshot(store.apiStatus)
 	const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
 	const monacoRef = React.useRef<Monaco | null>(null)
 	const [monacoReady, setMonacoReady] = React.useState(false)
@@ -97,15 +98,15 @@ export const Editor: React.FC = () => {
 
 	// Update global types when relevant data changes, pull in updated types from DA
 	React.useEffect(() => {
-		if (monacoReady && monacoRef.current) {
+		if (monacoReady && monacoRef.current && typesReady) {
 			monacoRef.current.languages.typescript.typescriptDefaults.addExtraLib(
 				`${snapshot.automationHeader}`,
 				"file:///globals.ts",
 			)
-
+			console.log("running ATA")
 			ata()(snapshot.automationHeader)
 		}
-	}, [ata, monacoReady, snapshot.automationHeader])
+	}, [ata, monacoReady, snapshot.automationHeader, typesReady])
 
 	return (
 		<MonacoEditor
