@@ -15,7 +15,7 @@ export const Editor: React.FC = () => {
 	const { automationId, automationSnapshot } = useCurrentAutomation()
 	const path = automationId ? `/automations/${automationId}.ts` : undefined
 
-	const snapshot = useSnapshot(store)
+	const snapshot = useSnapshot(store.editorSupport)
 	const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
 	const monacoRef = React.useRef<Monaco | null>(null)
 	const [monacoReady, setMonacoReady] = React.useState(false)
@@ -77,6 +77,8 @@ export const Editor: React.FC = () => {
 		monaco: Monaco,
 	) => {
 		editorRef.current = editor
+		store.monaco.editor = editor
+		store.monaco.instance = monaco
 
 		// Measure Fonts
 		document.fonts.ready.then(() => {
@@ -97,13 +99,13 @@ export const Editor: React.FC = () => {
 	React.useEffect(() => {
 		if (monacoReady && monacoRef.current) {
 			monacoRef.current.languages.typescript.typescriptDefaults.addExtraLib(
-				`${snapshot.typeWriter}\n\n${snapshot.automationHeader}`,
+				`${snapshot.automationHeader}`,
 				"file:///globals.ts",
 			)
 
 			ata()(snapshot.automationHeader)
 		}
-	}, [ata, snapshot.typeWriter, monacoReady, snapshot.automationHeader])
+	}, [ata, monacoReady, snapshot.automationHeader])
 
 	return (
 		<MonacoEditor

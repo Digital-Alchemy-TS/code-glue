@@ -14,7 +14,10 @@ export const useCurrentAutomation = () => {
 
 	const automationSnapshot = useSnapshot(automation || proxy(emptyAutomation))
 
-	const saveCurrentAutomation = () => {
+	const saveCurrentAutomation = async () => {
+		// format the document before save
+		await store.monaco.editor?.getAction("editor.action.formatDocument")?.run()
+
 		if (automation) {
 			automation.update({
 				body: store.state.currentEditorBody,

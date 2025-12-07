@@ -1,4 +1,4 @@
-import { proxy } from "valtio"
+import { proxy, ref } from "valtio"
 
 import { baseUrl } from "../utils/baseUrl"
 import { automationStore, createAutomation } from "./automation"
@@ -10,31 +10,55 @@ import type {
 	StoredAutomation,
 	SynapseEntities,
 } from "@code-glue/server/utils/index.mts"
+import type { Monaco } from "@monaco-editor/react"
+import type { editor } from "monaco-editor"
 import type { SectionIds } from "@/config"
 
 export const store = proxy({
 	isReady: false,
 	serverError: false,
+	/**
+	 * Data Stores
+	 */
 	automations: automationStore,
 	variables: variableStore,
 	synapse: synapseStore,
-	automationHeader: "",
+	/**
+	 * Editor and Monaco related state
+	 */
+	// Instance of the Monaco/Editor for use outside of the editor component
+	monaco: ref({
+		instance: null as Monaco | null,
+		editor: null as editor.IStandaloneCodeEditor | null,
+	}),
+	// support for typing code within the editor
+	editorSupport: {
+		// Header boilerplate for all automation files. Hidden from user.
+		automationHeader: "",
+		// type writer contents to overwrite default types and get completion in editor
+		typeWriter: {
+			mappings: "",
+			registry: "",
+			services: "",
+		},
+	},
+	/**
+	 * UI State
+	 */
 	state: {
 		currentNavSection: null as SectionIds | null,
 		newAutomationTitle: "New Automation",
 		currentEditorBody: "",
 		isBodyEdited: false,
 	},
+	/**
+	 * API Update/Connection Status
+	 */
 	apiStatus: {
 		typesReady: false,
 		synapseReady: false,
 		variablesReady: false,
 		automationsReady: false,
-	},
-	typeWriter: {
-		mappings: "",
-		registry: "",
-		services: "",
 	},
 })
 
