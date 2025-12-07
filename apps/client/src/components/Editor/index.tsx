@@ -70,26 +70,7 @@ export const Editor: React.FC = () => {
 
 	const handleEditorBeforeMount = (monaco: Monaco) => {
 		monacoRef.current = monaco
-
-		// Configure TypeScript compiler options
-		monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
-			target: monaco.languages.typescript.ScriptTarget.Latest,
-			moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
-			module: monaco.languages.typescript.ModuleKind.CommonJS,
-			moduleDetection: 3, // Allow automations to have the same var names without TS complaining. https://github.com/microsoft/monaco-editor/issues/2976
-			allowNonTsExtensions: true,
-			allowSyntheticDefaultImports: true,
-			esModuleInterop: true,
-			typeRoots: ["/globals.ts"],
-		})
 	}
-
-	// React.useEffect(() => {
-	// 	if (monacoReady && monacoRef.current) {
-	// 		console.log("Setting monaco theme to glue-light")
-	// 		monacoRef.current.editor.setTheme("glue-light")
-	// 	}
-	// }, [monacoReady])
 
 	const handleOnMount = (
 		editor: editor.IStandaloneCodeEditor,
@@ -105,6 +86,14 @@ export const Editor: React.FC = () => {
 		setMonacoReady(true)
 	}
 
+	// When the path changes, format the document
+	React.useEffect(() => {
+		if (path) {
+			editorRef.current?.getAction("editor.action.formatDocument")?.run()
+		}
+	}, [path])
+
+	// Update global types when relevant data changes, pull in updated types from DA
 	React.useEffect(() => {
 		if (monacoReady && monacoRef.current) {
 			monacoRef.current.languages.typescript.typescriptDefaults.addExtraLib(

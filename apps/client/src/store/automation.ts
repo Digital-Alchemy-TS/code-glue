@@ -48,7 +48,6 @@ const automationFactory = createFactory<StoredAutomation>(emptyAutomation)
 	})
 	.actions({
 		update(updates: AutomationUpdateOptions) {
-			console.log("updating", updates)
 			Object.entries(updates).forEach(([key, value]) => {
 				this[key as keyof StoredAutomation] = value as never
 			})

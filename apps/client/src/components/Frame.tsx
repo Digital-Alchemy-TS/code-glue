@@ -8,9 +8,8 @@ import {
 	Row,
 	Text,
 } from "@code-glue/paradigm"
-import { Editor } from "@/components/Editor"
 import { store } from "@/store"
-import { AutomationDetails } from "./AutomationDetails"
+import { AutomationDetail } from "./AutomationDetail"
 import { Nav } from "./Nav"
 
 export const Frame = ({ children }: { children?: React.ReactNode }) => {
@@ -46,14 +45,8 @@ export const Frame = ({ children }: { children?: React.ReactNode }) => {
 					<Nav />
 
 					{/* Main content */}
-					<Column flex={1}>
-						<AutomationDetails />
-
-						<Column flex={1} borderRadius={8}>
-							<Editor />
-							{children}
-						</Column>
-					</Column>
+					<AutomationDetail />
+					{children}
 				</Row>
 			)}
 		</ParadigmProvider>

@@ -8,7 +8,8 @@
 		"storybook:build": "storybook build",
 		"lint": "biome check .",
 		"format": "biome format --write .",
-		"typecheck": "tsc -p tsconfig.json --noEmit"
+		"typecheck": "tsc -p tsconfig.json --noEmit",
+		"postinstall": "patch-package --patch-dir patches"
 	},
 	"volta": {
 		"extends": "../../package.json"
@@ -40,6 +41,7 @@
 		"@vitest/browser-playwright": "^4.0.8",
 		"@vitest/coverage-v8": "^4.0.8",
 		"jsdom": "^27.0.0",
+		"patch-package": "^8.0.1",
 		"playwright": "^1.56.1",
 		"storybook": "^10.0.7",
 		"typescript": "^5.9.3",

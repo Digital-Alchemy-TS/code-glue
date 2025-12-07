@@ -27,18 +27,31 @@ self.MonacoEnvironment = {
 	},
 }
 
+// # Configure TypeScript compiler options
+monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+	target: monaco.languages.typescript.ScriptTarget.Latest,
+	moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+	module: monaco.languages.typescript.ModuleKind.CommonJS,
+	moduleDetection: 3, // Allow automations to have the same var names without TS complaining. https://github.com/microsoft/monaco-editor/issues/2976
+	allowNonTsExtensions: true,
+	allowSyntheticDefaultImports: true,
+	esModuleInterop: true,
+	typeRoots: ["/globals.ts"],
+})
+
 // # Configure Prettier
 
 configureMonacoPrettier(monaco, {
 	// Map Monaco language IDs to a Prettier parser
 	parsers: {
-		typescript: "babel",
+		typescript: "typescript",
 	},
 
 	// Prettier options.
 	prettier: {
 		printWidth: appConfig.editor.printWidth,
 		semi: false,
+		singleQuote: false,
 	},
 })
 
