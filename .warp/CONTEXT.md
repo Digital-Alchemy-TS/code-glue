@@ -1,18 +1,18 @@
 # Code Glue - Project Context for AI Agents
 
 ## Project Overview
-Code Glue is a Home Assistant addon that allows users to write automations and create entities in TypeScript. It consists of an Expo-based web client and a Node.js server.
+Code Glue is a Home Assistant addon that allows users to write automations and create entities in TypeScript. It consists of an Vite-based web client and a Node.js server.
 
 ## Architecture
 
 ### Monorepo Structure
 - **Root**: Yarn workspace with `packageManager: "yarn@4.9.2"`
-- **apps/client/**: Expo web app (React Native Web)
+- **apps/client/**: Vite web app (React Native Web)
 - **apps/server/**: Node.js/TypeScript server using Digital Alchemy libraries
 - **packages/paradigm/**: Shared TypeScript package
 
 ### Build Outputs
-- **Client**: `apps/client/dist/` - Static web export from Expo
+- **Client**: `apps/client/dist/` - Static web export from Vite
 - **Server**: `dist/server/` - Compiled TypeScript (`.mts` → `.mjs`)
 
 ### Runtime Structure in Container
@@ -34,7 +34,7 @@ Code Glue is a Home Assistant addon that allows users to write automations and c
 ```
 
 ## Key Technologies
-- **Client**: Expo SDK 53, React 19, React Native Web, Metro bundler
+- **Client**: Vite, React 19, React Native Web
 - **Server**: Node.js 22, TypeScript 5.9, Fastify, Drizzle ORM, better-sqlite3
 - **Framework**: Digital Alchemy (@digital-alchemy/core, @digital-alchemy/hass, @digital-alchemy/synapse)
 - **Container**: Multi-stage Dockerfile using node:22-bookworm-slim
@@ -43,7 +43,7 @@ Code Glue is a Home Assistant addon that allows users to write automations and c
 
 ### Development Build
 ```bash
-yarn build  # Builds both client (Expo) and server (TypeScript)
+yarn build  # Builds both client (Vite) and server (TypeScript)
 ```
 
 ### Production Container Build (Prebuilt Approach)
@@ -148,7 +148,7 @@ yarn install
 yarn server:start  # Uses local environment with tsx
 
 # Run client in dev mode  
-yarn client:dev  # Expo dev server
+yarn client:dev  # Runs client, server and storybook
 
 # Build everything
 yarn build
