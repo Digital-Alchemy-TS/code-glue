@@ -89,13 +89,6 @@ export const Editor: React.FC = () => {
 		setMonacoReady(true)
 	}
 
-	// When the path changes, format the document
-	React.useEffect(() => {
-		if (path) {
-			editorRef.current?.getAction("editor.action.formatDocument")?.run()
-		}
-	}, [path])
-
 	// Update global types when relevant data changes, pull in updated types from DA
 	React.useEffect(() => {
 		if (monacoReady && monacoRef.current && typesReady) {
