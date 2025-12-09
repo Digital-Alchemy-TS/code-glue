@@ -1,7 +1,12 @@
+import React from "react"
 import { SizableText as TamaguiText } from "tamagui"
 
 import { FontKey } from "@/config/fonts"
-import { type LetterCaseType, letterCase } from "./letterCase"
+import { TextContext, type TextContextType } from "./context"
+import {
+	type LetterCaseType,
+	letterCase as letterCaseValues,
+} from "./letterCase"
 
 import type {
 	TextProps as NativeTextProps,
@@ -73,7 +78,7 @@ type TextProps = {
 const Text: React.FC<TextProps> & {
 	style: typeof FontKey
 	fitValues: typeof fitValues
-	letterCase: typeof letterCase
+	letterCase: typeof letterCaseValues
 } = ({
 	style,
 	fit,
@@ -90,15 +95,89 @@ const Text: React.FC<TextProps> & {
 
 	...otherProps
 }) => {
+	// Context from parent
+	const context = React.useContext(TextContext)
+
+	// if this node is a parent all its children are not.
+	const isParent = context.isParent === undefined
+
+	/**
+	 * Transform context before passing to children
+	 */
+
+	// if a child has its own letterCase use that instead of the parent value
+	const letterCaseFunction = letterCase || context.letterCase
+
+	// by default children get the same lettercase as their parent (this component)
+	let childLetterCase = letterCaseFunction
+
+	// if we're doing sentence case and this component is text, we've satisfied the case and can remove `letterCase` from children.
+	if (letterCaseFunction === letterCaseValues.sentence) {
+		React.Children.forEach(children, (child, i) => {
+			if (typeof child === "string" && i === 0) {
+				childLetterCase = undefined
+				return
+			}
+		})
+	}
+
+	// the selectable value from the parent
+	const selectable = context.selectable
+
+	// Context to pass to children
+	const textState = React.useMemo<TextContextType>(
+		() => ({
+			isInText: true,
+			isParent,
+			letterCase: childLetterCase,
+			selectable: noUserSelect === undefined ? selectable : !noUserSelect,
+		}),
+		[isParent, childLetterCase, noUserSelect, selectable],
+	)
+
+	/**
+	 * letterCase
+	 */
+
+	let casedChildren = children
+
+	if (letterCaseFunction) {
+		casedChildren = React.Children.map(children, (child, i) => {
+			if (
+				typeof child === "string" &&
+				((letterCaseFunction === Text.letterCase.sentence && i === 0) ||
+					letterCaseFunction !== Text.letterCase.sentence)
+			) {
+				return letterCaseFunction(child)
+			}
+
+			return child
+		})
+	}
+
 	return (
-		<TamaguiText size={style} {...otherProps}>
-			{children}
-		</TamaguiText>
+		<TextContext value={textState}>
+			<TamaguiText
+				size={style}
+				userSelect={noUserSelect ? "none" : undefined}
+				style={{
+					..._style,
+					...(noLineHeight ? { lineHeight: undefined } : {}),
+					fontVariant: tabularNumbers
+						? ["tabular-nums"]
+						: ["proportional-nums"],
+					textAlign: align,
+				}}
+				{...otherProps}
+			>
+				{casedChildren}
+			</TamaguiText>
+		</TextContext>
 	)
 }
 
 Text.style = FontKey
 Text.fitValues = fitValues
-Text.letterCase = letterCase
+Text.letterCase = letterCaseValues
 
 export { Text }

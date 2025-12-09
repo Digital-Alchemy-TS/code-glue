@@ -10,7 +10,7 @@ export const Story = meta.story({
 		<Column>
 			<Row>
 				<Column width={200}>
-					<Text style={Text.style.headline}>Regular</Text>
+					<Text style={Text.style.header5}>Regular</Text>
 					{Object.entries(Text.style).map(([key, value]) => (
 						<Text key={key} style={value}>
 							{key}
@@ -23,9 +23,9 @@ export const Story = meta.story({
 						<Text _style={{ color: "blue" }}>and I&apos;m blue.</Text>
 						<Text>red again.</Text>
 					</Text>
-					<Text color="red" style={{ fontSize: 20 }}>
+					<Text color="red" _style={{ fontSize: 20 }}>
 						Hello I&apos;m red and large
-						<Text color="blue" px={1}>
+						<Text color="blue" px={20}>
 							and I&apos;m blue with padding
 						</Text>{" "}
 						Red again.
@@ -33,21 +33,24 @@ export const Story = meta.story({
 					<Text color="red" _style={{ color: "blue" }}>
 						This text will be blue.
 					</Text>
+					<Text noUserSelect>
+						This text should <Text>not be selectable.</Text>
+					</Text>
 				</Column>
 			</Row>
 			<Row>
 				<Column color="gray">
 					<Column width={300} color="white" between={10}>
-						<Text style={Text.style.title1}>Text defaults to ellipsis</Text>
-						<Text style={Text.style.title1} fit={Text.fitValues.ellipsis}>
+						<Text style={Text.style.header2}>Text defaults to ellipsis</Text>
+						<Text style={Text.style.header2} fit={Text.fitValues.ellipsis}>
 							A single Line of text goes here. It should be cutoff and have an
 							ellipsis
 						</Text>
-						<Text style={Text.style.title1} fit={Text.fitValues.shrink}>
+						<Text style={Text.style.header2} fit={Text.fitValues.shrink}>
 							A single Line of text goes here. It should be smaller than the
 							above on iOS.
 						</Text>
-						<Text style={Text.style.title1} fit={Text.fitValues.wrap}>
+						<Text style={Text.style.header2} fit={Text.fitValues.wrap}>
 							A single Line of text goes here. It should wrap and all be
 							visible.
 						</Text>
