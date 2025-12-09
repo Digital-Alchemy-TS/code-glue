@@ -1,7 +1,7 @@
 import React from "react"
 import { SizableText as TamaguiText } from "tamagui"
 
-import { FontKey } from "@/config/fonts"
+import { FontKey } from "../../config/fonts"
 import { TextContext, type TextContextType } from "./context"
 import {
 	type LetterCaseType,
@@ -180,4 +180,4 @@ Text.style = FontKey
 Text.fitValues = fitValues
 Text.letterCase = letterCaseValues
 
-export { Text }
+export { Text, TextContext }

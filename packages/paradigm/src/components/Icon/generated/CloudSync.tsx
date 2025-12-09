@@ -1,37 +1,41 @@
+import { useTheme } from "@tamagui/core"
 import * as React from "react"
+
+import { TextContext } from "../../Text"
+
 import type { SVGProps } from "react"
-import { TextContext } from "../../../Text/TextContext"
-import { useDesign } from "../../../DesignSystem"
-const undefinedIcon = (props: SVGProps<SVGSVGElement>) => (
+import type { WebIconComponentType } from "../types"
+
+const CloudSyncIcon = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		viewBox="0 0 64 64"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
 		{...props}
 	>
+		<title>{"CloudSync"}</title>
 		<path
 			d="M15.4028 25.8143C17.115 19.0057 23.9567 14.7672 30.8462 16.3153C34.0207 17.0287 36.8119 18.9083 38.6675 21.5809C43.8503 19.7292 49.553 22.4294 51.4048 27.6122C51.7383 28.5455 51.9302 29.5234 51.9751 30.5135C56.6645 32.1537 59.1368 37.2851 57.4966 41.9745C56.2337 45.5851 52.8256 48.0021 49.0005 47.9999H16.9995C10.9283 48.003 6.00389 43.0838 6.00049 37.0126C5.9976 31.5831 9.95902 26.9644 15.3257 26.1405L15.4028 25.8143ZM25.0581 29.6952C24.8966 29.5816 24.6745 29.6225 24.563 29.787L22.0679 33.4139C22.025 33.4753 22.0018 33.5486 22.0005 33.6239C21.9969 33.83 22.1575 33.9998 22.3599 34.0038H24.144C24.1451 35.852 24.7745 37.643 25.9253 39.0721C28.6768 42.4888 33.6277 42.9873 36.9829 40.1854C37.2835 39.9254 37.3201 39.4663 37.0649 39.16C36.8097 38.854 36.3588 38.8162 36.0581 39.076C34.9128 40.0253 33.4811 40.5447 32.0044 40.5458C28.5653 40.5479 25.755 37.7991 25.5806 34.3407L25.5718 34.0038H27.3521C27.4259 34.0023 27.4979 33.978 27.5581 33.9344C27.7228 33.8148 27.7613 33.5819 27.644 33.4139L25.148 29.787C25.1236 29.7511 25.0933 29.72 25.0581 29.6952ZM38.0747 28.9276C35.4091 25.6177 30.6798 25.0464 27.3364 27.5614L27.0181 27.8143C26.7173 28.0743 26.6798 28.5334 26.9351 28.8397C27.1903 29.1459 27.6411 29.1834 27.9419 28.9237C29.0872 27.9746 30.519 27.456 31.9956 27.4549C35.4347 27.4527 38.2448 30.2007 38.4194 33.659L38.4282 33.996H36.6489C36.5749 33.9973 36.5022 34.0216 36.4419 34.0653C36.2771 34.1849 36.2387 34.4178 36.356 34.5858L38.8521 38.2128C38.8764 38.2486 38.9067 38.2797 38.9419 38.3046C39.1034 38.4181 39.3244 38.3771 39.436 38.2128L41.9321 34.5858C41.9749 34.5244 41.9982 34.4511 41.9995 34.3758C42.003 34.1697 41.8417 33.9996 41.6392 33.996H39.8569C39.8558 32.1477 39.2256 30.3568 38.0747 28.9276Z"
 			fill={props.fill}
-			style={{
-				fill: "#385994",
-				fill: "color(display-p3 0.2196 0.3490 0.5804)",
-				fillOpacity: 1,
-			}}
 		/>
 	</svg>
 )
-const CloudSync = (props: any) => {
-	const { size, color = "black", style = {}, ...otherProps } = props
-	let fill = color
-	const { variables } = useDesign()
+const CloudSync: WebIconComponentType = ({
+	size,
+	color,
+	style = {},
+	...otherProps
+}) => {
+	const theme = useTheme()
 	const { isInText } = React.useContext(TextContext)
-	if (isInText) {
-		style.verticalAlign = "bottom"
-		fill = variables.iconInTextColor
+	const fill = color || (isInText ? theme.iconInTextColor.get() : "black")
+	const combinedStyle = {
+		flexShrink: 0,
+		...style,
 	}
-	return React.createElement(undefinedIcon, {
+	return React.createElement(CloudSyncIcon, {
 		...otherProps,
-		style,
+		style: combinedStyle,
 		width: size,
 		height: size,
 		fill,

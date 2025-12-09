@@ -2,6 +2,7 @@ import addonA11y from "@storybook/addon-a11y"
 import { definePreview } from "@storybook/react-vite"
 
 import { ParadigmProvider } from "@/paradigm"
+import { StorybookContext } from "../src/components/ComponentError"
 
 export default definePreview({
 	// 👇 Add your addons here
@@ -19,9 +20,11 @@ export default definePreview({
 	},
 	decorators: [
 		(Story) => (
-			<ParadigmProvider>
-				<Story />
-			</ParadigmProvider>
+			<StorybookContext value={true}>
+				<ParadigmProvider>
+					<Story />
+				</ParadigmProvider>
+			</StorybookContext>
 		),
 	],
 })

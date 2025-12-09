@@ -1,27 +1,21 @@
+import { useTheme } from "@tamagui/core"
 import * as React from "react"
+
+import { TextContext } from "../../Text"
+
 import type { SVGProps } from "react"
-import { TextContext } from "../../../Text/TextContext"
-import { useDesign } from "../../../DesignSystem"
-const undefinedIcon = (props: SVGProps<SVGSVGElement>) => (
+import type { WebIconComponentType } from "../types"
+
+const ShadowTesterIcon = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		viewBox="0 0 101 101"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
 		{...props}
 	>
+		<title>{"ShadowTester"}</title>
 		<g filter="url(#filter0_d_28_72)">
-			<rect
-				x={4}
-				y={2}
-				width={93}
-				height={93}
-				rx={4}
-				fill="white"
-				style={{
-					fill: "white",
-					fillOpacity: 1,
-				}}
-			/>
+			<rect x={4} y={2} width={93} height={93} rx={4} fill="white" />
 		</g>
 		<defs>
 			<filter
@@ -61,18 +55,22 @@ const undefinedIcon = (props: SVGProps<SVGSVGElement>) => (
 		</defs>
 	</svg>
 )
-const ShadowTester = (props: any) => {
-	const { size, color = "black", style = {}, ...otherProps } = props
-	let fill = color
-	const { variables } = useDesign()
+const ShadowTester: WebIconComponentType = ({
+	size,
+	color,
+	style = {},
+	...otherProps
+}) => {
+	const theme = useTheme()
 	const { isInText } = React.useContext(TextContext)
-	if (isInText) {
-		style.verticalAlign = "bottom"
-		fill = variables.iconInTextColor
+	const fill = color || (isInText ? theme.iconInTextColor.get() : "black")
+	const combinedStyle = {
+		flexShrink: 0,
+		...style,
 	}
-	return React.createElement(undefinedIcon, {
+	return React.createElement(ShadowTesterIcon, {
 		...otherProps,
-		style,
+		style: combinedStyle,
 		width: size,
 		height: size,
 		fill,

@@ -1,9 +1,12 @@
-import type { ViewProps } from "react-native"
+import type { SVGProps } from "react"
 
-export type BaseIconComponentProps = {
+export type WebIconComponentProps = {
 	size: number
 	color?: string
-	style?: Omit<ViewProps["style"], "backgroundColor" | "width" | "height">
+	style?: Omit<
+		SVGProps<SVGSVGElement>["style"],
+		"backgroundColor" | "width" | "height"
+	>
 }
 
-type IconComponentType = React.FunctionComponent<BaseIconComponentProps> // & SvgProps
+export type WebIconComponentType = React.FC<WebIconComponentProps> // & SvgProps

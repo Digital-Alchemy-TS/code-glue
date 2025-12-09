@@ -16,7 +16,7 @@ config();
 const FIGMA_ACCESS_TOKEN = process.env.FIGMA_ACCESS_TOKEN
 const FIGMA_FILE_ID = process.env.FIGMA_FILE_ID
 const COMPONENTS_DIR = join(process.cwd(), "src", "components", "Icon", "generated")
-const OUTPUT_FILE = join(process.cwd(), "src", "components", "Icon", "generated.ts")
+const OUTPUT_FILE = join(process.cwd(), "src", "components", "Icon", "generated.tsx")
 
 interface FigmaNode {
 	id: string;
@@ -139,18 +139,29 @@ async function generateTypeScriptFile(
 		.map(({ name }) => `\t${name}: ${name} as IconComponentType,`)
 		.join("\n");
 
+  const attachments = sortedIcons
+    .map(({ name }) => `Icon.${name} = rawIcons.${name}`)
+    .join("\n");
+
 	const content = `// This file is auto-generated. Do not edit manually.
-import type { ComponentType, SVGProps } from "react"
 
-type IconComponentType = ComponentType<SVGProps<SVGSVGElement>>
-
+import { ComponentError } from "../ComponentError"
+// Generated Icons:
 ${imports}
+
+import type { IconComponentType } from "./types"
 
 export const rawIcons = {
 ${exports}
 } as const
 
-export type IconName = keyof typeof rawIcons
+const Icon = () => (
+	<ComponentError text="Icon can't be used by itself. Use a icon it provides (Icon.Today for&nbsp;example)."/>
+)
+
+${attachments}
+
+export { Icon }
 `;
 
 	await writeFile(OUTPUT_FILE, content, "utf-8");
@@ -190,8 +201,17 @@ async function main() {
 				continue;
 			}
 
-			const svgContent = await downloadSvg(svgUrl);
+			let svgContent = await downloadSvg(svgUrl);
 			const sanitizedName = sanitizeIconName(node.name);
+
+			// Add title element to SVG for accessibility
+			svgContent = svgContent.replace(
+				/<svg([^>]*)>/,
+				`<svg$1><title>${sanitizedName}</title>`
+			);
+
+			// Remove style attributes that override fill prop
+			svgContent = svgContent.replace(/\s+style="[^"]*"/g, '');
 
 			// Transform SVG to React component using SVGR with custom template
 			const templatePath = join(__dirname, '../src/components/Icon/svgTemplate.cjs');
@@ -207,7 +227,7 @@ async function main() {
 					typescript: true,
 					template: templateFn,
 				},
-				{ componentName: sanitizedName },
+				{ componentName: sanitizedName},
 			);
 
 			const filename = `${sanitizedName}.tsx`;
@@ -221,13 +241,16 @@ async function main() {
 		console.log("Generating TypeScript definitions...");
 		await generateTypeScriptFile(savedIcons);
 
-		// Format generated files with Biome
-		console.log("Formatting generated files with Biome...");
+		// Format and organize imports with Biome
+		console.log("Formatting and organizing imports with Biome...");
 		try {
-			await execAsync('yarn biome format --write src/components/Icon');
-			console.log("✓ Formatted files");
+			const biomePath = join(process.cwd(), 'biome.json');
+			const iconPath = join(process.cwd(), 'src/components/Icon');
+			await execAsync(`yarn biome check --write --unsafe --config-path=${biomePath} ${iconPath}`);
+			console.log("✓ Formatted and organized imports");
 		} catch (error) {
 			console.warn("⚠ Biome formatting failed, but continuing...");
+			console.error(error);
 		}
 
 		console.log(`\n✅ Successfully fetched ${savedIcons.length} icons!`);

@@ -1,8 +1,7 @@
 // This file is auto-generated. Do not edit manually.
-import type { ComponentType, SVGProps } from "react"
 
-type IconComponentType = ComponentType<SVGProps<SVGSVGElement>>
-
+import { ComponentError } from "../ComponentError"
+// Generated Icons:
 import Apple from "./generated/Apple"
 import Archive from "./generated/Archive"
 import At from "./generated/At"
@@ -87,6 +86,8 @@ import Warning from "./generated/Warning"
 import WiFi from "./generated/WiFi"
 import Wind from "./generated/Wind"
 import X from "./generated/X"
+
+import type { IconComponentType } from "./types"
 
 export const rawIcons = {
 	Apple: Apple as IconComponentType,
@@ -175,4 +176,93 @@ export const rawIcons = {
 	X: X as IconComponentType,
 } as const
 
-export type IconName = keyof typeof rawIcons
+const Icon = () => (
+	<ComponentError text="Icon can't be used by itself. Use a icon it provides (Icon.Today for&nbsp;example)." />
+)
+
+Icon.Apple = rawIcons.Apple
+Icon.Archive = rawIcons.Archive
+Icon.At = rawIcons.At
+Icon.Box = rawIcons.Box
+Icon.Bubble = rawIcons.Bubble
+Icon.Calendar = rawIcons.Calendar
+Icon.CalendarNotFound = rawIcons.CalendarNotFound
+Icon.Carousel = rawIcons.Carousel
+Icon.Check = rawIcons.Check
+Icon.ChevronDown = rawIcons.ChevronDown
+Icon.ChevronLeft = rawIcons.ChevronLeft
+Icon.ChevronRight = rawIcons.ChevronRight
+Icon.ChevronUp = rawIcons.ChevronUp
+Icon.Clear = rawIcons.Clear
+Icon.Clock = rawIcons.Clock
+Icon.CloseKeyboard = rawIcons.CloseKeyboard
+Icon.CloudSync = rawIcons.CloudSync
+Icon.Cloudy = rawIcons.Cloudy
+Icon.Computer = rawIcons.Computer
+Icon.Dashboard = rawIcons.Dashboard
+Icon.Details = rawIcons.Details
+Icon.Developer = rawIcons.Developer
+Icon.Directory = rawIcons.Directory
+Icon.Edit = rawIcons.Edit
+Icon.EmojiActivity = rawIcons.EmojiActivity
+Icon.EmojiFlag = rawIcons.EmojiFlag
+Icon.EmojiFood = rawIcons.EmojiFood
+Icon.EmojiNature = rawIcons.EmojiNature
+Icon.EmojiObject = rawIcons.EmojiObject
+Icon.EmojiPeople = rawIcons.EmojiPeople
+Icon.EmojiSymbol = rawIcons.EmojiSymbol
+Icon.EmojiTravel = rawIcons.EmojiTravel
+Icon.Exclamation = rawIcons.Exclamation
+Icon.Fog = rawIcons.Fog
+Icon.Folder = rawIcons.Folder
+Icon.FolderNew = rawIcons.FolderNew
+Icon.FolderNotes = rawIcons.FolderNotes
+Icon.FolderTasks = rawIcons.FolderTasks
+Icon.Frame = rawIcons.Frame
+Icon.Hail = rawIcons.Hail
+Icon.Home = rawIcons.Home
+Icon.Inbox = rawIcons.Inbox
+Icon.Info = rawIcons.Info
+Icon.JoinDiscussion = rawIcons.JoinDiscussion
+Icon.Labs = rawIcons.Labs
+Icon.LeaveDiscussion = rawIcons.LeaveDiscussion
+Icon.List = rawIcons.List
+Icon.Login = rawIcons.Login
+Icon.Logout = rawIcons.Logout
+Icon.LostAndFound = rawIcons.LostAndFound
+Icon.MapPin = rawIcons.MapPin
+Icon.Move = rawIcons.Move
+Icon.NewDoc = rawIcons.NewDoc
+Icon.NewTask = rawIcons.NewTask
+Icon.NextWeek = rawIcons.NextWeek
+Icon.No = rawIcons.No
+Icon.Notification = rawIcons.Notification
+Icon.Notifications = rawIcons.Notifications
+Icon.PartlyCloudy = rawIcons.PartlyCloudy
+Icon.Phone = rawIcons.Phone
+Icon.Plus = rawIcons.Plus
+Icon.Rain = rawIcons.Rain
+Icon.ReadOnly = rawIcons.ReadOnly
+Icon.Search = rawIcons.Search
+Icon.Settings = rawIcons.Settings
+Icon.ShadowTester = rawIcons.ShadowTester
+Icon.Sleet = rawIcons.Sleet
+Icon.Snow = rawIcons.Snow
+Icon.Stars = rawIcons.Stars
+Icon.Status = rawIcons.Status
+Icon.Storm = rawIcons.Storm
+Icon.Swatch = rawIcons.Swatch
+Icon.Timer = rawIcons.Timer
+Icon.Today = rawIcons.Today
+Icon.Tomorrow = rawIcons.Tomorrow
+Icon.Tornado = rawIcons.Tornado
+Icon.Transition = rawIcons.Transition
+Icon.Trash = rawIcons.Trash
+Icon.UnitList = rawIcons.UnitList
+Icon.Upgrade = rawIcons.Upgrade
+Icon.Warning = rawIcons.Warning
+Icon.WiFi = rawIcons.WiFi
+Icon.Wind = rawIcons.Wind
+Icon.X = rawIcons.X
+
+export { Icon }

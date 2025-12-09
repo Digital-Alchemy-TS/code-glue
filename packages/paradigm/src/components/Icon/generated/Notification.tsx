@@ -1,39 +1,43 @@
+import { useTheme } from "@tamagui/core"
 import * as React from "react"
+
+import { TextContext } from "../../Text"
+
 import type { SVGProps } from "react"
-import { TextContext } from "../../../Text/TextContext"
-import { useDesign } from "../../../DesignSystem"
-const undefinedIcon = (props: SVGProps<SVGSVGElement>) => (
+import type { WebIconComponentType } from "../types"
+
+const NotificationIcon = (props: SVGProps<SVGSVGElement>) => (
 	<svg
 		viewBox="0 0 64 64"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
 		{...props}
 	>
+		<title>{"Notification"}</title>
 		<path
 			fillRule="evenodd"
 			clipRule="evenodd"
 			d="M11.7799 43.3308H11.7799C13.8969 42.7795 15.4101 40.9164 15.5155 38.7313L17.2685 23.9903V23.9903C17.9974 18.0349 22.2645 13.1163 28.0574 11.5542V11.5542C28.3031 9.37103 30.272 7.80039 32.4552 8.04606C34.2999 8.25364 35.7557 9.7095 35.9633 11.5542V11.5542C41.7562 13.1161 46.0235 18.0346 46.7526 23.99L48.5055 38.731V38.731C48.6112 40.9161 50.1245 42.7791 52.2415 43.3305C53.5143 43.6709 54.2702 44.9786 53.9298 46.2514C53.6477 47.3063 52.6854 48.035 51.5935 48.0205H12.4272C11.1098 48.0378 10.0278 46.9839 10.0105 45.6664C9.99611 44.5747 10.7248 43.6126 11.7795 43.3305L11.7799 43.3308ZM32.0099 56.0208C28.8922 56.0275 26.2855 53.652 26.0033 50.5471C25.9883 50.2718 26.1993 50.0365 26.4746 50.0215C26.486 50.0209 26.4973 50.0206 26.5087 50.0208H37.5113C37.787 50.0168 38.0138 50.2371 38.0178 50.5128C38.018 50.5242 38.0177 50.5357 38.0171 50.5471C37.7348 53.6522 35.1278 56.0276 32.0099 56.0208V56.0208Z"
 			fill={props.fill}
-			style={{
-				fill: "#385994",
-				fill: "color(display-p3 0.2196 0.3490 0.5804)",
-				fillOpacity: 1,
-			}}
 		/>
 	</svg>
 )
-const Notification = (props: any) => {
-	const { size, color = "black", style = {}, ...otherProps } = props
-	let fill = color
-	const { variables } = useDesign()
+const Notification: WebIconComponentType = ({
+	size,
+	color,
+	style = {},
+	...otherProps
+}) => {
+	const theme = useTheme()
 	const { isInText } = React.useContext(TextContext)
-	if (isInText) {
-		style.verticalAlign = "bottom"
-		fill = variables.iconInTextColor
+	const fill = color || (isInText ? theme.iconInTextColor.get() : "black")
+	const combinedStyle = {
+		flexShrink: 0,
+		...style,
 	}
-	return React.createElement(undefinedIcon, {
+	return React.createElement(NotificationIcon, {
 		...otherProps,
-		style,
+		style: combinedStyle,
 		width: size,
 		height: size,
 		fill,

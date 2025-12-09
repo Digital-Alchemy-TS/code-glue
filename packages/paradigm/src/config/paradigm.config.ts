@@ -6,6 +6,7 @@ export type Theme = {
 	destructive: string
 	color: string // text
 	secondaryColor: string // secondary text
+	iconInTextColor: string // color for icons within text
 	disabledColor: string
 	placeholderColor: string
 	borderColor: string // ui stroke
@@ -77,6 +78,7 @@ export const baseConfig = {
 			primary: blue[500],
 			destructive: red[500],
 			color: gray[900],
+			iconInTextColor: gray[500],
 			secondaryColor: gray[600],
 			disabledColor: gold[300],
 			placeholderColor: gray[400],
