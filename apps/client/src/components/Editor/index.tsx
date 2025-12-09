@@ -96,7 +96,6 @@ export const Editor: React.FC = () => {
 				`${snapshot.automationHeader}`,
 				"file:///globals.ts",
 			)
-			console.log("running ATA")
 			ata()(snapshot.automationHeader)
 		}
 	}, [ata, monacoReady, snapshot.automationHeader, typesReady])

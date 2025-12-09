@@ -67,7 +67,6 @@ import Rain from "./generated/Rain"
 import ReadOnly from "./generated/ReadOnly"
 import Search from "./generated/Search"
 import Settings from "./generated/Settings"
-import ShadowTester from "./generated/ShadowTester"
 import Sleet from "./generated/Sleet"
 import Snow from "./generated/Snow"
 import Stars from "./generated/Stars"
@@ -155,7 +154,6 @@ export const rawIcons = {
 	ReadOnly: ReadOnly as IconComponentType,
 	Search: Search as IconComponentType,
 	Settings: Settings as IconComponentType,
-	ShadowTester: ShadowTester as IconComponentType,
 	Sleet: Sleet as IconComponentType,
 	Snow: Snow as IconComponentType,
 	Stars: Stars as IconComponentType,
@@ -245,7 +243,6 @@ Icon.Rain = rawIcons.Rain
 Icon.ReadOnly = rawIcons.ReadOnly
 Icon.Search = rawIcons.Search
 Icon.Settings = rawIcons.Settings
-Icon.ShadowTester = rawIcons.ShadowTester
 Icon.Sleet = rawIcons.Sleet
 Icon.Snow = rawIcons.Snow
 Icon.Stars = rawIcons.Stars

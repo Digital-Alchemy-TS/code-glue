@@ -64,15 +64,19 @@ async function fetchFigmaFile(): Promise<FigmaFile> {
 function findExportableNodes(
 	node: FigmaNode,
 	exportableNodes: Array<{ id: string; name: string }> = [],
+	isInIconsPage = false,
 ): Array<{ id: string; name: string }> {
-	// Only include nodes that have export settings explicitly defined
-	if (node.exportSettings && node.exportSettings.length > 0) {
+	// Check if this is the Icons page
+	const isIconsPage = node.type === 'CANVAS' && node.name === 'Icons';
+	
+	// Only include nodes that are in the Icons page and have export settings
+	if (isInIconsPage && node.exportSettings && node.exportSettings.length > 0) {
 		exportableNodes.push({ id: node.id, name: node.name });
 	}
 
 	if (node.children) {
 		for (const child of node.children) {
-			findExportableNodes(child, exportableNodes);
+			findExportableNodes(child, exportableNodes, isIconsPage || isInIconsPage);
 		}
 	}
 
