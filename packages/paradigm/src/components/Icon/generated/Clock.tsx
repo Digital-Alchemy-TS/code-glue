@@ -1,0 +1,42 @@
+import * as React from "react"
+import type { SVGProps } from "react"
+import { TextContext } from "../../../Text/TextContext"
+import { useDesign } from "../../../DesignSystem"
+const undefinedIcon = (props: SVGProps<SVGSVGElement>) => (
+	<svg
+		viewBox="0 0 64 64"
+		fill="none"
+		xmlns="http://www.w3.org/2000/svg"
+		{...props}
+	>
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M32 56C18.7452 56 8 45.2548 8 32C8 18.7452 18.7452 8 32 8C45.2548 8 56 18.7452 56 32C56 45.2548 45.2548 56 32 56ZM41.4961 36.45L34.8583 30.4691L33.5039 17.3372C33.412 16.5088 32.6659 15.9117 31.8375 16.0036C31.1357 16.0814 30.5817 16.6354 30.5039 17.3372C30.4857 17.5131 29.0109 31.8182 28.9919 31.9926C28.889 33.0078 29.4452 33.9754 30.3743 34.3973L39.9333 38.8573C40.6634 39.1884 41.5236 38.8649 41.8547 38.1348C42.1174 37.5554 41.9722 36.8724 41.4965 36.45H41.4961Z"
+			fill={props.fill}
+			style={{
+				fill: "#385994",
+				fill: "color(display-p3 0.2196 0.3490 0.5804)",
+				fillOpacity: 1,
+			}}
+		/>
+	</svg>
+)
+const Clock = (props: any) => {
+	const { size, color = "black", style = {}, ...otherProps } = props
+	let fill = color
+	const { variables } = useDesign()
+	const { isInText } = React.useContext(TextContext)
+	if (isInText) {
+		style.verticalAlign = "bottom"
+		fill = variables.iconInTextColor
+	}
+	return React.createElement(undefinedIcon, {
+		...otherProps,
+		style,
+		width: size,
+		height: size,
+		fill,
+	})
+}
+export default Clock

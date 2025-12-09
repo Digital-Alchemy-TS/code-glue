@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react"
 import { useSnapshot } from "valtio/react"
 
-import {
-	Column,
-	createParadigmConfig,
-	ParadigmProvider,
-	Row,
-	Text,
-} from "@code-glue/paradigm"
+import { Column, ParadigmProvider, Row, Text } from "@code-glue/paradigm"
+import { glueDesignConfig } from "@/design/design.config"
 import { store } from "@/store"
 import { AutomationDetail } from "./AutomationDetail"
 import { Nav } from "./Nav"
@@ -30,7 +25,7 @@ export const Frame = ({ children }: { children?: React.ReactNode }) => {
 		fontsLoaded && storeIsReady && (typesReady || store.serverError)
 
 	return (
-		<ParadigmProvider config={createParadigmConfig()}>
+		<ParadigmProvider config={glueDesignConfig}>
 			{!appReady ? (
 				<Column
 					fullscreen
