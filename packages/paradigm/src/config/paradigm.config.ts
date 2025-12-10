@@ -14,6 +14,8 @@ export type Theme = {
 	background: string // surface
 	controlShadow: string
 	holeShadow: string
+	switchFalseBackground: string // base "off" color for switches
+	switchTrueBackground: string // base "on" color for switches
 }
 
 const special = {
@@ -69,6 +71,10 @@ const red = {
 	900: "#900101",
 }
 
+const green = {
+	500: "#73BE50",
+}
+
 export const baseConfig = {
 	sizes: {
 		headerHeight: 55,
@@ -87,6 +93,8 @@ export const baseConfig = {
 			background: special.background,
 			controlShadow: special.controlShadow,
 			holeShadow: special.holeShadow,
+			switchFalseBackground: gray[300],
+			switchTrueBackground: green[500],
 		} satisfies Theme,
 	},
 }

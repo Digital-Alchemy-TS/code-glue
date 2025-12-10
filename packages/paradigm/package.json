@@ -19,6 +19,7 @@
 		"@fontsource/nunito-sans": "^5.2.7",
 		"@nderscore/tamagui-typescript-plugin": "^0.6.0",
 		"@tamagui/config": "1.137.3",
+		"motion": "^12.23.26",
 		"react-native-web": "^0.21.2",
 		"tamagui": "1.137.3"
 	},
