@@ -33,6 +33,8 @@ CREATE TABLE `stored_automation` (
 	`context` varchar(100) NOT NULL,
 	`create_date` timestamp NOT NULL,
 	`documentation` text NOT NULL,
+	`draft` text,
+	`icon` varchar(36),
 	`id` varchar(36) NOT NULL,
 	`labels` text NOT NULL,
 	`last_update` timestamp NOT NULL,

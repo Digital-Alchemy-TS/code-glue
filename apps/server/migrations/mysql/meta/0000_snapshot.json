@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "dff755eb-9290-41f5-b451-59cc59b6754f",
+  "id": "e906ff9c-ebec-434e-af30-1d1f8693dda1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "import_types": {
@@ -221,6 +221,20 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "draft": {
+          "name": "draft",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "icon": {
+          "name": "icon",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "id": {

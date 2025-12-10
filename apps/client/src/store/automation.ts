@@ -10,13 +10,15 @@ import type {
 	StoredAutomation,
 } from "@code-glue/server/utils/contracts/automation.mts"
 
-export const emptyAutomation: StoredAutomation = {
+export const emptyAutomation: Required<StoredAutomation> = {
 	active: false,
 	area: "",
 	body: "",
 	context: "",
 	createDate: "",
 	documentation: "",
+	draft: "",
+	icon: "",
 	id: "",
 	labels: [],
 	lastUpdate: "",

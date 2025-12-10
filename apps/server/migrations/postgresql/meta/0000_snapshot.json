@@ -1,5 +1,5 @@
 {
-  "id": "037bd5db-394a-4679-a6e9-81e94274e192",
+  "id": "1186efcb-2d37-49ec-bc4f-8d1f77bdf19d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -189,6 +189,18 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "draft": {
+          "name": "draft",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "icon": {
+          "name": "icon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "id": {
           "name": "id",

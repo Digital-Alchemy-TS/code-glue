@@ -85,6 +85,8 @@ export function AutomationTable({
         context: data.context,
         create_date: (data as StoredAutomation).createDate ?? now,
         documentation: data.documentation,
+        draft: data.draft,
+        icon: data.icon,
         id: (data as StoredAutomation).id || "",
         labels: data.labels.join("|"),
         last_update: now,
@@ -180,6 +182,8 @@ export function AutomationTable({
           ? new Date((data as StoredAutomation).createDate)
           : now,
         documentation: data.documentation,
+        draft: data.draft,
+        icon: data.icon,
         id: (data as StoredAutomation).id || "",
         labels: data.labels.join("|"),
         last_update: now,
@@ -275,6 +279,8 @@ export function AutomationTable({
           ? new Date((data as StoredAutomation).createDate)
           : now,
         documentation: data.documentation,
+        draft: data.draft,
+        icon: data.icon,
         id: (data as StoredAutomation).id || "",
         labels: data.labels.join("|"),
         last_update: now,

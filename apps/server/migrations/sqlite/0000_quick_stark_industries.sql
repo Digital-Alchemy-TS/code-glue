@@ -31,6 +31,8 @@ CREATE TABLE `stored_automation` (
 	`context` text NOT NULL,
 	`create_date` text NOT NULL,
 	`documentation` text NOT NULL,
+	`draft` text,
+	`icon` text,
 	`id` text PRIMARY KEY NOT NULL,
 	`labels` text NOT NULL,
 	`last_update` text NOT NULL,

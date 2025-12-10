@@ -19,6 +19,8 @@ export const sqliteStoredAutomationTable = sqliteTable("stored_automation", {
   context: text("context").notNull(),
   create_date: text("create_date").notNull(),
   documentation: text("documentation").notNull(),
+  draft: text("draft"),
+  icon: text("icon"),
   id: text("id").primaryKey().notNull(),
   labels: text("labels").notNull(),
   // Stored as pipe-separated string

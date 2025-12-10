@@ -21,6 +21,8 @@ export interface StoredAutomationCreateOptions {
   area?: string;
   body: string;
   context: string;
+  draft?: string;
+  icon?: string;
   labels: string[];
   parent?: string;
   title: string;

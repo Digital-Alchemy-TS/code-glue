@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "4ccbf87f-4d51-4426-987f-b28df7d52272",
+  "id": "cab8d26f-3def-47cd-a1d9-a44a0614c7c8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "import_types": {
@@ -207,6 +207,20 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "draft": {
+          "name": "draft",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "icon": {
+          "name": "icon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "id": {
