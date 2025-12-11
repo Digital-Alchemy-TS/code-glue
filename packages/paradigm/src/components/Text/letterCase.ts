@@ -40,9 +40,22 @@ const sentenceCase: LetterCaseType = (input) => {
 	return input.substring(0, 1).toUpperCase() + input.substring(1)
 }
 
+const camelCase: LetterCaseType = (input) => {
+	return input
+		.split(/[-_\s]+/)
+		.map((part, index) =>
+			index === 0
+				? part.charAt(0).toLowerCase() + part.slice(1).toLowerCase()
+				: part.charAt(0).toUpperCase() + part.slice(1).toLowerCase(),
+		)
+		.join("")
+		.replace(/[^a-zA-Z0-9]/g, "")
+}
+
 export const letterCase = {
 	title: titleCase,
 	sentence: sentenceCase,
 	lower: lowerCase,
 	upper: upperCase,
+	camel: camelCase,
 } as const
