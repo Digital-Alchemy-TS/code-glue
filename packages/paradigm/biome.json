@@ -9,6 +9,7 @@
 		"ignoreUnknown": false,
 		"includes": [
 			"**/*.json",
+			"**/scripts/**/*",
 			"**/src/**/*",
 			"**/.storybook/**/*",
 			"**/.vscode/**/*"
