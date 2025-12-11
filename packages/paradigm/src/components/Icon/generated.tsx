@@ -40,7 +40,7 @@ import Folder from "./generated/Folder"
 import FolderNew from "./generated/FolderNew"
 import FolderNotes from "./generated/FolderNotes"
 import FolderTasks from "./generated/FolderTasks"
-import Frame from "./generated/Frame"
+import Glue from "./generated/Glue"
 import Hail from "./generated/Hail"
 import Home from "./generated/Home"
 import Inbox from "./generated/Inbox"
@@ -127,7 +127,7 @@ export const rawIcons = {
 	FolderNew: FolderNew as IconComponentType,
 	FolderNotes: FolderNotes as IconComponentType,
 	FolderTasks: FolderTasks as IconComponentType,
-	Frame: Frame as IconComponentType,
+	Glue: Glue as IconComponentType,
 	Hail: Hail as IconComponentType,
 	Home: Home as IconComponentType,
 	Inbox: Inbox as IconComponentType,
@@ -216,7 +216,7 @@ Icon.Folder = rawIcons.Folder
 Icon.FolderNew = rawIcons.FolderNew
 Icon.FolderNotes = rawIcons.FolderNotes
 Icon.FolderTasks = rawIcons.FolderTasks
-Icon.Frame = rawIcons.Frame
+Icon.Glue = rawIcons.Glue
 Icon.Hail = rawIcons.Hail
 Icon.Home = rawIcons.Home
 Icon.Inbox = rawIcons.Inbox
