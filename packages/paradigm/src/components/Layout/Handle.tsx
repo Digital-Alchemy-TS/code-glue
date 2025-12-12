@@ -1,3 +1,4 @@
+import { tr } from "motion/react-client"
 import React from "react"
 import { PanelResizeHandle } from "react-resizable-panels"
 import { useTheme } from "tamagui"
@@ -6,6 +7,8 @@ import { useHover } from "../../hooks/useHover"
 import { changeColorAlpha } from "../../utils/color"
 import { Icon } from "../Icon"
 import { MotionView, View } from "../View"
+
+import type { Variants } from "motion"
 
 type ResizeHandleProps = {
 	/**
@@ -31,8 +34,19 @@ export const ResizeHandle = ({
 	slop = 4,
 	horizontal = false,
 }: ResizeHandleProps) => {
+	const hoverDelay = 300 // ms
+	const transition = {
+		type: "spring",
+		visualDuration: 0.3,
+		bounce: 0.4,
+	} as const
+
 	const { isHovered, hoverProps } = useHover()
-	const [isDragging, setInDragging] = React.useState(false)
+	const [isDragging, setIsDragging] = React.useState(false)
+	const [animateTo, setAnimateTo] = React.useState(
+		"inactive" as "inactive" | "active",
+	)
+	const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
 	const theme = useTheme()
 
@@ -42,21 +56,51 @@ export const ResizeHandle = ({
 	const iconDefaultColor = theme.placeholderColor.val
 	const iconActiveColor = theme.primary.val
 
-	const delay = {
-		transition: { delay: 0.2 },
-	}
+	React.useEffect(() => {
+		if (isDragging) {
+			if (timerRef.current) {
+				clearTimeout(timerRef.current)
+				timerRef.current = null
+			}
 
-	const variants = {
+			setAnimateTo("active")
+		}
+	}, [isDragging])
+
+	React.useEffect(() => {
+		if (isHovered && !isDragging) {
+			timerRef.current = setTimeout(() => {
+				setAnimateTo("active")
+			}, hoverDelay)
+		} else if (!isHovered && !isDragging) {
+			if (timerRef.current) {
+				clearTimeout(timerRef.current)
+				timerRef.current = null
+			}
+			setAnimateTo("inactive")
+		}
+
+		return () => {
+			if (timerRef.current) {
+				clearTimeout(timerRef.current)
+			}
+		}
+	}, [isHovered, isDragging])
+
+	const sizeProperty = horizontal ? "width" : "height"
+
+	const variants: Variants = {
 		inactive: {
-			[horizontal ? "width" : "height"]: closedSize,
+			...{ [sizeProperty]: closedSize },
 			outlineColor: uiStrokeTransparent,
 			backgroundColor: uiStroke,
+			transition,
 		},
 		active: {
-			[horizontal ? "width" : "height"]: openSize,
+			...{ [sizeProperty]: openSize },
 			backgroundColor: background,
 			outlineColor: uiStroke,
-			...delay,
+			transition,
 		},
 	}
 
@@ -65,7 +109,8 @@ export const ResizeHandle = ({
 			style={{
 				display: "flex",
 			}}
-			onDragging={setInDragging}
+			onDragging={setIsDragging}
+			hitAreaMargins={{ coarse: 15, fine: slop }}
 		>
 			<MotionView
 				position="relative"
@@ -73,7 +118,7 @@ export const ResizeHandle = ({
 				outlineStyle="solid"
 				initial="inactive"
 				variants={variants}
-				animate={isHovered || isDragging ? "active" : "inactive"}
+				animate={animateTo}
 				grow
 				center
 				overflow
@@ -89,12 +134,10 @@ export const ResizeHandle = ({
 					{...hoverProps}
 				/>
 				<MotionView
-					initial="inactive"
 					variants={{
 						inactive: { [horizontal ? "width" : "height"]: closedSize },
-						active: { [horizontal ? "width" : "height"]: openSize, ...delay },
+						active: { [horizontal ? "width" : "height"]: openSize },
 					}}
-					animate={isHovered || isDragging ? "active" : "inactive"}
 					center
 				>
 					<Icon.DragHandle
