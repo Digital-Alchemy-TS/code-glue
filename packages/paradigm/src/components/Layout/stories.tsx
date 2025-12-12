@@ -25,3 +25,11 @@ export const HorizontalNav = meta.story({
 		</View>
 	),
 })
+
+export const VerticalNav = meta.story({
+	render: () => (
+		<View fillContainer>
+			<Layout.VerticalNav nav={<Nav />} content={<Content />} />
+		</View>
+	),
+})

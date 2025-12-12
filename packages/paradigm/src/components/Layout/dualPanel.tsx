@@ -2,14 +2,15 @@ import { Panel, PanelGroup } from "react-resizable-panels"
 
 import { ResizeHandle } from "./Handle"
 
-type HorizontalNavProps = {
+export type DualPanelProps = {
 	nav: React.ReactNode
 	content: React.ReactNode
+	direction: "horizontal" | "vertical"
 }
 
-export const HorizontalNav = ({ nav, content }: HorizontalNavProps) => {
+export const DualPanel = ({ nav, content, direction }: DualPanelProps) => {
 	return (
-		<PanelGroup autoSaveId="persistence" direction="horizontal">
+		<PanelGroup autoSaveId="persistence" direction={direction}>
 			<Panel
 				defaultSize={15}
 				minSize={15}
@@ -19,7 +20,7 @@ export const HorizontalNav = ({ nav, content }: HorizontalNavProps) => {
 			>
 				{nav}
 			</Panel>
-			<ResizeHandle />
+			<ResizeHandle horizontal={direction === "horizontal"} />
 			<Panel collapsible={false} style={{ display: "flex" }}>
 				{content}
 			</Panel>

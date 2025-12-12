@@ -48,12 +48,12 @@ export const ResizeHandle = ({
 
 	const variants = {
 		inactive: {
-			width: closedSize,
+			[horizontal ? "width" : "height"]: closedSize,
 			outlineColor: uiStrokeTransparent,
 			backgroundColor: uiStroke,
 		},
 		active: {
-			width: openSize,
+			[horizontal ? "width" : "height"]: openSize,
 			backgroundColor: background,
 			outlineColor: uiStroke,
 			...delay,
@@ -71,30 +71,34 @@ export const ResizeHandle = ({
 				position="relative"
 				outlineWidth={1}
 				outlineStyle="solid"
+				initial="inactive"
 				variants={variants}
 				animate={isHovered || isDragging ? "active" : "inactive"}
+				grow
 				center
 				overflow
 			>
 				<View
 					noShrink
 					fillContainer
-					left={-slop}
-					right={-slop}
+					{...(horizontal
+						? { left: -slop, right: -slop }
+						: { top: -slop, bottom: -slop })}
 					zIndex={1}
 					center
 					{...hoverProps}
 				/>
 				<MotionView
+					initial="inactive"
 					variants={{
-						inactive: { width: closedSize },
-						active: { width: openSize, ...delay },
+						inactive: { [horizontal ? "width" : "height"]: closedSize },
+						active: { [horizontal ? "width" : "height"]: openSize, ...delay },
 					}}
 					animate={isHovered || isDragging ? "active" : "inactive"}
 					center
 				>
 					<Icon.DragHandle
-						horizontal={horizontal}
+						horizontal={!horizontal}
 						color={isDragging ? iconActiveColor : iconDefaultColor}
 					/>
 				</MotionView>
