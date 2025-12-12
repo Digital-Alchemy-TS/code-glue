@@ -3,6 +3,7 @@ import { useHotkeys } from "react-hotkeys-hook"
 import { Column } from "@code-glue/paradigm"
 import { Editor } from "@/components/Editor"
 import { useCurrentAutomation } from "@/hooks/useAutomation"
+import { Footer } from "./Footer"
 import { Header } from "./Header"
 
 export const AutomationDetail = () => {
@@ -25,6 +26,8 @@ export const AutomationDetail = () => {
 			<Column flex={1}>
 				<Editor />
 			</Column>
+
+			<Footer />
 		</Column>
 	)
 }

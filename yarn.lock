@@ -638,6 +638,7 @@ __metadata:
     patch-package: "npm:^8.0.1"
     playwright: "npm:^1.56.1"
     react-native-web: "npm:^0.21.2"
+    react-resizable-panels: "npm:^3.0.6"
     storybook: "npm:^10.0.7"
     tamagui: "npm:1.137.3"
     tsx: "npm:^4.19.2"
@@ -13209,6 +13210,16 @@ __metadata:
   version: 0.18.0
   resolution: "react-refresh@npm:0.18.0"
   checksum: 10/504c331c19776bf8320c23bad7f80b3a28de03301ed7523b0dd21d3f02bf2b53bbdd5aa52469b187bc90f358614b2ba303c088a0765c95f4f0a68c43a7d67b1d
+  languageName: node
+  linkType: hard
+
+"react-resizable-panels@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "react-resizable-panels@npm:3.0.6"
+  peerDependencies:
+    react: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+    react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+  checksum: 10/cacd2a0a63e4ecca193ceb2c8369d760946987c6386e38be39c7f98f909db923f161dbfd5187c289f5093c035c4a7757c4bd30b0d792bd8b45f2bc64183fe47f
   languageName: node
   linkType: hard
 

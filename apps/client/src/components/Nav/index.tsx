@@ -15,7 +15,6 @@ export const Nav = () => {
 			backgroundColor="$cardStock"
 			borderRightColor="$borderColor"
 			borderRightWidth="$size.stroke"
-			width={240}
 		>
 			<Row alignItems="center" background="$background" height={49}>
 				<View mx={12}>

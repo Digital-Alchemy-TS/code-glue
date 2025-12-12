@@ -7,6 +7,7 @@ import {
 import React from "react"
 import { useTheme } from "tamagui"
 
+import { useShadow } from "../../hooks/useShadow"
 import { divStyles } from "../../utils/divStyles"
 
 const width = 50
@@ -61,6 +62,11 @@ export const Switch = ({
 
 	const [handlePressed, setHandlePressed] = React.useState(false)
 	const [mouseOver, setMouseOver] = React.useState(false)
+
+	const shadow = useShadow({
+		shadowName: "elevation1",
+		forceBoxShadow: true,
+	})
 
 	const setValue = (newValue: boolean) => {
 		if (!isDisabled) {
@@ -190,7 +196,7 @@ export const Switch = ({
 						height: handleSize,
 						borderRadius: 25,
 						backgroundColor: "white",
-						boxShadow: isDisabled ? undefined : "0 1px 3px rgba(0, 0, 0, 0.4)",
+						...(!isDisabled ? shadow : {}),
 					}}
 				/>
 			</motion.div>

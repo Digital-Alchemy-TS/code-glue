@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"
 import { useSnapshot } from "valtio/react"
 
 import { Column, ParadigmProvider, Row, Text } from "@code-glue/paradigm"
@@ -7,7 +8,7 @@ import { store } from "@/store"
 import { AutomationDetail } from "./AutomationDetail"
 import { Nav } from "./Nav"
 
-export const Frame = ({ children }: { children?: React.ReactNode }) => {
+export const Frame = () => {
 	const {
 		isReady: storeIsReady,
 		apiStatus: { typesReady },
@@ -36,13 +37,25 @@ export const Frame = ({ children }: { children?: React.ReactNode }) => {
 					<Text>Loading...</Text>
 				</Column>
 			) : (
-				<Row fullscreen>
-					<Nav />
-
-					{/* Main content */}
-					<AutomationDetail />
-					{children}
-				</Row>
+				<Column fullscreen backgroundColor={"red"}>
+					<PanelGroup autoSaveId="persistence" direction="horizontal">
+						<Panel
+							defaultSize={240}
+							minSize={240}
+							maxSize={580}
+							collapsible={false}
+							style={{ backgroundColor: "blue" }}
+						>
+							<Nav />
+						</Panel>
+						<PanelResizeHandle
+							style={{ backgroundColor: "green", width: 10 }}
+						/>
+						<Panel collapsible={false}>
+							<AutomationDetail />
+						</Panel>
+					</PanelGroup>
+				</Column>
 			)}
 		</ParadigmProvider>
 	)

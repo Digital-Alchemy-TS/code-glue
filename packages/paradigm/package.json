@@ -22,6 +22,7 @@
 		"culori": "^4.0.2",
 		"motion": "^12.23.26",
 		"react-native-web": "^0.21.2",
+		"react-resizable-panels": "^3.0.6",
 		"tamagui": "1.137.3"
 	},
 	"peerDependencies": {
