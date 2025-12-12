@@ -10,7 +10,7 @@ import { useShadow } from "../../hooks/useShadow"
 
 import type { ShadowName } from "../../generated/shadows"
 
-type ParadigmViewProps = {
+export type ViewProps = {
 	ref?: React.Ref<TamaguiElement>
 	/**
 	 * the shadow name (from Figma) to apply to the component
@@ -78,7 +78,7 @@ type ParadigmViewProps = {
 	_tamaguiProps?: TamaguiViewProps
 } & Omit<ViewStyle, "flexGrow" | "flexShrink" | "overflow">
 
-const View = (props: ParadigmViewProps) => {
+const View = (props: ViewProps) => {
 	const {
 		children,
 		shadow,
@@ -146,13 +146,13 @@ const View = (props: ParadigmViewProps) => {
 
 const MotionView = motion.create(View)
 
-const Column = (props: ParadigmViewProps) => (
+const Column = (props: ViewProps) => (
 	<View _tamaguiProps={{ flexDirection: "column" }} {...props} />
 )
-const Row = (props: ParadigmViewProps) => (
+const Row = (props: ViewProps) => (
 	<View _tamaguiProps={{ flexDirection: "row" }} {...props} />
 )
 
-const Center = (props: ParadigmViewProps) => <View grow center {...props} />
+const Center = (props: ViewProps) => <View grow center {...props} />
 
 export { View, MotionView, Column, Row, Center }
