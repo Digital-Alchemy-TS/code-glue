@@ -3,6 +3,7 @@ import { TamaguiProvider } from "tamagui"
 
 import { baseConfig, type ParadigmConfig } from "../../config/paradigm.config"
 import tamaguiConfig from "../../config/tamagui.config"
+import { View } from "../View"
 
 export const ParadigmContext = React.createContext(baseConfig)
 
@@ -16,7 +17,7 @@ export const ParadigmProvider: React.FC<{
 	return (
 		<ParadigmContext value={config || baseConfig}>
 			<TamaguiProvider config={tamaguiConfig} defaultTheme="light">
-				{children}
+				<View fillContainer>{children}</View>
 			</TamaguiProvider>
 		</ParadigmContext>
 	)
