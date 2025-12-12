@@ -1,10 +1,11 @@
-import { mkdir, rm, writeFile } from "node:fs/promises"
-import { join, dirname } from "node:path"
-import { fileURLToPath } from "node:url"
 import { exec } from "node:child_process"
+import { mkdir, rm, writeFile } from "node:fs/promises"
+import { dirname, join } from "node:path"
+import { fileURLToPath } from "node:url"
 import { promisify } from "node:util"
 import { transform } from "@svgr/core"
 import { config } from "dotenv"
+
 import { letterCase } from "../src/components/Text/letterCase.js"
 
 const execAsync = promisify(exec)
@@ -16,19 +17,20 @@ config()
 // Configuration - set these via environment variables
 const FIGMA_ACCESS_TOKEN = process.env.FIGMA_ACCESS_TOKEN
 const FIGMA_FILE_ID = process.env.FIGMA_FILE_ID
-const COMPONENTS_DIR = join(
+const RAW_ICON_DIRECTORY = join(
 	process.cwd(),
 	"src",
 	"components",
 	"Icon",
 	"generated",
 )
-const OUTPUT_FILE = join(
+const RAW_ICON_INDEX_FILE = join(
 	process.cwd(),
 	"src",
 	"components",
 	"Icon",
-	"generated.tsx",
+	"generated",
+	"index.tsx",
 )
 
 interface FigmaNode {
@@ -337,11 +339,11 @@ async function generateTypeScriptFile(
 	const sortedIcons = [...icons].sort((a, b) => a.name.localeCompare(b.name))
 
 	const imports = sortedIcons
-		.map(({ name }) => `import ${name} from "./generated/${name}"`)
+		.map(({ name }) => `import ${name} from "./${name}"`)
 		.join("\n")
 
 	const exports = sortedIcons
-		.map(({ name }) => `\t${name}: ${name} as IconComponentType,`)
+		.map(({ name }) => `\t${name}: ${name} as WebIconComponentType,`)
 		.join("\n")
 
 	const attachments = sortedIcons
@@ -350,11 +352,11 @@ async function generateTypeScriptFile(
 
 	const content = `// This file is auto-generated. Do not edit manually.
 
-import { ComponentError } from "../ComponentError"
+import { ComponentError } from "../../ComponentError"
 // Generated Icons:
 ${imports}
 
-import type { IconComponentType } from "./types"
+import type { WebIconComponentType } from "../types"
 
 export const rawIcons = {
 ${exports}
@@ -369,8 +371,8 @@ ${attachments}
 export { Icon }
 `
 
-	await writeFile(OUTPUT_FILE, content, "utf-8")
-	console.log(`✓ Generated TypeScript file: ${OUTPUT_FILE}`)
+	await writeFile(RAW_ICON_INDEX_FILE, content, "utf-8")
+	console.log(`✓ Generated TypeScript file: ${RAW_ICON_INDEX_FILE}`)
 }
 
 async function main() {
@@ -440,9 +442,10 @@ async function main() {
 			.map((style) => {
 				// Include both DROP_SHADOW and INNER_SHADOW
 				const allShadows = style.effects
-					.filter((e) => 
-						(e.type === "DROP_SHADOW" || e.type === "INNER_SHADOW") && 
-						e.visible !== false
+					.filter(
+						(e) =>
+							(e.type === "DROP_SHADOW" || e.type === "INNER_SHADOW") &&
+							e.visible !== false,
 					)
 					.map((effect) => {
 						const color = effect.color || { r: 0, g: 0, b: 0 }
@@ -473,13 +476,13 @@ async function main() {
 				}
 			})
 			.filter((style) => style.shadows.length > 0)
-		
+
 		// Convert array to object with camelCased keys
 		const shadowStyles = Object.fromEntries(
 			shadowStylesArray.map((style) => [
 				letterCase.camel(style.name),
 				style.shadows,
-			])
+			]),
 		)
 
 		// Write shadow styles to file
@@ -497,9 +500,7 @@ export type ShadowName = keyof typeof shadowStyles;
 		await mkdir(join(process.cwd(), "src", "generated"), { recursive: true })
 
 		await writeFile(shadowPath, shadowContent, "utf-8")
-		console.log(
-			`\n✓ Wrote ${shadowKeys.length} shadow styles to ${shadowPath}`,
-		)
+		console.log(`\n✓ Wrote ${shadowKeys.length} shadow styles to ${shadowPath}`)
 
 		// Format shadows with Biome
 		try {
@@ -523,8 +524,8 @@ export type ShadowName = keyof typeof shadowStyles;
 
 		// Clean and recreate components directory
 		console.log("Cleaning output directory...")
-		await rm(COMPONENTS_DIR, { recursive: true, force: true })
-		await mkdir(COMPONENTS_DIR, { recursive: true })
+		await rm(RAW_ICON_DIRECTORY, { recursive: true, force: true })
+		await mkdir(RAW_ICON_DIRECTORY, { recursive: true })
 
 		console.log("Downloading and transforming SVG files to React components...")
 		const savedIcons: Array<{ name: string; filename: string }> = []
@@ -569,7 +570,7 @@ export type ShadowName = keyof typeof shadowStyles;
 			)
 
 			const filename = `${sanitizedName}.tsx`
-			const filePath = join(COMPONENTS_DIR, filename)
+			const filePath = join(RAW_ICON_DIRECTORY, filename)
 
 			await writeFile(filePath, jsCode, "utf-8")
 			savedIcons.push({ name: sanitizedName, filename })
