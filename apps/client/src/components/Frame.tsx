@@ -2,7 +2,14 @@ import { useEffect, useState } from "react"
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"
 import { useSnapshot } from "valtio/react"
 
-import { Column, ParadigmProvider, Row, Text } from "@code-glue/paradigm"
+import {
+	Center,
+	Column,
+	Layout,
+	ParadigmProvider,
+	Row,
+	Text,
+} from "@code-glue/paradigm"
 import { glueDesignConfig } from "@/design/design.config"
 import { store } from "@/store"
 import { AutomationDetail } from "./AutomationDetail"
@@ -28,34 +35,11 @@ export const Frame = () => {
 	return (
 		<ParadigmProvider config={glueDesignConfig}>
 			{!appReady ? (
-				<Column
-					fullscreen
-					alignItems="center"
-					justifyContent="center"
-					background="red"
-				>
+				<Center fillContainer>
 					<Text>Loading...</Text>
-				</Column>
+				</Center>
 			) : (
-				<Column fullscreen backgroundColor={"red"}>
-					<PanelGroup autoSaveId="persistence" direction="horizontal">
-						<Panel
-							defaultSize={240}
-							minSize={240}
-							maxSize={580}
-							collapsible={false}
-							style={{ backgroundColor: "blue" }}
-						>
-							<Nav />
-						</Panel>
-						<PanelResizeHandle
-							style={{ backgroundColor: "green", width: 10 }}
-						/>
-						<Panel collapsible={false}>
-							<AutomationDetail />
-						</Panel>
-					</PanelGroup>
-				</Column>
+				<Layout.HorizontalNav nav={<Nav />} content={<AutomationDetail />} />
 			)}
 		</ParadigmProvider>
 	)

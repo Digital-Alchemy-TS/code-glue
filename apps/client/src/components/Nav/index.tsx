@@ -11,11 +11,7 @@ export const Nav = () => {
 		useQuery.queries.currentAutomationId,
 	)
 	return (
-		<Column
-			backgroundColor="$cardStock"
-			borderRightColor="$borderColor"
-			borderRightWidth="$size.stroke"
-		>
+		<Column grow backgroundColor="$cardStock">
 			<Row alignItems="center" background="$background" height={49}>
 				<View mx={12}>
 					<img
@@ -28,7 +24,7 @@ export const Nav = () => {
 
 				<Text size="$5">Code Glue</Text>
 			</Row>
-			<Column flexDirection="column" gap={10} padding="$space.edgeInset">
+			<Column flexDirection="column" gap={10} p="$space.edgeInset">
 				{appConfig.sections.map(({ id, title }) => (
 					<MainListItem key={id} title={title} section={id} />
 				))}
