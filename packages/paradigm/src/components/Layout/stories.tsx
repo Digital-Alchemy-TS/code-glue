@@ -20,7 +20,7 @@ const Content = () => (
 
 export const HorizontalNav = meta.story({
 	render: () => (
-		<View fullscreen>
+		<View fillContainer>
 			<Layout.HorizontalNav nav={<Nav />} content={<Content />} />
 		</View>
 	),

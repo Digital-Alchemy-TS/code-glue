@@ -13,7 +13,7 @@ export default definePreview({
 		},
 		controls: {
 			matchers: {
-				color: /(background|color)$/i,
+				color: /(background|color|fill)$/i,
 				date: /Date$/i,
 			},
 		},
@@ -22,7 +22,18 @@ export default definePreview({
 		(Story) => (
 			<StorybookContext value={true}>
 				<ParadigmProvider>
-					<Story />
+					<div
+						style={{
+							display: "flex",
+							position: "absolute",
+							top: 0,
+							left: 0,
+							right: 0,
+							bottom: 0,
+						}}
+					>
+						<Story />
+					</div>
 				</ParadigmProvider>
 			</StorybookContext>
 		),

@@ -57,61 +57,6 @@ interface FigmaImageResponse {
 	images: Record<string, string>
 }
 
-interface VariableValue {
-	r?: number
-	g?: number
-	b?: number
-	a?: number
-}
-
-type VariableResolvedType = "BOOLEAN" | "FLOAT" | "STRING" | "COLOR"
-
-interface Variable {
-	id: string
-	name: string
-	key: string
-	variableCollectionId: string
-	resolvedType: VariableResolvedType
-	valuesByMode: Record<string, VariableValue | string | number | boolean>
-	scopes?: string[]
-	description?: string
-}
-
-interface VariableCollection {
-	id: string
-	name: string
-	key: string
-	modes: Array<{ modeId: string; name: string }>
-	variableIds: string[]
-}
-
-interface FigmaVariablesResponse {
-	status: number
-	error: boolean
-	meta: {
-		variables: Record<string, Variable>
-		variableCollections: Record<string, VariableCollection>
-	}
-}
-
-interface FigmaStyle {
-	key: string
-	file_key: string
-	node_id: string
-	style_type: "FILL" | "TEXT" | "EFFECT" | "GRID"
-	thumbnail_url: string
-	name: string
-	description: string
-}
-
-interface FigmaStylesResponse {
-	status: number
-	error: boolean
-	meta: {
-		styles: FigmaStyle[]
-	}
-}
-
 interface Effect {
 	type: "DROP_SHADOW" | "INNER_SHADOW" | "LAYER_BLUR" | "BACKGROUND_BLUR"
 	visible: boolean
@@ -140,10 +85,6 @@ interface FigmaNode {
 		suffix?: string
 		constraint?: { type: string; value: number }
 	}>
-}
-
-interface FigmaNodesResponse {
-	nodes: Record<string, { document: FigmaNode }>
 }
 
 async function fetchFigmaFile(): Promise<FigmaFileResponse> {
@@ -247,82 +188,6 @@ async function downloadSvg(url: string): Promise<string> {
 	return response.text()
 }
 
-async function fetchFigmaVariables(): Promise<FigmaVariablesResponse | null> {
-	if (!FIGMA_ACCESS_TOKEN || !FIGMA_FILE_ID) {
-		throw new Error(
-			"Missing FIGMA_ACCESS_TOKEN or FIGMA_FILE_ID environment variables",
-		)
-	}
-
-	const response = await fetch(
-		`https://api.figma.com/v1/files/${FIGMA_FILE_ID}/variables/local`,
-		{
-			headers: {
-				"X-Figma-Token": FIGMA_ACCESS_TOKEN,
-			},
-		},
-	)
-
-	if (!response.ok) {
-		// Variables API might not be available (Enterprise only)
-		if (response.status === 403 || response.status === 404) {
-			console.warn(
-				"⚠ Variables API not available (may require Enterprise plan)",
-			)
-			return null
-		}
-		throw new Error(`Failed to fetch Figma variables: ${response.statusText}`)
-	}
-
-	return response.json()
-}
-
-async function fetchFigmaStyles(): Promise<FigmaStylesResponse> {
-	if (!FIGMA_ACCESS_TOKEN || !FIGMA_FILE_ID) {
-		throw new Error(
-			"Missing FIGMA_ACCESS_TOKEN or FIGMA_FILE_ID environment variables",
-		)
-	}
-
-	const response = await fetch(
-		`https://api.figma.com/v1/files/${FIGMA_FILE_ID}/styles`,
-		{
-			headers: {
-				"X-Figma-Token": FIGMA_ACCESS_TOKEN,
-			},
-		},
-	)
-
-	if (!response.ok) {
-		throw new Error(`Failed to fetch Figma styles: ${response.statusText}`)
-	}
-
-	return response.json()
-}
-
-async function fetchFigmaNodes(nodeIds: string[]): Promise<FigmaNodesResponse> {
-	if (!FIGMA_ACCESS_TOKEN || !FIGMA_FILE_ID) {
-		throw new Error(
-			"Missing FIGMA_ACCESS_TOKEN or FIGMA_FILE_ID environment variables",
-		)
-	}
-
-	const response = await fetch(
-		`https://api.figma.com/v1/files/${FIGMA_FILE_ID}/nodes?ids=${nodeIds.join(",")}`,
-		{
-			headers: {
-				"X-Figma-Token": FIGMA_ACCESS_TOKEN,
-			},
-		},
-	)
-
-	if (!response.ok) {
-		throw new Error(`Failed to fetch Figma nodes: ${response.statusText}`)
-	}
-
-	return response.json()
-}
-
 function sanitizeIconName(name: string): string {
 	// Convert to PascalCase and remove invalid characters
 	return name
@@ -386,7 +251,12 @@ async function main() {
 
 		// Extract effect styles from file data
 		console.log("\nExtracting Figma effect styles...")
-		let effectStylesWithValues = []
+		let effectStylesWithValues: {
+			key: string
+			name: string
+			description: string
+			effects: Effect[]
+		}[] = []
 
 		// Find all nodes that have effect styles applied (by style key)
 		const effectsByStyleKey = findNodesWithEffectStyles(figmaFile.document)
@@ -396,7 +266,7 @@ async function main() {
 
 		if (figmaFile.styles) {
 			const effectStyleIds = Object.keys(figmaFile.styles).filter(
-				(id) => figmaFile.styles?.[id].styleType === "EFFECT",
+				(id) => figmaFile.styles?.[id]?.styleType === "EFFECT",
 			)
 			console.log(`Found ${effectStyleIds.length} effect styles in file`)
 
@@ -509,7 +379,7 @@ export type ShadowName = keyof typeof shadowStyles;
 				`yarn biome check --write --unsafe --config-path=${biomePath} ${shadowPath}`,
 			)
 			console.log("✓ Formatted shadows with Biome")
-		} catch (error) {
+		} catch (_error) {
 			console.warn("⚠ Biome formatting failed for shadows, but continuing...")
 		}
 

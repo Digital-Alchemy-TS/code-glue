@@ -3,6 +3,7 @@ import {
 	type TamaguiElement,
 	View as TamaguiView,
 	type ViewProps as TamaguiViewProps,
+	type ViewStyle,
 } from "tamagui"
 
 import { useShadow } from "../../hooks/useShadow"
@@ -31,6 +32,14 @@ type ParadigmViewProps = {
 	parentColor?: TamaguiViewProps["backgroundColor"]
 	children?: React.ReactNode
 	/**
+	 * The width
+	 */
+	width?: TamaguiViewProps["width"]
+	/**
+	 * The height
+	 */
+	height?: TamaguiViewProps["height"]
+	/**
 	 * flex grow, used alone defaults to 1
 	 */
 	grow?: number | boolean
@@ -39,13 +48,18 @@ type ParadigmViewProps = {
 	 */
 	noShrink?: boolean
 	/**
-	 * if true, sets overflow to hidden
+	 * By default views hide their overflow in paradigm.
+	 * if added, sets overflow to visible.
 	 */
 	overflow?: boolean
 	/**
-	 * if true, makes the view take the full screen size
+	 * if true, makes the view fill the container (position absolute, top/left/right/bottom 0)
 	 */
-	fullscreen?: boolean
+	fillContainer?: boolean
+	/**
+	 * gap in pixels between children
+	 */
+	gap?: TamaguiViewProps["gap"]
 	/**
 	 * Center the content within this view horizontally, vertically, or both
 	 */
@@ -62,7 +76,7 @@ type ParadigmViewProps = {
 	 * Internal override for tamagui props
 	 */
 	_tamaguiProps?: TamaguiViewProps
-}
+} & Omit<ViewStyle, "flexGrow" | "flexShrink" | "overflow">
 
 const View = (props: ParadigmViewProps) => {
 	const {
@@ -70,10 +84,12 @@ const View = (props: ParadigmViewProps) => {
 		shadow,
 		color,
 		parentColor,
+		width,
+		height,
 		grow,
 		noShrink,
 		overflow,
-		fullscreen,
+		fillContainer: fullscreen,
 		center,
 		justify,
 		align,
@@ -97,7 +113,9 @@ const View = (props: ParadigmViewProps) => {
 		<TamaguiView
 			flexGrow={grow && typeof grow !== "number" ? 1 : grow ? grow : 0}
 			flexShrink={noShrink ? 0 : 1}
-			overflow={overflow ? "hidden" : undefined}
+			width={width}
+			height={height}
+			overflow={overflow ? "visible" : "hidden"}
 			backgroundColor={color}
 			flexDirection="column"
 			justifyContent={
@@ -135,4 +153,6 @@ const Row = (props: ParadigmViewProps) => (
 	<View _tamaguiProps={{ flexDirection: "row" }} {...props} />
 )
 
-export { View, MotionView, Column, Row }
+const Center = (props: ParadigmViewProps) => <View grow center {...props} />
+
+export { View, MotionView, Column, Row, Center }

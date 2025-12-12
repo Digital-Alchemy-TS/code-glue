@@ -9,7 +9,7 @@ export type Theme = {
 	iconInTextColor: string // color for icons within text
 	disabledColor: string
 	placeholderColor: string
-	borderColor: string // ui stroke
+	uiStroke: string
 	cardStock: string
 	background: string // surface
 	controlShadow: string
@@ -88,7 +88,7 @@ export const baseConfig = {
 			secondaryColor: gray[600],
 			disabledColor: gold[300],
 			placeholderColor: gray[400],
-			borderColor: gray[100],
+			uiStroke: gray[100],
 			cardStock: special.cardStock,
 			background: special.background,
 			controlShadow: special.controlShadow,

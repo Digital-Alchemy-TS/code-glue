@@ -17,5 +17,9 @@
 	},
 	"[typescript]": {
 		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"files.exclude": {
+		"dist/": true,
+		".tamagui": true
 	}
 }

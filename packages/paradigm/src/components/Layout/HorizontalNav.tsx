@@ -1,6 +1,6 @@
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"
+import { Panel, PanelGroup } from "react-resizable-panels"
 
-import { Column } from "../View"
+import { ResizeHandle } from "./Handle"
 
 type HorizontalNavProps = {
 	nav: React.ReactNode
@@ -19,7 +19,7 @@ export const HorizontalNav = ({ nav, content }: HorizontalNavProps) => {
 			>
 				{nav}
 			</Panel>
-			<PanelResizeHandle style={{ backgroundColor: "green", width: 10 }} />
+			<ResizeHandle />
 			<Panel collapsible={false} style={{ display: "flex" }}>
 				{content}
 			</Panel>
