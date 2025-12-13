@@ -2,13 +2,17 @@ import { Panel, PanelGroup } from "react-resizable-panels"
 
 import { ResizeHandle } from "./Handle"
 
-export type DualPanelProps = {
-	nav: React.ReactNode
-	content: React.ReactNode
+type DualPanelProps = {
+	a: React.ReactNode
+	b: React.ReactNode
 	direction: "horizontal" | "vertical"
 }
 
-export const DualPanel = ({ nav, content, direction }: DualPanelProps) => {
+export const DualPanel = ({
+	a: nav,
+	b: content,
+	direction,
+}: DualPanelProps) => {
 	return (
 		<PanelGroup autoSaveId="persistence" direction={direction}>
 			<Panel

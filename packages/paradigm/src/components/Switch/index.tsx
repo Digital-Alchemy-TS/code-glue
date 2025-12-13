@@ -34,14 +34,12 @@ type SwitchProps = {
 	value: boolean
 	onValueChange?: (value: boolean) => void
 	isDisabled?: boolean
-	testID?: string
 }
 
 export const Switch = ({
 	value,
 	onValueChange,
-	isDisabled,
-	testID,
+	isDisabled = false,
 }: SwitchProps) => {
 	const theme = useTheme()
 
@@ -127,7 +125,6 @@ export const Switch = ({
 				userSelect: "none",
 				opacity: isDisabled ? 0.6 : undefined,
 			}}
-			data-testid={testID}
 		>
 			<motion.div
 				onPan={(_event, info) => {

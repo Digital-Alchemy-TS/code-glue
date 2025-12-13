@@ -121,6 +121,7 @@ export const ResizeHandle = ({
 				animate={animateTo}
 				grow
 				center
+				zIndex={1}
 			>
 				<View
 					noShrink

@@ -20,10 +20,10 @@ export const AutomationDetail = () => {
 		{ enableOnFormTags: true, preventDefault: true },
 	)
 	return (
-		<Column flex={1}>
+		<Column grow>
 			<Header />
 
-			<Column flex={1}>
+			<Column grow>
 				<Editor />
 			</Column>
 

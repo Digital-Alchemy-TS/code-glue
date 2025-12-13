@@ -39,7 +39,7 @@ export const Frame = () => {
 					<Text>Loading...</Text>
 				</Center>
 			) : (
-				<Layout.HorizontalNav nav={<Nav />} content={<AutomationDetail />} />
+				<Layout.SideNav nav={<Nav />} content={<AutomationDetail />} />
 			)}
 		</ParadigmProvider>
 	)

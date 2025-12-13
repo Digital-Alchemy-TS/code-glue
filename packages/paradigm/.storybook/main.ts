@@ -6,7 +6,9 @@ export default defineMain({
 	stories: [
 		"../src/**/*.mdx",
 		"../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
+		"../src/**/*.story.@(js|jsx|mjs|ts|tsx)",
 		"../src/**/stories.@(js|jsx|mjs|ts|tsx)",
+		"../src/**/story.@(js|jsx|mjs|ts|tsx)",
 	],
 	addons: [
 		"@chromatic-com/storybook",

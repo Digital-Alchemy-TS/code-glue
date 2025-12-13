@@ -1,18 +1,27 @@
 import { ComponentError } from "../ComponentError"
-import { DualPanel, type DualPanelProps } from "./dualPanel"
+import { DualPanel } from "./dualPanel"
 
 const Layout = () => (
-	<ComponentError text="Layout can't be used by itself. Use a layout it provides (Layout.HorizontalNav for&nbsp;example)." />
+	<ComponentError text="Layout can't be used by itself. Use a layout it provides (Layout.SideNav for&nbsp;example)." />
 )
 
-const HorizontalNav = (props: Omit<DualPanelProps, "direction">) => (
-	<DualPanel direction="horizontal" {...props} />
-)
-const VerticalNav = (props: Omit<DualPanelProps, "direction">) => (
-	<DualPanel direction="vertical" {...props} />
-)
+const SideNav = ({
+	nav,
+	content,
+}: {
+	nav: React.ComponentProps<typeof DualPanel>["a"]
+	content: React.ComponentProps<typeof DualPanel>["b"]
+}) => <DualPanel direction="horizontal" a={nav} b={content} />
 
-Layout.HorizontalNav = HorizontalNav
-Layout.VerticalNav = VerticalNav
+const VerticalSplit = ({
+	top,
+	bottom,
+}: {
+	top: React.ComponentProps<typeof DualPanel>["a"]
+	bottom: React.ComponentProps<typeof DualPanel>["b"]
+}) => <DualPanel direction="vertical" a={top} b={bottom} />
+
+Layout.SideNav = SideNav
+Layout.VerticalSplit = VerticalSplit
 
 export { Layout }
