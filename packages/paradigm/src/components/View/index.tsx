@@ -8,6 +8,7 @@ import {
 
 import { useShadow } from "../../hooks/useShadow"
 
+import type { ViewProps as RNViewProps } from "react-native"
 import type { ShadowName } from "../../generated/shadows"
 
 export type ViewProps = {
@@ -71,6 +72,7 @@ export type ViewProps = {
 	 * border radius
 	 */
 	radius?: TamaguiViewProps["borderRadius"]
+	onLayout?: RNViewProps["onLayout"]
 	/**
 	 * Internal override for tamagui props
 	 */
