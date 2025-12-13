@@ -63,7 +63,7 @@ export const Switch = ({
 	const [handlePressed, setHandlePressed] = React.useState(false)
 	const [mouseOver, setMouseOver] = React.useState(false)
 
-	const shadow = useShadow({
+	const { all: shadow } = useShadow({
 		shadowName: "elevation1",
 		forceBoxShadow: true,
 	})

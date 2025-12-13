@@ -56,7 +56,8 @@ export const useShadow = ({
 		return {}
 	}
 
-	const boxShadows: string[] = []
+	const outerShadows: string[] = []
+	const insetShadows: string[] = []
 	const filterShadows: string[] = []
 
 	shadowStyles[shadowName].forEach((shadow) => {
@@ -70,9 +71,12 @@ export const useShadow = ({
 
 		// Use boxShadow if forced or if inner shadow
 		if (forceBoxShadow || type === "INNER_SHADOW") {
-			const inset = type === "INNER_SHADOW" ? "inset " : ""
-			boxShadows.push(
-				`${inset}${offsetX}px ${offsetY}px ${blur}px ${shadowColor}`,
+			const isInset = type === "INNER_SHADOW"
+
+			const shadowTarget = isInset ? insetShadows : outerShadows
+
+			shadowTarget.push(
+				`${isInset ? "inset " : ""}${offsetX}px ${offsetY}px ${blur}px ${shadowColor}`,
 			)
 		} else {
 			filterShadows.push(
@@ -81,9 +85,17 @@ export const useShadow = ({
 		}
 	})
 
-	const result: { boxShadow?: string; filter?: string } = {}
-	if (boxShadows.length > 0) result.boxShadow = boxShadows.join(", ")
-	if (filterShadows.length > 0) result.filter = filterShadows.join(" ")
-
-	return result
+	return {
+		all: {
+			boxShadow: outerShadows.concat(insetShadows).join(", ") || undefined,
+			filter: filterShadows.join(" ") || undefined,
+		},
+		outer: {
+			boxShadow: outerShadows.join(", ") || undefined,
+			filter: filterShadows.join(" ") || undefined,
+		},
+		inner: {
+			boxShadow: insetShadows.join(", ") || undefined,
+		},
+	}
 }

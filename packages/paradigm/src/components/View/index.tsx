@@ -48,11 +48,6 @@ export type ViewProps = {
 	 */
 	noShrink?: boolean
 	/**
-	 * By default views hide their overflow in paradigm.
-	 * if added, sets overflow to visible.
-	 */
-	overflow?: boolean
-	/**
 	 * if true, makes the view fill the container (position absolute, top/left/right/bottom 0)
 	 */
 	fillContainer?: boolean
@@ -73,16 +68,27 @@ export type ViewProps = {
 	 */
 	align?: TamaguiViewProps["alignItems"]
 	/**
+	 * border radius
+	 */
+	radius?: TamaguiViewProps["borderRadius"]
+	/**
 	 * Internal override for tamagui props
 	 */
 	_tamaguiProps?: TamaguiViewProps
-} & Omit<ViewStyle, "flexGrow" | "flexShrink" | "overflow">
+} & Omit<
+	ViewStyle,
+	| "flexGrow"
+	| "flexShrink"
+	| "borderRadius"
+	| "flexDirection"
+	| "backgroundColor"
+>
 
 const View = (props: ViewProps) => {
 	const {
 		children,
 		shadow,
-		color,
+		color: backgroundColor,
 		parentColor,
 		width,
 		height,
@@ -93,14 +99,31 @@ const View = (props: ViewProps) => {
 		center,
 		justify,
 		align,
+		radius: borderRadius,
+		m,
+		mt,
+		mr,
+		mb,
+		ml,
+		mx,
+		my,
+		p,
+		pt,
+		pr,
+		pb,
+		pl,
+		px,
+		py,
+		gap,
+		forceBoxShadow,
 		_tamaguiProps,
 		...otherProps
 	} = props
 
-	const shadowStyle = useShadow({
+	const { inner: innerShadows, outer: outerShadows } = useShadow({
 		shadowName: shadow,
 		color: parentColor as string,
-		forceBoxShadow: props.forceBoxShadow,
+		forceBoxShadow: forceBoxShadow,
 	})
 
 	/**
@@ -109,39 +132,99 @@ const View = (props: ViewProps) => {
 	const centerBoth = typeof center === "boolean" && center
 	const flexDirection = _tamaguiProps?.flexDirection || "column"
 
-	return (
-		<TamaguiView
-			flexGrow={grow && typeof grow !== "number" ? 1 : grow ? grow : 0}
-			flexShrink={noShrink ? 0 : 1}
-			width={width}
-			height={height}
-			overflow={overflow ? "visible" : "hidden"}
-			backgroundColor={color}
-			flexDirection="column"
-			justifyContent={
-				centerBoth ||
-				(center && center === "h" && flexDirection === "row") ||
-				(center && center === "v" && flexDirection === "column")
-					? "center"
-					: justify
-			}
-			alignItems={
-				centerBoth ||
-				(center && center === "v" && flexDirection === "row") ||
-				(center && center === "h" && flexDirection === "column")
-					? "center"
-					: align
-			}
-			{...(fullscreen
-				? { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }
-				: {})}
-			{...otherProps}
-			{...shadowStyle}
-			{..._tamaguiProps}
-		>
-			{children}
-		</TamaguiView>
-	)
+	/**
+	 * Style breakdown
+	 * - Outer View: handles layout, sizing, background, shadows
+	 * - Inner View: contains children, overflow hidden by default
+	 */
+
+	// these styles are on both the inner and outer views
+	const sharedStyles: TamaguiViewProps = {
+		borderRadius,
+	}
+
+	const innerStyles = {
+		p,
+		pt,
+		pr,
+		pb,
+		pl,
+		px,
+		py,
+		gap,
+		justifyContent:
+			centerBoth ||
+			(center && center === "h" && flexDirection === "row") ||
+			(center && center === "v" && flexDirection === "column")
+				? "center"
+				: justify,
+		alignItems:
+			centerBoth ||
+			(center && center === "v" && flexDirection === "row") ||
+			(center && center === "h" && flexDirection === "column")
+				? "center"
+				: align,
+		overflow,
+		backgroundColor,
+		flexDirection,
+		flexGrow: 1,
+	}
+
+	const outerStyles = {
+		m,
+		mt,
+		mr,
+		mb,
+		ml,
+		mx,
+		my,
+		width,
+		height,
+		flexGrow: typeof grow === "number" ? grow : grow ? 1 : 0,
+		flexShrink: noShrink ? 0 : 1,
+		...(fullscreen
+			? ({
+					position: "absolute",
+					top: 0,
+					left: 0,
+					right: 0,
+					bottom: 0,
+				} as const)
+			: {}),
+	}
+
+	if (shadow) {
+		return (
+			<TamaguiView
+				{...sharedStyles}
+				{...outerStyles}
+				{...outerShadows}
+				{...otherProps}
+				{..._tamaguiProps}
+			>
+				<TamaguiView
+					{...sharedStyles}
+					{...innerStyles}
+					{...innerShadows}
+					overflow={overflow ?? "hidden"}
+				>
+					{children}
+				</TamaguiView>
+			</TamaguiView>
+		)
+	} else {
+		return (
+			<TamaguiView
+				{...sharedStyles}
+				{...innerStyles}
+				{...outerStyles}
+				{...otherProps}
+				{..._tamaguiProps}
+			>
+				{children}
+			</TamaguiView>
+		)
+	}
 }
 
 const MotionView = motion.create(View)

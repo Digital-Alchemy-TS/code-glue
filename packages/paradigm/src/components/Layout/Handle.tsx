@@ -121,7 +121,6 @@ export const ResizeHandle = ({
 				animate={animateTo}
 				grow
 				center
-				overflow
 			>
 				<View
 					noShrink
@@ -139,6 +138,7 @@ export const ResizeHandle = ({
 						active: { [horizontal ? "width" : "height"]: openSize },
 					}}
 					center
+					overflow="hidden"
 				>
 					<Icon.DragHandle
 						horizontal={!horizontal}
