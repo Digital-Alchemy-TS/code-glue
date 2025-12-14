@@ -17,12 +17,11 @@
 	},
 	"dependencies": {
 		"@fontsource/nunito-sans": "^5.2.7",
-		"@nderscore/tamagui-typescript-plugin": "^0.6.0",
 		"@tamagui/config": "1.137.3",
+		"@window-splitter/react": "^1.1.2",
 		"culori": "^4.0.2",
 		"motion": "^12.23.26",
 		"react-native-web": "^0.21.2",
-		"react-resizable-panels": "^3.0.6",
 		"tamagui": "1.137.3"
 	},
 	"peerDependencies": {
@@ -36,6 +35,7 @@
 		"@storybook/addon-docs": "^10.0.7",
 		"@storybook/addon-vitest": "^10.0.7",
 		"@storybook/react-vite": "^10.0.7",
+		"@nderscore/tamagui-typescript-plugin": "^0.6.0",
 		"@svgr/core": "^8.1.0",
 		"@svgr/plugin-jsx": "^8.1.0",
 		"@tamagui/vite-plugin": "1.137.3",

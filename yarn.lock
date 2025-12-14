@@ -631,6 +631,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^5.0.4"
     "@vitest/browser-playwright": "npm:^4.0.8"
     "@vitest/coverage-v8": "npm:^4.0.8"
+    "@window-splitter/react": "npm:^1.1.2"
     culori: "npm:^4.0.2"
     dotenv: "npm:^17.2.3"
     jsdom: "npm:^27.0.0"
@@ -638,7 +639,6 @@ __metadata:
     patch-package: "npm:^8.0.1"
     playwright: "npm:^1.56.1"
     react-native-web: "npm:^0.21.2"
-    react-resizable-panels: "npm:^3.0.6"
     storybook: "npm:^10.0.7"
     tamagui: "npm:1.137.3"
     tsx: "npm:^4.19.2"
@@ -3017,6 +3017,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-aria/ssr@npm:^3.9.10":
+  version: 3.9.10
+  resolution: "@react-aria/ssr@npm:3.9.10"
+  dependencies:
+    "@swc/helpers": "npm:^0.5.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+  checksum: 10/3b414b5b174769e874014604749d9beaf2556f360f61d3df3223bca6150c16dd37fbf16800e669a2b0045bd221df70212756991a426a7a472c56aac6c0dabd1b
+  languageName: node
+  linkType: hard
+
+"@react-aria/utils@npm:^3.28.2":
+  version: 3.31.0
+  resolution: "@react-aria/utils@npm:3.31.0"
+  dependencies:
+    "@react-aria/ssr": "npm:^3.9.10"
+    "@react-stately/flags": "npm:^3.1.2"
+    "@react-stately/utils": "npm:^3.10.8"
+    "@react-types/shared": "npm:^3.32.1"
+    "@swc/helpers": "npm:^0.5.0"
+    clsx: "npm:^2.0.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+    react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+  checksum: 10/b021d2c3704ce934ec41cfc4d87fa6904fb3e007030e31b824cd8287053e866076cb7c7f072d6ed2fee82ca68f2e3f4677f3d58d7938e4b3315831f1fdea4d90
+  languageName: node
+  linkType: hard
+
 "@react-native/assets-registry@npm:0.82.1":
   version: 0.82.1
   resolution: "@react-native/assets-registry@npm:0.82.1"
@@ -3150,6 +3178,35 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10/f613f7d1fea6382d70b6fbef66b37f2480d9a41b8d75f76b613a61e6af29f8aab10583914be2ad550722e32864978fc9150624d6b17f6e1823ca070d73d34936
+  languageName: node
+  linkType: hard
+
+"@react-stately/flags@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "@react-stately/flags@npm:3.1.2"
+  dependencies:
+    "@swc/helpers": "npm:^0.5.0"
+  checksum: 10/a020c3680c36d9624f765c5916ce95d69959f64887928e8f380f11b5362bb0499a901a5842e4e12eb8e5a776af59212b1ee0c4c6a6681ce75f61dace8b2f9c40
+  languageName: node
+  linkType: hard
+
+"@react-stately/utils@npm:^3.10.8":
+  version: 3.10.8
+  resolution: "@react-stately/utils@npm:3.10.8"
+  dependencies:
+    "@swc/helpers": "npm:^0.5.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+  checksum: 10/7878ec47b132075566708bae630cb86d8237dde976eb3793bba43695abbb29fcaea9d00ea3f4f7244fcda253368f5b2b85263c37665c24e390500cdcc978c6fe
+  languageName: node
+  linkType: hard
+
+"@react-types/shared@npm:^3.32.1":
+  version: 3.32.1
+  resolution: "@react-types/shared@npm:3.32.1"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+  checksum: 10/33c39d1e23fd73a18519679742ba548c128097831710af4803bec244ae96800271f88dcc4eab958734fc501bb65c17e590028596733761610fb0103c5dea6e36
   languageName: node
   linkType: hard
 
@@ -3754,6 +3811,15 @@ __metadata:
   peerDependencies:
     "@svgr/core": "*"
   checksum: 10/0418a9780753d3544912ee2dad5d2cf8d12e1ba74df8053651b3886aeda54d5f0f7d2dece0af5e0d838332c4f139a57f0dabaa3ca1afa4d1a765efce6a7656f2
+  languageName: node
+  linkType: hard
+
+"@swc/helpers@npm:^0.5.0":
+  version: 0.5.17
+  resolution: "@swc/helpers@npm:0.5.17"
+  dependencies:
+    tslib: "npm:^2.8.0"
+  checksum: 10/1fc8312a78f1f99c8ec838585445e99763eeebff2356100738cdfdb8ad47d2d38df678ee6edd93a90fe319ac52da67adc14ac00eb82b606c5fb8ebc5d06ec2a2
   languageName: node
   linkType: hard
 
@@ -6073,6 +6139,38 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@window-splitter/interface@npm:1.1.2":
+  version: 1.1.2
+  resolution: "@window-splitter/interface@npm:1.1.2"
+  dependencies:
+    "@window-splitter/state": "npm:1.1.2"
+  checksum: 10/e82ae1ce08e655ab573b44522a06f0b9dd46631ceba888e791ecbee337b826f4184119b21e20be84df771185c9b1a90a7d56a122f56bbbbc4edf84527a5b9453
+  languageName: node
+  linkType: hard
+
+"@window-splitter/react@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "@window-splitter/react@npm:1.1.2"
+  dependencies:
+    "@react-aria/utils": "npm:^3.28.2"
+    "@window-splitter/interface": "npm:1.1.2"
+    "@window-splitter/state": "npm:1.1.2"
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 10/7bb57f32fae8cbf9d2f73c9150151ca5077f5ff8965f1ae0575da92286c15f2db752a007890b96a0f12f239c5ed28a8bffdbd4c3e62e7249678faa1ca278b38e
+  languageName: node
+  linkType: hard
+
+"@window-splitter/state@npm:1.1.2":
+  version: 1.1.2
+  resolution: "@window-splitter/state@npm:1.1.2"
+  dependencies:
+    big.js: "npm:^6.2.1"
+  checksum: 10/f8bbe2be158af3a48381bbfb4e32271ea145287cdf76ebad2757425a76e4b18d88bd31e39c13e44f6a8e29059336e253fbb43c56917f106d5011367fa84b1752
+  languageName: node
+  linkType: hard
+
 "@yarnpkg/lockfile@npm:^1.1.0":
   version: 1.1.0
   resolution: "@yarnpkg/lockfile@npm:1.1.0"
@@ -6616,6 +6714,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"big.js@npm:^6.2.1":
+  version: 6.2.2
+  resolution: "big.js@npm:6.2.2"
+  checksum: 10/018af3e572780b41536a987c3fc3636efe7d05671e8bf4a6bd22b62316e32f57abfc0fc849732adfd81b00b249f873a5a107e01ab5aa4fc3d42c181cc821bf47
+  languageName: node
+  linkType: hard
+
 "binary-extensions@npm:^2.0.0":
   version: 2.3.0
   resolution: "binary-extensions@npm:2.3.0"
@@ -7062,6 +7167,13 @@ __metadata:
     strip-ansi: "npm:^6.0.1"
     wrap-ansi: "npm:^7.0.0"
   checksum: 10/eaa5561aeb3135c2cddf7a3b3f562fc4238ff3b3fc666869ef2adf264be0f372136702f16add9299087fb1907c2e4ec5dbfe83bd24bce815c70a80c6c1a2e950
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^2.0.0":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: 10/cdfb57fa6c7649bbff98d9028c2f0de2f91c86f551179541cf784b1cfdc1562dcb951955f46d54d930a3879931a980e32a46b598acaea274728dbe068deca919
   languageName: node
   linkType: hard
 
@@ -13213,16 +13325,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-resizable-panels@npm:^3.0.6":
-  version: 3.0.6
-  resolution: "react-resizable-panels@npm:3.0.6"
-  peerDependencies:
-    react: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
-    react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
-  checksum: 10/cacd2a0a63e4ecca193ceb2c8369d760946987c6386e38be39c7f98f909db923f161dbfd5187c289f5093c035c4a7757c4bd30b0d792bd8b45f2bc64183fe47f
-  languageName: node
-  linkType: hard
-
 "react@npm:^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0, react@npm:^19.2.0":
   version: 19.2.1
   resolution: "react@npm:19.2.1"
@@ -14929,7 +15031,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0":
+"tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.1, tslib@npm:^2.4.0, tslib@npm:^2.8.0":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7

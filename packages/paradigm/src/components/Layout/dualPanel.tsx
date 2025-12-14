@@ -1,4 +1,4 @@
-import { Panel, PanelGroup } from "react-resizable-panels"
+import { Panel, PanelGroup } from "@window-splitter/react"
 
 import { ResizeHandle } from "./Handle"
 
@@ -14,13 +14,14 @@ export const DualPanel = ({
 	direction,
 }: DualPanelProps) => {
 	return (
-		<PanelGroup autoSaveId="persistence" direction={direction}>
+		<PanelGroup orientation={direction}>
 			<Panel
-				defaultSize={15}
-				minSize={15}
-				maxSize={30}
+				default={"280px"}
+				min={"280px"}
+				max={"560px"}
 				collapsible={false}
-				style={{ display: "flex" }}
+				style={{ display: "flex", flexGrow: 1 }}
+				isStaticAtRest
 			>
 				{nav}
 			</Panel>

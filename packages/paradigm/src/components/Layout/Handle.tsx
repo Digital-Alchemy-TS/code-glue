@@ -1,6 +1,5 @@
-import { tr } from "motion/react-client"
+import { PanelResizer } from "@window-splitter/react"
 import React from "react"
-import { PanelResizeHandle } from "react-resizable-panels"
 import { useTheme } from "tamagui"
 
 import { useHover } from "../../hooks/useHover"
@@ -29,8 +28,8 @@ type ResizeHandleProps = {
 	horizontal?: boolean
 }
 export const ResizeHandle = ({
-	closedSize = 1,
-	openSize = 10,
+	closedSize = "1px",
+	openSize = "10px",
 	slop = 4,
 	horizontal = false,
 }: ResizeHandleProps) => {
@@ -41,6 +40,7 @@ export const ResizeHandle = ({
 		bounce: 0.4,
 	} as const
 
+	const [size, setSize] = React.useState(closedSize)
 	const { isHovered, hoverProps } = useHover()
 	const [isDragging, setIsDragging] = React.useState(false)
 	const [animateTo, setAnimateTo] = React.useState(
@@ -70,6 +70,7 @@ export const ResizeHandle = ({
 	React.useEffect(() => {
 		if (isHovered && !isDragging) {
 			timerRef.current = setTimeout(() => {
+				setSize(openSize)
 				setAnimateTo("active")
 			}, hoverDelay)
 		} else if (!isHovered && !isDragging) {
@@ -77,6 +78,7 @@ export const ResizeHandle = ({
 				clearTimeout(timerRef.current)
 				timerRef.current = null
 			}
+			setSize(closedSize)
 			setAnimateTo("inactive")
 		}
 
@@ -85,7 +87,7 @@ export const ResizeHandle = ({
 				clearTimeout(timerRef.current)
 			}
 		}
-	}, [isHovered, isDragging])
+	}, [isHovered, isDragging, closedSize, openSize])
 
 	const sizeProperty = horizontal ? "width" : "height"
 
@@ -105,12 +107,20 @@ export const ResizeHandle = ({
 	}
 
 	return (
-		<PanelResizeHandle
+		<PanelResizer
+			size={size}
 			style={{
 				display: "flex",
+				transitionProperty: "width",
+				transitionDuration: "200ms",
 			}}
-			onDragging={setIsDragging}
-			hitAreaMargins={{ coarse: 15, fine: slop }}
+			onDragStart={() => {
+				setIsDragging(true)
+			}}
+			onDragEnd={() => {
+				setIsDragging(false)
+			}}
+			// hitAreaMargins={{ coarse: 15, fine: slop }}
 		>
 			<MotionView
 				position="relative"
@@ -147,6 +157,6 @@ export const ResizeHandle = ({
 					/>
 				</MotionView>
 			</MotionView>
-		</PanelResizeHandle>
+		</PanelResizer>
 	)
 }
