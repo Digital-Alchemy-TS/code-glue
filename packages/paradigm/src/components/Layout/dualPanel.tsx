@@ -6,27 +6,36 @@ type DualPanelProps = {
 	a: React.ReactNode
 	b: React.ReactNode
 	direction: "horizontal" | "vertical"
+	autosaveId?: string
 }
 
 export const DualPanel = ({
 	a: nav,
 	b: content,
 	direction,
+	autosaveId,
 }: DualPanelProps) => {
+	const activePanelProps = {
+		default: direction === "horizontal" ? "280px" : "40px",
+		min: direction === "horizontal" ? "280px" : "40px",
+		max: "560px",
+		collapsible: direction !== "horizontal",
+		collapsedSize: "40px",
+		isStaticAtRest: true,
+	}
 	return (
-		<PanelGroup orientation={direction}>
+		<PanelGroup orientation={direction} autosaveId={autosaveId}>
 			<Panel
-				default={"280px"}
-				min={"280px"}
-				max={"560px"}
-				collapsible={false}
-				style={{ display: "flex", flexGrow: 1 }}
-				isStaticAtRest
+				style={{ display: "flex" }}
+				{...(direction === "horizontal" ? activePanelProps : {})}
 			>
 				{nav}
 			</Panel>
 			<ResizeHandle horizontal={direction === "horizontal"} />
-			<Panel collapsible={false} style={{ display: "flex" }}>
+			<Panel
+				style={{ display: "flex" }}
+				{...(direction === "vertical" ? activePanelProps : {})}
+			>
 				{content}
 			</Panel>
 		</PanelGroup>

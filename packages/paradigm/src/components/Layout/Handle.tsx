@@ -28,8 +28,8 @@ type ResizeHandleProps = {
 	horizontal?: boolean
 }
 export const ResizeHandle = ({
-	closedSize = "1px",
-	openSize = "10px",
+	closedSize = 1,
+	openSize = 10,
 	slop = 4,
 	horizontal = false,
 }: ResizeHandleProps) => {
@@ -40,7 +40,6 @@ export const ResizeHandle = ({
 		bounce: 0.4,
 	} as const
 
-	const [size, setSize] = React.useState(closedSize)
 	const { isHovered, hoverProps } = useHover()
 	const [isDragging, setIsDragging] = React.useState(false)
 	const [animateTo, setAnimateTo] = React.useState(
@@ -70,7 +69,6 @@ export const ResizeHandle = ({
 	React.useEffect(() => {
 		if (isHovered && !isDragging) {
 			timerRef.current = setTimeout(() => {
-				setSize(openSize)
 				setAnimateTo("active")
 			}, hoverDelay)
 		} else if (!isHovered && !isDragging) {
@@ -78,7 +76,6 @@ export const ResizeHandle = ({
 				clearTimeout(timerRef.current)
 				timerRef.current = null
 			}
-			setSize(closedSize)
 			setAnimateTo("inactive")
 		}
 
@@ -87,7 +84,7 @@ export const ResizeHandle = ({
 				clearTimeout(timerRef.current)
 			}
 		}
-	}, [isHovered, isDragging, closedSize, openSize])
+	}, [isHovered, isDragging])
 
 	const sizeProperty = horizontal ? "width" : "height"
 
@@ -108,11 +105,12 @@ export const ResizeHandle = ({
 
 	return (
 		<PanelResizer
-			size={size}
+			size={`1px`}
 			style={{
 				display: "flex",
-				transitionProperty: "width",
-				transitionDuration: "200ms",
+				// Sets the grow direction
+				alignItems: horizontal ? undefined : "flex-end",
+				justifyContent: horizontal ? "flex-start" : undefined,
 			}}
 			onDragStart={() => {
 				setIsDragging(true)
@@ -130,6 +128,7 @@ export const ResizeHandle = ({
 				variants={variants}
 				animate={animateTo}
 				grow
+				noShrink
 				center
 				zIndex={1}
 			>
