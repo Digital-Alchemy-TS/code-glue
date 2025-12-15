@@ -33,7 +33,7 @@ export const Nav = () => {
 						currentAutomationId === null ? "$background" : undefined
 					}
 					onPress={() => {
-						store.state.currentAutomationId = null
+						setCurrentAutomationId(null)
 					}}
 				>
 					<Text>New Automation</Text>

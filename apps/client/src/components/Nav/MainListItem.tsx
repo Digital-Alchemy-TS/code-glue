@@ -15,10 +15,9 @@ export const MainListItem = ({
 	const { currentNavSection } = useSnapshot(store.state)
 	return (
 		<View
-			backgroundColor={
-				currentNavSection === section ? "$background" : undefined
-			}
+			color={currentNavSection === section ? "$background" : undefined}
 			onPress={() => {
+				console.log("press")
 				store.state.currentNavSection = section
 			}}
 		>
