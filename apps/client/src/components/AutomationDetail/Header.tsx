@@ -10,7 +10,11 @@ export const Header = () => {
 	const { isBodyEdited, newAutomationTitle } = useSnapshot(store.state)
 
 	return (
-		<Column borderBottomColor="$borderColor" borderBottomWidth="$size.stroke">
+		<Column
+			borderBottomColor="$borderColor"
+			borderBottomWidth="$size.stroke"
+			noShrink
+		>
 			<Row mx={12}>
 				<Text>Name:</Text>
 				<TextInput

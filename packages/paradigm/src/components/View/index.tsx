@@ -74,6 +74,10 @@ export type ViewProps = {
 	radius?: TamaguiViewProps["borderRadius"]
 	onLayout?: RNViewProps["onLayout"]
 	/**
+	 * What to do when this view is pressed
+	 */
+	onPress?: TamaguiViewProps["onPress"]
+	/**
 	 * Internal override for tamagui props
 	 */
 	_tamaguiProps?: TamaguiViewProps

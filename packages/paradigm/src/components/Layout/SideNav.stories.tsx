@@ -1,10 +1,10 @@
 import preview from "@/storybook/preview"
 import { Text } from "../Text"
 import { View } from "../View"
-import { Layout } from "."
+import { SideNav } from "./SideNav"
 
 const meta = preview.meta({
-	component: Layout.SideNav,
+	component: SideNav,
 	argTypes: {
 		nav: { control: false },
 		content: { control: false },

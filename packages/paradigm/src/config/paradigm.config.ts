@@ -78,6 +78,9 @@ const green = {
 export const baseConfig = {
 	sizes: {
 		headerHeight: 55,
+		tabHeight: 40,
+		edgeSpacing: 12,
+		edgeSpacingClose: 6,
 	},
 	themes: {
 		light: {

@@ -1,5 +1,8 @@
 import React from "react"
-import { SizableText as TamaguiText } from "tamagui"
+import {
+	SizableText as TamaguiText,
+	type TextProps as TamaguiTextProps,
+} from "tamagui"
 
 import { FontKey } from "../../config/fonts"
 import { TextContext, type TextContextType } from "./context"
@@ -44,7 +47,7 @@ type TextProps = {
 	/**
 	 * a color override
 	 */
-	color?: string
+	color?: TamaguiTextProps["color"]
 	/**
 	 * Set this to `true` to remove the line height set via `style`. Useful for when you want text vertically centered.
 	 */
@@ -160,6 +163,7 @@ const Text: React.FC<TextProps> & {
 			<TamaguiText
 				size={style}
 				userSelect={noUserSelect ? "none" : undefined}
+				color={color}
 				style={{
 					..._style,
 					...(noLineHeight ? { lineHeight: undefined } : {}),

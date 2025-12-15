@@ -1,6 +1,6 @@
 import { useHotkeys } from "react-hotkeys-hook"
 
-import { Column } from "@code-glue/paradigm"
+import { Column, Layout } from "@code-glue/paradigm"
 import { Editor } from "@/components/Editor"
 import { useCurrentAutomation } from "@/hooks/useAutomation"
 import { Footer } from "./Footer"
@@ -20,14 +20,14 @@ export const AutomationDetail = () => {
 		{ enableOnFormTags: true, preventDefault: true },
 	)
 	return (
-		<Column grow>
-			<Header />
-
-			<Column grow>
-				<Editor />
-			</Column>
-
-			<Footer />
-		</Column>
+		<Layout.VerticalSplit
+			top={
+				<Column grow>
+					<Header />
+					<Editor />{" "}
+				</Column>
+			}
+			bottom={<Footer />}
+		/>
 	)
 }

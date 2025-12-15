@@ -128,6 +128,7 @@ export const Editor: React.FC = () => {
 					allowVariableFonts: true,
 					automaticLayout: true,
 					occurrencesHighlight: "off",
+					scrollBeyondLastLine: false,
 				},
 
 				...(path && { path }),

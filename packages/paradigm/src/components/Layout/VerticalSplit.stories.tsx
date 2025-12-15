@@ -1,10 +1,10 @@
 import preview from "@/storybook/preview"
 import { Text } from "../Text"
 import { View } from "../View"
-import { Layout } from "."
+import { VerticalSplit } from "./VerticalSplit"
 
 const meta = preview.meta({
-	component: Layout.VerticalSplit,
+	component: VerticalSplit,
 	argTypes: {
 		top: { control: false },
 		bottom: { control: false },

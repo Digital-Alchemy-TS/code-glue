@@ -130,7 +130,7 @@ export const ResizeHandle = ({
 				grow
 				noShrink
 				center
-				zIndex={1}
+				zIndex={horizontal ? 2 : 1}
 			>
 				<View
 					noShrink

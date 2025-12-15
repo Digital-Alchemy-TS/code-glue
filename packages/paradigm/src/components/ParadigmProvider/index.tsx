@@ -5,6 +5,8 @@ import { baseConfig, type ParadigmConfig } from "../../config/paradigm.config"
 import tamaguiConfig from "../../config/tamagui.config"
 import { View } from "../View"
 
+import "./global.css"
+
 export const ParadigmContext = React.createContext(baseConfig)
 
 export const ParadigmProvider: React.FC<{
