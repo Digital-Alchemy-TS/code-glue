@@ -15,6 +15,15 @@ const LOG_LEVEL_PRIORITY = {
   warn: 40,
 } as const;
 
+enum LogLevel {
+  trace = "trace",
+  debug = "debug",
+  info = "info",
+  warn = "warn",
+  error = "error",
+  fatal = "fatal",
+}
+
 type BaseLogLine = UserProvidedData & {
   msg: string;
   context: string;
@@ -26,14 +35,9 @@ export type LogSearchParams = typeof LogSearchParams.static;
 export const LogSearchParams = Type.Object({
   context: Type.Optional(Type.String()),
   level: Type.Optional(
-    Type.Union([
-      Type.Literal("trace"),
-      Type.Literal("debug"),
-      Type.Literal("info"),
-      Type.Literal("warn"),
-      Type.Literal("error"),
-      Type.Literal("fatal"),
-    ]),
+    Type.String({
+      enum: ["trace", "debug", "info", "warn", "error", "fatal"],
+    }),
   ),
 });
 
@@ -42,9 +46,15 @@ export function CodeGlueLogger({
   scheduler,
   config,
   context,
+  logger,
 }: TServiceParams) {
   const messages = new Set<BaseLogLine>();
+  logger.info({ name: CodeGlueLogger }, "Registering log target");
   internal.boilerplate.logger.addTarget((msg, data) => {
+    logger.trace(
+      { msg, context: data?.context },
+      "[CodeGlueLogger] Captured log",
+    );
     messages.add({
       ...data,
       msg,
@@ -56,7 +66,8 @@ export function CodeGlueLogger({
     const cutoff =
       Date.now() - config.code_glue.LOG_STORAGE_DURATION_MINUTE * MINUTE;
     messages.forEach(i => {
-      if (i.timestamp > cutoff) {
+      // Fix: delete logs OLDER than cutoff, not newer
+      if (i.timestamp < cutoff) {
         messages.delete(i);
       }
     });
@@ -64,6 +75,10 @@ export function CodeGlueLogger({
 
   return function (params: LogSearchParams) {
     let list = [...messages.values()];
+    logger.debug(
+      { count: list.length, params },
+      "[CodeGlueLogger] Fetching logs",
+    );
     if (!is.empty(params.context)) {
       list = list.filter(i => i.context === params.context);
     }

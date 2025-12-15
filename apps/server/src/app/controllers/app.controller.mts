@@ -16,8 +16,8 @@ export function AppController({
 }: TServiceParams) {
   controller([config.code_glue.V1, "/"], app =>
     app
-      .get("/logs", { schema: { params: LogSearchParams } }, ({ params }) =>
-        code_glue.logger(params),
+      .get("/logs", { schema: { querystring: LogSearchParams } }, ({ query }) =>
+        code_glue.logger(query),
       )
       .get("/type-writer", async () => await code_glue.type_build.build())
       .get("/stats", () => {
