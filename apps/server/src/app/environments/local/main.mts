@@ -8,7 +8,7 @@ await CODE_GLUE_APP.bootstrap({
   },
   configuration: {
     boilerplate: {
-      LOG_LEVEL: "error",
+      LOG_LEVEL: "info",
     },
     coordinator: {
       TRANSPILE_CACHE: true,

@@ -24,7 +24,7 @@ export const AutomationDetail = () => {
 			top={
 				<Column grow>
 					<Header />
-					<Editor />{" "}
+					<Editor />
 				</Column>
 			}
 			bottom={<Footer />}

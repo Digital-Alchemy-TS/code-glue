@@ -1,5 +1,6 @@
-import { is, MINUTE, TServiceParams } from "@digital-alchemy/core";
+import { is, MINUTE, type TServiceParams } from "@digital-alchemy/core";
 import { Type } from "@sinclair/typebox";
+import { EventEmitter } from "events";
 
 import { BadRequestError } from "../../utils/index.mts";
 
@@ -33,7 +34,7 @@ type BaseLogLine = UserProvidedData & {
 
 export type LogSearchParams = typeof LogSearchParams.static;
 export const LogSearchParams = Type.Object({
-  context: Type.Optional(Type.String()),
+  context: Type.Optional(Type.Union([Type.String(), Type.Array(Type.String())])),
   level: Type.Optional(
     Type.String({
       enum: ["trace", "debug", "info", "warn", "error", "fatal"],
@@ -41,30 +42,23 @@ export const LogSearchParams = Type.Object({
   ),
 });
 
-export function CodeGlueLogger({
-  internal,
-  scheduler,
-  config,
-  context,
-  logger,
-}: TServiceParams) {
+export function CodeGlueLogger({ internal, scheduler, config, context, logger }: TServiceParams) {
   const messages = new Set<BaseLogLine>();
+  const logEmitter = new EventEmitter();
+
   logger.info({ name: CodeGlueLogger }, "Registering log target");
   internal.boilerplate.logger.addTarget((msg, data) => {
-    logger.trace(
-      { msg, context: data?.context },
-      "[CodeGlueLogger] Captured log",
-    );
-    messages.add({
+    const logLine = {
       ...data,
       msg,
       timestamp: Date.now(),
-    } as BaseLogLine);
+    } as BaseLogLine;
+    messages.add(logLine);
+    logEmitter.emit("log", logLine);
   });
 
   scheduler.setInterval(() => {
-    const cutoff =
-      Date.now() - config.code_glue.LOG_STORAGE_DURATION_MINUTE * MINUTE;
+    const cutoff = Date.now() - config.code_glue.LOG_STORAGE_DURATION_MINUTE * MINUTE;
     messages.forEach(i => {
       // Fix: delete logs OLDER than cutoff, not newer
       if (i.timestamp < cutoff) {
@@ -73,22 +67,36 @@ export function CodeGlueLogger({
     });
   }, MINUTE);
 
-  return function (params: LogSearchParams) {
+  function search(params: LogSearchParams) {
     let list = [...messages.values()];
-    logger.debug(
-      { count: list.length, params },
-      "[CodeGlueLogger] Fetching logs",
-    );
     if (!is.empty(params.context)) {
-      list = list.filter(i => i.context === params.context);
+      const contexts = Array.isArray(params.context) ? params.context : [params.context];
+      // Include both base context and dynamic: prefixed version
+      const expandedContexts = contexts.flatMap(ctx => [ctx, `dynamic:${ctx}`]);
+      list = list.filter(i => expandedContexts.includes(i.context));
     }
     if (!is.empty(params.level)) {
-      const priority = LOG_LEVEL_PRIORITY[params.level];
+      const priority = LOG_LEVEL_PRIORITY[params.level as keyof typeof LOG_LEVEL_PRIORITY];
       if (!is.number(priority)) {
         throw new BadRequestError(context, "Bad log level");
       }
       list = list.filter(i => LOG_LEVEL_PRIORITY[i.level] >= priority);
     }
     return list;
+  }
+
+  function subscribe(callback: (log: BaseLogLine) => void): () => void {
+    logEmitter.on("log", callback);
+    return () => logEmitter.off("log", callback);
+  }
+
+  // For backward compatibility, make the search function callable directly
+  const service = search as typeof search & {
+    search: typeof search;
+    subscribe: typeof subscribe;
   };
+  service.search = search;
+  service.subscribe = subscribe;
+
+  return service;
 }
