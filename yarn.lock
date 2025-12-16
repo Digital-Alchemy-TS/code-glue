@@ -582,6 +582,7 @@ __metadata:
   dependencies:
     "@biomejs/biome": "npm:2.3.5"
     "@code-glue/paradigm": "workspace:^"
+    "@digital-alchemy/synapse": "npm:^25.8.21"
     "@monaco-editor/react": "npm:^4.7.0"
     "@shikijs/monaco": "npm:^3.19.0"
     "@tiltshift/valtio-factory": "npm:2.0.3"
