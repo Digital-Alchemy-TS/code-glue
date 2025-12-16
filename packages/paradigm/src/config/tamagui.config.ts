@@ -1,72 +1,65 @@
-import { defaultConfig } from "@tamagui/config/v4"
+import { defaultConfig as defaultTamaguiConfig } from "@tamagui/config/v4"
 import { type CreateTamaguiProps, createTamagui, createTokens } from "tamagui"
 
 import { Nuntito } from "./fonts"
-import { baseConfig } from "./paradigm.config"
+import { defaultParadigmConfig } from "./paradigm.config"
 import { shorthands } from "./shorthands"
 
-const tokens = createTokens({
+export const baseTokens = {
 	color: {},
 	size: {
-		...baseConfig.sizes,
-		true: 1,
-		stroke: 1,
-		thinStroke: 0.5,
+		...defaultParadigmConfig.size,
+		true: 16,
 		input: 32,
+		tabHeight: 40,
 	},
 	space: {
+		...defaultParadigmConfig.space,
 		space: 16,
 		true: 16,
-		edgeInset: 12,
-		edgeInsetClose: 6,
 	},
 	radius: {
 		sm: 2,
 		true: 2,
 	},
 	zIndex: {
-		sm: 2,
-		true: 2,
+		0: 0,
+		1: 100,
+		true: 100,
+		2: 200,
+		3: 300,
+		4: 400,
+		5: 500,
 	},
-})
+} as const
 
-export const paradigmConfig = {
-	...defaultConfig,
+/**
+ * This is the config used in paradigm by default.
+ * It is possible to override values via the ParadigmProvider.
+ */
+export const baseConfig = {
+	...defaultTamaguiConfig,
 	settings: {
-		...defaultConfig.settings,
+		...defaultTamaguiConfig.settings,
 		styleCompat: "react-native",
 	},
+	tokens: createTokens(baseTokens),
 	fonts: {
 		heading: Nuntito,
 		body: Nuntito,
 	},
 	shorthands,
-	tokens,
-	themes: baseConfig.themes,
+	themes: defaultParadigmConfig.themes,
 	media: {
-		xs: { maxWidth: 660 },
-		sm: { maxWidth: 800 },
-		md: { maxWidth: 1020 },
-		lg: { maxWidth: 1280 },
-		xl: { maxWidth: 1420 },
-		xxl: { maxWidth: 1600 },
-		gtXs: { minWidth: 660 + 1 },
-		gtSm: { minWidth: 800 + 1 },
-		gtMd: { minWidth: 1020 + 1 },
-		gtLg: { minWidth: 1280 + 1 },
-		short: { maxHeight: 820 },
-		tall: { minHeight: 820 },
-		hoverNone: { hover: "none" },
-		pointerCoarse: { pointer: "coarse" },
+		narrow: { maxWidth: 592 },
+		wide: { minWith: 592 + 1 },
 	} as const,
 } satisfies CreateTamaguiProps
 
-const tamaguiConfig = createTamagui(paradigmConfig)
+const baseTamagui = createTamagui(baseConfig)
 
-export type AppConfig = typeof tamaguiConfig
+export type AppConfig = typeof baseTamagui
 
 declare module "tamagui" {
 	interface TamaguiCustomConfig extends AppConfig {}
 }
-
-export default tamaguiConfig

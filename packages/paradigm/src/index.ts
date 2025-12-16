@@ -15,5 +15,3 @@ export * from "./components/TextInput"
 export * from "./components/View"
 
 // Hooks
-
-export * from "./hooks/useSpace"

@@ -2,7 +2,7 @@
  * see `svgTemplate.cjs` for the icon component definition.
  * Icons are genrated from figma using `yarn sync` (`scripts/syncFigma.ts`)
  */
-import DragHandle from "./crafted/dragHandle"
+import DragHandle from "./crafted/DragHandle"
 import { Icon as IconGenerated } from "./generated"
 
 /**
