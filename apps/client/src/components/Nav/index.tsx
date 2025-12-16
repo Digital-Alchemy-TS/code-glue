@@ -11,7 +11,7 @@ export const Nav = () => {
 		useQuery.queries.currentAutomationId,
 	)
 	return (
-		<Column grow backgroundColor="$cardStock">
+		<Column grow color="$cardStock">
 			<Row alignItems="center" background="$background" height={49}>
 				<View mx={12}>
 					<img
@@ -24,14 +24,12 @@ export const Nav = () => {
 
 				<Text size="$5">Code Glue</Text>
 			</Row>
-			<Column flexDirection="column" gap={10} p="$space.edgeInset">
+			<Column between={10} p="$space.edgeInset">
 				{appConfig.sections.map(({ id, title }) => (
 					<MainListItem key={id} title={title} section={id} />
 				))}
 				<View
-					backgroundColor={
-						currentAutomationId === null ? "$background" : undefined
-					}
+					color={currentAutomationId === null ? "$background" : undefined}
 					onPress={() => {
 						setCurrentAutomationId(null)
 					}}
@@ -41,7 +39,7 @@ export const Nav = () => {
 				{Array.from(automations, ([, automation]) => (
 					<View
 						key={automation.id}
-						backgroundColor={
+						color={
 							automation.id === currentAutomationId ? "$background" : undefined
 						}
 						onPress={() => {

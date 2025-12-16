@@ -46,18 +46,18 @@ const TestHover = () => {
 export const Shadows = meta.story({
 	render: () => (
 		<Column grow center>
-			<Column gap={20}>
-				<Row gap={30}>
+			<Column between={20}>
+				<Row between={30}>
 					{Object.keys(shadowStyles).map((name) => (
 						<TestBox key={name} shadow={name as ShadowName} />
 					))}
 				</Row>
-				<Row gap={30}>
+				<Row between={30}>
 					{Object.keys(shadowStyles).map((name) => (
 						<TestBox key={name} shadow={name as ShadowName} forceBoxShadow />
 					))}
 				</Row>
-				<Row gap={30}>
+				<Row between={30}>
 					<TestHover />
 				</Row>
 			</Column>

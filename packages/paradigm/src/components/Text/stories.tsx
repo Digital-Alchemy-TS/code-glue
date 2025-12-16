@@ -17,7 +17,7 @@ export const Story = meta.story({
 						</Text>
 					))}
 				</Column>
-				<Column grow gap={10}>
+				<Column grow between={10}>
 					<Text _style={{ color: "red" }}>
 						Hello I&apos;m red{" "}
 						<Text _style={{ color: "blue" }}>and I&apos;m blue.</Text>
@@ -40,7 +40,7 @@ export const Story = meta.story({
 			</Row>
 			<Row>
 				<Column color="gray">
-					<Column width={300} color="white" gap={10}>
+					<Column width={300} color="white" between={10}>
 						<Text style={Text.style.header2}>Text defaults to ellipsis</Text>
 						<Text style={Text.style.header2} fit={Text.fitValues.ellipsis}>
 							A single Line of text goes here. It should be cutoff and have an

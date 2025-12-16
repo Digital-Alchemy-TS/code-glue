@@ -19,7 +19,7 @@ const ButtonTester = ({
 	return (
 		<>
 			<Text style={typographs.caption}>{label}</Text>
-			<Row canWrap noShrink gap={4} overflow>
+			<Row canWrap noShrink between={4} overflow>
 				<Row pb={4} overflow>
 					{button}
 				</Row>

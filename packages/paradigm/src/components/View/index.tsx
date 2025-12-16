@@ -49,13 +49,17 @@ export type ViewProps = {
 	 */
 	noShrink?: boolean
 	/**
+	 * can this view wrap its contents?
+	 */
+	canWrap?: boolean
+	/**
 	 * if true, makes the view fill the container (position absolute, top/left/right/bottom 0)
 	 */
 	fillContainer?: boolean
 	/**
-	 * gap in pixels between children
+	 * space in pixels between children
 	 */
-	gap?: TamaguiViewProps["gap"]
+	between?: TamaguiViewProps["gap"]
 	/**
 	 * Center the content within this view horizontally, vertically, or both
 	 */
@@ -100,6 +104,7 @@ const View = (props: ViewProps) => {
 		height,
 		grow,
 		noShrink,
+		canWrap,
 		overflow,
 		fillContainer: fullscreen,
 		center,
@@ -120,7 +125,7 @@ const View = (props: ViewProps) => {
 		pl,
 		px,
 		py,
-		gap,
+		between,
 		forceBoxShadow,
 		_tamaguiProps,
 		...otherProps
@@ -157,7 +162,7 @@ const View = (props: ViewProps) => {
 		pl,
 		px,
 		py,
-		gap,
+		gap: between,
 		justifyContent:
 			centerBoth ||
 			(center && center === "h" && flexDirection === "row") ||
@@ -174,6 +179,7 @@ const View = (props: ViewProps) => {
 		backgroundColor,
 		flexDirection,
 		flexGrow: 1,
+		flexWrap: canWrap ? ("wrap" as const) : ("nowrap" as const),
 	}
 
 	const outerStyles = {

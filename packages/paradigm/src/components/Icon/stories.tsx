@@ -21,7 +21,7 @@ export const Generated = meta.story({
 
 export const DragHandle = meta.story({
 	render: (args) => (
-		<Center gap={20}>
+		<Center between={20}>
 			<Icon.DragHandle color={args.color} />
 			<Icon.DragHandle color={args.color} horizontal />
 			<View borderWidth={1}>
