@@ -18,14 +18,18 @@ export const useCurrentAutomation = () => {
 		// format the document before save
 		await store.monaco.editor?.getAction("editor.action.formatDocument")?.run()
 
+		const body = store.monaco.editor?.getValue()
+
+		if (body === undefined) throw new Error("Editor value is undefined on save")
+
 		if (automation) {
 			automation.update({
-				body: store.state.currentEditorBody,
+				body,
 			})
 		} else {
 			const newAutomation = createAutomation({
 				title: store.state.newAutomationTitle,
-				body: store.state.currentEditorBody,
+				body,
 			})
 
 			setCurrentAutomationId(newAutomation.id)

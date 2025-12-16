@@ -12,13 +12,15 @@ import { store } from "@/store"
 import type { editor } from "monaco-editor"
 
 export const Editor: React.FC = () => {
+	const monacoRef = React.useRef<Monaco | null>(null)
+	const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
+
 	const { automationId, automationSnapshot } = useCurrentAutomation()
 	const path = automationId ? `/automations/${automationId}.ts` : undefined
 
 	const snapshot = useSnapshot(store.editorSupport)
 	const { typesReady } = useSnapshot(store.apiStatus)
-	const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
-	const monacoRef = React.useRef<Monaco | null>(null)
+
 	const [monacoReady, setMonacoReady] = React.useState(false)
 
 	const ata = useCallback(() => {
@@ -109,7 +111,6 @@ export const Editor: React.FC = () => {
 				beforeMount: handleEditorBeforeMount,
 				onChange: (value: string | undefined) => {
 					store.state.isBodyEdited = true
-					store.state.currentEditorBody = value || ""
 				},
 				onMount: handleOnMount,
 

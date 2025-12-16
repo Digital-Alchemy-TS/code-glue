@@ -1,4 +1,4 @@
-import { proxy, ref } from "valtio"
+import { proxy, ref, subscribe } from "valtio"
 
 import { baseUrl } from "../utils/baseUrl"
 import { automationStore, createAutomation } from "./automation"
@@ -48,7 +48,6 @@ export const store = proxy({
 	state: {
 		currentNavSection: null as SectionIds | null,
 		newAutomationTitle: "New Automation",
-		currentEditorBody: "",
 		isBodyEdited: false,
 	},
 	/**
