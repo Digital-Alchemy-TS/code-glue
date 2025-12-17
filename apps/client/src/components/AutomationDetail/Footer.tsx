@@ -6,7 +6,7 @@ import { AutomationLogs } from "../AutomationLogs"
 export const Footer = () => {
 	const tabs = React.useMemo(() => {
 		return [
-			{ label: "Console", content: <AutomationLogs /> },
+			{ label: "Logs", content: <AutomationLogs /> },
 			{ label: "Notes", content: <Text>Notes Content</Text> },
 		]
 	}, [])
