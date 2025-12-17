@@ -45,6 +45,7 @@ export const Editor: React.FC = () => {
 			const currentAutomationState = currentAutomationRef.current
 
 			// update the edited state using data and save the draft
+			// TODO Move this into the store as a derived state
 			if (currentAutomationState) {
 				currentAutomationState.setIsEditied(
 					currentAutomationState.body !== value,

@@ -1,7 +1,8 @@
 import { useSnapshot } from "valtio"
 
-import { Text, View } from "@code-glue/paradigm"
+import { Row, Text } from "@code-glue/paradigm"
 import { store } from "@/store"
+import { CreateAutomation } from "../CreateAutomation"
 
 import type { SectionIds, SectionTitles } from "@/config"
 
@@ -14,14 +15,14 @@ export const MainListItem = ({
 }) => {
 	const { currentNavSection } = useSnapshot(store.state)
 	return (
-		<View
+		<Row
 			color={currentNavSection === section ? "$background" : undefined}
 			onPress={() => {
-				console.log("press")
 				store.state.currentNavSection = section
 			}}
 		>
 			<Text>{title}</Text>
-		</View>
+			<CreateAutomation />
+		</Row>
 	)
 }

@@ -2,45 +2,134 @@ import { createFactory, type Store } from "@tiltshift/valtio-factory"
 import { v4 as uuid } from "uuid"
 import { proxyMap } from "valtio/utils"
 
+import { Text } from "@code-glue/paradigm"
 import { baseUrl } from "../utils/baseUrl"
 
 import type {
-	AutomationCreateOptions,
-	AutomationUpdateOptions,
-	StoredAutomation,
+	AutomationCreateOptions as ServerAutomationCreateOptions,
+	AutomationUpdateOptions as ServerAutomationUpdateOptions,
+	StoredAutomation as ServerStoredAutomation,
 } from "@code-glue/server/utils/contracts/automation.mts"
 
-export const emptyAutomation: Required<StoredAutomation> = {
+type ClientOnlyState = {
+	/**
+	 * Has the automation been edited since last save?
+	 */
+	_isEdited: boolean
+}
+
+type RequiredServerStoredAutomation = Required<ServerStoredAutomation>
+
+type AutomationType = RequiredServerStoredAutomation & ClientOnlyState
+type AutomationUpdateOptions = ServerAutomationUpdateOptions &
+	Partial<ClientOnlyState>
+
+export const emptyAutomation: AutomationType = {
+	_isEdited: false,
+	/**
+	 * Is this automation turned on and running?
+	 */
 	active: false,
+	/**
+	 * What HASS area is this automation associated with?
+	 */
 	area: "",
+	/**
+	 * The code running this automation.
+	 */
 	body: "",
+	/**
+	 * Context ID used for logging. Generated via the title
+	 */
 	context: "",
+	/**
+	 * ISO string date of creation.
+	 */
 	createDate: "",
+	/**
+	 * Markdown documentation for the automation.
+	 */
 	documentation: "",
+	/**
+	 * draft of the next automation update.
+	 */
 	draft: "",
+	/**
+	 * Icon/emoji used to identify the automation.
+	 */
 	icon: "",
+	/**
+	 * Unique identifier for the automation.
+	 */
 	id: "",
 	labels: [],
+	/**
+	 * ISO string of the last date the automation was updated.
+	 */
 	lastUpdate: "",
+	/**
+	 * Not yet used
+	 */
 	parent: "",
+	/**
+	 * Title of the automation.
+	 */
 	title: "",
+	/**
+	 * Not yet used
+	 */
 	version: "",
 }
 
-const automationFactory = createFactory<StoredAutomation>(emptyAutomation)
+/**
+ * All the keys for server-stored automation data (excludes client-only state)
+ */
+type AutomationDataKey = Extract<keyof RequiredServerStoredAutomation, string>
+
+const automationDataKeys = Object.keys(emptyAutomation).filter(
+	(key): key is AutomationDataKey => !key.startsWith("_"),
+)
+
+const getNowISO = () => new Date().toISOString()
+
+const automationFactory = createFactory<AutomationType, Record<string, never>>(
+	emptyAutomation,
+)
+	.derived({
+		contextId(state) {
+			return Text.letterCase.camel(state.title)
+		},
+	})
 	.actions({
-		push() {
-			return fetch(`${baseUrl}/api/v1/automation/${this.id}`, {
+		setIsEditied(isEdited: boolean) {
+			this._isEdited = isEdited
+		},
+	})
+	.actions({
+		getDataValues() {
+			return Object.fromEntries(
+				automationDataKeys.map((key) => [key, this[key]]),
+			) as RequiredServerStoredAutomation
+		},
+	})
+	.actions({
+		getServerJSON() {
+			return JSON.stringify(this.getDataValues())
+		},
+	})
+	.actions({
+		async push() {
+			await fetch(`${baseUrl}/api/v1/automation/${this.id}`, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify(this),
+				body: this.getServerJSON(),
 			})
 				.then((response) => response.json())
-				.then((json: StoredAutomation) => {
+				.then((json: ServerStoredAutomation) => {
 					Object.entries(json).forEach(([key, value]) => {
-						this[key as keyof StoredAutomation] = value as never
+						this[key as keyof ServerStoredAutomation] = value as never
 					})
 				})
 				.catch((error) => {
@@ -51,28 +140,28 @@ const automationFactory = createFactory<StoredAutomation>(emptyAutomation)
 	.actions({
 		update(updates: AutomationUpdateOptions) {
 			Object.entries(updates).forEach(([key, value]) => {
-				this[key as keyof StoredAutomation] = value as never
+				this[key as keyof AutomationType] = value as never
 			})
 
+			// push the updates to the server
 			this.push()
 		},
 	})
-	.onCreate((state) => {
-		// push the new automation to the server, should this happen here or via a subscription?
-		state.push()
-	})
 
-export const createAutomation = (initialData: AutomationCreateOptions) => {
-	const now = new Date().toISOString()
+export const createLocalAutomation = (
+	initialData: Partial<ServerAutomationCreateOptions> = emptyAutomation,
+) => {
+	const automation = automationFactory.create(
+		{},
+		{
+			id: uuid(),
+			...initialData,
+			createDate: getNowISO(),
+			lastUpdate: getNowISO(),
+		},
+	)
 
-	const automation = automationFactory.create(undefined, {
-		id: uuid(),
-		createDate: now,
-		lastUpdate: now,
-		...initialData,
-	})
-
-	// add the new automation to the store
+	// add the new automation to the store if it isn't new
 	automationStore.set(automation.id, automation)
 
 	return automation

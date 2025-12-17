@@ -1,6 +1,6 @@
 import { proxy, useSnapshot } from "valtio"
 
-import { createAutomation, emptyAutomation, store } from "@/store"
+import { emptyAutomation, store } from "@/store"
 import { useQuery } from "./useQuery"
 
 export const useCurrentAutomation = () => {
@@ -8,40 +8,39 @@ export const useCurrentAutomation = () => {
 		useQuery.queries.currentAutomationId,
 	)
 
-	const automation = automationId
+	const currentAutomation = automationId
 		? store.automations.get(automationId)
 		: undefined
 
-	const automationSnapshot = useSnapshot(automation || proxy(emptyAutomation))
+	const automationSnapshot = useSnapshot(
+		currentAutomation || proxy(emptyAutomation),
+	)
+
+	// If the given ID isn't found on the server, fallback to the index page
+	if (automationId && currentAutomation === undefined)
+		setCurrentAutomationId(null)
 
 	const saveCurrentAutomation = async () => {
 		// format the document before save
 		await store.monaco.editor?.getAction("editor.action.formatDocument")?.run()
 
+		// get the most up to date document body from the editor
 		const body = store.monaco.editor?.getValue()
 
-		if (body === undefined) throw new Error("Editor value is undefined on save")
+		if (body === undefined)
+			throw new Error("⚠️ Editor value is undefined on save")
 
-		if (automation) {
-			automation.update({
+		if (currentAutomation) {
+			currentAutomation.update({
+				_isEdited: false,
 				body,
 			})
-		} else {
-			const newAutomation = createAutomation({
-				title: store.state.newAutomationTitle,
-				body,
-			})
-
-			setCurrentAutomationId(newAutomation.id)
 		}
-
-		// reset edited state
-		store.state.isBodyEdited = false
 	}
 
 	return {
 		automationId,
-		automation,
+		automation: currentAutomation,
 		automationSnapshot,
 		saveCurrentAutomation,
 	}

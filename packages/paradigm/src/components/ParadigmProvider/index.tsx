@@ -1,5 +1,10 @@
 import React from "react"
-import { createTamagui, createTokens, TamaguiProvider } from "tamagui"
+import {
+	createTamagui,
+	createTokens,
+	PortalProvider,
+	TamaguiProvider,
+} from "tamagui"
 
 import { baseConfig } from "../../config/tamagui.config"
 import { View } from "../View"
@@ -49,7 +54,9 @@ export const ParadigmProvider: React.FC<{
 
 	return (
 		<TamaguiProvider config={config} defaultTheme="light">
-			<View fillContainer>{children}</View>
+			<PortalProvider shouldAddRootHost>
+				<View fillContainer>{children}</View>
+			</PortalProvider>
 		</TamaguiProvider>
 	)
 }

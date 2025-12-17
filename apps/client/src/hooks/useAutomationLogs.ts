@@ -14,6 +14,9 @@ export type LogLine = {
 }
 
 type UseAutomationLogsOptions = {
+	/**
+	 * The logging context to listen to.
+	 */
 	context?: string
 	level?: LogLevel
 	enabled?: boolean
@@ -49,20 +52,14 @@ export const useAutomationLogs = ({
 		const eventSource = new EventSource(url)
 
 		eventSource.onopen = () => {
-			console.log("[useAutomationLogs] Connection opened")
 			setIsLoading(false)
 		}
 
 		eventSource.onmessage = (event) => {
-			console.log("[useAutomationLogs] Message received:", event.data)
 			try {
 				const data = JSON.parse(event.data)
 
 				if (data.type === "initial") {
-					console.log(
-						"[useAutomationLogs] Initial logs:",
-						data.logs.length,
-					)
 					// Mark initial logs as historical and replace all logs
 					const historicalLogs = data.logs.map((log: LogLine) => ({
 						...log,
@@ -99,7 +96,6 @@ export const useAutomationLogs = ({
 		}
 
 		return () => {
-			console.log("[useAutomationLogs] Closing connection")
 			eventSource.close()
 		}
 	}, [context, level, enabled])

@@ -1,7 +1,7 @@
-import { proxy, ref, subscribe } from "valtio"
+import { proxy, ref } from "valtio"
 
 import { baseUrl } from "../utils/baseUrl"
-import { automationStore, createAutomation } from "./automation"
+import { automationStore, createLocalAutomation } from "./automation"
 import { createSynapseEntity, synapseStore } from "./synapse"
 import { createVariable, variableStore } from "./variables"
 
@@ -47,8 +47,6 @@ export const store = proxy({
 	 */
 	state: {
 		currentNavSection: null as SectionIds | null,
-		newAutomationTitle: "New Automation",
-		isBodyEdited: false,
 	},
 	/**
 	 * API Update/Connection Status
@@ -69,39 +67,31 @@ const setupStore = async () => {
 		fetch(`${baseUrl}/api/v1/type-writer`, { method: "GET" }).then((response) =>
 			response.json(),
 		),
-	])
-		.then(([header, types]) => {
-			store.editorSupport.automationHeader = header
-			store.editorSupport.typeWriter.mappings = types.mappings
-			store.editorSupport.typeWriter.registry = types.registry
-			store.editorSupport.typeWriter.services = types.services
-			store.apiStatus.typesReady = true
-		})
-		.catch(() => {
-			store.serverError = true
-		})
+	]).then(([header, types]) => {
+		store.editorSupport.automationHeader = header
+		store.editorSupport.typeWriter.mappings = types.mappings
+		store.editorSupport.typeWriter.registry = types.registry
+		store.editorSupport.typeWriter.services = types.services
+		store.apiStatus.typesReady = true
+	})
 }
 
 const getAutomationsFromServer = async () => {
 	return await fetch(`${baseUrl}/api/v1/automation`, { method: "GET" })
 		.then((response) => response.json())
 		.then((json: StoredAutomation[]) => {
-			json.forEach((automation) => {
-				const existingAutomation = store.automations.get(automation.id)
+			json.forEach((serverAutomation) => {
+				const existingLocalAutomation = store.automations.get(
+					serverAutomation.id,
+				)
 
-				if (!existingAutomation) {
-					createAutomation(automation)
+				if (!existingLocalAutomation) {
+					createLocalAutomation(serverAutomation)
 				} else {
-					Object.assign(existingAutomation, automation)
+					Object.assign(existingLocalAutomation, serverAutomation)
 				}
 			})
-			// once we have all the automations mark the store as ready
 			store.apiStatus.automationsReady = true
-			store.isReady = true
-		})
-		.catch(() => {
-			store.serverError = true
-			store.isReady = true
 		})
 }
 
@@ -120,10 +110,6 @@ const getVariablesFromServer = async () => {
 			})
 			store.apiStatus.variablesReady = true
 		})
-		.catch(() => {
-			store.serverError = true
-			store.isReady = true
-		})
 }
 
 const getSynapseFromServer = async () => {
@@ -141,10 +127,6 @@ const getSynapseFromServer = async () => {
 			})
 			store.apiStatus.synapseReady = true
 		})
-		.catch(() => {
-			store.serverError = true
-			store.isReady = true
-		})
 }
 
 // Initialize app
@@ -157,6 +139,7 @@ async function initializeApp() {
 			getVariablesFromServer(),
 			getSynapseFromServer(),
 		])
+		store.isReady = true
 	} catch (error) {
 		console.error("Failed to initialize app:", error)
 		store.serverError = true

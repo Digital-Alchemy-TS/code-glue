@@ -7,6 +7,7 @@ import { store } from "@/store"
 import { MainListItem } from "./MainListItem"
 export const Nav = () => {
 	const { automations } = useSnapshot(store)
+
 	const [currentAutomationId, setCurrentAutomationId] = useQuery(
 		useQuery.queries.currentAutomationId,
 	)
@@ -28,27 +29,25 @@ export const Nav = () => {
 				{appConfig.sections.map(({ id, title }) => (
 					<MainListItem key={id} title={title} section={id} />
 				))}
-				<View
-					color={currentAutomationId === null ? "$background" : undefined}
-					onPress={() => {
-						setCurrentAutomationId(null)
-					}}
-				>
-					<Text>New Automation</Text>
-				</View>
-				{Array.from(automations, ([, automation]) => (
-					<View
-						key={automation.id}
-						color={
-							automation.id === currentAutomationId ? "$background" : undefined
-						}
-						onPress={() => {
-							setCurrentAutomationId(automation.id)
-						}}
-					>
-						<Text size="$3">{automation.title}</Text>
-					</View>
-				))}
+
+				{Array.from(automations, ([, automation]) => {
+					console.log(automation.title)
+					return (
+						<View
+							key={automation.id}
+							color={
+								automation.id === currentAutomationId
+									? "$background"
+									: undefined
+							}
+							onPress={() => {
+								setCurrentAutomationId(automation.id)
+							}}
+						>
+							<Text size="$3">{automation.title}</Text>
+						</View>
+					)
+				})}
 			</Column>
 		</Column>
 	)
