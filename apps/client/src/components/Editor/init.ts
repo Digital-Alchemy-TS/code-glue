@@ -1,13 +1,17 @@
 import { loader } from "@monaco-editor/react"
 import { shikiToMonaco } from "@shikijs/monaco"
+import { setupTypeAcquisition } from "@typescript/ata"
 import * as monaco from "monaco-editor"
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker"
 import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker"
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
 import { configureMonacoPrettier } from "monaco-prettier"
 import { createHighlighter } from "shiki"
+import ts from "typescript"
+import { subscribe } from "valtio"
 
 import { appConfig } from "@/config"
+import { store } from "@/store"
 import prettierWorker from "./prettier.worker?worker"
 
 // Load Monaco locally vs. via the CDN
@@ -70,6 +74,55 @@ appConfig.editor.languages.forEach((language) => {
 
 // Sync Shiki with Monaco
 shikiToMonaco(highlighter, monaco)
+
+// Setup types
+
+const unsubscribe = subscribe(store.apiStatus, () => {
+	if (store.apiStatus.typesReady) {
+		const editorSupport = store.editorSupport
+		const header = editorSupport.automationHeader
+
+		monaco.languages.typescript.typescriptDefaults.addExtraLib(
+			`${header}`,
+			"file:///globals.ts",
+		)
+
+		const ata = () => {
+			return setupTypeAcquisition({
+				projectName: "CodeGlue",
+				typescript: ts,
+				logger: console,
+				delegate: {
+					receivedFile: (code: string, _path: string) => {
+						const filePath = `file://${_path}`
+
+						// load in the local types in place of the default placeholder ones
+						switch (filePath) {
+							case "file:///node_modules/@digital-alchemy/hass/dist/dev/mappings.d.mts":
+								code = editorSupport.typeWriter.mappings
+								break
+							case "file:///node_modules/@digital-alchemy/hass/dist/dev/registry.d.mts":
+								code = editorSupport.typeWriter.registry
+								break
+							case "file:///node_modules/@digital-alchemy/hass/dist/dev/services.d.mts":
+								code = editorSupport.typeWriter.services
+								break
+						}
+
+						monaco.languages.typescript.typescriptDefaults.addExtraLib(
+							code,
+							filePath,
+						)
+					},
+				},
+			})
+		}
+
+		ata()(header)
+
+		unsubscribe()
+	}
+})
 
 // Load Monaco via the loader
 loader.config({ monaco })

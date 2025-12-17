@@ -1,8 +1,5 @@
 import { type Monaco, Editor as MonacoEditor } from "@monaco-editor/react"
-import { setupTypeAcquisition } from "@typescript/ata"
-import React, { useCallback } from "react"
-import ts from "typescript"
-import { useSnapshot } from "valtio"
+import React from "react"
 
 import { appConfig } from "@/config"
 import { codeGlueLight } from "@/design/editorThemes"
@@ -15,65 +12,48 @@ export const Editor: React.FC = () => {
 	const monacoRef = React.useRef<Monaco | null>(null)
 	const editorRef = React.useRef<editor.IStandaloneCodeEditor | null>(null)
 
-	const { automationId, automationSnapshot } = useCurrentAutomation()
+	const { automation, automationId, automationSnapshot } =
+		useCurrentAutomation()
 	const path = automationId ? `/automations/${automationId}.ts` : undefined
 
-	const snapshot = useSnapshot(store.editorSupport)
-	const { typesReady } = useSnapshot(store.apiStatus)
-
-	const [monacoReady, setMonacoReady] = React.useState(false)
-
-	const ata = useCallback(() => {
-		const monaco = monacoRef.current
-
-		if (monaco !== null) {
-			return setupTypeAcquisition({
-				projectName: "CodeGlue",
-				typescript: ts,
-				logger: console,
-				delegate: {
-					receivedFile: (code: string, _path: string) => {
-						const filePath = `file://${_path}`
-
-						// load in the local types in place of the default placeholder ones
-						if (
-							filePath ===
-							"file:///node_modules/@digital-alchemy/hass/dist/dev/mappings.d.mts"
-						) {
-							code = snapshot.typeWriter.mappings
-						}
-						if (
-							filePath ===
-							"file:///node_modules/@digital-alchemy/hass/dist/dev/registry.d.mts"
-						) {
-							code = snapshot.typeWriter.registry
-						}
-						if (
-							filePath ===
-							"file:///node_modules/@digital-alchemy/hass/dist/dev/services.d.mts"
-						) {
-							code = snapshot.typeWriter.services
-						}
-
-						monaco.languages.typescript.typescriptDefaults.addExtraLib(
-							code,
-							filePath,
-						)
-					},
-				},
-			})
-		}
-
-		throw new Error("Monaco not initialized")
-	}, [
-		snapshot.typeWriter.mappings,
-		snapshot.typeWriter.registry,
-		snapshot.typeWriter.services,
-	])
+	/**
+	 * Support for automation draft saving with debounce
+	 */
+	const draftDebounceTimerRef = React.useRef<number | null>(null)
+	const currentAutomationRef = React.useRef<typeof automation>(automation)
 
 	const handleEditorBeforeMount = (monaco: Monaco) => {
 		monacoRef.current = monaco
 	}
+
+	const handleEditorChange = React.useCallback((value: string | undefined) => {
+		// if we don't have a value, do nothing. Not sure what would cause this.
+		if (!value) return
+
+		// if we have a value we can assume the model has been edited.
+		if (currentAutomationRef.current) {
+			currentAutomationRef.current.setIsEditied(true)
+		}
+
+		// cancel the previous timer if it exists
+		if (draftDebounceTimerRef.current !== null) {
+			window.clearTimeout(draftDebounceTimerRef.current)
+		}
+
+		// start a new timer to save the draft after a delay
+		draftDebounceTimerRef.current = window.setTimeout(() => {
+			const currentAutomationState = currentAutomationRef.current
+
+			// update the edited state using data and save the draft
+			if (currentAutomationState) {
+				currentAutomationState.setIsEditied(
+					currentAutomationState.body !== value,
+				)
+
+				currentAutomationState.update({ draft: value })
+			}
+		}, 2_000)
+	}, [])
 
 	const handleOnMount = (
 		editor: editor.IStandaloneCodeEditor,
@@ -87,20 +67,7 @@ export const Editor: React.FC = () => {
 		document.fonts.ready.then(() => {
 			monaco.editor.remeasureFonts()
 		})
-
-		setMonacoReady(true)
 	}
-
-	// Update global types when relevant data changes, pull in updated types from DA
-	React.useEffect(() => {
-		if (monacoReady && monacoRef.current && typesReady) {
-			monacoRef.current.languages.typescript.typescriptDefaults.addExtraLib(
-				`${snapshot.automationHeader}`,
-				"file:///globals.ts",
-			)
-			ata()(snapshot.automationHeader)
-		}
-	}, [ata, monacoReady, snapshot.automationHeader, typesReady])
 
 	return (
 		<MonacoEditor
@@ -109,9 +76,7 @@ export const Editor: React.FC = () => {
 				theme: codeGlueLight.name,
 				defaultValue: automationSnapshot.body,
 				beforeMount: handleEditorBeforeMount,
-				onChange: (value: string | undefined) => {
-					store.state.isBodyEdited = true
-				},
+				onChange: handleEditorChange,
 				onMount: handleOnMount,
 
 				options: {
