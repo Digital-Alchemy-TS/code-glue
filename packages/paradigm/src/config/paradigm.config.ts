@@ -27,6 +27,8 @@ export type Theme = {
 	negativeActive: string
 	primaryHover: string
 	primaryActive: string
+	listItemActive: string
+	listItemSelected: string
 }
 
 type ParadigmConfigType = {
@@ -44,8 +46,6 @@ const special = {
 	background: "#FFFFFF",
 	cardStock: "#F9F9F9",
 	surface: "#FFFFFF",
-	controlShadow: "rgba(18, 18, 18, 0.06)",
-	holeShadow: "rgba(18, 18, 18, 0.24)",
 	transparent: "rgba(0,0,0,0)",
 	slightlyTransparentWhite: "hsla(0, 0%, 100%, 0.93)",
 } as const
@@ -127,6 +127,8 @@ export const defaultParadigmConfig = {
 			negativeActive: red[700],
 			primaryHover: blue[600],
 			primaryActive: blue[700],
+			listItemActive: blue[100],
+			listItemSelected: gray[200],
 		} as const,
 		dark: {
 			primary: blue[500],
@@ -149,6 +151,8 @@ export const defaultParadigmConfig = {
 			negativeActive: red[700],
 			primaryHover: blue[600],
 			primaryActive: blue[700],
+			listItemActive: blue[100],
+			listItemSelected: gray[200],
 		} as const,
 	} as const,
 } as const satisfies ParadigmConfigType

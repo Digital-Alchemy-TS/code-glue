@@ -24,7 +24,7 @@ export const Header = ({ children, isSticky }: ListHeaderProps) => {
 		>
 			<Text
 				noUserSelect
-				style={Text.style.header5}
+				style={Text.style.header6}
 				letterCase={Text.letterCase.sentence}
 			>
 				{children}
