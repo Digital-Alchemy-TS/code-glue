@@ -19,8 +19,9 @@ export const Header = ({ children, isSticky }: ListHeaderProps) => {
 		<Row
 			noShrink
 			center="v"
-			height={isSticky ? "$listHeaderHeightSticky" : "$listHeaderHeight"}
-			px={"$edgeInset"}
+			pt={"$betweenLists"}
+			px={"$listItemEdgeInset"}
+			mx={"$edgeInset"}
 		>
 			<Text
 				noUserSelect

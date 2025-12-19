@@ -100,59 +100,61 @@ export const BaseListItem = ({
 		<Row
 			center="v"
 			height={height}
-			px={"$listItemEdgeInset"}
+			px={"$edgeInset"}
 			onPress={onPress}
 			disabled={isDisabled}
 		>
-			{before && (
-				<View mr={"$listItemBetweenItems"} noShrink>
-					{before}
+			<Row grow px={"$listItemEdgeInset"}>
+				{before && (
+					<View mr={"$listItemBetweenItems"} noShrink>
+						{before}
+					</View>
+				)}
+
+				{isLoading && (
+					<View noShrink mr={"$listItemBetweenItems"}>
+						<ActivityIndicator />
+					</View>
+				)}
+
+				<Row grow>{children}</Row>
+
+				{!!(after || isPicked) && (
+					<Row noShrink justify="flex-start" center="v">
+						{after}
+						{isPicked && (
+							<>
+								<Spacer size={"$space.listItemBetweenItems"} />
+								<Icon.Check
+									size={getToken("$listItemAfterIconSize")}
+									color={theme.primary.get()}
+								/>
+							</>
+						)}
+					</Row>
+				)}
+
+				{statusColor && (
+					<View
+						position="absolute"
+						top={"$listItemStatusPosition"}
+						right={"$listItemStatusPosition"}
+						radius={"$circle"}
+						color={statusColor}
+						width={"$listItemStatusSize"}
+						height={"$listItemStatusSize"}
+					/>
+				)}
+
+				<View fillContainer zIndex="$below">
+					<StatusHandlerComponent
+						isDragged={isDragged}
+						isActive={active}
+						isHovered={isHovered}
+						isSelected={isSelected}
+					/>
 				</View>
-			)}
-
-			{isLoading && (
-				<View noShrink mr={"$listItemBetweenItems"}>
-					<ActivityIndicator />
-				</View>
-			)}
-
-			<Row grow>{children}</Row>
-
-			{!!(after || isPicked) && (
-				<Row noShrink justify="flex-start" center="v">
-					{after}
-					{isPicked && (
-						<>
-							<Spacer size={"$space.listItemBetweenItems"} />
-							<Icon.Check
-								size={getToken("$listItemAfterIconSize")}
-								color={theme.primary.get()}
-							/>
-						</>
-					)}
-				</Row>
-			)}
-
-			{statusColor && (
-				<View
-					position="absolute"
-					top={"$listItemStatusPosition"}
-					right={"$listItemStatusPosition"}
-					radius={"$circle"}
-					color={statusColor}
-					width={"$listItemStatusSize"}
-					height={"$listItemStatusSize"}
-				/>
-			)}
-
-			<View fillContainer zIndex="$below">
-				<StatusHandlerComponent
-					isDragged={isDragged}
-					isActive={active}
-					isHovered={isHovered}
-					isSelected={isSelected}
-				/>
-			</View>
+			</Row>
 		</Row>
 	)
 }
