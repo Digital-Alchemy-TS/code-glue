@@ -289,7 +289,7 @@ export const Button = ({
 						: "raised"
 					: "normal"
 			}
-			transition={{ type: "spring", visualDuration: 0.2, bounce: 0.25 }}
+			transition={{ type: "spring", visualDuration: 0.35, bounce: 0.35 }}
 			onPress={(event) => {
 				onPress?.({ ref: buttonRef, event })
 			}}

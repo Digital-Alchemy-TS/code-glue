@@ -19,9 +19,12 @@
 		"@fontsource/nunito-sans": "^5.2.7",
 		"@tamagui/config": "1.137.3",
 		"@window-splitter/react": "^1.1.2",
+		"browser-info": "^1.3.0",
 		"culori": "^4.0.2",
 		"motion": "^12.23.26",
+		"react-native-device-info": "^15.0.1",
 		"react-native-web": "^0.21.2",
+		"rtl-detect": "^1.1.2",
 		"tamagui": "1.137.3"
 	},
 	"peerDependencies": {
@@ -44,6 +47,7 @@
 		"@types/react": "^19.2.0",
 		"@types/react-dom": "^19.2.0",
 		"@types/react-native-web": "^0.19.2",
+		"@types/rtl-detect": "^1",
 		"@vitejs/plugin-react": "^5.0.4",
 		"@vitest/browser-playwright": "^4.0.8",
 		"@vitest/coverage-v8": "^4.0.8",

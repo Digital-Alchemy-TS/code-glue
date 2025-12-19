@@ -12,11 +12,14 @@ export const baseTokens = {
 		true: 16,
 		input: 32,
 		tabHeight: 40,
+		listHeaderHeight: 45,
+		listHeaderHeightSticky: 32,
 	},
 	space: {
 		...defaultParadigmConfig.space,
 		space: 16,
 		true: 16,
+		betweenLists: 16,
 	},
 	radius: {
 		sm: 2,
