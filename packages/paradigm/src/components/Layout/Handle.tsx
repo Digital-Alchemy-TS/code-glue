@@ -2,7 +2,7 @@ import { PanelResizer } from "@window-splitter/react"
 import React from "react"
 import { useTheme } from "tamagui"
 
-import { useHover } from "../../hooks/useHover"
+import { usePointerEvents } from "../../hooks/usePointerEvents"
 import { changeColorAlpha } from "../../utils/color"
 import { Icon } from "../Icon"
 import { MotionView, View } from "../View"
@@ -40,7 +40,7 @@ export const ResizeHandle = ({
 		bounce: 0.4,
 	} as const
 
-	const { isHovered, hoverProps } = useHover()
+	const { isHovered, pointerProps } = usePointerEvents()
 	const [isDragging, setIsDragging] = React.useState(false)
 	const [animateTo, setAnimateTo] = React.useState(
 		"inactive" as "inactive" | "active",
@@ -140,7 +140,7 @@ export const ResizeHandle = ({
 						: { top: -slop, bottom: -slop })}
 					zIndex={1}
 					center
-					{...hoverProps}
+					{...pointerProps}
 				/>
 				<MotionView
 					variants={{

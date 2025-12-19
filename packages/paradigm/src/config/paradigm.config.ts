@@ -10,6 +10,8 @@ export type Theme = {
 	primary: string
 	destructive: string
 	color: string // text
+	colorDisabled: string // disabled text
+	colorOnPrimary: string // text on primary color
 	secondaryColor: string // secondary text
 	iconInTextColor: string // color for icons within text
 	disabledColor: string
@@ -19,6 +21,12 @@ export type Theme = {
 	background: string // surface
 	switchFalseBackground: string // base "off" color for switches
 	switchTrueBackground: string // base "on" color for switches
+	normalHover: string
+	normalActive: string
+	negativeHover: string
+	negativeActive: string
+	primaryHover: string
+	primaryActive: string
 }
 
 type ParadigmConfigType = {
@@ -38,6 +46,8 @@ const special = {
 	surface: "#FFFFFF",
 	controlShadow: "rgba(18, 18, 18, 0.06)",
 	holeShadow: "rgba(18, 18, 18, 0.24)",
+	transparent: "rgba(0,0,0,0)",
+	slightlyTransparentWhite: "hsla(0, 0%, 100%, 0.93)",
 } as const
 
 const gray = {
@@ -89,6 +99,11 @@ const green = {
 	500: "#73BE50",
 } as const
 
+export const color = {
+	special,
+	whiteLike: [special.transparent, special.background],
+}
+
 /**
  * This config outlines all the values that can be changed by an app using paradigm.
  * These values can be overridden via the ParadigmProvider
@@ -107,20 +122,30 @@ export const defaultParadigmConfig = {
 			primary: blue[500],
 			destructive: red[500],
 			color: gray[900],
+			colorDisabled: gray[300],
+			colorOnPrimary: special.slightlyTransparentWhite,
 			iconInTextColor: gray[500],
 			secondaryColor: gray[600],
-			disabledColor: gold[300],
+			disabledColor: gray[500],
 			placeholderColor: gray[400],
 			uiStroke: gray[100],
 			cardStock: special.cardStock,
 			background: special.background,
 			switchFalseBackground: gray[300],
 			switchTrueBackground: green[500],
+			normalHover: gray[100],
+			normalActive: gray[200],
+			negativeHover: red[600],
+			negativeActive: red[700],
+			primaryHover: blue[600],
+			primaryActive: blue[700],
 		} as const,
 		dark: {
 			primary: blue[500],
 			destructive: red[500],
 			color: gray[900],
+			colorDisabled: gray[700],
+			colorOnPrimary: special.slightlyTransparentWhite,
 			iconInTextColor: gray[500],
 			secondaryColor: gray[600],
 			disabledColor: gray[300],
@@ -130,6 +155,12 @@ export const defaultParadigmConfig = {
 			background: special.background,
 			switchFalseBackground: gray[300],
 			switchTrueBackground: green[500],
+			normalHover: gray[100],
+			normalActive: gray[200],
+			negativeHover: red[600],
+			negativeActive: red[700],
+			primaryHover: blue[600],
+			primaryActive: blue[700],
 		} as const,
 	} as const,
 } as const satisfies ParadigmConfigType

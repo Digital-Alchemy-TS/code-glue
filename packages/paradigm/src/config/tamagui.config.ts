@@ -21,6 +21,7 @@ export const baseTokens = {
 	radius: {
 		sm: 2,
 		true: 2,
+		md: 6,
 	},
 	zIndex: {
 		0: 0,

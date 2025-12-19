@@ -8,6 +8,7 @@ import {
 
 import { useShadow } from "../../hooks/useShadow"
 
+import type React from "react"
 import type { ViewProps as RNViewProps } from "react-native"
 import type { ShadowName } from "../../generated/shadows"
 
@@ -81,6 +82,10 @@ export type ViewProps = {
 	 * What to do when this view is pressed
 	 */
 	onPress?: TamaguiViewProps["onPress"]
+	/**
+	 * Is this element disabled?
+	 */
+	disabled?: boolean
 	/**
 	 * Internal override for tamagui props
 	 */
@@ -194,6 +199,7 @@ const View = (props: ViewProps) => {
 		height,
 		flexGrow: typeof grow === "number" ? grow : grow ? 1 : 0,
 		flexShrink: noShrink ? 0 : 1,
+		overflow: "visible",
 		...(fullscreen
 			? ({
 					position: "absolute",

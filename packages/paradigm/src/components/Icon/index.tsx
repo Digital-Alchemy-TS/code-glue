@@ -5,6 +5,8 @@
 import DragHandle from "./crafted/DragHandle"
 import { Icon as IconGenerated } from "./generated"
 
+import type { WebIconComponentType } from "./types"
+
 /**
  * Add crafted icons to generated icons before exporting
  */
@@ -21,6 +23,4 @@ export { Icon }
  * but icons might be defined outside of paradigm and
  * we don't want components to throw in this case.
  */
-export type IconComponentType =
-	| React.FunctionComponent
-	| React.NamedExoticComponent
+export type IconComponentType = WebIconComponentType

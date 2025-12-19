@@ -1,6 +1,6 @@
 import React from "react"
 
-import { useHover } from "../../hooks/useHover"
+import { usePointerEvents } from "../../hooks/usePointerEvents"
 import { Text } from "../Text"
 import { Column, Row, View } from "../View"
 
@@ -19,7 +19,7 @@ type TabProps = {
 	onPress?: () => void
 }
 const Tab = React.memo(({ label, isActive, onPress }: TabProps) => {
-	const { isHovered, hoverProps } = useHover()
+	const { isHovered, pointerProps } = usePointerEvents()
 	return (
 		<Column>
 			<View
@@ -27,7 +27,7 @@ const Tab = React.memo(({ label, isActive, onPress }: TabProps) => {
 				center="v"
 				px={"$edgeInset"}
 				onPress={onPress}
-				{...hoverProps}
+				{...pointerProps}
 			>
 				<Text
 					style={Text.style.footnote}
