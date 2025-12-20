@@ -21,9 +21,9 @@ const ListContainer: React.FC<{
 export const Default = meta.story({
 	render: () => (
 		<ListContainer header="Default List Items">
-			<ListItem label="First Item" />
-			<ListItem label="Second Item" />
-			<ListItem label="Third Item" />
+			<ListItem onPress={() => alert("hello")} label="Pressable" />
+			<ListItem label="No Press" />
+			<ListItem label="Single Line that overflows. This text will not fit in the provided area." />
 		</ListContainer>
 	),
 })

@@ -24,6 +24,10 @@ enum fitValues {
 	wrap = "wrap",
 }
 
+const defaults = {
+	fit: fitValues.ellipsis,
+}
+
 type TextProps = {
 	/**
 	 * the text style to use.
@@ -139,6 +143,17 @@ const Text: React.FC<TextProps> & {
 		[isParent, childLetterCase, noUserSelect, selectable],
 	)
 
+	// Fit
+
+	if (!textState.isParent && (fit || align)) {
+		throw new Error(
+			"fit or align can only be set on parent level `Text` elements.",
+		)
+	}
+
+	// default values
+	const fitValue = !fit && textState.isParent ? defaults.fit : fit
+
 	/**
 	 * letterCase
 	 */
@@ -173,6 +188,12 @@ const Text: React.FC<TextProps> & {
 						: ["proportional-nums"],
 					textAlign: align,
 				}}
+				numberOfLines={
+					fitValue && [fitValues.ellipsis, fitValues.shrink].includes(fitValue)
+						? 1
+						: undefined
+				}
+				adjustsFontSizeToFit={fitValue === fitValues.shrink}
 				{...otherProps}
 			>
 				{casedChildren}
