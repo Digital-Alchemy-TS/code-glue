@@ -103,6 +103,7 @@ export const BaseListItem = ({
 			px={"$edgeInset"}
 			onPress={onPress}
 			disabled={isDisabled}
+			cursor={onPress && !isDisabled ? "pointer" : undefined}
 		>
 			<Row grow px={"$listItemEdgeInset"}>
 				{before && (
