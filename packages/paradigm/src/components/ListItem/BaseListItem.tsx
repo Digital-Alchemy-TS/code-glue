@@ -99,15 +99,14 @@ export const BaseListItem = ({
 
 	return (
 		<Row
-			center="v"
 			height={height}
 			px={"$edgeInset"}
 			onPress={onPress}
-			disabled={isDisabled}
+			disabled={!!isDisabled}
 			cursor={onPress && !isDisabled ? "pointer" : undefined}
 			{...otherProps}
 		>
-			<Row grow px={"$listItemEdgeInset"}>
+			<Row height={height} grow px={"$listItemEdgeInset"} center="v">
 				{before && (
 					<View mr={"$listItemBetweenItems"} noShrink>
 						{before}

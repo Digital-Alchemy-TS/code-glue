@@ -21,6 +21,7 @@ export const StatusHandler = ({
 					color={"$normalHover"}
 					// opacity={0.5}
 					style={{ opacity: 0.5 }}
+					radius={"$md"}
 				/>
 			)}
 
@@ -32,6 +33,7 @@ export const StatusHandler = ({
 					exit={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					color={"$listItemActive"}
+					radius={"$md"}
 				/>
 			)}
 
@@ -41,6 +43,7 @@ export const StatusHandler = ({
 					layoutId="selected"
 					color={"$listItemSelected"}
 					style={{ opacity: 0.25 }}
+					radius={"$md"}
 				/>
 			)}
 		</>
