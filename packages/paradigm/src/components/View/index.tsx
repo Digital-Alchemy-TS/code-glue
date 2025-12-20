@@ -199,7 +199,7 @@ const View = (props: ViewProps) => {
 		height,
 		flexGrow: typeof grow === "number" ? grow : grow ? 1 : 0,
 		flexShrink: noShrink ? 0 : 1,
-		overflow: "visible",
+		overflow: overflow ?? "visible",
 		...(fullscreen
 			? ({
 					position: "absolute",

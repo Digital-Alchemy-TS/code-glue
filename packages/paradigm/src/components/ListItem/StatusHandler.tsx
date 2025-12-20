@@ -19,7 +19,8 @@ export const StatusHandler = ({
 					fillContainer
 					layoutId="hovered"
 					color={"$normalHover"}
-					opacity={0.5}
+					// opacity={0.5}
+					style={{ opacity: 0.5 }}
 				/>
 			)}
 
@@ -39,7 +40,7 @@ export const StatusHandler = ({
 					fillContainer
 					layoutId="selected"
 					color={"$listItemSelected"}
-					opacity={0.25}
+					style={{ opacity: 0.25 }}
 				/>
 			)}
 		</>

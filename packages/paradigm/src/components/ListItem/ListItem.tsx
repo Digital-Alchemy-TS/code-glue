@@ -50,6 +50,7 @@ export const ListItem = ({
 	isLoading,
 	label,
 	secondLine,
+	isSelected,
 	afterLabelIcon: AfterLabelIcon,
 }: ListItemProps) => {
 	const theme = useTheme()
@@ -104,6 +105,7 @@ export const ListItem = ({
 			before={before}
 			after={after}
 			onPress={onPress}
+			isSelected={isSelected}
 		>
 			{contents}
 		</BaseListItem>

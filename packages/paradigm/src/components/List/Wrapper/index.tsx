@@ -3,6 +3,7 @@ import React from "react"
 import { ComponentError } from "../../ComponentError"
 import { Loading } from "../../Loading"
 import { ScrollView } from "../../ScrollView"
+import { Column } from "../../View"
 import { EmptyContent } from "../EmptyContent"
 import { IsInListGroupContext, ListGroup, type ListGroupProps } from "../Group"
 import { Header } from "../Header"
@@ -91,16 +92,16 @@ export const ListWrapper = React.memo<ListWrapperProps>(function ListWrapper({
 			<ComponentError text="Virtual Lists should not exist under a `ScrollView`" />
 		)
 
-	let wrapperContent = <>{children}</>
+	let wrapperContent = <Column>{children}</Column>
 
 	if (isLoading || isEmpty) {
 		wrapperContent = (
-			<>
+			<Column>
 				{beforeList}
 				{header && <Header>{header}</Header>}
 				{isLoading ? <Loading /> : <EmptyContent>{emptyContent}</EmptyContent>}
 				{afterList}
-			</>
+			</Column>
 		)
 	}
 

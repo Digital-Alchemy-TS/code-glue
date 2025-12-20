@@ -78,6 +78,7 @@ export const BaseListItem = ({
 	isPicked = false,
 	isSettingsItem,
 	statusHandlerComponent = StatusHandler,
+	...otherProps
 }: BaseListItemProps & { children: React.ReactNode }) => {
 	const theme = useTheme()
 	const isInSettings = React.useContext(IsInSettingsListContext)
@@ -104,6 +105,7 @@ export const BaseListItem = ({
 			onPress={onPress}
 			disabled={isDisabled}
 			cursor={onPress && !isDisabled ? "pointer" : undefined}
+			{...otherProps}
 		>
 			<Row grow px={"$listItemEdgeInset"}>
 				{before && (

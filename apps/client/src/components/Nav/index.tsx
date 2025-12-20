@@ -1,10 +1,8 @@
 import { useSnapshot } from "valtio"
 
-import { Column, Row, Text, View } from "@code-glue/paradigm"
-import { appConfig } from "@/config"
+import { Column, List, ListItem, Row, Text, View } from "@code-glue/paradigm"
 import { useQuery } from "@/hooks/useQuery"
 import { store } from "@/store"
-import { MainListItem } from "./MainListItem"
 export const Nav = () => {
 	const { automations } = useSnapshot(store)
 
@@ -12,8 +10,8 @@ export const Nav = () => {
 		useQuery.queries.currentAutomationId,
 	)
 	return (
-		<Column grow color="$cardStock">
-			<Row alignItems="center" background="$background" height={49}>
+		<Column grow color={"$cardStock"}>
+			<Row alignItems="center" background="$background">
 				<View mx={12}>
 					<img
 						src="./mstile-310x310.png"
@@ -25,30 +23,25 @@ export const Nav = () => {
 
 				<Text size="$5">Code Glue</Text>
 			</Row>
-			<Column between={10} p="$space.edgeInset">
-				{appConfig.sections.map(({ id, title }) => (
-					<MainListItem key={id} title={title} section={id} />
-				))}
-
-				{Array.from(automations, ([, automation]) => {
-					console.log(automation.title)
-					return (
-						<View
-							key={automation.id}
-							color={
-								automation.id === currentAutomationId
-									? "$background"
-									: undefined
-							}
-							onPress={() => {
-								setCurrentAutomationId(automation.id)
-							}}
-						>
-							<Text size="$3">{automation.title}</Text>
-						</View>
-					)
-				})}
-			</Column>
+			<List.Group>
+				<List.Simple>
+					<ListItem label="Logs" />
+				</List.Simple>
+				<List.Simple header="Automations">
+					{Array.from(automations, ([, automation]) => {
+						return (
+							<ListItem
+								label={automation.title}
+								key={automation.id}
+								isSelected={automation.id === currentAutomationId}
+								onPress={() => {
+									setCurrentAutomationId(automation.id)
+								}}
+							/>
+						)
+					})}
+				</List.Simple>
+			</List.Group>
 		</Column>
 	)
 }
