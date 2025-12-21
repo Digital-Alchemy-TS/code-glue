@@ -1,3 +1,5 @@
+import { AnimatePresence } from "motion/react"
+
 import { MotionView } from "../View"
 
 export type StatusHandlerProps = {
@@ -14,16 +16,25 @@ export const StatusHandler = ({
 }: StatusHandlerProps) => {
 	return (
 		<>
-			{isHovered && (
-				<MotionView
-					fillContainer
-					layoutId="hovered"
-					color={"$normalHover"}
-					// opacity={0.5}
-					style={{ opacity: 0.5 }}
-					radius={"$md"}
-				/>
-			)}
+			<AnimatePresence>
+				{isHovered && !isSelected && (
+					<MotionView
+						fillContainer
+						layoutId="hovered"
+						color={"$normalHover"}
+						style={{ opacity: 0.5 }}
+						initial={{ opacity: 0 }}
+						exit={{ opacity: 0 }}
+						animate={{ opacity: 0.5 }}
+						transition={{
+							type: "spring",
+							bounce: 0.45,
+							visualDuration: 0.25,
+						}}
+						radius={"$md"}
+					/>
+				)}
+			</AnimatePresence>
 
 			{!isSelected && isActive && (
 				<MotionView
@@ -32,6 +43,7 @@ export const StatusHandler = ({
 					initial={{ opacity: 0 }}
 					exit={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
+					transition={{ type: "spring", bounce: 0.45, visualDuration: 0.25 }}
 					color={"$listItemActive"}
 					radius={"$md"}
 				/>
@@ -41,8 +53,9 @@ export const StatusHandler = ({
 				<MotionView
 					fillContainer
 					layoutId="selected"
-					color={"$listItemSelected"}
 					style={{ opacity: 0.25 }}
+					transition={{ type: "spring", bounce: 0.45, visualDuration: 0.25 }}
+					color={"$listItemSelected"}
 					radius={"$md"}
 				/>
 			)}
