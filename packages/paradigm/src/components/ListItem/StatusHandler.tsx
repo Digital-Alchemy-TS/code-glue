@@ -17,7 +17,7 @@ export const StatusHandler = ({
 	return (
 		<>
 			<AnimatePresence>
-				{isHovered && !isSelected && (
+				{isHovered && (
 					<MotionView
 						fillContainer
 						layoutId="hovered"
@@ -53,7 +53,7 @@ export const StatusHandler = ({
 				<MotionView
 					fillContainer
 					layoutId="selected"
-					style={{ opacity: 0.25 }}
+					// style={{ opacity: 0.25 }}
 					transition={{ type: "spring", bounce: 0.45, visualDuration: 0.25 }}
 					color={"$listItemSelected"}
 					radius={"$md"}

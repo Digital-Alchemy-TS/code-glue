@@ -128,7 +128,7 @@ export const defaultParadigmConfig = {
 			primaryHover: blue[600],
 			primaryActive: blue[700],
 			listItemActive: blue[100],
-			listItemSelected: gray[200],
+			listItemSelected: gray[100],
 		} as const,
 		dark: {
 			primary: blue[500],
