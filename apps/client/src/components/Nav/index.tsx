@@ -3,6 +3,7 @@ import { useSnapshot } from "valtio"
 import { Column, List, ListItem, Row, Text, View } from "@code-glue/paradigm"
 import { useRouter } from "@/hooks/useRouter"
 import { store } from "@/store"
+import { CreateAutomation } from "../CreateAutomation"
 export const Nav = () => {
 	const { automations } = useSnapshot(store)
 
@@ -31,6 +32,7 @@ export const Nav = () => {
 					/>
 				</List.Simple>
 				<List.Simple header="Automations">
+					<CreateAutomation />
 					{Array.from(automations, ([, automation]) => {
 						return (
 							<ListItem

@@ -18,8 +18,8 @@ export function AutomationLogs() {
 	const { automationSnapshot } = useCurrentAutomation()
 
 	// Generate logger context from title (server uses formatObjectId(title))
-	const loggerContext = automationSnapshot.title
-		? formatObjectId(automationSnapshot.title)
+	const loggerContext = automationSnapshot.context
+		? formatObjectId(automationSnapshot.context)
 		: ""
 
 	const { logs, isLoading, error } = useAutomationLogs({
@@ -44,10 +44,6 @@ export function AutomationLogs() {
 
 	return (
 		<div>
-			<h2>Logs for {automationSnapshot.title}</h2>
-			<div style={{ fontSize: 11, color: "gray", marginBottom: 8 }}>
-				Logger context: <code>{loggerContext}</code>
-			</div>
 			<div>
 				{logs.length === 0 && <div>No logs yet</div>}
 				{logs.map((log, i) => (

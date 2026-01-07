@@ -1,7 +1,7 @@
 import React from "react"
-import { Dialog, Fieldset, Input, Label, XStack } from "tamagui"
+import { Dialog, Fieldset, Input, Label, Unspaced, XStack } from "tamagui"
 
-import { Button } from "@code-glue/paradigm"
+import { Button, Icon } from "@code-glue/paradigm"
 import { useRouter } from "@/hooks/useRouter"
 import { createLocalAutomation } from "@/store"
 
@@ -75,7 +75,7 @@ export const CreateAutomation = () => {
 
 						<Unspaced>
 							<Dialog.Close asChild>
-								<Button position="absolute" r="$3" size="$2" circular />
+								<Button icon={Icon.X} />
 							</Dialog.Close>
 						</Unspaced>
 					</Dialog.Content>
