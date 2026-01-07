@@ -15,8 +15,7 @@
     "lint": "yarn workspaces foreach -Avi run lint",
     "format": "yarn workspaces foreach -Avi run format",
     "typecheck": "yarn workspaces foreach -Avi run typecheck",
-    "clean": "sh ./scripts/clean.sh",
-    "postinstall": "patch-package --patch-dir packages/paradigm/patches"
+    "clean": "sh ./scripts/clean.sh"
   },
   "packageManager": "yarn@4.10.3",
   "volta": {

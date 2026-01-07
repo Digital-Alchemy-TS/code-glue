@@ -45,20 +45,18 @@ ENV SERVE_STATIC=true
 ENV ATTACH_STANDARD_MIDDLEWARE=true
 
 # Verify build artifacts exist
-RUN test -d dist && echo "✅ Client build found in dist/"
 RUN test -d dist/server && echo "✅ Server build found"
-RUN test -f dist/server/app/environments/prod/main.mjs && echo "✅ Prod environment found"
+RUN test -f dist/server/app/environments/prebuilt/main.mjs && echo "✅ Prebuilt environment found"
+RUN test -f apps/client/dist/index.html && echo "✅ Client build found"
+
+# Copy client files to where StaticFileService expects them
+RUN mkdir -p /work/dist/client && cp -r /work/apps/client/dist/* /work/dist/client/
 
 # Create symlink so Node can resolve workspace dependencies from dist/server
 RUN ln -s /work/apps/server/node_modules /work/dist/server/node_modules
 
-# Verify the client index.html exists (Vite creates index.html directly)
-RUN test -f /work/apps/client/dist/index.html && echo "✅ Client index.html found"
-
-# The dist directory structure should now be:
-# /work/dist/index.html (client entry point)
-# /work/dist/assets/* (client assets)
-# /work/dist/server/* (server code)
+# Verify client files are in the right place
+RUN test -f /work/dist/client/index.html && echo "✅ Client files copied to /work/dist/client/"
 
 # Rebuild native modules for the container architecture
 RUN npm rebuild better-sqlite3

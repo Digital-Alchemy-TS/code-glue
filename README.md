@@ -33,17 +33,9 @@ Code Glue is a Home Assistant add-on that lets you create and edit entities and 
   /paradigm     # UI Component Library for the client
 ```
 
-#### Dev Container info
+### Development Workflow
 
-There are two ways to dev on this project.
-
-### Option 1: Local
-
-When to use:
-
-- working on client/UI and want hot reloading
-- want to work using your own HASS data
-- faster dev loop
+Development is done locally with hot reloading:
 
 #### Setup
 
@@ -103,17 +95,35 @@ yarn dev
 Access the application at `http://localhost:8081`
 Access swagger: `http://localhost:3789/swagger/`
 
-### Option 2: Dev Container
+### Testing in Home Assistant
 
-This workspace provides a development container that boots a real Home Assistant instance so the add-on can be exercised in a “real world” environment (ingress, auth, CORS, sidebar, permissions).
+To test the addon in a real Home Assistant environment:
 
-Setup Instructions: https://developers.home-assistant.io/docs/add-ons/testing
+1. Set up the dev branch (one-time):
+   ```bash
+   ./scripts/setup-dev-branch.sh
+   git push -u origin dev
+   ```
 
-1. Open the project in VSCode
-2. Run the task (Terminal -> Run Task) 'Start Home Assistant'
-3. visit http://localhost:7123/
+2. In your Home Assistant instance:
+   - Add this repository: `https://github.com/Digital-Alchemy-TS/code-glue`
+   - Install "Code Glue (Dev)" from the addon store
+   - This will use the `dev` branch and won't conflict with production
 
-Once running you can rebuild and deploy updated code using: TBD
+3. To deploy changes:
+   ```bash
+   git checkout dev
+   # make your changes
+   git commit -am "Your changes"
+   git push
+   # GitHub Actions will build and push to GHCR
+   # Restart the addon in HA to pull the new image
+   ```
+
+The dev addon:
+- Has a different slug (`code_glue_dev`) so it runs alongside production
+- Uses its own database (separate from production)
+- Pulls from `ghcr.io/digital-alchemy-ts/code-glue:dev`
 
 ### 🎛️ General Commands
 
