@@ -5,10 +5,10 @@ export const Content = () => {
 
 	switch (route) {
 		case "logs":
-			return <div>Logs Section</div>
+			return <div>TODO: Logs Section</div>
 		case "automations":
 			return <AutomationDetail />
 		default:
-			return <div>Home</div>
+			return <div>TODO: Home</div>
 	}
 }

@@ -7,7 +7,7 @@ export const Footer = () => {
 	const tabs = React.useMemo(() => {
 		return [
 			{ label: "Logs", content: <AutomationLogs /> },
-			{ label: "Notes", content: <Text>Notes Content</Text> },
+			{ label: "Notes", content: <Text>TODO: Notes Content</Text> },
 		]
 	}, [])
 
