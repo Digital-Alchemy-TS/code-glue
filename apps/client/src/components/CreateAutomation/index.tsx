@@ -1,14 +1,13 @@
 import React from "react"
-import { Dialog, Fieldset, Input, Label, Unspaced, XStack } from "tamagui"
+import { Dialog, Fieldset, Input, Label, XStack } from "tamagui"
 
 import { Button } from "@code-glue/paradigm"
-import { useQuery } from "@/hooks/useQuery"
+import { useRouter } from "@/hooks/useRouter"
 import { createLocalAutomation } from "@/store"
 
 export const CreateAutomation = () => {
-	const [, setCurrentAutomationId] = useQuery(
-		useQuery.queries.currentAutomationId,
-	)
+	const [, navigateTo] = useRouter()
+
 	const [title, setTitle] = React.useState("")
 	return (
 		<Dialog modal>
@@ -67,7 +66,7 @@ export const CreateAutomation = () => {
 								asChild
 								onPress={() => {
 									const newAutomation = createLocalAutomation({ title })
-									setCurrentAutomationId(newAutomation.id)
+									navigateTo("automations", { automationId: newAutomation.id })
 								}}
 							>
 								<Button aria-label="Close" label="save" />

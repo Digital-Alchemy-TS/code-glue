@@ -1,8 +1,14 @@
-import { useQuery } from "../../hooks/useQuery"
+import { useRouter } from "../../hooks/useRouter"
 import { AutomationDetail } from "../AutomationDetail"
 export const Content = () => {
-	const [currentSection, setCurrentSection] = useQuery(
-		useQuery.queries.currentSection,
-	)
-	return <AutomationDetail />
+	const [{ route }] = useRouter()
+
+	switch (route) {
+		case "logs":
+			return <div>Logs Section</div>
+		case "automations":
+			return <AutomationDetail />
+		default:
+			return <div>Home</div>
+	}
 }

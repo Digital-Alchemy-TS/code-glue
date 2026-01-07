@@ -18,14 +18,8 @@ import type {
 
 type Section = {
 	title: string
-	id: string
 	// biome-ignore lint/suspicious/noExplicitAny: This can take any parser, including custom ones, so best to keep the type wide open
 	queryStrings?: Record<string, GenericParserBuilder<any>>
-}
-
-export type QueryString<T> = {
-	key: string
-	options?: UseQueryStateOptions<T>
 }
 
 export const appConfig = {
@@ -47,29 +41,26 @@ export const appConfig = {
 			| StringLiteralUnion<BundledLanguage, string>
 		)[],
 	},
-	routes: [
-		{
-			id: "logs",
+	routes: {
+		home: { title: "Home" },
+		logs: {
 			title: "Logs",
 		},
-		{
-			id: "automations",
+		automations: {
 			title: "Automations",
 			queryStrings: {
 				automationId: parseAsString.withOptions({ history: "push" }),
-				testNumber: parseAsInteger,
 			},
 		},
-		// { id: "variables", title: "Variables" },
-		// {
-		// 	id: "synapse",
-		// 	title: "Entities",
-		// },
-	] as const satisfies Section[],
+		// variables: { title: "Variables" },
+		// synapse: { title: "Entities" },
+	} as const satisfies Record<string, Section>,
 } as const
 
-export const sectionIds = appConfig.routes.map((section) => section.id)
+export const sectionIds = Object.keys(appConfig.routes) as Array<
+	keyof typeof appConfig.routes
+>
 
-export type SectionIds = (typeof appConfig.routes)[number]["id"]
-export type SectionTitles = (typeof appConfig.routes)[number]["title"]
-export type SectionConfig = (typeof appConfig.routes)[number]
+export type SectionIds = keyof typeof appConfig.routes
+export type SectionTitles =
+	(typeof appConfig.routes)[keyof typeof appConfig.routes]["title"]

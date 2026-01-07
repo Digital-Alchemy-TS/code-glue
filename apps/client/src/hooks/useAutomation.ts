@@ -1,12 +1,10 @@
 import { proxy, useSnapshot } from "valtio"
 
 import { emptyAutomation, store } from "@/store"
-import { useQuery } from "./useQuery"
+import { useRouter } from "./useRouter"
 
 export const useCurrentAutomation = () => {
-	const [automationId, setCurrentAutomationId] = useQuery(
-		useQuery.queries.currentAutomationId,
-	)
+	const [{ automationId }, navigateTo] = useRouter()
 
 	const currentAutomation = automationId
 		? store.automations.get(automationId)
@@ -17,8 +15,7 @@ export const useCurrentAutomation = () => {
 	)
 
 	// If the given ID isn't found on the server, fallback to the index page
-	if (automationId && currentAutomation === undefined)
-		setCurrentAutomationId(null)
+	if (automationId && currentAutomation === undefined) navigateTo("home")
 
 	const saveCurrentAutomation = async () => {
 		// format the document before save

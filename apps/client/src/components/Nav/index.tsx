@@ -1,14 +1,13 @@
 import { useSnapshot } from "valtio"
 
 import { Column, List, ListItem, Row, Text, View } from "@code-glue/paradigm"
-import { useQuery } from "@/hooks/useQuery"
+import { useRouter } from "@/hooks/useRouter"
 import { store } from "@/store"
 export const Nav = () => {
 	const { automations } = useSnapshot(store)
 
-	const [currentAutomationId, setCurrentAutomationId] = useQuery(
-		useQuery.queries.currentAutomationId,
-	)
+	const [{ automationId }, navigateTo] = useRouter()
+
 	return (
 		<Column grow color={"$cardStock"}>
 			<Row alignItems="center" background="$background">
@@ -33,9 +32,9 @@ export const Nav = () => {
 							<ListItem
 								label={automation.title}
 								key={automation.id}
-								isSelected={automation.id === currentAutomationId}
+								isSelected={automation.id === automationId}
 								onPress={() => {
-									setCurrentAutomationId(automation.id)
+									navigateTo("automations", { automationId: automation.id })
 								}}
 							/>
 						)
