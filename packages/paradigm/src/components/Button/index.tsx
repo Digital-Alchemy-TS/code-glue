@@ -53,7 +53,7 @@ type ParadigmButtonProps<
 	 */
 	isDisabled?: boolean
 	/**
-	 * Is this button currently in a loading sstate.
+	 * Is this button currently in a loading state.
 	 * This will disable `onPress` even if defined
 	 */
 	isLoading?: boolean
