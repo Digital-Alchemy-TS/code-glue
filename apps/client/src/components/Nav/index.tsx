@@ -6,7 +6,7 @@ import { store } from "@/store"
 export const Nav = () => {
 	const { automations } = useSnapshot(store)
 
-	const [{ automationId }, navigateTo] = useRouter()
+	const [{ route, automationId }, navigateTo] = useRouter()
 
 	return (
 		<Column grow color={"$cardStock"}>
@@ -24,7 +24,11 @@ export const Nav = () => {
 			</Row>
 			<List.Group>
 				<List.Simple>
-					<ListItem label="Logs" />
+					<ListItem
+						label="Logs"
+						isSelected={route === "logs"}
+						onPress={() => navigateTo("logs")}
+					/>
 				</List.Simple>
 				<List.Simple header="Automations">
 					{Array.from(automations, ([, automation]) => {
@@ -32,7 +36,9 @@ export const Nav = () => {
 							<ListItem
 								label={automation.title}
 								key={automation.id}
-								isSelected={automation.id === automationId}
+								isSelected={
+									route === "automations" && automation.id === automationId
+								}
 								onPress={() => {
 									navigateTo("automations", { automationId: automation.id })
 								}}
