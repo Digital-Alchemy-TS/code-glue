@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build Home Assistant Addon
 
 on:
   push:
@@ -26,22 +26,21 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Configure Yarn
-        run: yarn config set enableImmutableInstalls false
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Build client and server
-        run: yarn build
+      - name: Modify config.yaml for dev branch
+        if: github.ref == 'refs/heads/dev'
+        run: |
+          # Modify config.yaml in place for dev builds
+          sed -i 's/^name: Code Glue$/name: Code Glue (Dev)/' config.yaml
+          sed -i 's/^version: .*/version: dev/' config.yaml
+          sed -i 's/^slug: code_glue$/slug: code_glue_dev/' config.yaml
+          sed -i 's/^description: .*/description: Write Automations and create entities in typescript (Development version)./' config.yaml
+          sed -i 's|^image: ghcr.io/digital-alchemy-ts/code-glue$|image: ghcr.io/digital-alchemy-ts/code-glue:dev|' config.yaml
+          sed -i 's/^panel_icon: mdi:application-braces$/panel_icon: mdi:application-braces-outline/' config.yaml
+          sed -i 's/^panel_title: Code Glue$/panel_title: Code Glue (Dev)/' config.yaml
+          sed -i 's/^  80\/tcp: 3789$/  80\/tcp: 3790/' config.yaml
+          
+          echo "Modified config.yaml for dev:"
+          cat config.yaml
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -56,17 +55,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels)
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
+      - name: Determine Docker tags
+        id: tags
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "tags=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
+            echo "tags=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dev" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+            echo "tags=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${VERSION},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_OUTPUT
+          else
+            echo "tags=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -74,7 +75,6 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.tags.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
