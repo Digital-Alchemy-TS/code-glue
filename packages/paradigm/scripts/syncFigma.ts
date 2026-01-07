@@ -228,7 +228,7 @@ ${exports}
 } as const
 
 const Icon = () => (
-	<ComponentError text="Icon can't be used by itself. Use a icon it provides (Icon.Today for&nbsp;example)."/>
+	<ComponentError text="Icon can't be used by itself. Use an icon it provides (Icon.Today for&nbsp;example)."/>
 )
 
 ${attachments}
