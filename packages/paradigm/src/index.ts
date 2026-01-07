@@ -4,12 +4,6 @@ export * from "./config/paradigm.config"
 
 // Components
 
-// Components
-
-// Components
-
-// Components
-
 export * from "./components/Button"
 export * from "./components/Icon"
 export * from "./components/Layout"
@@ -21,3 +15,8 @@ export * from "./components/TextInput"
 export * from "./components/View"
 
 // Hooks
+
+// utils
+
+export * from "./utils/platform"
+export * from "./utils/pluralize"

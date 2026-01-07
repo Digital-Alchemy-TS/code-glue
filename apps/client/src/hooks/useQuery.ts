@@ -9,3 +9,5 @@ const useQuery = <T>(query: QueryString<T>) => {
 useQuery.queries = appConfig.queryStrings
 
 export { useQuery }
+
+export const useCurrentAutomation = () => {}

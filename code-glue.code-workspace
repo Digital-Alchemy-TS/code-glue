@@ -20,6 +20,7 @@
   "settings": {
     "typescript.tsdk": "root/node_modules/typescript/lib",
     "cSpell.words": [
+      "gexii",
       "Unfonts",
       "unplugin"
     ]

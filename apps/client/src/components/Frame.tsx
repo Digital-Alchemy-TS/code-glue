@@ -1,18 +1,10 @@
 import { useEffect, useState } from "react"
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"
 import { useSnapshot } from "valtio/react"
 
-import {
-	Center,
-	Column,
-	Layout,
-	ParadigmProvider,
-	Row,
-	Text,
-} from "@code-glue/paradigm"
+import { Center, Layout, ParadigmProvider, Text } from "@code-glue/paradigm"
 import { glueDesignConfig } from "@/design/design.config"
 import { store } from "@/store"
-import { AutomationDetail } from "./AutomationDetail"
+import { Content } from "./Content"
 import { Nav } from "./Nav"
 
 export const Frame = () => {
@@ -39,7 +31,7 @@ export const Frame = () => {
 					<Text>Loading...</Text>
 				</Center>
 			) : (
-				<Layout.SideNav nav={<Nav />} content={<AutomationDetail />} />
+				<Layout.SideNav nav={<Nav />} content={<Content />} />
 			)}
 		</ParadigmProvider>
 	)

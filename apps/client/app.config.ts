@@ -1,6 +1,12 @@
+import {
+	type GenericParserBuilder,
+	parseAsInteger,
+	parseAsString,
+	type UseQueryStateOptions,
+} from "nuqs"
+
 import { codeGlueLight } from "./src/design/editorThemes"
 
-import type { UseQueryStateOptions } from "nuqs"
 import type {
 	BundledLanguage,
 	BundledTheme,
@@ -12,7 +18,9 @@ import type {
 
 type Section = {
 	title: string
-	id: "automations" | "variables" | "synapse"
+	id: string
+	// biome-ignore lint/suspicious/noExplicitAny: This can take any parser, including custom ones, so best to keep the type wide open
+	queryStrings?: Record<string, GenericParserBuilder<any>>
 }
 
 export type QueryString<T> = {
@@ -21,12 +29,6 @@ export type QueryString<T> = {
 }
 
 export const appConfig = {
-	queryStrings: {
-		currentAutomationId: { key: "currentAutomationId" },
-	} satisfies {
-		// biome-ignore lint/suspicious/noExplicitAny: This can take any parser, including custom ones
-		[id: string]: QueryString<any>
-	},
 	editor: {
 		tabSize: 2,
 		printWidth: 80,
@@ -45,18 +47,29 @@ export const appConfig = {
 			| StringLiteralUnion<BundledLanguage, string>
 		)[],
 	},
-	sections: [
+	routes: [
+		{
+			id: "logs",
+			title: "Logs",
+		},
 		{
 			id: "automations",
 			title: "Automations",
+			queryStrings: {
+				automationId: parseAsString.withOptions({ history: "push" }),
+				testNumber: parseAsInteger,
+			},
 		},
 		// { id: "variables", title: "Variables" },
 		// {
 		// 	id: "synapse",
 		// 	title: "Entities",
 		// },
-	] satisfies Section[],
+	] as const satisfies Section[],
 } as const
 
-export type SectionIds = (typeof appConfig.sections)[number]["id"]
-export type SectionTitles = (typeof appConfig.sections)[number]["title"]
+export const sectionIds = appConfig.routes.map((section) => section.id)
+
+export type SectionIds = (typeof appConfig.routes)[number]["id"]
+export type SectionTitles = (typeof appConfig.routes)[number]["title"]
+export type SectionConfig = (typeof appConfig.routes)[number]

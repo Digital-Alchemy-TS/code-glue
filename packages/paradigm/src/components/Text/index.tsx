@@ -5,6 +5,7 @@ import {
 } from "tamagui"
 
 import { FontKey } from "../../config/fonts"
+import { pluralize } from "../../utils/pluralize"
 import { TextContext, type TextContextType } from "./context"
 import {
 	type LetterCaseType,
@@ -87,6 +88,7 @@ const Text: React.FC<TextProps> & {
 	style: typeof FontKey
 	fitValues: typeof fitValues
 	letterCase: typeof letterCaseValues
+	pluralize: typeof pluralize
 } = ({
 	style,
 	fit,
@@ -205,5 +207,6 @@ const Text: React.FC<TextProps> & {
 Text.style = FontKey
 Text.fitValues = fitValues
 Text.letterCase = letterCaseValues
+Text.pluralize = pluralize
 
 export { Text, TextContext }
