@@ -34,10 +34,7 @@ export const CreateAutomation = () => {
 				<Dialog.FocusScope focusOnIdle>
 					<Dialog.Content
 						bordered
-						py="$4"
-						px="$6"
 						elevate
-						rounded="$6"
 						key="content"
 						animateOnly={["transform", "opacity"]}
 						animation={[
@@ -50,18 +47,17 @@ export const CreateAutomation = () => {
 						]}
 						enterStyle={{ x: 0, y: 20, opacity: 0 }}
 						exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
-						gap="$4"
 					>
 						<Dialog.Title>Add Automation</Dialog.Title>
 
-						<Fieldset gap="$4" horizontal>
+						<Fieldset horizontal>
 							<Label width={64} htmlFor="name">
 								Title
 							</Label>
 							<Input flex={1} id="name" onChangeText={setTitle} value={title} />
 						</Fieldset>
 
-						<XStack self="flex-end" gap="$4">
+						<XStack>
 							<Dialog.Close
 								asChild
 								onPress={() => {
