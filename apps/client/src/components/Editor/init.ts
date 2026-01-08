@@ -87,6 +87,10 @@ const unsubscribe = subscribe(store.apiStatus, () => {
 			"file:///globals.ts",
 		)
 
+		// Use package whitelist from server
+		const allowedPackages = new Set(
+			editorSupport.typeWriter.allowedATAPackages || [],
+		)
 		const ata = () => {
 			return setupTypeAcquisition({
 				projectName: "CodeGlue",
@@ -114,6 +118,26 @@ const unsubscribe = subscribe(store.apiStatus, () => {
 							filePath,
 						)
 					},
+				},
+				fetcher: async (url) => {
+					let packageName = null
+
+					const urlString = url.toString()
+
+					if (urlString.includes("@types/")) {
+						const match = urlString.match(/@types\/([^@/]+)/)
+						packageName = match ? match[1] : null
+					} else if (urlString.includes("/npm/")) {
+						const match = urlString.match(/\/npm\/(@?[^@/]+(?:\/[^@/]+)?)@/)
+						packageName = match ? match[1] : null
+					}
+
+					// Skip packages not in whitelist to prevent memory issues
+					if (packageName && !allowedPackages.has(packageName)) {
+						return new Response("{}", { status: 200 })
+					}
+
+					return fetch(url)
 				},
 			})
 		}

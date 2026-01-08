@@ -40,6 +40,7 @@ export const store = proxy({
 			mappings: "",
 			registry: "",
 			services: "",
+			allowedATAPackages: [] as string[],
 		},
 	},
 	/**
@@ -72,6 +73,7 @@ const setupStore = async () => {
 		store.editorSupport.typeWriter.mappings = types.mappings
 		store.editorSupport.typeWriter.registry = types.registry
 		store.editorSupport.typeWriter.services = types.services
+		store.editorSupport.typeWriter.allowedATAPackages = types.allowedATAPackages
 		store.apiStatus.typesReady = true
 	})
 }
