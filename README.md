@@ -10,11 +10,11 @@ Code Glue is a Home Assistant add-on that lets you create and edit entities and 
 2. Click the three dots (⋮) in the top-right → Repositories
 3. Add this URL as a custom repository:
 
-- https://github.com/Digital-Alchemy-TS/code-glue
+- https://github.com/Digital-Alchemy-TS/code-glue-addon
 
-4. Close the dialog, search for “Code Glue,” and open the add-on
+4. Close the dialog, search for "Code Glue," and open the add-on
 5. Click Install, then Start
-6. Optional: enable “Start on boot” and “Show in sidebar”
+6. Optional: enable "Start on boot" and "Show in sidebar"
 7. Open the add-on via the sidebar or its Web UI
 8. 💰 Profit!
 
@@ -99,24 +99,17 @@ Access swagger: `http://localhost:3789/swagger/`
 
 To test the addon in a real Home Assistant environment:
 
-1. Set up the dev branch (one-time):
-   ```bash
-   ./scripts/setup-dev-branch.sh
-   git push -u origin dev
-   ```
-
-2. In your Home Assistant instance:
-   - Add this repository: `https://github.com/Digital-Alchemy-TS/code-glue`
+1. In your Home Assistant instance:
+   - Add the addon repository: `https://github.com/Digital-Alchemy-TS/code-glue-addon`
    - Install "Code Glue (Dev)" from the addon store
-   - This will use the `dev` branch and won't conflict with production
+   - This version won't conflict with the production addon
 
-3. To deploy changes:
+2. To deploy changes:
    ```bash
-   git checkout dev
-   # make your changes
+   # Make your changes and commit them
    git commit -am "Your changes"
    git push
-   # GitHub Actions will build and push to GHCR
+   # GitHub Actions will build and push to ghcr.io/digital-alchemy-ts/code-glue:dev
    # Restart the addon in HA to pull the new image
    ```
 

@@ -31,7 +31,7 @@ COPY .yarn .yarn
 RUN yarn config set checksumBehavior update
 RUN yarn config set enableImmutableInstalls false
 # Explicitly unset NODE_ENV to ensure devDependencies are installed (v2)
-RUN unset NODE_ENV && yarn install
+RUN env -u NODE_ENV yarn install --immutable-cache --check-cache --network-concurrency 1 --cache-folder /work/.yarn-cache
 
 # Copy the rest of the source code
 COPY . .
