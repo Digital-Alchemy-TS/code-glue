@@ -9,6 +9,10 @@ on:
       - "v*"
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -63,5 +67,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.tags.outputs.tags }}
-          cache-from: type=gha
+          cache-from: |
+            type=gha
+            type=registry,ref=${{ env.REGISTRY }}/${{ github.repository }}:buildcache
           cache-to: type=gha,mode=max

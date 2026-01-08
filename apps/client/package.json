@@ -7,7 +7,6 @@
     "start": "vite dev --port 3000",
     "start:preview": "vite preview",
     "build": "vite build",
-    "test": "vitest run",
     "lint": "biome check .",
     "format": "biome format --write .",
     "typecheck": "tsc -p tsconfig.json --noEmit"
