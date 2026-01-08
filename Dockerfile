@@ -30,8 +30,9 @@ COPY .yarn .yarn
 # Configure yarn to handle platform differences and checksum issues
 RUN yarn config set checksumBehavior update
 RUN yarn config set enableImmutableInstalls false
-# Explicitly unset NODE_ENV to ensure devDependencies are installed (v2)
-RUN env -u NODE_ENV yarn install --immutable-cache --check-cache --network-concurrency 1 --cache-folder /work/.yarn-cache
+RUN yarn config set networkConcurrency 1
+# Explicitly unset NODE_ENV to ensure devDependencies are installed
+RUN env -u NODE_ENV yarn install
 
 # Copy the rest of the source code
 COPY . .
