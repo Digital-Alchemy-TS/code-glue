@@ -42,15 +42,18 @@ jobs:
       - name: Determine Docker tags
         id: tags
         run: |
+          # Convert repository name to lowercase for Docker
+          IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
+          
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "tags=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_OUTPUT
+            echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:latest" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
-            echo "tags=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dev" >> $GITHUB_OUTPUT
+            echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:dev" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
-            echo "tags=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${VERSION},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_OUTPUT
+            echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${VERSION},${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:latest" >> $GITHUB_OUTPUT
           else
-            echo "tags=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${{ github.sha }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Build and push Docker image
