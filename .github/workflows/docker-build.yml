@@ -26,22 +26,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Modify config.yaml for dev branch
-        if: github.ref == 'refs/heads/dev'
-        run: |
-          # Modify config.yaml in place for dev builds
-          sed -i 's/^name: Code Glue$/name: Code Glue (Dev)/' config.yaml
-          sed -i 's/^version: .*/version: dev/' config.yaml
-          sed -i 's/^slug: code_glue$/slug: code_glue_dev/' config.yaml
-          sed -i 's/^description: .*/description: Write Automations and create entities in typescript (Development version)./' config.yaml
-          sed -i 's|^image: ghcr.io/digital-alchemy-ts/code-glue$|image: ghcr.io/digital-alchemy-ts/code-glue:dev|' config.yaml
-          sed -i 's/^panel_icon: mdi:application-braces$/panel_icon: mdi:application-braces-outline/' config.yaml
-          sed -i 's/^panel_title: Code Glue$/panel_title: Code Glue (Dev)/' config.yaml
-          sed -i 's/^  80\/tcp: 3789$/  80\/tcp: 3790/' config.yaml
-          
-          echo "Modified config.yaml for dev:"
-          cat config.yaml
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
