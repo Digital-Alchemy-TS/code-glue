@@ -27,5 +27,17 @@ const config = defineConfig({
 			],
 		}),
 	],
+	build: {
+		commonjsOptions: {
+			transformMixedEsModules: true,
+		},
+	},
+	optimizeDeps: {
+		esbuildOptions: {
+			define: {
+				global: "globalThis",
+			},
+		},
+	},
 })
 export default config
