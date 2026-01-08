@@ -40,6 +40,15 @@ export function AppController({
             `data: ${JSON.stringify({ type: "initial", logs: existingLogs })}\n\n`,
           );
 
+          // Send keep-alive heartbeat every 15 seconds to prevent connection timeout
+          const heartbeatInterval = setInterval(() => {
+            try {
+              reply.raw.write(`: heartbeat\n\n`);
+            } catch (err) {
+              // Connection closed, cleanup will happen via 'close' event
+            }
+          }, 15000);
+
           // Subscribe to new logs
           const unsubscribe = code_glue.logger.subscribe(log => {
             // Apply filters
@@ -64,13 +73,18 @@ export function AppController({
             }
 
             // Send log to client
-            reply.raw.write(
-              `data: ${JSON.stringify({ type: "log", log })}\n\n`,
-            );
+            try {
+              reply.raw.write(
+                `data: ${JSON.stringify({ type: "log", log })}\n\n`,
+              );
+            } catch (err) {
+              // Connection closed, cleanup will happen via 'close' event
+            }
           });
 
           // Cleanup on client disconnect
           req.raw.on("close", () => {
+            clearInterval(heartbeatInterval);
             unsubscribe();
           });
         },

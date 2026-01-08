@@ -47,7 +47,6 @@ export const useAutomationLogs = ({
 		if (level) params.append("level", level)
 
 		const url = `${baseUrl}/api/v1/logs/stream?${params.toString()}`
-		console.log("[useAutomationLogs] Connecting to:", url)
 
 		const eventSource = new EventSource(url)
 
@@ -68,7 +67,6 @@ export const useAutomationLogs = ({
 					setLogs(historicalLogs)
 					setIsLoading(false)
 				} else if (data.type === "log") {
-					console.log("[useAutomationLogs] New log:", data.log)
 					// Append new log (not marked as historical)
 					setLogs((prev) => [...prev, { ...data.log, isHistorical: false }])
 				}
