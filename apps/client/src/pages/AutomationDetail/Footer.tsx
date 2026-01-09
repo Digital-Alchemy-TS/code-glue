@@ -1,8 +1,8 @@
 import React from "react"
 
 import { Layout, Text } from "@code-glue/paradigm"
-import { useCurrentAutomation } from "../../hooks/useAutomation"
-import { Logs } from "../Logs"
+import { Logs } from "@/components/Logs"
+import { useCurrentAutomation } from "@/hooks/useAutomation"
 
 export const Footer = () => {
 	const { automationId } = useCurrentAutomation()

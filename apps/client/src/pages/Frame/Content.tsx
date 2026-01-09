@@ -1,6 +1,6 @@
+import { Logs } from "../../components/Logs"
 import { useRouter } from "../../hooks/useRouter"
 import { AutomationDetail } from "../AutomationDetail"
-import { Logs } from "../Logs"
 export const Content = () => {
 	const [{ route }] = useRouter()
 

@@ -1,18 +1,10 @@
 import { useSnapshot } from "valtio"
 
-import {
-	Button,
-	Column,
-	Icon,
-	List,
-	ListItem,
-	Text,
-	View,
-} from "@code-glue/paradigm"
+import { Button, Column, Icon, List, ListItem } from "@code-glue/paradigm"
 import { useRouter } from "@/hooks/useRouter"
 import { store } from "@/store"
-import { CreateAutomation } from "../CreateAutomation"
-import { Header } from "../Header"
+import { CreateAutomation } from "../../components/CreateAutomation"
+import { Header } from "../../components/Header"
 export const Nav = () => {
 	const { automations } = useSnapshot(store)
 
