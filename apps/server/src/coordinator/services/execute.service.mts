@@ -1,13 +1,13 @@
 /* eslint-disable sonarjs/code-eval */
 
 import { createHash } from "node:crypto";
-import { writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 
 import { DOWN, is, type TServiceParams, UP } from "@digital-alchemy/core";
-import { formatObjectId } from "@digital-alchemy/synapse";
 import { ModuleKind, ScriptTarget, transpileModule } from "typescript";
 
+import { formatAutomationContext } from "../../utils/helpers/format.mts";
 import type { StoredAutomation } from "../../utils/index.mts";
 
 export function ExecuteService({ coordinator, config, context, logger, metrics }: TServiceParams) {
@@ -30,6 +30,7 @@ export function ExecuteService({ coordinator, config, context, logger, metrics }
       },
     });
     if (config.coordinator.TRANSPILE_CACHE) {
+      mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, result.outputText, "utf8");
       logger.trace({ hash }, "transpile & write to file");
     }
@@ -43,10 +44,11 @@ export function ExecuteService({ coordinator, config, context, logger, metrics }
       return () => {}; // return a no-op teardown function
     }
 
-    // create a log context
-    const child = is.empty(automation.context)
-      ? formatObjectId(automation.title)
-      : automation.context;
+    // Create a log context from automation title or stored context
+    const child =
+      (!is.empty(automation.context) && `automation/${automation.context}`) ||
+      (!is.empty(automation.title) && formatAutomationContext(automation.title)) ||
+      `automation/${automation.id}`;
 
     const remover = coordinator.teardown.create(automation.id);
 

@@ -3,7 +3,7 @@ import { EventEmitter } from "node:events";
 import { is, MINUTE, type TServiceParams } from "@digital-alchemy/core";
 import { Type } from "@sinclair/typebox";
 
-import { BadRequestError } from "../../utils/index.mts";
+import { BadRequestError, LogLevel } from "../../utils/index.mts";
 
 type UserProvidedData = Record<string, unknown>;
 
@@ -16,15 +16,6 @@ const LOG_LEVEL_PRIORITY = {
   trace: 10,
   warn: 40,
 } as const;
-
-export enum LogLevel {
-  trace = "trace",
-  debug = "debug",
-  info = "info",
-  warn = "warn",
-  error = "error",
-  fatal = "fatal",
-}
 
 type BaseLogLine = UserProvidedData & {
   msg: string;
