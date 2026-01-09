@@ -1,5 +1,6 @@
 import { useRouter } from "../../hooks/useRouter"
 import { AutomationDetail } from "../AutomationDetail"
+import { Logs } from "../Logs"
 export const Content = () => {
 	const [{ route }] = useRouter()
 
@@ -7,6 +8,6 @@ export const Content = () => {
 		case "automations":
 			return <AutomationDetail />
 		default: // Logs
-			return <div>TODO: Logs</div>
+			return <Logs />
 	}
 }
