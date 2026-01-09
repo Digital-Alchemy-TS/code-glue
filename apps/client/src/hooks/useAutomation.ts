@@ -3,16 +3,21 @@ import { proxy, useSnapshot } from "valtio"
 import { emptyAutomation, store } from "@/store"
 import { useRouter } from "./useRouter"
 
-export const useCurrentAutomation = () => {
-	const [{ automationId }, navigateTo] = useRouter()
-
-	const currentAutomation = automationId
+export const useAutomation = (automationId?: string | null) => {
+	const automation = automationId
 		? store.automations.get(automationId)
 		: undefined
 
-	const automationSnapshot = useSnapshot(
-		currentAutomation || proxy(emptyAutomation),
-	)
+	const automationSnapshot = useSnapshot(automation || proxy(emptyAutomation))
+
+	return { automation, automationSnapshot }
+}
+
+export const useCurrentAutomation = () => {
+	const [{ automationId }, navigateTo] = useRouter()
+
+	const { automation: currentAutomation, automationSnapshot } =
+		useAutomation(automationId)
 
 	// If the given ID isn't found on the server, fallback to the index page
 	if (automationId && currentAutomation === undefined) navigateTo("home")

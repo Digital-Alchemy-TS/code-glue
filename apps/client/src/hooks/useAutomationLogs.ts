@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
 
+import { LogLevel } from "@code-glue/server/utils/types.mts"
 import { baseUrl } from "@/utils/baseUrl"
 
-export type LogLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal"
-
+export { LogLevel }
 export type LogLine = {
 	msg: string
 	context: string
