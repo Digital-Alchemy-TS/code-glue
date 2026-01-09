@@ -1,5 +1,10 @@
 import React from "react"
 
+import type {
+	TextProps as NativeTextProps,
+	StyleProp,
+	TextStyle,
+} from "react-native"
 import type { LetterCaseType } from "./letterCase"
 
 export type TextContextType = {
@@ -20,6 +25,10 @@ export type TextContextType = {
 	 * Is this text is selectable.
 	 */
 	selectable?: boolean
+	/**
+	 * Any styles set on the parent via the override _style
+	 */
+	styles?: StyleProp<TextStyle>
 }
 
 export const TextContext = React.createContext<TextContextType>({
@@ -27,4 +36,5 @@ export const TextContext = React.createContext<TextContextType>({
 	isParent: undefined,
 	letterCase: undefined,
 	selectable: true,
+	styles: undefined,
 })

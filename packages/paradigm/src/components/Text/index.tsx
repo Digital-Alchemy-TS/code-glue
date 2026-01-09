@@ -141,8 +141,16 @@ const Text: React.FC<TextProps> & {
 			isParent,
 			letterCase: childLetterCase,
 			selectable: noUserSelect === undefined ? selectable : !noUserSelect,
+			styles: { ...context.styles, ..._style },
 		}),
-		[isParent, childLetterCase, noUserSelect, selectable],
+		[
+			isParent,
+			childLetterCase,
+			noUserSelect,
+			selectable,
+			_style,
+			context.styles,
+		],
 	)
 
 	// Fit
@@ -183,7 +191,7 @@ const Text: React.FC<TextProps> & {
 				userSelect={noUserSelect ? "none" : undefined}
 				color={color}
 				style={{
-					..._style,
+					...textState.styles,
 					...(noLineHeight ? { lineHeight: undefined } : {}),
 					fontVariant: tabularNumbers
 						? ["tabular-nums"]
