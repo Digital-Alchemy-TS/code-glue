@@ -63,8 +63,30 @@ export function useRouter() {
 			params?: Record<string, unknown>,
 		): Promise<void> => {
 			const route = toRoute === "home" ? null : toRoute
+			const routeConfig = appConfig.routes[toRoute]
+			const allowedKeys = new Set(
+				"queryStrings" in routeConfig && routeConfig.queryStrings
+					? Object.keys(routeConfig.queryStrings)
+					: [],
+			)
 
-			await setQueryParams({ ...params, route })
+			const paramsForRoute: Record<string, unknown> = {}
+			if (params) {
+				for (const [key, value] of Object.entries(params)) {
+					if (allowedKeys.has(key)) {
+						paramsForRoute[key] = value
+					}
+				}
+			}
+
+			const clearedParams: Record<string, null> = {}
+			for (const key of Object.keys(allRouteQueries)) {
+				if (!allowedKeys.has(key)) {
+					clearedParams[key] = null
+				}
+			}
+
+			await setQueryParams({ ...clearedParams, ...paramsForRoute, route })
 		},
 		[setQueryParams],
 	) as <Id extends SectionIds>(
