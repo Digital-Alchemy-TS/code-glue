@@ -1,9 +1,4 @@
-import {
-	type GenericParserBuilder,
-	parseAsInteger,
-	parseAsString,
-	type UseQueryStateOptions,
-} from "nuqs"
+import { type GenericParserBuilder, parseAsString } from "nuqs"
 
 import { codeGlueLight } from "./src/design/editorThemes"
 
@@ -42,10 +37,7 @@ export const appConfig = {
 		)[],
 	},
 	routes: {
-		home: { title: "Home" },
-		logs: {
-			title: "Logs",
-		},
+		home: { title: "Logs" }, // home is a special route name that will show without params in the URL
 		automations: {
 			title: "Automations",
 			queryStrings: {

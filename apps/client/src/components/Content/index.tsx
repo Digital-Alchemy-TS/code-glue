@@ -4,11 +4,9 @@ export const Content = () => {
 	const [{ route }] = useRouter()
 
 	switch (route) {
-		case "logs":
-			return <div>TODO: Logs Section</div>
 		case "automations":
 			return <AutomationDetail />
-		default:
-			return <div>TODO: Home</div>
+		default: // Logs
+			return <div>TODO: Logs</div>
 	}
 }

@@ -28,8 +28,8 @@ export const Nav = () => {
 				<List.Simple>
 					<ListItem
 						label="Logs"
-						isSelected={route === "logs"}
-						onPress={() => navigateTo("logs")}
+						isSelected={!route}
+						onPress={() => navigateTo("home")}
 					/>
 				</List.Simple>
 				<List.Simple header="Automations">
