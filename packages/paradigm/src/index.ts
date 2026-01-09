@@ -20,3 +20,7 @@ export * from "./components/View"
 
 export * from "./utils/platform"
 export * from "./utils/pluralize"
+
+// etc
+
+export { useTheme } from "tamagui"

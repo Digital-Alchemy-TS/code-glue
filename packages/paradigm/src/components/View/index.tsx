@@ -1,4 +1,5 @@
 import { motion } from "motion/react"
+import React from "react"
 import {
 	type TamaguiElement,
 	View as TamaguiView,
@@ -8,7 +9,6 @@ import {
 
 import { useShadow } from "../../hooks/useShadow"
 
-import type React from "react"
 import type { ViewProps as RNViewProps } from "react-native"
 import type { ShadowName } from "../../generated/shadows"
 
@@ -27,11 +27,6 @@ export type ViewProps = {
 	 * https://tamagui.dev/docs/core/use-theme
 	 */
 	color?: TamaguiViewProps["backgroundColor"]
-	/**
-	 * The color of the parent background. Used for things like coloring shadows.
-	 * TODO: should we put this into context?
-	 */
-	parentColor?: TamaguiViewProps["backgroundColor"]
 	children?: React.ReactNode
 	/**
 	 * The width
@@ -99,12 +94,18 @@ export type ViewProps = {
 	| "backgroundColor"
 >
 
+export const ViewContext = React.createContext<{
+	/**
+	 * The color of the parent view's background. Used for things like coloring shadows.
+	 */
+	color: TamaguiViewProps["backgroundColor"] | undefined
+}>({ color: undefined })
+
 const View = (props: ViewProps) => {
 	const {
 		children,
 		shadow,
 		color: backgroundColor,
-		parentColor,
 		width,
 		height,
 		grow,
@@ -135,6 +136,8 @@ const View = (props: ViewProps) => {
 		_tamaguiProps,
 		...otherProps
 	} = props
+
+	const { color: parentColor } = React.useContext(ViewContext)
 
 	const { inner: innerShadows, outer: outerShadows } = useShadow({
 		shadowName: shadow,
@@ -211,38 +214,40 @@ const View = (props: ViewProps) => {
 			: {}),
 	}
 
-	if (shadow) {
-		return (
-			<TamaguiView
-				{...sharedStyles}
-				{...outerStyles}
-				{...outerShadows}
-				{...otherProps}
-				{..._tamaguiProps}
-			>
-				<TamaguiView
-					{...sharedStyles}
-					{...innerStyles}
-					{...innerShadows}
-					overflow={overflow ?? "hidden"}
-				>
-					{children}
-				</TamaguiView>
-			</TamaguiView>
-		)
-	} else {
-		return (
+	const viewContent = shadow ? (
+		<TamaguiView
+			{...sharedStyles}
+			{...outerStyles}
+			{...outerShadows}
+			{...otherProps}
+			{..._tamaguiProps}
+		>
 			<TamaguiView
 				{...sharedStyles}
 				{...innerStyles}
-				{...outerStyles}
-				{...otherProps}
-				{..._tamaguiProps}
+				{...innerShadows}
+				overflow={overflow ?? "hidden"}
 			>
 				{children}
 			</TamaguiView>
-		)
-	}
+		</TamaguiView>
+	) : (
+		<TamaguiView
+			{...sharedStyles}
+			{...innerStyles}
+			{...outerStyles}
+			{...otherProps}
+			{..._tamaguiProps}
+		>
+			{children}
+		</TamaguiView>
+	)
+
+	return (
+		<ViewContext.Provider value={{ color: backgroundColor || parentColor }}>
+			{viewContent}
+		</ViewContext.Provider>
+	)
 }
 
 const MotionView = motion.create(View)

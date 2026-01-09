@@ -6,7 +6,7 @@ import { useShadow as getShadow } from "../../hooks/useShadow"
 import { ComponentError } from "../ComponentError"
 import { Icon, type IconComponentType } from "../Icon"
 import { Text } from "../Text"
-import { MotionView, type Row } from "../View"
+import { MotionView, type Row, ViewContext } from "../View"
 
 import type { FontKey } from "../../config/fonts"
 import type { OnPressWithRef } from "../../utils/types"
@@ -95,6 +95,7 @@ export const Button = ({
 	...otherProps
 }: ParadigmButtonProps) => {
 	const theme = useTheme()
+	const { color: parentColor } = React.useContext(ViewContext)
 	const { isHovered, isActive, pointerProps } = usePointerEvents()
 	const buttonRef = React.useRef(null)
 
@@ -165,6 +166,12 @@ export const Button = ({
 				: "normal"
 
 	// Background Color
+	const raisedColor = parentColor
+		? parentColor.toString() !== "$background"
+			? theme.background
+			: theme.cardStock
+		: theme.cardStock
+
 	switch (buttonState) {
 		case "loading":
 		case "disabled": {
@@ -177,7 +184,7 @@ export const Button = ({
 					? theme.negativeHover
 					: theme.primaryHover
 				: isRaised
-					? theme.cardStock
+					? raisedColor
 					: theme.normalHover
 			break
 		}
@@ -188,7 +195,7 @@ export const Button = ({
 					? theme.negativeActive
 					: theme.primaryActive
 				: isRaised
-					? theme.cardStock
+					? raisedColor
 					: theme.normalActive
 			break
 		}
@@ -201,10 +208,8 @@ export const Button = ({
 					backgroundColor = theme.primary
 				}
 			} else {
-				if (
-					isRaised // TODO Background color context && !variables.whiteLikeColors.includes(backgroundContext)
-				) {
-					backgroundColor = theme.cardStock
+				if (isRaised) {
+					backgroundColor = raisedColor
 				} else {
 					backgroundColor = theme.cardStock
 				}

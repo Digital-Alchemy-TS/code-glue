@@ -22,6 +22,7 @@ export const baseTokens = {
 	},
 	space: {
 		...defaultParadigmConfig.space,
+		thinStroke: 1,
 		space: 16,
 		true: 16,
 		betweenLists: 16,
