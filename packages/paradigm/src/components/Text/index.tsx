@@ -17,7 +17,7 @@ import type {
 	StyleProp,
 	TextStyle,
 } from "react-native"
-import type { SpaceMarginProps, SpacePaddingProps } from "@/config/shorthands"
+import type { SpaceProps } from "../../config/shorthands"
 
 enum fitValues {
 	ellipsis = "ellipsis",
@@ -81,8 +81,7 @@ type TextProps = {
 	 * Children
 	 */
 	children?: string | React.ReactNode
-} & SpaceMarginProps &
-	SpacePaddingProps
+} & SpaceProps
 
 const Text: React.FC<TextProps> & {
 	style: typeof FontKey

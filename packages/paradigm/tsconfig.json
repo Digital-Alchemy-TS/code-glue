@@ -15,8 +15,6 @@
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedSideEffectImports": true,
 		"paths": {
-			"@/paradigm": ["./src/index.ts"],
-			"@/*": ["./src/*"],
 			"@/storybook/*": ["./.storybook/*"]
 		},
 		"plugins": [
