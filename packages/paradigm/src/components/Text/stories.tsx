@@ -29,6 +29,7 @@ export const Story = meta.story({
 							and I&apos;m blue with padding
 						</Text>{" "}
 						Red again.
+						<Text>Still Red</Text>
 					</Text>
 					<Text color="red" _style={{ color: "blue" }}>
 						This text will be blue.

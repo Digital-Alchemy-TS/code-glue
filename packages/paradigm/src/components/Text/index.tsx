@@ -141,6 +141,7 @@ const Text: React.FC<TextProps> & {
 			letterCase: childLetterCase,
 			selectable: noUserSelect === undefined ? selectable : !noUserSelect,
 			styles: { ...context.styles, ..._style },
+			color: color || context.color,
 		}),
 		[
 			isParent,
@@ -149,6 +150,8 @@ const Text: React.FC<TextProps> & {
 			selectable,
 			_style,
 			context.styles,
+			color,
+			context.color,
 		],
 	)
 
@@ -188,7 +191,7 @@ const Text: React.FC<TextProps> & {
 			<TamaguiText
 				size={style}
 				userSelect={noUserSelect ? "none" : undefined}
-				color={color}
+				color={textState.color}
 				style={{
 					...textState.styles,
 					...(noLineHeight ? { lineHeight: undefined } : {}),
