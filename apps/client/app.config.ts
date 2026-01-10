@@ -36,6 +36,10 @@ export const appConfig = {
 			| StringLiteralUnion<BundledLanguage, string>
 		)[],
 	},
+	logs: {
+		defaultFontSize: 14,
+		font: "Monaspace Krypton",
+	},
 	routes: {
 		home: { title: "Logs" }, // home is a special route name that will show without params in the URL
 		automations: {
