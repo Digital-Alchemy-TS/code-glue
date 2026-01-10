@@ -13,6 +13,9 @@ export type LogLine = {
 	[key: string]: unknown
 }
 
+const makeLogKey = (log: LogLine) =>
+	`${log.timestamp}-${log.level}-${log.context}-${log.msg}`
+
 type UseAutomationLogsOptions = {
 	/**
 	 * The logging context to listen to.
@@ -39,8 +42,11 @@ export const useAutomationLogs = ({
 			return
 		}
 
+		// fresh session: clear existing logs and seen set
+		setLogs([])
 		setIsLoading(true)
 		setError(null)
+		const seen = new Set<string>()
 
 		const params = new URLSearchParams()
 		if (context) params.append("context", context)
@@ -59,16 +65,24 @@ export const useAutomationLogs = ({
 				const data = JSON.parse(event.data)
 
 				if (data.type === "initial") {
-					// Mark initial logs as historical and replace all logs
-					const historicalLogs = data.logs.map((log: LogLine) => ({
-						...log,
-						isHistorical: true,
-					}))
+					// Mark initial logs as historical and replace all logs, deduped
+					const historicalLogs: LogLine[] = []
+					for (const raw of data.logs as LogLine[]) {
+						const log = { ...raw, isHistorical: true }
+						const key = makeLogKey(log)
+						if (seen.has(key)) continue
+						seen.add(key)
+						historicalLogs.push(log)
+					}
 					setLogs(historicalLogs)
 					setIsLoading(false)
 				} else if (data.type === "log") {
-					// Append new log (not marked as historical)
-					setLogs((prev) => [...prev, { ...data.log, isHistorical: false }])
+					// Append new log (not marked as historical), deduped
+					const incoming = { ...data.log, isHistorical: false } as LogLine
+					const key = makeLogKey(incoming)
+					if (seen.has(key)) return
+					seen.add(key)
+					setLogs((prev) => [...prev, incoming])
 				}
 			} catch (err) {
 				console.error("[useAutomationLogs] Failed to parse event:", err, event)
@@ -82,7 +96,6 @@ export const useAutomationLogs = ({
 				eventSource.readyState,
 			)
 
-			// Only set error if connection failed completely
 			if (eventSource.readyState === EventSource.CLOSED) {
 				setError(
 					new Error(

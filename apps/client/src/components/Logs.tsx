@@ -1,6 +1,11 @@
-import { ScrollView } from "@code-glue/paradigm"
+import { ScrollView, Text } from "@code-glue/paradigm"
 import { formatAutomationContext } from "@code-glue/server/utils/helpers/format.mts"
-import { LogLevel, useAutomationLogs } from "@/hooks/useAutomationLogs"
+import {
+	LogLevel,
+	type LogLine,
+	useAutomationLogs,
+} from "@/hooks/useAutomationLogs"
+import { appConfig } from "../../app.config"
 import { useAutomation } from "../hooks/useAutomation"
 
 type LogsProps = {
@@ -15,6 +20,8 @@ type LogsProps = {
 	level?: LogLevel
 }
 
+const logKey = (log: LogLine) =>
+	`${log.timestamp}-${log.level}-${log.context}-${log.msg}`
 export const Logs = ({ automationId, level = LogLevel.trace }: LogsProps) => {
 	const { automationSnapshot: automation } = useAutomation(automationId)
 
@@ -43,37 +50,23 @@ export const Logs = ({ automationId, level = LogLevel.trace }: LogsProps) => {
 
 	return (
 		<ScrollView>
-			<div>
-				<div>
-					{logs.length === 0 && <div>No logs yet</div>}
-					{logs.map((log) => (
-						<div
-							key={log.timestamp}
-							style={{
-								fontFamily: "monospace",
-								fontSize: 12,
-								opacity: log.isHistorical ? 0.6 : 1,
-								borderLeft: log.isHistorical
-									? "2px solid #ccc"
-									: "2px solid #4CAF50",
-								paddingLeft: 8,
-								marginBottom: 4,
-							}}
-						>
-							<span style={{ color: getLevelColor(log.level) }}>
-								[{log.level.toUpperCase()}]
-							</span>{" "}
-							<span style={{ color: "#666" }}>
-								{new Date(log.timestamp).toLocaleTimeString()}
-							</span>{" "}
-							{log.isHistorical && (
-								<span style={{ color: "#999", fontSize: 10 }}>[HIST] </span>
-							)}
-							{log.msg}
-						</div>
-					))}
-				</div>
-			</div>
+			{logs.map((log) => (
+				<Text key={logKey(log)} _style={{ fontFamily: appConfig.logs.font }}>
+					<Text
+						color={getLevelColor(log.level)}
+						letterCase={Text.letterCase.upper}
+					>
+						[{log.level}]
+					</Text>
+					<Text color="#666">
+						{new Date(log.timestamp).toLocaleTimeString()}
+					</Text>
+					{log.isHistorical && (
+						<span style={{ color: "#999", fontSize: 10 }}>[HIST] </span>
+					)}
+					{log.msg}
+				</Text>
+			))}
 		</ScrollView>
 	)
 }
