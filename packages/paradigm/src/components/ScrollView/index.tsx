@@ -1,11 +1,16 @@
 import React from "react"
 
 import { IsInScrollViewContext } from "./context"
-import { ScrollView as UnwrappedScrollView } from "./ScrollView"
+import {
+	type ScrollViewRef,
+	ScrollView as UnwrappedScrollView,
+} from "./ScrollView"
 
-import type { ScrollViewProps } from "tamagui"
+import type { ScrollViewProps, ScrollView as TGScrollView } from "tamagui"
 
-const NormalScrollView = (props: ScrollViewProps) => {
+const NormalScrollView = (
+	props: ScrollViewProps & { ref?: React.Ref<TGScrollView> },
+) => {
 	return (
 		<IsInScrollViewContext value={true}>
 			<UnwrappedScrollView {...props} />
@@ -21,4 +26,4 @@ const ScrollView = MemoNormalScrollView as typeof MemoNormalScrollView & {
 
 ScrollView.IsInContext = IsInScrollViewContext
 
-export { ScrollView }
+export { ScrollView, type ScrollViewRef }

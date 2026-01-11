@@ -5,6 +5,8 @@ import {
 
 import { useAlwaysBounceVertical } from "../../hooks/useAlwaysBounceVertical"
 
+export type ScrollViewRef = TGScrollView
+
 export const ScrollView = (props: TGScrollViewProps) => {
 	const { onLayout, contentContainerStyle } = useAlwaysBounceVertical()
 
