@@ -29,6 +29,11 @@ jobs:
       - name: Install dependencies
         run: yarn install
       
+      - name: Apply patches
+        run: |
+          cd packages/paradigm
+          bash scripts/patch-if-present.sh
+      
       - name: Run typecheck
         run: yarn typecheck
       

@@ -10,7 +10,7 @@
 		"lint": "biome check .",
 		"format": "biome check --write .",
 		"typecheck": "tsc -p tsconfig.json --noEmit",
-		"postinstall": "patch-package --patch-dir patches --error-on-fail false"
+		"postinstall": "bash scripts/patch-if-present.sh"
 	},
 	"volta": {
 		"extends": "../../package.json"
