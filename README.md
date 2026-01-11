@@ -4,19 +4,34 @@
 
 Code Glue is a Home Assistant add-on that lets you create and edit entities and automations using TypeScript and Digital Alchemy from within an embedded IDE.
 
-## 🔧 Install (Add custom add-on repository)
+## 🔧 Install
+
+[![Add repository on my Home Assistant][repository-badge]][repository-url]
 
 1. In Home Assistant, go to: Settings → Add-ons → Add-on Store
 2. Click the three dots (⋮) in the top-right → Repositories
 3. Add this URL as a custom repository:
 
-- https://github.com/Digital-Alchemy-TS/code-glue-addon
+- https://github.com/Digital-Alchemy-TS/code-glue
 
-4. Close the dialog, search for "Code Glue," and open the add-on
-5. Click Install, then Start
-6. Optional: enable "Start on boot" and "Show in sidebar"
-7. Open the add-on via the sidebar or its Web UI
-8. 💰 Profit!
+4. Close the dialog
+
+You'll now see two add-ons available:
+
+### Available Add-ons
+
+#### Code Glue
+**Stable production releases**
+- "Thoroughly tested"
+- Recommended for production use
+- Pulls from `ghcr.io/digital-alchemy-ts/code-glue:latest`
+
+#### Code Glue (Dev)
+**Development builds for testing**
+- Latest features and bug fixes
+- May (will) be unstable and/or ugly.
+- Pulls from `ghcr.io/digital-alchemy-ts/code-glue:dev`
+- Can run alongside production version with its own DB.
 
 ## 🏗️ Developer Setup
 
@@ -83,7 +98,7 @@ docker compose up -d
 6. Migrate the database:
 
 ```bash
-yarn server:db:migrate
+yarn workspace @code-glue/server db:migrate
 ```
 
 7. Start the client and server
@@ -92,41 +107,19 @@ yarn server:db:migrate
 yarn dev
 ```
 
-Access the application at `http://localhost:8081`
-Access swagger: `http://localhost:3789/swagger/`
-
-### Testing in Home Assistant
-
-To test the addon in a real Home Assistant environment:
-
-1. In your Home Assistant instance:
-   - Add the addon repository: `https://github.com/Digital-Alchemy-TS/code-glue-addon`
-   - Install "Code Glue (Dev)" from the addon store
-   - This version won't conflict with the production addon
-
-2. To deploy changes:
-   ```bash
-   # Make your changes and commit them
-   git commit -am "Your changes"
-   git push
-   # GitHub Actions will build and push to ghcr.io/digital-alchemy-ts/code-glue:dev
-   # Restart the addon in HA to pull the new image
-   ```
-
-The dev addon:
-- Has a different slug (`code_glue_dev`) so it runs alongside production
-- Uses its own database (separate from production)
-- Pulls from `ghcr.io/digital-alchemy-ts/code-glue:dev`
+Frontend: `http://localhost:3000`
+Swagger:  `http://localhost:3789/swagger/`
 
 ### 🎛️ General Commands
 
-#### Server
+| Command        | Notes                                      |
+| -------------- | ------------------------------------------ |
+| `yarn dev`     | Start all workspaces in dev (`start` script) |
+| `yarn build`   | Build all workspaces                        |
+| `yarn lint`    | Lint all workspaces                         |
+| `yarn format`  | Format all workspaces                       |
+| `yarn test`    | Run tests across workspaces                 |
+| `yarn typecheck` | Type check all workspaces                 |
 
-| Command                                            | Notes                                 |
-| -------------------------------------------------- | ------------------------------------- |
-| `yarn server:start` / `yarn server:start:hot`      | Start the dev server                  |
-| `yarn server:lint` / `yarn server:lint --fix`      | Run `eslint`                          |
-| `yarn server:test` / `yarn server:test --coverage` | Run tests                             |
-| `yarn server:build`                                | Verify there is no build issues       |
-| -------------------------------------------------- | ------------------------------------- |
-| `yarn dev`                                         | Run the server and client in dev mode |
+[repository-badge]: https://img.shields.io/badge/Add%20repository%20to%20my-Home%20Assistant-41BDF5?logo=home-assistant&style=for-the-badge
+[repository-url]: https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FDigital-Alchemy-TS%2Fcode-glue

@@ -6,6 +6,8 @@ words:
   - armhf
   - armv
   - automations
+  - Buildx
+  - chrisdrackett
   - cobertura
   - culori
   - datetime
@@ -14,6 +16,7 @@ words:
   - hass
   - hassio
   - luxon
+  - mongolyy
   - mstile
   - nderscore
   - nocomment
@@ -22,6 +25,7 @@ words:
   - shiki
   - shikijs
   - sonarjs
+  - stefanzweifel
   - tseslint
   - typebox
   - vitesse
