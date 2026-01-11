@@ -26,6 +26,7 @@ export const baseTokens = {
 		space: 16,
 		true: 16,
 		betweenLists: 16,
+		betweenButtons: 6,
 		listItemEdgeInset: 6,
 		listItemBetweenItems: 4,
 		listItemStatusPosition: 6,
