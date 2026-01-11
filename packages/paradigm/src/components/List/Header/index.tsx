@@ -11,10 +11,10 @@ export type ListHeaderProps = {
 	 * Set to true if being rendered in a section list or anything else that has headers stick to the top of the list.
 	 * TODO Use this to set a blur on the wrapping View (Row)
 	 */
-	isSticky?: boolean
+	// isSticky?: boolean
 }
 
-export const Header = ({ children, isSticky }: ListHeaderProps) => {
+export const Header = ({ children }: ListHeaderProps) => {
 	return (
 		<Row
 			noShrink
