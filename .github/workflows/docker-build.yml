@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - dev
     tags:
       - "v*"
   workflow_dispatch:
@@ -50,8 +49,6 @@ jobs:
           IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
           
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:latest" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
             echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:dev" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
