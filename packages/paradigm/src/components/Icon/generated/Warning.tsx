@@ -1,0 +1,46 @@
+import { useTheme } from "@tamagui/core"
+import * as React from "react"
+
+import { TextContext } from "../../Text"
+
+import type { SVGProps } from "react"
+import type { WebIconComponentType } from "../types"
+
+const WarningIcon = (props: SVGProps<SVGSVGElement>) => (
+	<svg
+		viewBox="0 0 64 64"
+		fill="none"
+		xmlns="http://www.w3.org/2000/svg"
+		{...props}
+	>
+		<title>{"Warning"}</title>
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M54.9994 53H9.00014C7.34221 52.999 5.99899 51.655 6 49.9982C6.00033 49.4511 6.15032 48.9146 6.43374 48.4466L29.4334 10.447C30.2901 9.03058 32.1336 8.57639 33.551 9.43257C33.9665 9.6836 34.3149 10.0317 34.5661 10.447L57.5658 48.4466C58.4243 49.8641 57.9703 51.7086 56.552 52.5665C56.0837 52.8498 55.5468 52.9997 54.9994 53ZM31.9997 49.014C33.6571 49.014 35.0007 47.6712 35.0007 46.0148C35.0007 44.3585 33.6571 43.0157 31.9997 43.0157C30.3422 43.0157 28.9986 44.3585 28.9986 46.0148C28.9986 47.6712 30.3422 49.014 31.9997 49.014ZM33.9989 21.0222H30.0186C29.4606 21.0157 29.003 21.4624 28.9965 22.02C28.9963 22.0382 28.9965 22.0564 28.9973 22.0745L29.9123 39.0695C29.947 39.6062 30.3956 40.0221 30.9337 40.0166H33.0838C33.6219 40.022 34.0704 39.6062 34.1052 39.0695L35.0202 22.0745C35.0438 21.5173 34.6109 21.0466 34.0534 21.0231C34.0352 21.0224 34.017 21.022 33.9989 21.0222Z"
+			fill={props.fill}
+		/>
+	</svg>
+)
+const Warning: WebIconComponentType = ({
+	size,
+	color,
+	style = {},
+	...otherProps
+}) => {
+	const theme = useTheme()
+	const { isInText } = React.useContext(TextContext)
+	const fill = color || (isInText ? theme.iconInTextColor.get() : "black")
+	const combinedStyle = {
+		flexShrink: 0,
+		...style,
+	}
+	return React.createElement(WarningIcon, {
+		...otherProps,
+		style: combinedStyle,
+		width: size,
+		height: size,
+		fill,
+	})
+}
+export default Warning

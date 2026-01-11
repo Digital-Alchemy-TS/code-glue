@@ -1,19 +1,45 @@
 {
   "name": "@code-glue/client",
-  "version": "1.0.0",
   "private": true,
-  "main": "expo-router/entry",
-  "_comment_env_vars": {
-    "INGRESS_PATH": "Base path for the application when deployed behind a reverse proxy or in a subpath. Defaults to '/' for root deployment. Set to '/subpath' for subpath deployments."
-  },
+  "type": "module",
   "scripts": {
-    "start": "expo start --web --clear",
-    "lint": "eslint .",
-    "build": "expo export --platform web"
+    "dev": "cd .. && yarn dev",
+    "start": "vite dev --port 3000",
+    "start:preview": "vite preview",
+    "build": "vite build",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "volta": {
+    "extends": "../../package.json"
   },
   "dependencies": {
-    "@code-glue/server": "workspace:*",
-    "@tiltshift/paradigm": "workspace:*"
+    "@code-glue/paradigm": "workspace:^",
+    "@monaco-editor/react": "^4.7.0",
+    "@tiltshift/valtio-factory": "2.0.3",
+    "@typescript/ata": "^0.9.8",
+    "monaco-editor": "^0.54.0",
+    "monaco-prettier": "^1.0.0",
+    "nuqs": "^2.8.3",
+    "prettier": "^3.7.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hotkeys-hook": "4.5.1",
+    "shiki": "^3.19.0",
+    "uuid": "^13.0.0",
+    "valtio": "^2.1.8"
   },
-  "prettier": "@tiltshift/config/prettier"
+  "devDependencies": {
+    "@biomejs/biome": "2.3.5",
+    "@shikijs/monaco": "^3.19.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "typescript": "^5.7.2",
+    "vite": "^7.1.7",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.5"
+  }
 }

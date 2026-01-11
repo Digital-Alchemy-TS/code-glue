@@ -1,0 +1,6 @@
+dist/
+coverage/
+node_modules/
+cache/
+migrations/
+**/*.d.ts

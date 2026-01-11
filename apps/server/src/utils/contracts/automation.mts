@@ -1,4 +1,4 @@
-import { RemoveCallback } from "@digital-alchemy/core";
+import type { RemoveCallback } from "@digital-alchemy/core";
 import { Type } from "@sinclair/typebox";
 
 /**
@@ -16,6 +16,8 @@ export const StoredAutomation = Type.Object(
     documentation: Type.String({
       description: "User provided markdown notes",
     }),
+    draft: Type.Optional(Type.String({ description: "Draft edits" })),
+    icon: Type.Optional(Type.String({ description: "Icon for UI" })),
     id: Type.String({ description: "UUID" }),
     labels: Type.Array(Type.String(), {
       description: "Home Assistant label_id",
@@ -23,8 +25,7 @@ export const StoredAutomation = Type.Object(
     lastUpdate: Type.String({ description: "ISO timestamp" }),
     parent: Type.Optional(
       Type.String({
-        description:
-          "Reference to another automation to declare as parent. For UI purposes",
+        description: "Reference to another automation to declare as parent. For UI purposes",
       }),
     ),
     title: Type.String({ description: "Human readable title" }),
@@ -44,13 +45,9 @@ export const AutomationCreateOptions = Type.Omit(StoredAutomation, [
 
 export type AutomationCreateOptions = typeof AutomationCreateOptions.static;
 
-export const AutomationUpdateOptions = Type.Omit(AutomationCreateOptions, [
-  "id",
-]);
+export const AutomationUpdateOptions = Type.Omit(AutomationCreateOptions, ["id"]);
 
-export type AutomationUpdateOptions = Partial<
-  typeof AutomationUpdateOptions.static
->;
+export type AutomationUpdateOptions = Partial<typeof AutomationUpdateOptions.static>;
 
 export const StoredAutomationRow = Type.Intersect([
   Type.Omit(StoredAutomation, ["createDate", "lastUpdate", "active", "labels"]),

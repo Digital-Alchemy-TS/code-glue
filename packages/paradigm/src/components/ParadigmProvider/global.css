@@ -1,0 +1,14 @@
+html,
+body {
+	height: 100%;
+	overflow: hidden;
+}
+
+input,
+textarea {
+	outline: none;
+}
+
+textarea.multiline::placeholder {
+	line-height: normal;
+}

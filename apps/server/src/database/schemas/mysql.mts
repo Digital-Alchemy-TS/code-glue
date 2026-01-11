@@ -20,6 +20,8 @@ export const mysqlStoredAutomationTable = mysqlTable("stored_automation", {
   context: varchar("context", { length: 100 }).notNull(),
   create_date: timestamp("create_date").notNull(),
   documentation: text("documentation").notNull(),
+  draft: text("draft"),
+  icon: varchar("icon", { length: 36 }),
   id: varchar("id", { length: 36 }).primaryKey().notNull(),
   // Stored as pipe-separated string
   labels: text("labels").notNull(),

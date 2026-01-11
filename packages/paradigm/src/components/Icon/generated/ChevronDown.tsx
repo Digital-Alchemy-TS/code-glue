@@ -1,0 +1,46 @@
+import { useTheme } from "@tamagui/core"
+import * as React from "react"
+
+import { TextContext } from "../../Text"
+
+import type { SVGProps } from "react"
+import type { WebIconComponentType } from "../types"
+
+const ChevronDownIcon = (props: SVGProps<SVGSVGElement>) => (
+	<svg
+		viewBox="0 0 64 64"
+		fill="none"
+		xmlns="http://www.w3.org/2000/svg"
+		{...props}
+	>
+		<title>{"ChevronDown"}</title>
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M51.4909 21.0044C50.5109 19.9985 48.9205 19.9985 47.943 21.0044L31.9848 37.3812L16.0473 21.0233C15.0698 20.0202 13.482 20.0202 12.5045 21.0233L10.7331 22.8429C9.75562 23.846 9.75562 25.4737 10.7331 26.4768L30.2005 46.4956C31.1806 47.5014 32.7684 47.5015 33.7485 46.4956L53.2649 26.466C54.245 25.4629 54.245 23.8298 53.2649 22.8267L51.4909 21.0044Z"
+			fill={props.fill}
+		/>
+	</svg>
+)
+const ChevronDown: WebIconComponentType = ({
+	size,
+	color,
+	style = {},
+	...otherProps
+}) => {
+	const theme = useTheme()
+	const { isInText } = React.useContext(TextContext)
+	const fill = color || (isInText ? theme.iconInTextColor.get() : "black")
+	const combinedStyle = {
+		flexShrink: 0,
+		...style,
+	}
+	return React.createElement(ChevronDownIcon, {
+		...otherProps,
+		style: combinedStyle,
+		width: size,
+		height: size,
+		fill,
+	})
+}
+export default ChevronDown

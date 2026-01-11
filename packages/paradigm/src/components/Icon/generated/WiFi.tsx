@@ -1,0 +1,46 @@
+import { useTheme } from "@tamagui/core"
+import * as React from "react"
+
+import { TextContext } from "../../Text"
+
+import type { SVGProps } from "react"
+import type { WebIconComponentType } from "../types"
+
+const WiFiIcon = (props: SVGProps<SVGSVGElement>) => (
+	<svg
+		viewBox="0 0 64 64"
+		fill="none"
+		xmlns="http://www.w3.org/2000/svg"
+		{...props}
+	>
+		<title>{"WiFi"}</title>
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M54.5572 29.4047C53.8119 30.1493 52.6158 30.1852 51.8272 29.4866C40.4891 19.4918 23.4864 19.4918 12.1483 29.4866C11.3597 30.1853 10.1635 30.1494 9.41826 29.4047L6.58726 26.5752C5.80441 25.7926 5.80422 24.5235 6.58683 23.7407C6.61243 23.7151 6.63871 23.6902 6.66566 23.666H6.66566C21.0872 10.778 42.8883 10.778 57.3098 23.666C58.1336 24.4052 58.2022 25.6724 57.463 26.4962C57.4388 26.5232 57.4138 26.5496 57.3882 26.5752L54.5572 29.4047ZM36.9261 43.3007C37.9287 43.8668 38.2826 45.1386 37.7165 46.1413C37.6222 46.3082 37.5054 46.4614 37.3693 46.5964L33.6765 50.2648C32.7326 51.1998 31.2116 51.1998 30.2678 50.2648L26.575 46.5964C25.7575 45.7854 25.7522 44.4653 26.5631 43.6478C26.6981 43.5117 26.8512 43.3949 27.0181 43.3007C30.0936 41.5683 33.8506 41.5683 36.9261 43.3007V43.3007ZM22.0753 39.5087C21.2399 40.1996 20.0164 40.1433 19.248 39.3787L16.8633 36.9703C15.6894 35.7848 15.7233 34.3322 16.6658 33.5437H16.6658C25.5125 26.1324 38.4005 26.1324 47.2472 33.5437C48.1359 34.3143 48.2317 35.6596 47.4611 36.5484C47.4278 36.5868 47.3931 36.624 47.3572 36.6599L44.6689 39.375C43.8999 40.1407 42.6757 40.1985 41.838 39.5088C36.0863 34.8157 27.8271 34.8157 22.0754 39.5088L22.0753 39.5087Z"
+			fill={props.fill}
+		/>
+	</svg>
+)
+const WiFi: WebIconComponentType = ({
+	size,
+	color,
+	style = {},
+	...otherProps
+}) => {
+	const theme = useTheme()
+	const { isInText } = React.useContext(TextContext)
+	const fill = color || (isInText ? theme.iconInTextColor.get() : "black")
+	const combinedStyle = {
+		flexShrink: 0,
+		...style,
+	}
+	return React.createElement(WiFiIcon, {
+		...otherProps,
+		style: combinedStyle,
+		width: size,
+		height: size,
+		fill,
+	})
+}
+export default WiFi

@@ -1,0 +1,64 @@
+{
+	"$schema": "../../node_modules/@biomejs/biome/configuration_schema.json",
+	"vcs": {
+		"enabled": false,
+		"clientKind": "git",
+		"useIgnoreFile": false
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"includes": [
+			"**/src/**/*",
+			"**/.storybook/**/*",
+			"**/.vscode/**/*",
+			"vite.config.ts",
+			"app.config.ts",
+			"!**/src/routeTree.gen.ts"
+		]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"recommended": true,
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							{
+								"type": false,
+								"source": [":PACKAGE:", ":NODE:", "!@code-glue/**"]
+							},
+							":BLANK_LINE:",
+							{
+								"type": false,
+								"source": ["@code-glue/**", ":ALIAS:", ":PATH:"]
+							},
+							":BLANK_LINE:",
+							{
+								"type": true,
+								"source": ["**"]
+							}
+						]
+					}
+				}
+			}
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double",
+			"semicolons": "asNeeded"
+		},
+		"globals": ["React"]
+	}
+}

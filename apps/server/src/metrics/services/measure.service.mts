@@ -23,7 +23,9 @@ export function MetricsMeasure({ metrics }: TServiceParams) {
       return await callback();
     } catch (error) {
       logData.status = "error";
-      logData.code = error.status;
+      if (error && typeof error === "object" && "status" in error) {
+        logData.code = (error as { status: string | number }).status;
+      }
       throw error;
     } finally {
       const ms = track();

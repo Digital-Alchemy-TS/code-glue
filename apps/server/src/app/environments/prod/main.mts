@@ -6,7 +6,12 @@ await CODE_GLUE_APP.bootstrap({
     env: true,
     file: false,
   },
-  configuration: {},
+  configuration: {
+    boilerplate: {
+      // Capture all logs for API access (console output controlled by logger transport)
+      LOG_LEVEL: "trace",
+    },
+  },
   loggerOptions: {
     als: true,
     pretty: false,

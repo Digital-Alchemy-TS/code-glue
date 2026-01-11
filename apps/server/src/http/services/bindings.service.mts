@@ -45,7 +45,19 @@ export function Bindings({
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         origin: "*",
       });
-      httpServer.register(helmet, {});
+      httpServer.register(helmet, {
+        contentSecurityPolicy: {
+          directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", "data:", "blob:"],
+            connectSrc: ["'self'", "https://data.jsdelivr.com", "https://cdn.jsdelivr.net"],
+            fontSrc: ["'self'", "data:"],
+            workerSrc: ["'self'", "blob:"],
+          },
+        },
+      });
     }
     await http.hooks.setup(httpServer);
   });

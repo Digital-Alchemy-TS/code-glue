@@ -1,0 +1,28 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": "."
+    },
+        {
+      "name": "server",
+      "path": "apps/server"
+    },
+    {
+      "name": "client",
+      "path": "apps/client"
+    },
+    {
+      "name": "paradigm",
+      "path": "packages/paradigm"
+    }
+  ],
+  "settings": {
+    "typescript.tsdk": "root/node_modules/typescript/lib",
+    "cSpell.words": [
+      "gexii",
+      "Unfonts",
+      "unplugin"
+    ]
+  }
+}

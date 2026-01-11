@@ -10,11 +10,11 @@ Code Glue is a Home Assistant add-on that lets you create and edit entities and 
 2. Click the three dots (⋮) in the top-right → Repositories
 3. Add this URL as a custom repository:
 
-- https://github.com/Digital-Alchemy-TS/code-glue
+- https://github.com/Digital-Alchemy-TS/code-glue-addon
 
-4. Close the dialog, search for “Code Glue,” and open the add-on
+4. Close the dialog, search for "Code Glue," and open the add-on
 5. Click Install, then Start
-6. Optional: enable “Start on boot” and “Show in sidebar”
+6. Optional: enable "Start on boot" and "Show in sidebar"
 7. Open the add-on via the sidebar or its Web UI
 8. 💰 Profit!
 
@@ -33,17 +33,9 @@ Code Glue is a Home Assistant add-on that lets you create and edit entities and 
   /paradigm     # UI Component Library for the client
 ```
 
-#### Dev Container info
+### Development Workflow
 
-There are two ways to dev on this project.
-
-### Option 1: Local
-
-When to use:
-
-- working on client/UI and want hot reloading
-- want to work using your own HASS data
-- faster dev loop
+Development is done locally with hot reloading:
 
 #### Setup
 
@@ -103,17 +95,28 @@ yarn dev
 Access the application at `http://localhost:8081`
 Access swagger: `http://localhost:3789/swagger/`
 
-### Option 2: Dev Container
+### Testing in Home Assistant
 
-This workspace provides a development container that boots a real Home Assistant instance so the add-on can be exercised in a “real world” environment (ingress, auth, CORS, sidebar, permissions).
+To test the addon in a real Home Assistant environment:
 
-Setup Instructions: https://developers.home-assistant.io/docs/add-ons/testing
+1. In your Home Assistant instance:
+   - Add the addon repository: `https://github.com/Digital-Alchemy-TS/code-glue-addon`
+   - Install "Code Glue (Dev)" from the addon store
+   - This version won't conflict with the production addon
 
-1. Open the project in VSCode
-2. Run the task (Terminal -> Run Task) 'Start Home Assistant'
-3. visit http://localhost:7123/
+2. To deploy changes:
+   ```bash
+   # Make your changes and commit them
+   git commit -am "Your changes"
+   git push
+   # GitHub Actions will build and push to ghcr.io/digital-alchemy-ts/code-glue:dev
+   # Restart the addon in HA to pull the new image
+   ```
 
-Once running you can rebuild and deploy updated code using: TBD
+The dev addon:
+- Has a different slug (`code_glue_dev`) so it runs alongside production
+- Uses its own database (separate from production)
+- Pulls from `ghcr.io/digital-alchemy-ts/code-glue:dev`
 
 ### 🎛️ General Commands
 

@@ -7,16 +7,23 @@ words:
   - armv
   - automations
   - cobertura
+  - culori
   - datetime
   - falsey
   - fastify
   - hass
   - hassio
   - luxon
+  - mstile
   - nderscore
   - nocomment
+  - nums
+  - Nuqs
+  - shiki
+  - shikijs
   - sonarjs
   - tseslint
   - typebox
+  - vitesse
 ignoreWords: []
 import: []

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import express from "express";
 import type { ClientRequest, IncomingMessage } from "http";
+// @ts-expect-error - express types not needed for build
+import express from "express";
 import { createProxyMiddleware, Options } from "http-proxy-middleware";
 
 const app = express();

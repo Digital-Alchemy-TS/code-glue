@@ -1,0 +1,46 @@
+import { useTheme } from "@tamagui/core"
+import * as React from "react"
+
+import { TextContext } from "../../Text"
+
+import type { SVGProps } from "react"
+import type { WebIconComponentType } from "../types"
+
+const FogIcon = (props: SVGProps<SVGSVGElement>) => (
+	<svg
+		viewBox="0 0 64 64"
+		fill="none"
+		xmlns="http://www.w3.org/2000/svg"
+		{...props}
+	>
+		<title>{"Fog"}</title>
+		<path
+			fillRule="evenodd"
+			clipRule="evenodd"
+			d="M54 29C54 32.866 50.866 36 47 36H19C14.0294 35.9958 10.0034 31.9629 10.0076 26.9924C10.0115 22.3961 13.4781 18.5413 18.0481 18.0513V18.0513C18.565 12.0053 23.8853 7.52309 29.9313 8.03999C33.4792 8.34333 36.6601 10.3473 38.4656 13.4165C42.6265 11.9953 47.1517 14.2163 48.5729 18.3773C49.0024 19.6349 49.1103 20.98 48.8867 22.29C51.9029 23.1272 53.9929 25.8699 53.9999 29L54 29ZM20 48H44C45.1046 48 46 48.8954 46 50C46 51.1046 45.1046 52 44 52H20C18.8954 52 18 51.1046 18 50C18 48.8954 18.8954 48 20 48ZM18 42C18 40.8954 18.8954 40 20 40H44C45.1046 40 46 40.8954 46 42C46 43.1046 45.1046 44 44 44H20C18.8954 44 18 43.1046 18 42Z"
+			fill={props.fill}
+		/>
+	</svg>
+)
+const Fog: WebIconComponentType = ({
+	size,
+	color,
+	style = {},
+	...otherProps
+}) => {
+	const theme = useTheme()
+	const { isInText } = React.useContext(TextContext)
+	const fill = color || (isInText ? theme.iconInTextColor.get() : "black")
+	const combinedStyle = {
+		flexShrink: 0,
+		...style,
+	}
+	return React.createElement(FogIcon, {
+		...otherProps,
+		style: combinedStyle,
+		width: size,
+		height: size,
+		fill,
+	})
+}
+export default Fog
