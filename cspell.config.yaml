@@ -6,6 +6,7 @@ words:
   - armhf
   - armv
   - automations
+  - Buildx
   - chrisdrackett
   - cobertura
   - culori
@@ -23,6 +24,7 @@ words:
   - shiki
   - shikijs
   - sonarjs
+  - stefanzweifel
   - tseslint
   - typebox
   - vitesse

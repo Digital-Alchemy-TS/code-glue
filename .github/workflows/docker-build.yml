@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    tags:
-      - "v*"
+  release:
+    types: [published]
   workflow_dispatch:
 
 concurrency:
@@ -20,7 +20,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
@@ -28,6 +28,51 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          fetch-depth: 0
+
+      - name: Bump dev version
+        if: github.ref == 'refs/heads/main'
+        id: bump_version
+        run: |
+          # Read current version from addon-dev config
+          CURRENT_VERSION=$(grep '^version:' addon-dev/config.yaml | sed 's/version: "\(.*\)"/\1/')
+          echo "Current version: $CURRENT_VERSION"
+
+          # Generate YY.M.N version based on current date
+          YEAR=$(date +%y)
+          MONTH=$(date +%-m)
+          EXPECTED_BASE="${YEAR}.${MONTH}"
+
+          # Parse current version
+          IFS='.' read -r CURRENT_YEAR CURRENT_MONTH CURRENT_RELEASE <<< "$CURRENT_VERSION"
+
+          # If we're in the same year/month, increment release number
+          if [[ "${CURRENT_YEAR}.${CURRENT_MONTH}" == "${EXPECTED_BASE}" ]]; then
+            NEW_RELEASE=$((CURRENT_RELEASE + 1))
+          else
+            # New month/year, start at .1
+            NEW_RELEASE=1
+          fi
+
+          NEW_VERSION="${EXPECTED_BASE}.${NEW_RELEASE}"
+          echo "New version: $NEW_VERSION"
+
+          # Update addon-dev/config.yaml
+          sed -i "s/^version: .*/version: \"${NEW_VERSION}\"/" addon-dev/config.yaml
+
+          # Output new version for later steps
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Commit version bump
+        if: github.ref == 'refs/heads/main'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 bump dev version to ${{ steps.bump_version.outputs.version }}"
+          file_pattern: addon-dev/config.yaml
+          commit_options: "--no-verify"
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -42,19 +87,30 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Determine Docker tags
+      - name: Determine Docker tags and config
         id: tags
         run: |
           # Convert repository name to lowercase for Docker
           IMAGE_NAME_LOWER=$(echo "${{ env.IMAGE_NAME }}" | tr '[:upper:]' '[:lower:]')
-          
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:dev" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/v}
+
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            # Extract version from release tag (remove 'v' prefix if present)
+            VERSION="${{ github.event.release.tag_name }}"
+            VERSION=${VERSION#v}
             echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${VERSION},${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:latest" >> $GITHUB_OUTPUT
+            echo "config_dir=addon" >> $GITHUB_OUTPUT
+
+            # Update addon/config.yaml with the release version
+            sed -i "s/^version: .*/version: \"${VERSION}\"/" addon/config.yaml
+            echo "Building production addon version ${VERSION}"
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:dev" >> $GITHUB_OUTPUT
+            echo "config_dir=addon-dev" >> $GITHUB_OUTPUT
+            echo "Building dev addon"
           else
             echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "config_dir=addon-dev" >> $GITHUB_OUTPUT
+            echo "Building dev addon (non-main branch)"
           fi
 
       - name: Build and push Docker image

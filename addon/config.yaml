@@ -1,5 +1,5 @@
 name: Code Glue
-version: "1.0.0"
+version: "26.1.0"
 slug: code_glue
 description: Built-in IDE to write automations and create entities in TypeScript
 image: ghcr.io/digital-alchemy-ts/code-glue
