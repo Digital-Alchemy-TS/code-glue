@@ -10,8 +10,10 @@ import { Frame } from "@/pages/Frame/Frame"
 import "@/components/Editor/init"
 
 // Prevent bounce scrolling on document while allowing internal scroll
-preventBounceScroll()
+const cleanupBounceScroll = preventBounceScroll()
 
+// Ensure bounce scroll listeners are cleaned up when the page unloads
+window.addEventListener("unload", cleanupBounceScroll)
 // Make sure we have a root element to mount the app
 const rootElement = document.getElementById("root")
 if (!rootElement) {
