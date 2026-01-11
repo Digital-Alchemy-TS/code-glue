@@ -31,7 +31,7 @@ export const useAutomationLogs = ({
 	enabled = true,
 }: UseAutomationLogsOptions = {}) => {
 	const [logs, setLogs] = useState<LogLine[]>([])
-	const [isLoading, setIsLoading] = useState(false)
+	const [isLoading, setIsLoading] = useState(true)
 	const [error, setError] = useState<Error | null>(null)
 
 	useEffect(() => {

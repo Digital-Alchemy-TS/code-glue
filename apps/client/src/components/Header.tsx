@@ -4,6 +4,7 @@ export const Header = ({ children }: { children: React.ReactNode }) => {
 	const theme = useTheme()
 	return (
 		<Row
+			noShrink
 			align="center"
 			justify="space-between"
 			color={theme.cardStock}

@@ -1,4 +1,6 @@
-import { ScrollView, Text } from "@code-glue/paradigm"
+import { useCallback, useEffect, useRef } from "react"
+
+import { ScrollView, type ScrollViewRef, Text } from "@code-glue/paradigm"
 import { formatAutomationContext } from "@code-glue/server/utils/helpers/format.mts"
 import {
 	LogLevel,
@@ -7,6 +9,9 @@ import {
 } from "@/hooks/useAutomationLogs"
 import { appConfig } from "../../app.config"
 import { useAutomation } from "../hooks/useAutomation"
+
+import type React from "react"
+import type { ScrollView as RNScrollView } from "react-native"
 
 type LogsProps = {
 	/**
@@ -18,11 +23,26 @@ type LogsProps = {
 	 * Defaults to LogLevel.trace
 	 */
 	level?: LogLevel
+
+	/** Optional ref for parent access to ScrollView methods */
+	ref: React.Ref<ScrollViewRef>
 }
 
 const logKey = (log: LogLine) =>
 	`${log.timestamp}-${log.level}-${log.context}-${log.msg}`
-export const Logs = ({ automationId, level = LogLevel.trace }: LogsProps) => {
+
+const LONGEST_LEVEL_STRING = Math.max(
+	...Object.values(LogLevel).map((level) => level.length),
+)
+
+const getLogLevelPadding = (level: LogLevel) =>
+	" ".repeat(Math.max(0, LONGEST_LEVEL_STRING - level.length))
+
+export const Logs = ({
+	automationId,
+	level = LogLevel.trace,
+	ref,
+}: LogsProps) => {
 	const { automationSnapshot: automation } = useAutomation(automationId)
 
 	const loggerContext = automationId
@@ -40,6 +60,15 @@ export const Logs = ({ automationId, level = LogLevel.trace }: LogsProps) => {
 
 	const { logs, isLoading, error } = useAutomationLogs(options)
 
+	useEffect(() => {
+		if (!isLoading && logs.length > 0 && ref?.current) {
+			// Ensure layout/paint has occurred before scrolling
+			requestAnimationFrame(() => {
+				ref.current?.scrollToEnd?.({ animated: true })
+			})
+		}
+	}, [logs, isLoading, ref?.current])
+
 	if (isLoading) {
 		return <div>Loading logs...</div>
 	}
@@ -49,22 +78,22 @@ export const Logs = ({ automationId, level = LogLevel.trace }: LogsProps) => {
 	}
 
 	return (
-		<ScrollView>
+		<ScrollView ref={ref} scrollBehavior="smooth">
 			{logs.map((log) => (
-				<Text key={logKey(log)} _style={{ fontFamily: appConfig.logs.font }}>
+				<Text
+					style={Text.style.footnote}
+					key={logKey(log)}
+					_style={{ fontFamily: appConfig.logs.font }}
+					color={log.isHistorical ? "$colorDisabled" : "$color"}
+				>
 					<Text
-						color={getLevelColor(log.level)}
+						color={!log.isHistorical && getLevelColor(log.level)}
 						letterCase={Text.letterCase.upper}
 					>
-						[{log.level}]
+						{getLogLevelPadding(log.level)}[{log.level}]
 					</Text>
-					<Text color="#666">
-						{new Date(log.timestamp).toLocaleTimeString()}
-					</Text>
-					{log.isHistorical && (
-						<span style={{ color: "#999", fontSize: 10 }}>[HIST] </span>
-					)}
-					{log.msg}
+					<Text>{new Date(log.timestamp).toLocaleTimeString()}</Text>
+					<Text> {log.msg}</Text>
 				</Text>
 			))}
 		</ScrollView>
