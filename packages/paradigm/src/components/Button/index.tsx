@@ -81,8 +81,6 @@ const { all: e2 } = getShadow({
 	forceBoxShadow: true,
 })
 
-export { ButtonRow } from "./ButtonRow"
-
 export const Button = ({
 	label,
 	icon: IconComponent,
@@ -328,3 +326,5 @@ export const Button = ({
 		</MotionView>
 	)
 }
+
+export { ButtonRow } from "./ButtonRow"
