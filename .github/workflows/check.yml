@@ -22,15 +22,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "yarn"
       
       - name: Enable Corepack
         run: corepack enable
       
       - name: Install dependencies
-        run: |
-          yarn config set enableImmutableInstalls false
-          yarn install
+        run: yarn install
       
       - name: Run typecheck
         run: yarn typecheck
