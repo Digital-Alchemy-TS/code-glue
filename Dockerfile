@@ -25,6 +25,10 @@ COPY apps/client/package.json apps/client/package.json
 COPY apps/server/package.json apps/server/package.json
 COPY packages/paradigm/package.json packages/paradigm/package.json
 
+# Copy paradigm scripts needed for postinstall
+COPY packages/paradigm/scripts packages/paradigm/scripts
+COPY packages/paradigm/patches packages/paradigm/patches
+
 # Copy Yarn configuration for Yarn Berry
 COPY .yarnrc.yml ./
 COPY .yarn .yarn
