@@ -1,9 +1,10 @@
 import { useSnapshot } from "valtio"
 
-import { Column, List, ListItem, Row, Text, View } from "@code-glue/paradigm"
+import { Button, Column, Icon, List, ListItem } from "@code-glue/paradigm"
 import { useRouter } from "@/hooks/useRouter"
 import { store } from "@/store"
-import { CreateAutomation } from "../CreateAutomation"
+import { CreateAutomation } from "../../components/CreateAutomation"
+import { Header } from "../../components/Header"
 export const Nav = () => {
 	const { automations } = useSnapshot(store)
 
@@ -11,24 +12,16 @@ export const Nav = () => {
 
 	return (
 		<Column grow color={"$cardStock"}>
-			<Row alignItems="center" background="$background">
-				<View mx={12}>
-					<img
-						src="./mstile-310x310.png"
-						alt="CodeGlue"
-						width={42}
-						height={42}
-					/>
-				</View>
-
-				<Text size="$5">Code Glue</Text>
-			</Row>
+			<Header>
+				<img src="./headerLogo.png" alt="CodeGlue" height={42} />
+				<Button icon={Icon.Settings} isRaised />
+			</Header>
 			<List.Group>
 				<List.Simple>
 					<ListItem
 						label="Logs"
-						isSelected={route === "logs"}
-						onPress={() => navigateTo("logs")}
+						isSelected={!route}
+						onPress={() => navigateTo("home")}
 					/>
 				</List.Simple>
 				<List.Simple header="Automations">

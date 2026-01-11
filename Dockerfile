@@ -4,6 +4,9 @@ FROM node:22-bookworm-slim
 ENV CI=1
 ENV EXPO_NO_TELEMETRY=1
 ENV PORT=3789
+# Set UTF-8 locale to support emoji and special characters in filenames
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
 # Don't set NODE_ENV=production yet - we need devDependencies for build
 
 # Install system dependencies needed for building native modules

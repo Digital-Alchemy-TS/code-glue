@@ -1,8 +1,8 @@
 import addonA11y from "@storybook/addon-a11y"
 import { definePreview } from "@storybook/react-vite"
 
-import { ParadigmProvider } from "@/paradigm"
 import { StorybookContext } from "../src/components/ComponentError"
+import { ParadigmProvider } from "../src/components/ParadigmProvider"
 
 export default definePreview({
 	// 👇 Add your addons here

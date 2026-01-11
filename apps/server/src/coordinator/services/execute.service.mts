@@ -1,34 +1,26 @@
 /* eslint-disable sonarjs/code-eval */
-import { DOWN, is, TServiceParams, UP } from "@digital-alchemy/core";
-import { formatObjectId } from "@digital-alchemy/synapse";
-import { createHash } from "crypto";
-import { writeFileSync } from "fs";
-import { join } from "path";
+
+import { createHash } from "node:crypto";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+
+import { DOWN, is, type TServiceParams, UP } from "@digital-alchemy/core";
 import { ModuleKind, ScriptTarget, transpileModule } from "typescript";
 
-import { StoredAutomation } from "../../utils/index.mts";
+import { formatAutomationContext } from "../../utils/helpers/format.mts";
+import type { StoredAutomation } from "../../utils/index.mts";
 
-export function ExecuteService({
-  coordinator,
-  config,
-  context,
-  logger,
-  metrics,
-}: TServiceParams) {
+export function ExecuteService({ coordinator, config, context, logger, metrics }: TServiceParams) {
   const extraProperties = new Map<string, unknown>([["is", is]]);
 
-  const hashBody = (body: string) =>
-    createHash("sha256").update(body).digest("hex");
+  const hashBody = (body: string) => createHash("sha256").update(body).digest("hex");
 
   /**
    * typescript in, javascript out
    *
    * cache files as a side effect (DON'T MAKE ME VALIDATE THEM ON THE OTHER SIDE!)
    */
-  function transpile(
-    body: string,
-    context: string,
-  ): [body: string, hash: string] {
+  function transpile(body: string, context: string): [body: string, hash: string] {
     const hash = hashBody(body);
     const file = join(config.coordinator.TRANSPILE_CACHE_PATH, context);
     const result = transpileModule(body, {
@@ -38,6 +30,7 @@ export function ExecuteService({
       },
     });
     if (config.coordinator.TRANSPILE_CACHE) {
+      mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, result.outputText, "utf8");
       logger.trace({ hash }, "transpile & write to file");
     }
@@ -50,11 +43,12 @@ export function ExecuteService({
       logger.warn("automation content is undefined, skipping");
       return () => {}; // return a no-op teardown function
     }
-    
-    // create a log context
-    const child = is.empty(automation.context)
-      ? formatObjectId(automation.title)
-      : automation.context;
+
+    // Create a log context from automation title or stored context
+    const child =
+      (!is.empty(automation.context) && `automation/${automation.context}`) ||
+      (!is.empty(automation.title) && formatAutomationContext(automation.title)) ||
+      `automation/${automation.id}`;
 
     const remover = coordinator.teardown.create(automation.id);
 
@@ -86,10 +80,7 @@ export function ExecuteService({
         logger.info({ hash }, "starting service: [%s]", child);
       });
     } catch (error) {
-      logger.error(
-        { context: child, error },
-        `service failed to initialize: ${error}`,
-      );
+      logger.error({ context: child, error }, `service failed to initialize: ${error}`);
     }
     return remover;
   };

@@ -17,7 +17,7 @@ import type {
 	StyleProp,
 	TextStyle,
 } from "react-native"
-import type { SpaceMarginProps, SpacePaddingProps } from "@/config/shorthands"
+import type { SpaceProps } from "../../config/shorthands"
 
 enum fitValues {
 	ellipsis = "ellipsis",
@@ -81,8 +81,7 @@ type TextProps = {
 	 * Children
 	 */
 	children?: string | React.ReactNode
-} & SpaceMarginProps &
-	SpacePaddingProps
+} & SpaceProps
 
 const Text: React.FC<TextProps> & {
 	style: typeof FontKey
@@ -141,8 +140,19 @@ const Text: React.FC<TextProps> & {
 			isParent,
 			letterCase: childLetterCase,
 			selectable: noUserSelect === undefined ? selectable : !noUserSelect,
+			styles: { ...context.styles, ..._style },
+			color: color || context.color,
 		}),
-		[isParent, childLetterCase, noUserSelect, selectable],
+		[
+			isParent,
+			childLetterCase,
+			noUserSelect,
+			selectable,
+			_style,
+			context.styles,
+			color,
+			context.color,
+		],
 	)
 
 	// Fit
@@ -181,9 +191,9 @@ const Text: React.FC<TextProps> & {
 			<TamaguiText
 				size={style}
 				userSelect={noUserSelect ? "none" : undefined}
-				color={color}
+				color={textState.color}
 				style={{
-					..._style,
+					...textState.styles,
 					...(noLineHeight ? { lineHeight: undefined } : {}),
 					fontVariant: tabularNumbers
 						? ["tabular-nums"]

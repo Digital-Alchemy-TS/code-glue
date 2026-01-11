@@ -3,7 +3,7 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import "unfonts.css"
 
-import { Frame } from "@/components/Frame"
+import { Frame } from "@/pages/Frame/Frame"
 
 // init the editor
 import "@/components/Editor/init"

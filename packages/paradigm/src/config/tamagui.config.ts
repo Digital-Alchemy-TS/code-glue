@@ -22,9 +22,11 @@ export const baseTokens = {
 	},
 	space: {
 		...defaultParadigmConfig.space,
+		thinStroke: 1,
 		space: 16,
 		true: 16,
 		betweenLists: 16,
+		betweenButtons: 6,
 		listItemEdgeInset: 6,
 		listItemBetweenItems: 4,
 		listItemStatusPosition: 6,

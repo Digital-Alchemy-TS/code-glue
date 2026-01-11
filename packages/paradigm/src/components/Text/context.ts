@@ -1,7 +1,8 @@
 import React from "react"
 
+import type { StyleProp, TextStyle } from "react-native"
+import type { TextProps as TamaguiTextProps } from "tamagui"
 import type { LetterCaseType } from "./letterCase"
-
 export type TextContextType = {
 	/**
 	 * will be set to true if this component is inside a Text component.
@@ -20,6 +21,14 @@ export type TextContextType = {
 	 * Is this text is selectable.
 	 */
 	selectable?: boolean
+	/**
+	 * Any styles set on the parent via the override _style
+	 */
+	styles?: StyleProp<TextStyle>
+	/**
+	 * Pass color down till https://github.com/tamagui/tamagui/issues/3789 is fixed
+	 */
+	color?: TamaguiTextProps["color"]
 }
 
 export const TextContext = React.createContext<TextContextType>({
@@ -27,4 +36,6 @@ export const TextContext = React.createContext<TextContextType>({
 	isParent: undefined,
 	letterCase: undefined,
 	selectable: true,
+	styles: undefined,
+	color: undefined,
 })

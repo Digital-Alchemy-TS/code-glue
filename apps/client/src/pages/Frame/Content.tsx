@@ -1,14 +1,13 @@
 import { useRouter } from "../../hooks/useRouter"
 import { AutomationDetail } from "../AutomationDetail"
+import { LogScreen } from "../LogScreen"
 export const Content = () => {
 	const [{ route }] = useRouter()
 
 	switch (route) {
-		case "logs":
-			return <div>TODO: Logs Section</div>
 		case "automations":
 			return <AutomationDetail />
-		default:
-			return <div>TODO: Home</div>
+		default: // Logs
+			return <LogScreen />
 	}
 }

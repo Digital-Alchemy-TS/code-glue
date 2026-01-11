@@ -1,8 +1,9 @@
+import { EventEmitter } from "node:events";
+
 import { is, MINUTE, type TServiceParams } from "@digital-alchemy/core";
 import { Type } from "@sinclair/typebox";
-import { EventEmitter } from "events";
 
-import { BadRequestError } from "../../utils/index.mts";
+import { BadRequestError, LogLevel } from "../../utils/index.mts";
 
 type UserProvidedData = Record<string, unknown>;
 
@@ -16,15 +17,6 @@ const LOG_LEVEL_PRIORITY = {
   warn: 40,
 } as const;
 
-enum LogLevel {
-  trace = "trace",
-  debug = "debug",
-  info = "info",
-  warn = "warn",
-  error = "error",
-  fatal = "fatal",
-}
-
 type BaseLogLine = UserProvidedData & {
   msg: string;
   context: string;
@@ -37,7 +29,7 @@ export const LogSearchParams = Type.Object({
   context: Type.Optional(Type.Union([Type.String(), Type.Array(Type.String())])),
   level: Type.Optional(
     Type.String({
-      enum: ["trace", "debug", "info", "warn", "error", "fatal"],
+      enum: Object.values(LogLevel),
     }),
   ),
 });
@@ -60,7 +52,6 @@ export function CodeGlueLogger({ internal, scheduler, config, context, logger }:
   scheduler.setInterval(() => {
     const cutoff = Date.now() - config.code_glue.LOG_STORAGE_DURATION_MINUTE * MINUTE;
     messages.forEach(i => {
-      // Fix: delete logs OLDER than cutoff, not newer
       if (i.timestamp < cutoff) {
         messages.delete(i);
       }
