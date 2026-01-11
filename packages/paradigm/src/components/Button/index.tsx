@@ -74,9 +74,11 @@ type ParadigmButtonProps<
 
 const { all: e1 } = getShadow({
 	shadowName: "elevation1",
+	forceBoxShadow: true,
 })
 const { all: e2 } = getShadow({
 	shadowName: "elevation2",
+	forceBoxShadow: true,
 })
 
 export const Button = ({
