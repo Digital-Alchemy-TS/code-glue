@@ -17,44 +17,55 @@ jobs:
       pull-requests: write
       checks: write
     steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # 6.1.0
         with:
           node-version: "22"
-      
+
       - name: Enable Corepack
         run: corepack enable
-      
+
       - name: Install dependencies
         run: yarn install
-      
+
       - name: Apply patches
         run: |
           cd packages/paradigm
           bash scripts/patch-if-present.sh
-      
+
       - name: Run typecheck
-        run: yarn typecheck
-      
+        uses: EPMatt/reviewdog-action-tsc@63d923a3c5b4497671940b8874f58a404e2351b5 # 1.11.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          level: error
+          fail_level: error
+
       - name: Lint server (ESLint)
-        run: |
-          cd apps/server
-          yarn lint --format json --output-file eslint-report.json || true
-          yarn lint
-        continue-on-error: true
-      
+        uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96 # 1.34.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          eslint_flags: "src/**/*.mts"
+          workdir: apps/server
+          fail_level: any
+
       - name: Lint client (Biome)
-        run: |
-          cd apps/client
-          yarn lint --reporter=github
-        continue-on-error: true
-      
+        uses: mongolyy/reviewdog-action-biome@abafdf75a79678ef8e2715298ee2dfc12262c82f #2.7.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          workdir: apps/client
+          fail_level: any
+
       - name: Lint paradigm (Biome)
-        run: |
-          cd packages/paradigm
-          yarn lint --reporter=github
-        continue-on-error: true
-      
+        uses: mongolyy/reviewdog-action-biome@abafdf75a79678ef8e2715298ee2dfc12262c82f #2.7.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          workdir: packages/paradigm
+          fail_level: any
+
       - name: Run tests
         run: yarn test
