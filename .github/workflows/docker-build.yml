@@ -104,9 +104,11 @@ jobs:
             sed -i "s/^version: .*/version: \"${VERSION}\"/" addon/config.yaml
             echo "Building production addon version ${VERSION}"
           elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:dev" >> $GITHUB_OUTPUT
+            # Use the bumped version from the previous step
+            DEV_VERSION="${{ env.VERSION }}"
+            echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${DEV_VERSION},${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:dev" >> $GITHUB_OUTPUT
             echo "config_dir=addon-dev" >> $GITHUB_OUTPUT
-            echo "Building dev addon"
+            echo "Building dev addon version ${DEV_VERSION}"
           else
             echo "tags=${{ env.REGISTRY }}/${IMAGE_NAME_LOWER}:${{ github.sha }}" >> $GITHUB_OUTPUT
             echo "config_dir=addon-dev" >> $GITHUB_OUTPUT
