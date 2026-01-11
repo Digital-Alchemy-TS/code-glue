@@ -32,7 +32,7 @@ export const Editor: React.FC = () => {
 
 		// if we have a value we can assume the model has been edited.
 		if (currentAutomationRef.current) {
-			currentAutomationRef.current.setIsEditied(true)
+			currentAutomationRef.current.setIsEdited(true)
 		}
 
 		// cancel the previous timer if it exists
@@ -47,7 +47,7 @@ export const Editor: React.FC = () => {
 			// update the edited state using data and save the draft
 			// TODO Move this into the store as a derived state
 			if (currentAutomationState) {
-				currentAutomationState.setIsEditied(
+				currentAutomationState.setIsEdited(
 					currentAutomationState.body !== value,
 				)
 

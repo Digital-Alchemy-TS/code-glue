@@ -101,7 +101,7 @@ const automationFactory = createFactory<AutomationType, Record<string, never>>(
 		},
 	})
 	.actions({
-		setIsEditied(isEdited: boolean) {
+		setIsEdited(isEdited: boolean) {
 			this._isEdited = isEdited
 		},
 	})
