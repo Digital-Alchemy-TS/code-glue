@@ -1,86 +1,73 @@
 /**
- * Prevents bounce/rubber-band scrolling on the document level
- * while allowing normal scrolling within child elements.
- *
- * Useful if an app is rendered in an iFrame and you don't want the full app to bounce scroll.
+ * Prevents scroll events from escaping the given root (e.g., your app wrapper) into the host page/iframe parent.
+ * It stops propagation on wheel/touchmove at the root and only preventsDefault when attempting to scroll past edges.
+ * Returns a cleanup function to remove listeners.
  */
-export function preventBounceScroll(): void {
-	const isScrollableAncestor = (target: EventTarget | null): boolean => {
-		if (!target || !(target instanceof Element)) return false
-		let el: Element | null = target as Element
+export function preventBounceScroll(): () => void {
+	const touchStartYById = new Map<number, number>()
 
-		// Traverse up the DOM to find a scrollable ancestor
-		while (el && el !== document.documentElement && el !== document.body) {
-			const style = window.getComputedStyle(el)
-			const isOverflowScroll =
-				style.overflowY === "auto" ||
-				style.overflowY === "scroll" ||
-				style.overflow === "auto" ||
-				style.overflow === "scroll"
-
-			// If this element is scrollable and has scrollable content, it's safe to allow default
-			if (isOverflowScroll && el.scrollHeight > el.clientHeight) {
-				return true
-			}
-			el = el.parentElement
-		}
-		return false
+	const isAtEdge = (el: HTMLElement, delta: number): boolean => {
+		const atTop = el.scrollTop <= 0
+		const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1
+		const scrollingDown = delta > 0
+		const scrollingUp = delta < 0
+		return (atTop && scrollingUp) || (atBottom && scrollingDown)
 	}
 
-	const preventBounceScroll = (e: WheelEvent | TouchEvent): void => {
-		// If scrolling within a scrollable child element, allow it
-		if (isScrollableAncestor(e.target)) {
-			return
+	const onWheel = (e: WheelEvent): void => {
+		// Keep the event inside the iframe/root
+		e.stopPropagation()
+		if (isAtEdge(document.documentElement, e.deltaY)) {
+			e.preventDefault()
 		}
+	}
 
-		// Only prevent bounce at document edges
-		if (e instanceof WheelEvent) {
-			const atTop = window.scrollY === 0
-			const atBottom =
-				window.scrollY + window.innerHeight >=
-				document.documentElement.scrollHeight
-			const scrollingDown = e.deltaY > 0
-			const scrollingUp = e.deltaY < 0
-
-			if ((atTop && scrollingUp) || (atBottom && scrollingDown)) {
-				e.preventDefault()
-			}
-		} else if (e instanceof TouchEvent) {
-			const atTop = window.scrollY === 0
-			const atBottom =
-				window.scrollY + window.innerHeight >=
-				document.documentElement.scrollHeight
-
-			if (e.touches.length > 0) {
-				const touch = e.touches[0]
-				if (touch) {
-					const touchStartY =
-						(e as TouchEventWithStartY).touchStartY ?? touch.clientY
-					const isMovingUp = touch.clientY > touchStartY
-
-					if ((atTop && isMovingUp) || (atBottom && !isMovingUp)) {
-						e.preventDefault()
-					}
-				}
+	const onTouchStart = (e: TouchEvent): void => {
+		if (e.touches.length > 0) {
+			const touch = e.touches[0]
+			if (touch) {
+				touchStartYById.set(touch.identifier, touch.clientY)
 			}
 		}
 	}
 
-	// Track touch start position for direction detection
-	const handleTouchStart = (e: TouchEvent): void => {
-		if (e.touches.length > 0 && e.touches[0]) {
-			;(e as TouchEventWithStartY).touchStartY = e.touches[0].clientY
+	const onTouchMove = (e: TouchEvent): void => {
+		if (e.touches.length === 0) return
+		const touch = e.touches[0]
+		if (!touch) return
+		const startY = touchStartYById.get(touch.identifier) ?? touch.clientY
+		const deltaY = startY - touch.clientY // positive when moving up
+
+		// Keep the event inside the iframe/root
+		e.stopPropagation()
+		if (isAtEdge(document.documentElement, deltaY)) {
+			e.preventDefault()
 		}
 	}
 
-	document.addEventListener("wheel", preventBounceScroll, { passive: false })
-	document.addEventListener("touchstart", handleTouchStart, { passive: true })
-	document.addEventListener("touchmove", preventBounceScroll, {
+	document.documentElement.addEventListener("wheel", onWheel, {
 		passive: false,
+		capture: true,
 	})
-}
+	document.documentElement.addEventListener("touchstart", onTouchStart, {
+		passive: true,
+		capture: true,
+	})
+	document.documentElement.addEventListener("touchmove", onTouchMove, {
+		passive: false,
+		capture: true,
+	})
 
-// Extend TouchEvent type to include custom property
-interface TouchEventWithStartY extends TouchEvent {
-	touchStartY?: number
+	return () => {
+		document.documentElement.removeEventListener("wheel", onWheel, {
+			capture: true,
+		} as EventListenerOptions)
+		document.documentElement.removeEventListener("touchstart", onTouchStart, {
+			capture: true,
+		} as EventListenerOptions)
+		document.documentElement.removeEventListener("touchmove", onTouchMove, {
+			capture: true,
+		} as EventListenerOptions)
+		touchStartYById.clear()
+	}
 }
