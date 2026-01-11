@@ -2,6 +2,7 @@ import React from "react"
 
 import {
 	Button,
+	ButtonRow,
 	Column,
 	Icon,
 	type ScrollViewRef,
@@ -17,18 +18,22 @@ export const LogScreen = () => {
 		<Column grow>
 			<Header>
 				<Text>Logs</Text>
-				<Button
-					icon={Icon.ChevronDown}
-					onPress={() => {
-						scrollViewRef.current?.scrollToEnd({ animated: true })
-					}}
-				/>
-				<Button
-					icon={Icon.ChevronUp}
-					onPress={() => {
-						scrollViewRef.current?.scrollTo({ y: 0, animated: true })
-					}}
-				/>
+				<ButtonRow>
+					<Button
+						icon={Icon.ChevronDown}
+						isRaised
+						onPress={() => {
+							scrollViewRef.current?.scrollToEnd({ animated: true })
+						}}
+					/>
+					<Button
+						icon={Icon.ChevronUp}
+						isRaised
+						onPress={() => {
+							scrollViewRef.current?.scrollTo({ y: 0, animated: true })
+						}}
+					/>
+				</ButtonRow>
 			</Header>
 			<Logs ref={scrollViewRef} />
 		</Column>
