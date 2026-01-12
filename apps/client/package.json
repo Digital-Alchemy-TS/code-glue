@@ -16,10 +16,10 @@
   },
   "dependencies": {
     "@code-glue/paradigm": "workspace:^",
-    "@monaco-editor/react": "^4.7.0",
+    "@monaco-editor/react": "4.7.0",
     "@tiltshift/valtio-factory": "2.0.3",
-    "@typescript/ata": "^0.9.8",
-    "monaco-editor": "^0.54.0",
+    "@typescript/ata": "0.9.8",
+    "monaco-editor": "0.55.1",
     "monaco-prettier": "^1.0.0",
     "nuqs": "^2.8.3",
     "prettier": "^3.7.4",

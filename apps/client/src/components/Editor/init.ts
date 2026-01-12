@@ -7,7 +7,7 @@ import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker"
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker"
 import { configureMonacoPrettier } from "monaco-prettier"
 import { createHighlighter } from "shiki"
-import ts from "typescript"
+import * as ts from "typescript"
 import { subscribe } from "valtio"
 
 import { appConfig } from "@/config"
@@ -32,10 +32,10 @@ self.MonacoEnvironment = {
 }
 
 // # Configure TypeScript compiler options
-monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
-	target: monaco.languages.typescript.ScriptTarget.Latest,
-	moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
-	module: monaco.languages.typescript.ModuleKind.CommonJS,
+monaco.typescript.typescriptDefaults.setCompilerOptions({
+	target: monaco.typescript.ScriptTarget.Latest,
+	moduleResolution: monaco.typescript.ModuleResolutionKind.NodeJs,
+	module: monaco.typescript.ModuleKind.CommonJS,
 	moduleDetection: 3, // Allow automations to have the same var names without TS complaining. https://github.com/microsoft/monaco-editor/issues/2976
 	allowNonTsExtensions: true,
 	allowSyntheticDefaultImports: true,
@@ -85,7 +85,7 @@ const unsubscribe = subscribe(store.apiStatus, () => {
 		const editorSupport = store.editorSupport
 		const header = editorSupport.automationHeader
 
-		monaco.languages.typescript.typescriptDefaults.addExtraLib(
+		monaco.typescript.typescriptDefaults.addExtraLib(
 			`${header}`,
 			"file:///globals.ts",
 		)
@@ -116,10 +116,7 @@ const unsubscribe = subscribe(store.apiStatus, () => {
 								break
 						}
 
-						monaco.languages.typescript.typescriptDefaults.addExtraLib(
-							code,
-							filePath,
-						)
+						monaco.typescript.typescriptDefaults.addExtraLib(code, filePath)
 					},
 				},
 				fetcher: async (url) => {
@@ -157,6 +154,23 @@ const unsubscribe = subscribe(store.apiStatus, () => {
 		unsubscribe()
 	}
 })
+
+// Prevent Monaco from auto-creating models when navigating to type definitions
+// This is a workaround for https://github.com/microsoft/monaco-editor/issues/2813
+const originalCreateModel = monaco.editor.createModel
+monaco.editor.createModel = function (value, language, uri, ...args) {
+	// If Monaco tries to create a model for a file we've already added as extraLib, skip it
+	if (uri?.path.includes("node_modules")) {
+		/**
+		 * We return null here instead of an empty model because
+		 * this way monaco will remove the peak and goto definition links entirely.
+		 * If an empty model is provided, these links exist, but go to a blank file.
+		 */
+		// biome-ignore lint/suspicious/noExplicitAny: while types say you can't create a model this way, it works and provides the best possible UI.
+		return null as any
+	}
+	return originalCreateModel.call(this, value, language, uri, ...args)
+}
 
 // Load Monaco via the loader
 loader.config({ monaco })

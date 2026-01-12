@@ -96,6 +96,10 @@ export const Editor: React.FC = () => {
 					automaticLayout: true,
 					occurrencesHighlight: "off",
 					scrollBeyondLastLine: false,
+					quickSuggestions: {
+						strings: true,
+					},
+					codeLens: false,
 				},
 
 				...(path && { path }),
