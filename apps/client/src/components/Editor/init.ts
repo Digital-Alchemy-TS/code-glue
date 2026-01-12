@@ -41,6 +41,9 @@ monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
 	allowSyntheticDefaultImports: true,
 	esModuleInterop: true,
 	typeRoots: ["/globals.ts"],
+	// Optimize worker performance
+	maxNodeModuleJsDepth: 0, // Don't check node_modules JS files
+	skipLibCheck: true, // Skip type checking of declaration files
 })
 
 // # Configure Prettier
@@ -143,6 +146,13 @@ const unsubscribe = subscribe(store.apiStatus, () => {
 		}
 
 		ata()(header)
+
+		// Create a dummy model to prime the TypeScript worker
+		// This ensures types are loaded before any editor is mounted
+		const uri = monaco.Uri.parse("file:///automations/_init.ts")
+		// Add code that uses the heavy types to force TS worker to load them
+		const model = monaco.editor.createModel("", "typescript", uri)
+		model.dispose()
 
 		unsubscribe()
 	}

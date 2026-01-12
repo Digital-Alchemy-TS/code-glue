@@ -4,7 +4,7 @@ import { Column, Layout } from "@code-glue/paradigm"
 import { Editor } from "@/components/Editor"
 import { useCurrentAutomation } from "@/hooks/useAutomation"
 import { Footer } from "./Footer"
-import { Header } from "./Header"
+import { AutomationHeader } from "./Header"
 
 export const AutomationDetail = () => {
 	const { saveCurrentAutomation } = useCurrentAutomation()
@@ -23,7 +23,7 @@ export const AutomationDetail = () => {
 		<Layout.VerticalSplit
 			top={
 				<Column grow>
-					<Header />
+					<AutomationHeader />
 					<Editor />
 				</Column>
 			}

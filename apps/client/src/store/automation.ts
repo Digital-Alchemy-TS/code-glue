@@ -136,6 +136,20 @@ const automationFactory = createFactory<AutomationType, Record<string, never>>(
 					console.error("client -> server push error", error)
 				})
 		},
+		async delete() {
+			await fetch(`${baseUrl}/api/v1/automation/${this.id}`, {
+				method: "DELETE",
+			})
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error(`Failed to delete automation with id ${this.id}`)
+					}
+					automationStore.delete(this.id)
+				})
+				.catch((error) => {
+					console.error("client -> server delete error", error)
+				})
+		},
 	})
 	.actions({
 		update(updates: AutomationUpdateOptions) {
