@@ -1,38 +1,42 @@
-import { useSnapshot } from "valtio"
-
-import { Button, Column, Row, Text, TextInput } from "@code-glue/paradigm"
+import { Button, ButtonRow, Row, Text, TextInput } from "@code-glue/paradigm"
+import { Header } from "@/components/Header"
 import { useCurrentAutomation } from "@/hooks/useAutomation"
-import { store } from "@/store"
+import { useRouter } from "@/hooks/useRouter"
 
-export const Header = () => {
+export const AutomationHeader = () => {
 	const { automation, automationSnapshot, saveCurrentAutomation } =
 		useCurrentAutomation()
-	const { isBodyEdited, newAutomationTitle } = useSnapshot(store.state)
+	const [, navigateTo] = useRouter()
 
 	return (
-		<Column
-			borderBottomColor="$borderColor"
-			borderBottomWidth="$size.stroke"
-			noShrink
-		>
+		<Header>
 			<Row mx={12}>
 				<Text>Name:</Text>
 				<TextInput
 					onChangeText={(title) => {
 						if (automation) {
 							automation.update({ title })
-						} else {
-							store.state.newAutomationTitle = title
 						}
 					}}
-					value={automation ? automationSnapshot.title : newAutomationTitle}
+					value={automation ? automationSnapshot.title : ""}
 				/>
 			</Row>
 			<Row>
 				<Text>Status:</Text>
-				<Text>{isBodyEdited ? "Edited" : "Unedited"}</Text>
-				<Button label="Save" onPress={saveCurrentAutomation} />
+				<Text>{automation?._isEdited ? "Edited" : "Unedited"}</Text>
+				<ButtonRow>
+					<Button label="Save" isRaised onPress={saveCurrentAutomation} />
+					<Button
+						label="Delete"
+						isRaised
+						isNegative
+						onPress={() => {
+							automation?.delete()
+							navigateTo("home")
+						}}
+					/>
+				</ButtonRow>
 			</Row>
-		</Column>
+		</Header>
 	)
 }

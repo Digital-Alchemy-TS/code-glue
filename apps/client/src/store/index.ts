@@ -12,7 +12,6 @@ import type {
 } from "@code-glue/server/utils/index.mts"
 import type { Monaco } from "@monaco-editor/react"
 import type { editor } from "monaco-editor"
-import type { SectionIds } from "@/config"
 
 export const store = proxy({
 	isReady: false,
@@ -42,12 +41,6 @@ export const store = proxy({
 			services: "",
 			allowedATAPackages: [] as string[],
 		},
-	},
-	/**
-	 * UI State
-	 */
-	state: {
-		currentNavSection: null as SectionIds | null,
 	},
 	/**
 	 * API Update/Connection Status
