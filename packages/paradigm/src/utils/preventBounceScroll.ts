@@ -1,73 +1,84 @@
 /**
  * Prevents scroll events from escaping the given root (e.g., your app wrapper) into the host page/iframe parent.
- * It stops propagation on wheel/touchmove at the root and only preventsDefault when attempting to scroll past edges.
+ * Allows internal scrollable elements to function while preventing iframe-level scrolling.
  * Returns a cleanup function to remove listeners.
  */
 export function preventBounceScroll(): () => void {
-	const touchStartYById = new Map<number, number>()
+	/**
+	 * Check if element or any parent can scroll in the direction of the wheel event
+	 */
+	const canElementScroll = (
+		element: Element | null,
+		deltaY: number,
+	): boolean => {
+		let current = element
+		while (current && current !== document.documentElement) {
+			const el = current as HTMLElement
+			const style = window.getComputedStyle(el)
+			const overflowY = style.overflowY
 
-	const isAtEdge = (el: HTMLElement, delta: number): boolean => {
-		const atTop = el.scrollTop <= 0
-		const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1
-		const scrollingDown = delta > 0
-		const scrollingUp = delta < 0
-		return (atTop && scrollingUp) || (atBottom && scrollingDown)
+			// Check if element has scrollable overflow
+			if (
+				overflowY === "auto" ||
+				overflowY === "scroll" ||
+				overflowY === "overlay"
+			) {
+				const hasScrollableContent = el.scrollHeight > el.clientHeight
+
+				if (hasScrollableContent) {
+					// Check if we can scroll in the intended direction
+					const scrollingDown = deltaY > 0
+					const scrollingUp = deltaY < 0
+					const canScrollDown =
+						el.scrollTop < el.scrollHeight - el.clientHeight - 1
+					const canScrollUp = el.scrollTop > 1
+
+					if (
+						(scrollingDown && canScrollDown) ||
+						(scrollingUp && canScrollUp)
+					) {
+						return true
+					}
+				}
+			}
+
+			current = current.parentElement
+		}
+		return false
 	}
 
 	const onWheel = (e: WheelEvent): void => {
-		// Keep the event inside the iframe/root
+		// Always stop propagation to keep events in iframe
 		e.stopPropagation()
-		if (isAtEdge(document.documentElement, e.deltaY)) {
-			e.preventDefault()
-		}
-	}
 
-	const onTouchStart = (e: TouchEvent): void => {
-		if (e.touches.length > 0) {
-			const touch = e.touches[0]
-			if (touch) {
-				touchStartYById.set(touch.identifier, touch.clientY)
-			}
+		// Only prevent default if no scrollable ancestor can handle this scroll
+		if (!canElementScroll(e.target as Element, e.deltaY)) {
+			e.preventDefault()
 		}
 	}
 
 	const onTouchMove = (e: TouchEvent): void => {
-		if (e.touches.length === 0) return
-		const touch = e.touches[0]
-		if (!touch) return
-		const startY = touchStartYById.get(touch.identifier) ?? touch.clientY
-		const deltaY = startY - touch.clientY // positive when moving up
-
-		// Keep the event inside the iframe/root
+		// Always stop propagation to keep events in iframe
 		e.stopPropagation()
-		if (isAtEdge(document.documentElement, deltaY)) {
-			e.preventDefault()
-		}
+
+		// For touch, we'd need to track the delta, so just let it through for now
+		// The CSS overflow: hidden on body will prevent document scrolling
 	}
 
-	document.documentElement.addEventListener("wheel", onWheel, {
+	// Set overflow hidden on body to prevent document scrolling
+	const originalBodyOverflow = document.body.style.overflow
+	document.body.style.overflow = "hidden"
+
+	window.addEventListener("wheel", onWheel, {
 		passive: false,
-		capture: true,
 	})
-	document.documentElement.addEventListener("touchstart", onTouchStart, {
-		passive: true,
-		capture: true,
-	})
-	document.documentElement.addEventListener("touchmove", onTouchMove, {
+	window.addEventListener("touchmove", onTouchMove, {
 		passive: false,
-		capture: true,
 	})
 
 	return () => {
-		document.documentElement.removeEventListener("wheel", onWheel, {
-			capture: true,
-		} as EventListenerOptions)
-		document.documentElement.removeEventListener("touchstart", onTouchStart, {
-			capture: true,
-		} as EventListenerOptions)
-		document.documentElement.removeEventListener("touchmove", onTouchMove, {
-			capture: true,
-		} as EventListenerOptions)
-		touchStartYById.clear()
+		document.body.style.overflow = originalBodyOverflow
+		window.removeEventListener("wheel", onWheel)
+		window.removeEventListener("touchmove", onTouchMove)
 	}
 }
