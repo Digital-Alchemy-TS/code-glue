@@ -151,7 +151,8 @@ const unsubscribe = subscribe(store.apiStatus, () => {
 		// This ensures types are loaded before any editor is mounted
 		const uri = monaco.Uri.parse("file:///automations/_init.ts")
 		// Add code that uses the heavy types to force TS worker to load them
-		monaco.editor.createModel("", "typescript", uri)
+		const model = monaco.editor.createModel("", "typescript", uri)
+		model.dispose()
 
 		unsubscribe()
 	}
