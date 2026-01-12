@@ -99,6 +99,7 @@ export const Editor: React.FC = () => {
 					quickSuggestions: {
 						strings: true,
 					},
+					codeLens: false,
 				},
 
 				...(path && { path }),
