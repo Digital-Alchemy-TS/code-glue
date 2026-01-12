@@ -161,6 +161,12 @@ const originalCreateModel = monaco.editor.createModel
 monaco.editor.createModel = function (value, language, uri, ...args) {
 	// If Monaco tries to create a model for a file we've already added as extraLib, skip it
 	if (uri?.path.includes("node_modules")) {
+		/**
+		 * We return null here instead of an empty model because
+		 * this way monaco will remove the peak and goto definition links entirely.
+		 * If an empty model is provided, these links exist, but go to a blank file.
+		 */
+		// biome-ignore lint/suspicious/noExplicitAny: while types say you can't create a model this way, it works and provides the best possible UI.
 		return null as any
 	}
 	return originalCreateModel.call(this, value, language, uri, ...args)
