@@ -11,7 +11,7 @@ const refByMethods = [
 ]
 
 export function registerCompletions(): void {
-	// Add auto-parentheses for refBy methods
+	// Combined completion provider for ["."]
 	monaco.languages.registerCompletionItemProvider("typescript", {
 		triggerCharacters: ["."],
 		provideCompletionItems: (model, position) => {
@@ -22,16 +22,35 @@ export function registerCompletions(): void {
 				endColumn: position.column,
 			})
 
-			// Check if we're completing after "refBy."
-			if (!textUntilPosition.match(/refBy\.\w*$/)) {
-				return null
+			let suggestions: monaco.languages.CompletionItem[] = []
+
+			// Check if we're completing after "hass."
+			if (textUntilPosition.match(/hass\.\w*$/)) {
+				suggestions.push({
+					label: "refBy",
+					kind: monaco.languages.CompletionItemKind.Property,
+					insertText: "refBy.",
+					detail: "Quick Access to refBy",
+					command: {
+						title: "Quick Suggestion",
+						id: "editor.action.triggerSuggest",
+					},
+					range: {
+						startLineNumber: position.lineNumber,
+						startColumn: position.column,
+						endLineNumber: position.lineNumber,
+						endColumn: position.column,
+					},
+					sortText: "0_refBy",
+				})
 			}
 
-			const suggestions: monaco.languages.CompletionItem[] = refByMethods.map(
-				(method) => ({
+			// Check if we're completing after "refBy."
+			if (textUntilPosition.match(/refBy\.\w*$/)) {
+				suggestions = refByMethods.map((method) => ({
 					label: method.name,
 					kind: monaco.languages.CompletionItemKind.Method,
-					insertText: `${method.name}("\${1}")\${2}`,
+					insertText: `${method.name}("\${1}")\${0}`,
 					insertTextRules:
 						monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
 					detail: method.detail,
@@ -45,11 +64,11 @@ export function registerCompletions(): void {
 						endLineNumber: position.lineNumber,
 						endColumn: position.column,
 					},
-					sortText: `0_${method.name}`, // Prioritize these suggestions
-				}),
-			)
+					sortText: `0_${method.name}`,
+				}))
+			}
 
-			return { suggestions }
+			return suggestions.length > 0 ? { suggestions } : null
 		},
 	})
 }
