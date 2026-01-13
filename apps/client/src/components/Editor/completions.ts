@@ -3,11 +3,11 @@ import * as monaco from "monaco-editor"
 // List of refBy methods that support string parameters
 // Add new methods here as they're added to the refBy service
 const refByMethods = [
-	{ name: "id", detail: "(entity_id: string)" },
-	{ name: "area", detail: "(area: string)" },
-	{ name: "device", detail: "(device: string)" },
-	{ name: "floor", detail: "(floor: string)" },
-	{ name: "label", detail: "(label: string)" },
+	{ name: "id", detail: "a single HASS entity" },
+	{ name: "area", detail: "an area (collection of devices)" },
+	{ name: "device", detail: "a HASS device" },
+	{ name: "floor", detail: "floor (group for area)" },
+	{ name: "label", detail: "a HASS label" },
 ]
 
 export function registerCompletions(): void {
