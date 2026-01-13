@@ -20,14 +20,16 @@ export const AutomationDetail = () => {
 		{ enableOnFormTags: true, preventDefault: true },
 	)
 	return (
-		<Layout.VerticalSplit
-			top={
-				<Column grow>
-					<AutomationHeader />
-					<Editor />
-				</Column>
-			}
-			bottom={<Footer />}
-		/>
+		<Column grow>
+			<AutomationHeader />
+			<Layout.VerticalSplit
+				top={
+					<Column grow>
+						<Editor />
+					</Column>
+				}
+				bottom={<Footer />}
+			/>
+		</Column>
 	)
 }
