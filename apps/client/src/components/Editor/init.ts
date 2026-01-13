@@ -12,6 +12,7 @@ import { subscribe } from "valtio"
 
 import { appConfig } from "@/config"
 import { store } from "@/store"
+import { registerCompletions } from "./completions"
 import prettierWorker from "./prettier.worker?worker"
 
 // Load Monaco locally vs. via the CDN
@@ -157,6 +158,9 @@ const unsubscribe = subscribe(store.apiStatus, () => {
 		unsubscribe()
 	}
 })
+
+// # Custom Completion Providers
+registerCompletions()
 
 // Prevent Monaco from auto-creating models when navigating to type definitions
 // This is a workaround for https://github.com/microsoft/monaco-editor/issues/2813
