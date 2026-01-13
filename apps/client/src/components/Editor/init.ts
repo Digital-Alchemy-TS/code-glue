@@ -32,10 +32,10 @@ self.MonacoEnvironment = {
 }
 
 // # Configure TypeScript compiler options
-monaco.typescript.typescriptDefaults.setCompilerOptions({
-	target: monaco.typescript.ScriptTarget.Latest,
-	moduleResolution: monaco.typescript.ModuleResolutionKind.NodeJs,
-	module: monaco.typescript.ModuleKind.CommonJS,
+monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+	target: monaco.languages.typescript.ScriptTarget.Latest,
+	moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+	module: monaco.languages.typescript.ModuleKind.CommonJS,
 	moduleDetection: 3, // Allow automations to have the same var names without TS complaining. https://github.com/microsoft/monaco-editor/issues/2976
 	allowNonTsExtensions: true,
 	allowSyntheticDefaultImports: true,
@@ -85,7 +85,7 @@ const unsubscribe = subscribe(store.apiStatus, () => {
 		const editorSupport = store.editorSupport
 		const header = editorSupport.automationHeader
 
-		monaco.typescript.typescriptDefaults.addExtraLib(
+		monaco.languages.typescript.typescriptDefaults.addExtraLib(
 			`${header}`,
 			"file:///globals.ts",
 		)
@@ -116,7 +116,10 @@ const unsubscribe = subscribe(store.apiStatus, () => {
 								break
 						}
 
-						monaco.typescript.typescriptDefaults.addExtraLib(code, filePath)
+						monaco.languages.typescript.typescriptDefaults.addExtraLib(
+							code,
+							filePath,
+						)
 					},
 				},
 				fetcher: async (url) => {
