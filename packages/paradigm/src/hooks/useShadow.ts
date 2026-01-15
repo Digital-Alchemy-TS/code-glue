@@ -27,16 +27,16 @@ type ShadowParams = {
 	/**
 	 * The name of the shadow style from Figma
 	 */
-	shadowName?: ShadowName
+	shadowName?: ShadowName | undefined
 	/**
 	 * The color to use for replaceable shadows. Defaults to gray
 	 */
-	color?: string | Color
+	color?: string | Color | undefined
 	/**
 	 * If true, forces all shadows to use boxShadow. Defaults to false (uses filter for drop shadows).
 	 * Be sure to check safari as it rarely has bugs
 	 */
-	forceBoxShadow?: boolean
+	forceBoxShadow?: boolean | undefined
 }
 
 const convertToRGB = converter("rgb")

@@ -35,15 +35,15 @@ export type BaseListItemProps = UseListItemProps & {
 	/**
 	 * Is the list item disabled?
 	 */
-	isDisabled?: boolean
+	isDisabled?: boolean | undefined
 	/**
 	 * is the list item currently being dragged?
 	 */
-	isDragged?: boolean
+	isDragged?: boolean | undefined
 	/**
 	 * Is the list item floating (either being dragged or dropped and animating)
 	 */
-	isFloating?: boolean
+	isFloating?: boolean | undefined
 	/**
 	 * if this is true the following props will not work:
 	 * `onPress`, `onHoverStateChange`, `onActiveStateChange`
@@ -54,7 +54,7 @@ export type BaseListItemProps = UseListItemProps & {
 	/**
 	 * set to true if this is a settings list item
 	 */
-	isSettingsItem?: boolean
+	isSettingsItem?: boolean | undefined
 	/**
 	 * a StatusHandler like component for handling the items status.
 	 * defaults to `StatusHandler` from `ListItem

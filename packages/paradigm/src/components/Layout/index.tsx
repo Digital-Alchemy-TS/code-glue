@@ -1,6 +1,10 @@
+import { Panel, PanelGroup } from "@window-splitter/react"
+
 import { ComponentError } from "../ComponentError"
+import { ResizeHandle } from "./Handle"
 import { SideNav } from "./SideNav"
-import { TabSection } from "./TabSection"
+import { TabPanel } from "./TabPanel"
+import { VerticalSplitWithTabPanel } from "./VerticalContentWithTabPanel"
 import { VerticalSplit } from "./VerticalSplit"
 
 const Layout = () => (
@@ -8,6 +12,10 @@ const Layout = () => (
 )
 Layout.SideNav = SideNav
 Layout.VerticalSplit = VerticalSplit
-Layout.TabSection = TabSection
+Layout.VerticalSplitWithTabPanel = VerticalSplitWithTabPanel
+Layout.TabPanel = TabPanel
+Layout.Panel = Panel
+Layout.PanelGroup = PanelGroup
+Layout.ResizeHandle = ResizeHandle
 
 export { Layout }

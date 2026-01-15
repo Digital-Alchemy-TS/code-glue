@@ -16,19 +16,19 @@ export type TextContextType = {
 	/**
 	 * The letter case to apply to the text. Because this is calculated in JS, it isn't inherited by child <Text> components automatically..
 	 */
-	letterCase?: LetterCaseType
+	letterCase?: LetterCaseType | undefined
 	/**
 	 * Is this text is selectable.
 	 */
-	selectable?: boolean
+	selectable?: boolean | undefined
 	/**
 	 * Any styles set on the parent via the override _style
 	 */
-	styles?: StyleProp<TextStyle>
+	styles?: StyleProp<TextStyle> | undefined
 	/**
 	 * Pass color down till https://github.com/tamagui/tamagui/issues/3789 is fixed
 	 */
-	color?: TamaguiTextProps["color"]
+	color?: TamaguiTextProps["color"] | undefined
 }
 
 export const TextContext = React.createContext<TextContextType>({

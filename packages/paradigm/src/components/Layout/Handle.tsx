@@ -105,7 +105,7 @@ export const ResizeHandle = ({
 
 	return (
 		<PanelResizer
-			size={`1px`}
+			size="1px"
 			style={{
 				display: "flex",
 				// Sets the grow direction
@@ -118,7 +118,6 @@ export const ResizeHandle = ({
 			onDragEnd={() => {
 				setIsDragging(false)
 			}}
-			// hitAreaMargins={{ coarse: 15, fine: slop }}
 		>
 			<MotionView
 				position="relative"

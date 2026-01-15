@@ -17,13 +17,13 @@ export type UseListItemProps = {
 	/**
 	 * is this list item loading?
 	 */
-	isLoading?: boolean
+	isLoading?: boolean | undefined
 	/**
 	 * is this list item currently selected?
 	 */
-	isSelected?: boolean
+	isSelected?: boolean | undefined
 	/**
 	 * is this list item currently picked in a chooser?
 	 */
-	isPicked?: boolean
+	isPicked?: boolean | undefined
 }

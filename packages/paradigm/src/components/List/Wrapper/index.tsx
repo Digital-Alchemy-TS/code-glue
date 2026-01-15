@@ -15,30 +15,32 @@ export type ExternalWrapperProps = {
 	/**
 	 * Set this to `true` when the list is loading.
 	 */
-	isLoading?: boolean
+	isLoading?: boolean | undefined
 	/**
 	 * The content to show if the list is empty instead of the default.
 	 */
-	emptyContent?: React.ComponentProps<typeof EmptyContent>["children"]
+	emptyContent?:
+		| React.ComponentProps<typeof EmptyContent>["children"]
+		| undefined
 	/**
 	 * Anything you want to render before the list (within its scrollview) goes here.
 	 *
 	 * Note this is only rendered by the wrapper when the list is empty or loading.
 	 * Otherwise the list itself should handle it
 	 */
-	beforeList?: React.ReactElement
+	beforeList?: React.ReactElement | undefined
 	/**
 	 * Anything you want to render after the list (within its scrollview) goes here.
 	 *
 	 * Note this is only rendered by the wrapper when the list is empty or loading.
 	 * Otherwise the list itself should handle it
 	 */
-	afterList?: React.ReactElement
+	afterList?: React.ReactElement | undefined
 	/**
 	 * a header for the list.
 	 * Shows up over the list items (when not loading or empty) and scrolls with the list.
 	 */
-	header?: string
+	header?: string | undefined
 }
 
 type ListWrapperProps = ExternalWrapperProps &
@@ -47,11 +49,11 @@ type ListWrapperProps = ExternalWrapperProps &
 		 * Set this to `true` when the list is empty.
 		 * Has a default that can be overwritten with `emptyContent`
 		 */
-		isEmpty?: boolean
+		isEmpty?: boolean | undefined
 		/**
 		 * Is this wrapper wrapping a virtual list?
 		 */
-		isVirtual?: boolean
+		isVirtual?: boolean | undefined
 		/**
 		 * The actual list goes here!
 		 */
@@ -60,7 +62,7 @@ type ListWrapperProps = ExternalWrapperProps &
 		 * a header for the list.
 		 * Shows up over the list items (when not loading or empty) and scrolls with the list.
 		 */
-		header?: string
+		header?: string | undefined
 	}
 
 export const ListWrapper = React.memo<ListWrapperProps>(function ListWrapper({

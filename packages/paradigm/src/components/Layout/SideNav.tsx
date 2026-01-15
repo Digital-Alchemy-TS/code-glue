@@ -1,5 +1,6 @@
 import { Panel, PanelGroup } from "@window-splitter/react"
 
+import { baseTokens } from "../../config/tamagui.config"
 import { ResizeHandle } from "./Handle"
 
 type SideNavProps = {
@@ -46,21 +47,21 @@ export const SideNav = ({
 	nav,
 	content,
 	autosaveId,
-	min = 280,
-	max = 560,
-	defaultSize = 280,
+	min = baseTokens.size.mainNavMinWidth,
+	max = baseTokens.size.mainNavMaxWidth,
+	defaultSize = baseTokens.size.mainNavMinWidth,
 	collapsible = false,
 	collapsedSize,
 	defaultCollapsed = false,
 }: SideNavProps) => {
 	return (
-		<PanelGroup orientation="horizontal" autosaveId={autosaveId}>
+		<PanelGroup orientation="horizontal" autosaveId={autosaveId as string}>
 			<Panel
 				min={`${min}px`}
 				max={`${max}px`}
+				{...(collapsedSize && { collapsedSize: `${collapsedSize}px` })}
 				default={`${defaultSize}px`}
 				collapsible={collapsible}
-				collapsedSize={collapsedSize ? `${collapsedSize}px` : undefined}
 				defaultCollapsed={defaultCollapsed}
 				isStaticAtRest={true}
 				style={{ display: "flex" }}

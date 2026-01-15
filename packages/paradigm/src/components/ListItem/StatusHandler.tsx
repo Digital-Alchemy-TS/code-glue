@@ -1,5 +1,6 @@
 import { AnimatePresence } from "motion/react"
 
+import { animations } from "../../config/animation.config"
 import { MotionView } from "../View"
 
 export type StatusHandlerProps = {
@@ -26,12 +27,9 @@ export const StatusHandler = ({
 						initial={{ opacity: 0 }}
 						exit={{ opacity: 0 }}
 						animate={{ opacity: 0.5 }}
-						transition={{
-							type: "spring",
-							bounce: 0.45,
-							visualDuration: 0.25,
-						}}
+						transition={animations.slideSpring}
 						radius={"$md"}
+						layoutDependency={isHovered}
 					/>
 				)}
 			</AnimatePresence>
@@ -43,7 +41,7 @@ export const StatusHandler = ({
 					initial={{ opacity: 0 }}
 					exit={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
-					transition={{ type: "spring", bounce: 0.45, visualDuration: 0.25 }}
+					transition={animations.slideSpring}
 					color={"$listItemActive"}
 					radius={"$md"}
 				/>
@@ -54,9 +52,10 @@ export const StatusHandler = ({
 					fillContainer
 					layoutId="selected"
 					// style={{ opacity: 0.25 }}
-					transition={{ type: "spring", bounce: 0.45, visualDuration: 0.25 }}
+					transition={animations.slideSpring}
 					color={"$listItemSelected"}
 					radius={"$md"}
+					layoutDependency={isSelected}
 				/>
 			)}
 		</>

@@ -12,6 +12,8 @@ export const baseTokens = {
 		true: 16,
 		input: 32,
 		tabHeight: 40,
+		tabContentMinHeight: 40,
+		tabContentDefaultSize: 280,
 		listHeaderHeight: 45,
 		listHeaderHeightSticky: 32,
 		listItemStatusSize: 4,
@@ -19,6 +21,8 @@ export const baseTokens = {
 		listItemFirstLineIconSize: 14,
 		listItemInteriorIconSize: 16,
 		listItemHeight: 32,
+		mainNavMinWidth: 280,
+		mainNavMaxWidth: 560,
 	},
 	space: {
 		...defaultParadigmConfig.space,

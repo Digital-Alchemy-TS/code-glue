@@ -32,8 +32,8 @@ const transition = {
 
 type SwitchProps = {
 	value: boolean
-	onValueChange?: (value: boolean) => void
-	isDisabled?: boolean
+	onValueChange?: ((value: boolean) => void) | undefined
+	isDisabled?: boolean | undefined
 }
 
 export const Switch = ({

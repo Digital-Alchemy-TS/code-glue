@@ -28,3 +28,15 @@ export const Default = meta.story({
 		bottom: <Bottom />,
 	},
 })
+
+export const Collapsible = meta.story({
+	args: {
+		top: <Top />,
+		bottom: <Bottom />,
+		defaultCollapsed: true,
+		collapsible: true,
+		collapsedSize: 40,
+		min: 200,
+		max: 400,
+	},
+})
