@@ -1,7 +1,7 @@
-import { parseAsBoolean, useQueryState } from "nuqs"
 import { useSnapshot } from "valtio"
 
 import { Button, Column, Icon, List, ListItem } from "@code-glue/paradigm"
+import { useQuery } from "@/hooks/useQuery"
 import { useRouter } from "@/hooks/useRouter"
 import { store } from "@/store"
 import { CreateAutomation } from "../../components/CreateAutomation"
@@ -9,13 +9,8 @@ import { Header } from "../../components/Header"
 import { Settings } from "./Settings"
 export const Nav = () => {
 	const { automations } = useSnapshot(store)
-
 	const [{ route, automationId }, navigateTo] = useRouter()
-
-	const [isSettings, setIsSettings] = useQueryState(
-		"settings",
-		parseAsBoolean.withDefault(false),
-	)
+	const [isSettings, setIsSettings] = useQuery("settings")
 
 	return (
 		<Column grow color={"$cardStock"}>

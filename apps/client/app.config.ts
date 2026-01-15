@@ -1,4 +1,4 @@
-import { type GenericParserBuilder, parseAsString } from "nuqs"
+import { type GenericParserBuilder, parseAsBoolean, parseAsString } from "nuqs"
 
 import { codeGlueLight } from "./src/design/editorThemes"
 
@@ -40,6 +40,9 @@ export const appConfig = {
 		defaultFontSize: 14,
 		font: "Monaspace Krypton",
 	},
+	queries: {
+		settings: parseAsBoolean.withDefault(false),
+	},
 	routes: {
 		home: { title: "Logs" }, // home is a special route name that will show without params in the URL
 		automations: {
@@ -57,6 +60,7 @@ export const sectionIds = Object.keys(appConfig.routes) as Array<
 	keyof typeof appConfig.routes
 >
 
+export type QueryIds = keyof typeof appConfig.queries
 export type SectionIds = keyof typeof appConfig.routes
 export type SectionTitles =
 	(typeof appConfig.routes)[keyof typeof appConfig.routes]["title"]
