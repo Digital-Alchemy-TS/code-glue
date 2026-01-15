@@ -65,7 +65,7 @@ type ParadigmButtonProps<
 	 * What size is this button?
 	 * Defaults to `medium`
 	 */
-	size?: "small" | "medium"
+	size?: "small" | "medium" | undefined
 	/**
 	 * can this button grow to fill available space?
 	 */
@@ -271,7 +271,7 @@ export const Button = ({
 			ref={buttonRef}
 			center
 			noShrink
-			grow={canGrow}
+			{...(canGrow && { grow: canGrow })}
 			color={backgroundColor}
 			height={buttonHeight}
 			radius={"$md"}
@@ -279,13 +279,13 @@ export const Button = ({
 			_tamaguiProps={{ flexDirection: "row" }}
 			{...otherProps}
 			{...pointerProps}
-			disabled={isDisabled}
+			disabled={isDisabled ?? false}
 			cursor={isDisabled ? "not-allowed" : "pointer"}
 			variants={{
-				normal: {},
-				raised: { y: -1, ...e1 },
-				hover: { y: -3, ...e2 },
-				active: { y: 0, ...e1 },
+				normal: { filter: "none" },
+				raised: { y: -1, filter: e1.filter ?? "none", boxShadow: e1.boxShadow },
+				hover: { y: -3, filter: e2.filter ?? "none", boxShadow: e2.boxShadow },
+				active: { y: 0, filter: e1.filter ?? "none", boxShadow: e1.boxShadow },
 			}}
 			animate={
 				isRaised && !isDisabled

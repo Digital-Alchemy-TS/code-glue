@@ -1,11 +1,19 @@
 import preview from "@/storybook/preview"
 import { Text } from "../Text"
 import { Column } from "../View"
-import { TabSection } from "./TabSection"
+import { VerticalSplitWithTabPanel } from "./VerticalContentWithTabPanel"
 
 const meta = preview.meta({
-	component: TabSection,
+	component: VerticalSplitWithTabPanel,
 })
+
+const Content = () => {
+	return (
+		<Column color="green" grow center>
+			<Text>Content</Text>
+		</Column>
+	)
+}
 
 const TabA = () => {
 	return (
@@ -25,6 +33,7 @@ const TabB = () => {
 
 export const Default = meta.story({
 	args: {
+		content: <Content />,
 		tabs: [
 			{ label: "Tab A", content: <TabA /> },
 			{ label: "Tab B", content: <TabB /> },

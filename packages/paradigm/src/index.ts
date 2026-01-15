@@ -1,6 +1,7 @@
 // Config
 
 export * from "./config/paradigm.config"
+export { baseTokens as tokens } from "./config/tamagui.config"
 
 // Components
 

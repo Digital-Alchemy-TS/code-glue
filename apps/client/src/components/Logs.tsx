@@ -11,21 +11,20 @@ import { appConfig } from "../../app.config"
 import { useAutomation } from "../hooks/useAutomation"
 
 import type React from "react"
-import type { ScrollView as RNScrollView } from "react-native"
 
 type LogsProps = {
 	/**
 	 * filter to just show logs for a given automation ID
 	 */
-	automationId?: string
+	automationId?: string | undefined
 	/**
 	 * level to filter logs by.
 	 * Defaults to LogLevel.trace
 	 */
-	level?: LogLevel
+	level?: LogLevel | undefined
 
 	/** Optional ref for parent access to ScrollView methods */
-	ref: React.Ref<ScrollViewRef>
+	ref?: React.Ref<ScrollViewRef> | undefined
 }
 
 const logKey = (log: LogLine) =>

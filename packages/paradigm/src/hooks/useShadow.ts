@@ -27,33 +27,44 @@ type ShadowParams = {
 	/**
 	 * The name of the shadow style from Figma
 	 */
-	shadowName?: ShadowName
+	shadowName?: ShadowName | undefined
 	/**
 	 * The color to use for replaceable shadows. Defaults to gray
 	 */
-	color?: string | Color
+	color?: string | Color | undefined
 	/**
 	 * If true, forces all shadows to use boxShadow. Defaults to false (uses filter for drop shadows).
 	 * Be sure to check safari as it rarely has bugs
 	 */
-	forceBoxShadow?: boolean
+	forceBoxShadow?: boolean | undefined
 }
 
 const convertToRGB = converter("rgb")
 
+const defaultColor = "hsl(0, 0%, 50%)"
+
 export const useShadow = ({
 	shadowName,
-	color = "hsl(0, 0%, 50%)",
+	color = defaultColor,
 	forceBoxShadow,
 }: ShadowParams) => {
+	const emptyResult = {
+		all: {
+			boxShadow: "",
+			filter: "",
+		},
+		outer: { boxShadow: "", filter: "" },
+		inner: { boxShadow: "" },
+	}
+
 	// because this is a hook it can be called even when no shadow is specified
-	if (!shadowName) return {}
+	if (!shadowName) return emptyResult
 
 	const customColor = convertToRGB(color)
 
 	if (customColor === undefined) {
 		console.warn(`Failed to convert color "${color}" to RGB`)
-		return {}
+		return emptyResult
 	}
 
 	const outerShadows: string[] = []
@@ -87,15 +98,15 @@ export const useShadow = ({
 
 	return {
 		all: {
-			boxShadow: outerShadows.concat(insetShadows).join(", ") || undefined,
-			filter: filterShadows.join(" ") || undefined,
+			boxShadow: outerShadows.concat(insetShadows).join(", "),
+			filter: filterShadows.join(" "),
 		},
 		outer: {
-			boxShadow: outerShadows.join(", ") || undefined,
-			filter: filterShadows.join(" ") || undefined,
+			boxShadow: outerShadows.join(", "),
+			filter: filterShadows.join(" "),
 		},
 		inner: {
-			boxShadow: insetShadows.join(", ") || undefined,
+			boxShadow: insetShadows.join(", "),
 		},
 	}
 }

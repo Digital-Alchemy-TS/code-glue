@@ -1,4 +1,9 @@
-import { Panel, PanelGroup } from "@window-splitter/react"
+import {
+	Panel,
+	PanelGroup,
+	type PanelGroupHandle,
+	type PanelHandle,
+} from "@window-splitter/react"
 
 import { ResizeHandle } from "./Handle"
 
@@ -34,42 +39,68 @@ type VerticalSplitProps = {
 	collapsible?: boolean
 	/**
 	 * If collapsible, how big is the bottom panel when closed?
+	 * Defaults to the tab height.
 	 */
 	collapsedSize?: number
 	/**
 	 * Should the bottom panel be closed by default?
 	 */
 	defaultCollapsed?: boolean
+	/**
+	 * the group handle for controlling the API
+	 * https://react-window-splitter-six.vercel.app/docs/examples/imperative
+	 */
+	panelHandle?: React.RefObject<PanelGroupHandle>
+	/**
+	 * The top panel handle for controlling the API
+	 * https://react-window-splitter-six.vercel.app/docs/examples/imperative
+	 */
+	topPanelHandle?: React.RefObject<PanelHandle>
+	/**
+	 * The bottom panel handle for controlling the API
+	 * https://react-window-splitter-six.vercel.app/docs/examples/imperative
+	 */
+	bottomPanelHandle?: React.RefObject<PanelHandle>
 }
 
 export const VerticalSplit = ({
 	top,
 	bottom,
 	autosaveId,
-	min = 280,
-	max = 560,
-	defaultSize = 280,
+	min,
+	max,
+	defaultSize,
 	collapsible = false,
 	collapsedSize,
 	defaultCollapsed = false,
+	panelHandle,
+	topPanelHandle,
+	bottomPanelHandle,
 }: VerticalSplitProps) => {
 	return (
 		<PanelGroup
+			{...(panelHandle && { handle: panelHandle })}
+			{...(autosaveId && { autosaveId })}
 			orientation="vertical"
-			autosaveId={autosaveId}
 			style={{ flex: 1, flexGrow: 1 }}
 		>
-			<Panel style={{ display: "flex" }}>{top}</Panel>
+			<Panel
+				style={{ display: "flex" }}
+				{...(topPanelHandle && { handle: topPanelHandle })}
+			>
+				{top}
+			</Panel>
 			<ResizeHandle horizontal={false} />
 			<Panel
-				min={`${min}px`}
-				max={`${max}px`}
-				default={`${defaultSize}px`}
+				{...(min && { min: `${min}px` })}
+				{...(max && { max: `${max}px` })}
+				{...(defaultSize && { default: `${defaultSize}px` })}
+				{...(collapsedSize && { collapsedSize: `${collapsedSize}px` })}
 				collapsible={collapsible}
-				collapsedSize={collapsedSize ? `${collapsedSize}px` : undefined}
 				defaultCollapsed={defaultCollapsed}
-				isStaticAtRest={true}
 				style={{ display: "flex" }}
+				{...(bottomPanelHandle && { handle: bottomPanelHandle })}
+				// isStaticAtRest // https://github.com/hipstersmoothie/window-splitter/issues/77
 			>
 				{bottom}
 			</Panel>
