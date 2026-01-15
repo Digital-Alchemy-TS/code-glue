@@ -17,10 +17,10 @@
     "typecheck": "yarn workspaces foreach -Avi run typecheck",
     "clean": "sh ./scripts/clean.sh"
   },
-  "packageManager": "yarn@4.10.3",
+  "packageManager": "yarn@4.12.0",
   "volta": {
     "node": "22.12.0",
-    "yarn": "4.10.3"
+    "yarn": "4.12.0"
   },
   "resolutions": {
     "jsonpath-plus": "10.0.7",
