@@ -78,7 +78,7 @@ export const VerticalSplitWithTabPanel = ({
 			>
 				<TabPanel
 					tabs={tabs}
-					initialTab={initialTab ?? undefined}
+					initialTab={initialTab}
 					onTabPress={() => {
 						if (collapsed) {
 							setCollapsed(false)
