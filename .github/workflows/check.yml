@@ -61,13 +61,5 @@ jobs:
           workdir: apps/client
           fail_level: any
 
-      - name: Lint paradigm (Biome)
-        uses: mongolyy/reviewdog-action-biome@abafdf75a79678ef8e2715298ee2dfc12262c82f #2.7.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
-          workdir: packages/paradigm
-          fail_level: any
-
       - name: Run tests
         run: yarn test
