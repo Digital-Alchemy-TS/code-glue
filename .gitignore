@@ -42,12 +42,6 @@ npm-debug.log*
 yarn-error.log*
 yarn-debug.log*
 
-# VSCode
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
-!.vscode/launch.json
-!.vscode/tasks.json
 
 # macOS
 .DS_Store
