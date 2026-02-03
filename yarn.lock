@@ -723,7 +723,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^5.0.4"
     "@vitest/browser-playwright": "npm:^4.0.8"
     "@vitest/coverage-v8": "npm:^4.0.17"
-    "@window-splitter/react": "npm:^1.1.2"
+    "@window-splitter/react": "npm:^1.1.3"
     browser-info: "npm:^1.3.0"
     culori: "npm:^4.0.2"
     dotenv: "npm:^17.2.3"
@@ -6272,35 +6272,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@window-splitter/interface@npm:1.1.2":
-  version: 1.1.2
-  resolution: "@window-splitter/interface@npm:1.1.2"
+"@window-splitter/interface@npm:1.1.3":
+  version: 1.1.3
+  resolution: "@window-splitter/interface@npm:1.1.3"
   dependencies:
-    "@window-splitter/state": "npm:1.1.2"
-  checksum: 10/e82ae1ce08e655ab573b44522a06f0b9dd46631ceba888e791ecbee337b826f4184119b21e20be84df771185c9b1a90a7d56a122f56bbbbc4edf84527a5b9453
+    "@window-splitter/state": "npm:1.1.3"
+  checksum: 10/bf756c4c615852634231c0ccc132293d496189e33d9bee24a7809c336f33ac88aa455ec16e243f1e34e4bee7d60903f75dac0ed35c6d449a57055a97f2ceca8d
   languageName: node
   linkType: hard
 
-"@window-splitter/react@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "@window-splitter/react@npm:1.1.2"
+"@window-splitter/react@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@window-splitter/react@npm:1.1.3"
   dependencies:
     "@react-aria/utils": "npm:^3.28.2"
-    "@window-splitter/interface": "npm:1.1.2"
-    "@window-splitter/state": "npm:1.1.2"
+    "@window-splitter/interface": "npm:1.1.3"
+    "@window-splitter/state": "npm:1.1.3"
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: 10/7bb57f32fae8cbf9d2f73c9150151ca5077f5ff8965f1ae0575da92286c15f2db752a007890b96a0f12f239c5ed28a8bffdbd4c3e62e7249678faa1ca278b38e
+  checksum: 10/1cc4a117213cd6e2552ded3ae8621bd2c3898f1124cfd16326b108d6f5a34a006555fc76548dbb7575ebdeefef92d8bf80810b4275fff3c5e4dea59db3253e40
   languageName: node
   linkType: hard
 
-"@window-splitter/state@npm:1.1.2":
-  version: 1.1.2
-  resolution: "@window-splitter/state@npm:1.1.2"
+"@window-splitter/state@npm:1.1.3":
+  version: 1.1.3
+  resolution: "@window-splitter/state@npm:1.1.3"
   dependencies:
     big.js: "npm:^6.2.1"
-  checksum: 10/f8bbe2be158af3a48381bbfb4e32271ea145287cdf76ebad2757425a76e4b18d88bd31e39c13e44f6a8e29059336e253fbb43c56917f106d5011367fa84b1752
+  checksum: 10/dd6939a4efa6f19441e133c5acfd57ccb20f4419aded810068c9be3f203bdd94571da9b8c44b1111c32558da6a33e0bb40404f058e69e5f2164860c64dfa1b5f
   languageName: node
   linkType: hard
 
