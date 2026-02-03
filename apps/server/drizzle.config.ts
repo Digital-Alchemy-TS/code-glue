@@ -17,7 +17,7 @@ const configs = {
     dialect: "sqlite" as const,
     out: "./migrations/sqlite",
     dbCredentials: {
-      url: process.env.DATABASE_URL || "file:./synapse_storage.db",
+      url: process.env.DATABASE_URL || "file:/data/synapse_storage.db",
     },
   },
   postgresql: {

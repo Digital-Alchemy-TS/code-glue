@@ -7,7 +7,7 @@ cd /work
 
 # Run database migrations using drizzle-kit
 echo "📦 Running database migrations..."
-(cd /work/apps/server && export DATABASE_URL="file:/work/synapse_storage.db" && npx drizzle-kit migrate)
+(cd /work/apps/server && export DATABASE_URL="file:/data/synapse_storage.db" && npx drizzle-kit migrate)
 
 echo "✅ Migrations completed"
 
