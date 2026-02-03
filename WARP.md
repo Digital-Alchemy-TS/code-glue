@@ -17,20 +17,21 @@ Code Glue is a Home Assistant addon that allows users to write automations and c
 
 ### Runtime Structure in Container
 ```
-/app/
-├── server/
-│   ├── dist/
-│   │   └── client/          # Static web files served here
-│   ├── app/
-│   │   └── environments/
-│   │       └── prebuilt/    # Production entry point
-│   ├── migrations/          # Database migration files
-│   │   ├── sqlite/
-│   │   ├── mysql/
-│   │   └── postgresql/
-│   └── drizzle.config.ts
+/work/                          # Working directory
+├── dist/
+│   ├── server/                # Compiled server code
+│   └── client/                # Static web files
+├── apps/
+│   └── server/
+│       └── migrations/        # Database migration files
+│           ├── sqlite/
+│           ├── mysql/
+│           └── postgresql/
 ├── node_modules/
 └── [other files]
+
+/data/                          # Persistent volume (Home Assistant provided)
+└── synapse_storage.db         # SQLite database (persists across restarts)
 ```
 
 ## Key Technologies
@@ -78,23 +79,23 @@ The server has multiple entry points in `dist/server/app/environments/`:
 ### Prebuilt Environment
 - Entry: `dist/server/app/environments/prebuilt/main.mjs`
 - Sets `SERVE_STATIC=true` and `ATTACH_STANDARD_MIDDLEWARE=true`
-- Expects client at `process.cwd() + '/server/dist/client'` → `/app/server/dist/client/`
+- Expects client at `process.cwd() + '/dist/client'` → `/work/dist/client/`
 - Runs on port 3789 (configurable via PORT env var)
 
 ## Static File Serving
 
 The server's `StaticFileService` (`apps/server/src/http/services/static.service.mts`):
 - Looks for client at `path.resolve(process.cwd(), "dist/client")` 
-- With workdir `/app`, this resolves to `/app/dist/client`
-- **Current setup**: Client copied to `/app/server/dist/client/` in Dockerfile
+- With workdir `/work`, this resolves to `/work/dist/client`
+- **Current setup**: Client copied to `/work/dist/client/` in Dockerfile
 - Serves SPA with catch-all routing (all non-API routes → `index.html`)
 
 ## Container Startup Flow
 
 1. **Entrypoint script** (`scripts/docker-entrypoint.sh`):
-   - Runs database migrations: `cd /app/server && npx drizzle-kit migrate`
-   - Sets `DATABASE_URL=file:/app/synapse_storage.db`
-   - Starts server: `tsx /app/server/app/environments/prebuilt/main.mjs`
+   - Runs database migrations: `cd /work/apps/server && npx drizzle-kit migrate`
+   - Sets `DATABASE_URL=file:/data/synapse_storage.db`
+   - Starts server: `node dist/server/app/environments/prebuilt/main.mjs`
 
 2. **Server bootstrap**:
    - Initializes Digital Alchemy services
@@ -123,7 +124,7 @@ The server's `StaticFileService` (`apps/server/src/http/services/static.service.
 
 ### 404 Errors on Web UI
 - **Cause**: Static files not at expected path
-- **Fix**: Ensure client copied to `/app/server/dist/client/` in Dockerfile to match `StaticFileService` expectations
+- **Fix**: Ensure client copied to `/work/dist/client/` in Dockerfile to match `StaticFileService` expectations
 
 ### "Can't find meta/_journal.json" Error
 - **Cause**: `DatabaseInternalsService` tries to run migrations but looks in wrong location
@@ -178,11 +179,11 @@ The repo includes `.devcontainer/devcontainer.json` using `ghcr.io/home-assistan
 
 | Description | Path in Container | Source in Build |
 |-------------|------------------|-----------------|
-| Server code | `/app/server/` | `dist/server/` |
-| Client static files | `/app/server/dist/client/` | `apps/client/dist/` |
-| Migrations | `/app/server/migrations/` | `apps/server/migrations/` |
-| Database | `/app/synapse_storage.db` | Created at runtime |
-| Node modules | `/app/node_modules/` | Copied from build stage |
+| Server code | `/work/dist/server/` | `dist/server/` |
+| Client static files | `/work/dist/client/` | `apps/client/dist/` |
+| Migrations | `/work/apps/server/migrations/` | `apps/server/migrations/` |
+| Database | `/data/synapse_storage.db` | Created at runtime (persistent volume) |
+| Node modules | `/work/node_modules/` | Copied from build stage |
 | Entrypoint | `/docker-entrypoint.sh` | `scripts/docker-entrypoint.sh` |
 
 ## Testing Checklist
