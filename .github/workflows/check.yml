@@ -36,13 +36,25 @@ jobs:
           cd packages/paradigm
           bash scripts/patch-if-present.sh
 
-      - name: Run typecheck
+      - name: Typecheck client
         uses: EPMatt/reviewdog-action-tsc@63d923a3c5b4497671940b8874f58a404e2351b5 # 1.11.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
           level: error
           fail_level: error
+          workdir: apps/client
+          tsc_flags: "-p tsconfig.json --noEmit"
+
+      - name: Typecheck server
+        uses: EPMatt/reviewdog-action-tsc@63d923a3c5b4497671940b8874f58a404e2351b5 # 1.11.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          level: error
+          fail_level: error
+          workdir: apps/server
+          tsc_flags: "-p tsconfig.json --noEmit"
 
       - name: Lint server (ESLint)
         uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96 # 1.34.0
