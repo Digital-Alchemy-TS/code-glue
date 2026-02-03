@@ -76,7 +76,6 @@ RUN chmod +x /docker-entrypoint.sh
 # Change ownership to node user
 RUN chown -R node:node /work
 
-USER node
 
 EXPOSE 3789
 
