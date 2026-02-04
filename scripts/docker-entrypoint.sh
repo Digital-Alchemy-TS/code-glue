@@ -5,9 +5,12 @@ echo "🔧 Code Glue startup..."
 
 cd /work
 
+# Set database location for both migrations and application
+export DATABASE_URL="file:/data/synapse_storage.db"
+
 # Run database migrations using drizzle-kit
 echo "📦 Running database migrations..."
-(cd /work/apps/server && export DATABASE_URL="file:/data/synapse_storage.db" && npx drizzle-kit migrate)
+(cd /work/apps/server && npx drizzle-kit migrate)
 
 echo "✅ Migrations completed"
 
