@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef } from "react"
+import { useEffect } from "react"
+import { useSnapshot } from "valtio/react"
 
 import { ScrollView, type ScrollViewRef, Text } from "@code-glue/paradigm"
 import { formatAutomationContext } from "@code-glue/server/utils/helpers/format.mts"
@@ -7,8 +8,8 @@ import {
 	type LogLine,
 	useAutomationLogs,
 } from "@/hooks/useAutomationLogs"
-import { appConfig } from "../../app.config"
-import { useAutomation } from "../hooks/useAutomation"
+import { useAutomation } from "@/hooks/useAutomation"
+import { getUserSettingOrDefault, settingsStore } from "@/store/settings"
 
 import type React from "react"
 
@@ -43,6 +44,11 @@ export const Logs = ({
 	ref,
 }: LogsProps) => {
 	const { automationSnapshot: automation } = useAutomation(automationId)
+	const snap = useSnapshot(settingsStore)
+	const typeface = getUserSettingOrDefault(snap, "console.typeface")
+	const fontSize = getUserSettingOrDefault(snap, "console.fontSize")
+	const fontWidth = getUserSettingOrDefault(snap, "console.fontWidth")
+	const fontWeight = getUserSettingOrDefault(snap, "console.fontWeight")
 
 	const loggerContext = automationId
 		? formatAutomationContext(automation.title)
@@ -82,7 +88,8 @@ export const Logs = ({
 				<Text
 					style={Text.style.footnote}
 					key={logKey(log)}
-					_style={{ fontFamily: appConfig.logs.font }}
+					// biome-ignore lint/suspicious/noExplicitAny: runtime values, not Tamagui tokens
+					_style={{ fontFamily: typeface, fontSize, fontWeight, fontStretch: `${fontWidth}%` } as any}
 					color={log.isHistorical ? "$colorDisabled" : "$color"}
 				>
 					<Text

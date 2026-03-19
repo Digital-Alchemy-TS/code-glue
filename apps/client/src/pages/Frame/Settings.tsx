@@ -1,134 +1,136 @@
 import { useSnapshot } from "valtio/react"
 
-import { ScrollView, SettingsList } from "@code-glue/paradigm"
+import { ScrollView, SettingsList, Themes } from "@code-glue/paradigm"
 import { appConfig } from "@/config"
-import { settingsStore } from "@/store/settings"
+import { getUserSettingOrDefault, settingsStore } from "@/store/settings"
 
-import type { AppearanceMode, EditorSettings } from "@/store/settings"
-
-const APPEARANCE_OPTIONS = [
-	{ label: "System", value: "system" },
-	{ label: "Light", value: "light" },
-	{ label: "Dark", value: "dark" },
+const AppThemeOptions = [
+	{ label: "System", value: Themes.system },
+	{ label: "Light", value: Themes.light },
+	{ label: "Dark", value: Themes.dark },
 ]
 
-type EditorSettingsGroupProps = {
-	title: string
-	settings: EditorSettings
-	onThemeChange: (value: string) => void
-	onTypefaceChange: (value: string) => void
-	onFontSizeChange: (value: number) => void
-	onFontWidthChange: (value: number) => void
-	onFontWeightChange: (value: number) => void
-}
-
-const EditorSettingsGroup = ({
-	title,
-	settings,
-	onThemeChange,
-	onTypefaceChange,
-	onFontSizeChange,
-	onFontWidthChange,
-	onFontWeightChange,
-}: EditorSettingsGroupProps) => (
-	<SettingsList header={title}>
-		<SettingsList.Select
-			label="Theme"
-			options={appConfig.editor.themes.map((theme) => ({
-				label: theme.name,
-				value: typeof theme.theme === "string" ? theme.theme : theme.theme.name,
-			}))}
-			value={settings.theme}
-			onValueChange={onThemeChange}
-		/>
-		<SettingsList.Select
-			label="Typeface"
-			options={appConfig.fontFamilies.map((font) => ({
-				label: font.name,
-				value: font.name,
-			}))}
-			value={settings.typeface}
-			onValueChange={onTypefaceChange}
-		/>
-		<SettingsList.Slider
-			label="Font Size"
-			min={8}
-			max={40}
-			value={settings.fontSize}
-			onValueChange={onFontSizeChange}
-		/>
-		<SettingsList.Slider
-			label="Width"
-			min={100}
-			max={125}
-			value={settings.fontWidth}
-			onValueChange={onFontWidthChange}
-		/>
-		<SettingsList.Slider
-			label="Weight"
-			min={200}
-			max={800}
-			value={settings.fontWeight}
-			onValueChange={onFontWeightChange}
-		/>
-	</SettingsList>
-)
-
 export const Settings = () => {
-	const settings = useSnapshot(settingsStore)
+	const snap = useSnapshot(settingsStore)
 
 	return (
 		<ScrollView>
-			<SettingsList header="Theme">
+			<SettingsList header="App">
 				<SettingsList.Select
-					label="Mode"
-					options={APPEARANCE_OPTIONS}
-					value={settings.appearance}
+					label="Theme"
+					options={AppThemeOptions}
+					value={snap.appTheme ?? Themes.system}
 					onValueChange={(value) => {
-						settingsStore.appearance = value as AppearanceMode
+						settingsStore.appTheme = value
 					}}
 				/>
 			</SettingsList>
 
-			<EditorSettingsGroup
-				title="Editor Settings"
-				settings={settings.editor}
-				onThemeChange={(value) => {
-					settingsStore.editor.theme = value
-				}}
-				onTypefaceChange={(value) => {
-					settingsStore.editor.typeface = value
-				}}
-				onFontSizeChange={(value) => {
-					settingsStore.editor.fontSize = value
-				}}
-				onFontWidthChange={(value) => {
-					settingsStore.editor.fontWidth = value
-				}}
-				onFontWeightChange={(value) => {
-					settingsStore.editor.fontWeight = value
-				}}
-			/>
+			<SettingsList header="Editor Settings">
+				<SettingsList.Select
+					label="Theme"
+					options={appConfig.themes.map((theme) => ({
+						label: theme.name,
+						value:
+							typeof theme.theme === "string" ? theme.theme : theme.theme.name,
+					}))}
+					value={getUserSettingOrDefault(snap, "editor.theme")}
+					onValueChange={(value) => {
+						settingsStore.editor.theme = value
+					}}
+				/>
+				<SettingsList.Select
+					label="Typeface"
+					options={appConfig.fontFamilies.map((font) => ({
+						label: font.name,
+						value: font.name,
+					}))}
+					value={getUserSettingOrDefault(snap, "editor.typeface")}
+					onValueChange={(value) => {
+						settingsStore.editor.typeface = value
+					}}
+				/>
+				<SettingsList.Slider
+					label="Font Size"
+					min={8}
+					max={40}
+					value={getUserSettingOrDefault(snap, "editor.fontSize")}
+					onValueChange={(value) => {
+						settingsStore.editor.fontSize = value
+					}}
+				/>
+				<SettingsList.Slider
+					label="Width"
+					min={100}
+					max={125}
+					value={getUserSettingOrDefault(snap, "editor.fontWidth")}
+					onValueChange={(value) => {
+						settingsStore.editor.fontWidth = value
+					}}
+				/>
+				<SettingsList.Slider
+					label="Weight"
+					min={200}
+					max={800}
+					value={getUserSettingOrDefault(snap, "editor.fontWeight")}
+					onValueChange={(value) => {
+						settingsStore.editor.fontWeight = value
+					}}
+				/>
+			</SettingsList>
 
-			<EditorSettingsGroup
-				title="Log Settings"
-				settings={settings.console}
-				onThemeChange={(value) => {
-					settingsStore.console.theme = value
-				}}
-				onTypefaceChange={(value) => {
-					settingsStore.console.typeface = value
-				}}
-				onFontSizeChange={(value) => {
-					settingsStore.console.fontSize = value
-				}}
-				onFontWidthChange={(value) => {
-					settingsStore.console.fontWidth = value
-				}}
-				onFontWeightChange={(value) => {
-					settingsStore.console.fontWeight = value
-				}}
-			/>
+			<SettingsList header="Log Settings">
+				<SettingsList.Select
+					label="Theme"
+					options={appConfig.themes.map((theme) => ({
+						label: theme.name,
+						value:
+							typeof theme.theme === "string" ? theme.theme : theme.theme.name,
+					}))}
+					value={getUserSettingOrDefault(snap, "console.theme")}
+					onValueChange={(value: string) => {
+						settingsStore.console.theme = value
+					}}
+				/>
+				<SettingsList.Select
+					label="Typeface"
+					options={appConfig.fontFamilies.map((font) => ({
+						label: font.name,
+						value: font.name,
+					}))}
+					value={getUserSettingOrDefault(snap, "console.typeface")}
+					onValueChange={(value) => {
+						settingsStore.console.typeface = value
+					}}
+				/>
+				<SettingsList.Slider
+					label="Font Size"
+					min={8}
+					max={40}
+					value={getUserSettingOrDefault(snap, "console.fontSize")}
+					onValueChange={(value) => {
+						settingsStore.console.fontSize = value
+					}}
+				/>
+				<SettingsList.Slider
+					label="Width"
+					min={100}
+					max={125}
+					value={getUserSettingOrDefault(snap, "console.fontWidth")}
+					onValueChange={(value) => {
+						settingsStore.console.fontWidth = value
+					}}
+				/>
+				<SettingsList.Slider
+					label="Weight"
+					min={200}
+					max={800}
+					value={getUserSettingOrDefault(snap, "console.fontWeight")}
+					onValueChange={(value) => {
+						settingsStore.console.fontWeight = value
+					}}
+				/>
+			</SettingsList>
 		</ScrollView>
 	)
 }

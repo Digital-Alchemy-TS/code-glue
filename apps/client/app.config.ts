@@ -49,6 +49,15 @@ export const appConfig = {
 		local: string
 		src: string
 	}[],
+	// themes to load into the editor via shiki
+	themes: [
+		{ name: "Code Glue Light", theme: codeGlueLight },
+		{ name: "Vitesse Dark", theme: "vitesse-dark" },
+		{ name: "Vitesse Light", theme: "vitesse-light" },
+	] satisfies {
+		name: string
+		theme: ThemeInput | "none" | StringLiteralUnion<BundledTheme, string>
+	}[],
 	editor: {
 		tabSize: 2,
 		printWidth: 80,
@@ -56,15 +65,6 @@ export const appConfig = {
 		defaultFontWidth: 100,
 		defaultFontWeight: 260,
 		defaultFont: "Monaspace Argon",
-		// themes to load into the editor via shiki
-		themes: [
-			{ name: "Code Glue Light", theme: codeGlueLight },
-			{ name: "Vitesse Dark", theme: "vitesse-dark" },
-			{ name: "Vitesse Light", theme: "vitesse-light" },
-		] satisfies {
-			name: string
-			theme: ThemeInput | "none" | StringLiteralUnion<BundledTheme, string>
-		}[],
 		// languages that need to support the above themes
 		languages: ["typescript", "javascript"] satisfies (
 			| LanguageInput
@@ -74,7 +74,9 @@ export const appConfig = {
 	},
 	logs: {
 		defaultFontSize: 14,
-		font: "Monaspace Krypton",
+		defaultFontWidth: 100,
+		defaultFontWeight: 260,
+		defaultFont: "Monaspace Krypton",
 	},
 	queries: {
 		settings: parseAsBoolean.withDefault(false),

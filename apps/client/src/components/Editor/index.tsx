@@ -1,10 +1,11 @@
 import { type Monaco, Editor as MonacoEditor } from "@monaco-editor/react"
 import React from "react"
+import { useSnapshot } from "valtio/react"
 
 import { appConfig } from "@/config"
-import { codeGlueLight } from "@/design/editorThemes"
 import { useCurrentAutomation } from "@/hooks/useAutomation"
 import { store } from "@/store"
+import { getUserSettingOrDefault, settingsStore } from "@/store/settings"
 
 import type { editor } from "monaco-editor"
 
@@ -15,6 +16,13 @@ export const Editor: React.FC = () => {
 	const { automation, automationId, automationSnapshot } =
 		useCurrentAutomation()
 	const path = automationId ? `/automations/${automationId}.ts` : undefined
+
+	const snap = useSnapshot(settingsStore)
+	const theme = getUserSettingOrDefault(snap, "editor.theme")
+	const typeface = getUserSettingOrDefault(snap, "editor.typeface")
+	const fontSize = getUserSettingOrDefault(snap, "editor.fontSize")
+	const fontWidth = getUserSettingOrDefault(snap, "editor.fontWidth")
+	const fontWeight = getUserSettingOrDefault(snap, "editor.fontWeight")
 
 	/**
 	 * Support for automation draft saving with debounce
@@ -74,7 +82,7 @@ export const Editor: React.FC = () => {
 		<MonacoEditor
 			{...{
 				language: "typescript",
-				theme: codeGlueLight.name,
+				theme,
 				defaultValue: automationSnapshot.body,
 				beforeMount: handleEditorBeforeMount,
 				onChange: handleEditorChange,
@@ -86,12 +94,11 @@ export const Editor: React.FC = () => {
 					minimap: { enabled: false },
 					tabSize: appConfig.editor.tabSize,
 					rulers: [appConfig.editor.printWidth],
-					fontSize: appConfig.editor.defaultFontSize,
-					fontFamily: appConfig.editor.font,
-					fontWeight: "260",
+					fontSize,
+					fontFamily: typeface,
 					fontLigatures:
 						"'calt', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'ss10', 'liga'",
-					fontVariations: true,
+					fontVariations: `'wght' ${fontWeight}, 'wdth' ${fontWidth}`,
 					allowVariableFonts: true,
 					automaticLayout: true,
 					occurrencesHighlight: "off",

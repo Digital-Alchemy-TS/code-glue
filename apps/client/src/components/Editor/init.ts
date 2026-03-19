@@ -67,7 +67,7 @@ configureMonacoPrettier(monaco, {
 
 // Create the language highlighter, add themes and languages in appConfig
 const highlighter = await createHighlighter({
-	themes: appConfig.editor.themes,
+	themes: appConfig.themes.map((t) => t.theme),
 	langs: appConfig.editor.languages,
 })
 

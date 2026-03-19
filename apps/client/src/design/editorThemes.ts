@@ -35,7 +35,7 @@ export const codeGlueLight = {
 		"editorSuggestWidget.highlightForeground": "#3f8ffa",
 		"editorSuggestWidget.selectedBackground": "#3f8ffa",
 		"editorSuggestWidget.border": "#c0c0c0",
-		"editorRuler.foreground": "#ececec",
+		"editorRuler.foreground": "#d0d0d0",
 	},
 	settings: [
 		{
