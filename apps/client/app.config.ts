@@ -18,17 +18,53 @@ type Section = {
 }
 
 export const appConfig = {
+	fontFamilies: [
+		{
+			name: "Monaspace Argon",
+			local: "Monaspace Argon",
+			src: "./public/fonts/Monaspace/MonaspaceArgonVar.woff2",
+		},
+		{
+			name: "Monaspace Krypton",
+			local: "Monaspace Krypton",
+			src: "./public/fonts/Monaspace/MonaspaceKryptonVar.woff2",
+		},
+		{
+			name: "Monaspace Neon",
+			local: "Monaspace Neon",
+			src: "./public/fonts/Monaspace/MonaspaceNeonVar.woff2",
+		},
+		{
+			name: "Monaspace Radon",
+			local: "Monaspace Radon",
+			src: "./public/fonts/Monaspace/MonaspaceRadonVar.woff2",
+		},
+		{
+			name: "Monaspace Xenon",
+			local: "Monaspace Xenon",
+			src: "./public/fonts/Monaspace/MonaspaceXenonVar.woff2",
+		},
+	] satisfies {
+		name: string
+		local: string
+		src: string
+	}[],
 	editor: {
 		tabSize: 2,
 		printWidth: 80,
 		defaultFontSize: 14,
-		font: "Monaspace Argon",
+		defaultFontWidth: 100,
+		defaultFontWeight: 260,
+		defaultFont: "Monaspace Argon",
 		// themes to load into the editor via shiki
-		themes: [codeGlueLight, "vitesse-dark", "vitesse-light"] satisfies (
-			| ThemeInput
-			| "none"
-			| StringLiteralUnion<BundledTheme, string>
-		)[],
+		themes: [
+			{ name: "Code Glue Light", theme: codeGlueLight },
+			{ name: "Vitesse Dark", theme: "vitesse-dark" },
+			{ name: "Vitesse Light", theme: "vitesse-light" },
+		] satisfies {
+			name: string
+			theme: ThemeInput | "none" | StringLiteralUnion<BundledTheme, string>
+		}[],
 		// languages that need to support the above themes
 		languages: ["typescript", "javascript"] satisfies (
 			| LanguageInput
