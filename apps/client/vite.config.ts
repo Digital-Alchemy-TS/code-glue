@@ -3,6 +3,7 @@ import { defineConfig } from "vite"
 import viteTsConfigPaths from "vite-tsconfig-paths"
 
 import { paradigmPlugin } from "../../packages/paradigm/src/plugins/vite"
+import { appConfig } from "./app.config"
 
 const config = defineConfig({
 	base: "./",
@@ -13,18 +14,7 @@ const config = defineConfig({
 		}),
 		viteReact(),
 		paradigmPlugin({
-			fontFamilies: [
-				{
-					name: "Monaspace Argon",
-					local: "Monaspace Argon",
-					src: "./public/fonts/Monaspace/MonaspaceArgonVar.woff2",
-				},
-				{
-					name: "Monaspace Krypton",
-					local: "Monaspace Krypton",
-					src: "./public/fonts/Monaspace/MonaspaceKryptonNF-Light.woff2",
-				},
-			],
+			fontFamilies: appConfig.fontFamilies,
 		}),
 	],
 	build: {

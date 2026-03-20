@@ -29,5 +29,7 @@ words:
   - tseslint
   - typebox
   - vitesse
+  - wdth
+  - wght
 ignoreWords: []
 import: []

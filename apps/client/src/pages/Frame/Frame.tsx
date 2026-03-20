@@ -4,6 +4,7 @@ import { useSnapshot } from "valtio/react"
 import { Center, Layout, ParadigmProvider, Text } from "@code-glue/paradigm"
 import { glueDesignConfig } from "@/design/design.config"
 import { store } from "@/store"
+import { settingsStore } from "@/store/settings"
 import { Content } from "./Content"
 import { Nav } from "./Nav"
 
@@ -12,6 +13,7 @@ export const Frame = () => {
 		isReady: storeIsReady,
 		apiStatus: { typesReady },
 	} = useSnapshot(store)
+	const { appTheme } = useSnapshot(settingsStore)
 
 	const [fontsLoaded, setFontsLoaded] = useState(false)
 
@@ -25,7 +27,10 @@ export const Frame = () => {
 		fontsLoaded && storeIsReady && (typesReady || store.serverError)
 
 	return (
-		<ParadigmProvider config={glueDesignConfig}>
+		<ParadigmProvider
+			config={glueDesignConfig}
+			{...(appTheme !== undefined ? { theme: appTheme } : {})}
+		>
 			{!appReady ? (
 				<Center fillContainer>
 					<Text>Loading...</Text>
