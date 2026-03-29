@@ -66,7 +66,7 @@ jobs:
           fail_level: any
 
       - name: Lint client (Biome)
-        uses: mongolyy/reviewdog-action-biome@abafdf75a79678ef8e2715298ee2dfc12262c82f #2.7.1
+        uses: mongolyy/reviewdog-action-biome@eaba62a1e048fb13e4ff5e017ff8c15d00b2c1a2 #2.9.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
