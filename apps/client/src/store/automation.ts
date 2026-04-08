@@ -31,6 +31,10 @@ export const emptyAutomation: AutomationType = {
 	 */
 	active: false,
 	/**
+	 * ID of the currently active version.
+	 */
+	activeVersionId: "",
+	/**
 	 * What HASS area is this automation associated with?
 	 */
 	area: "",
@@ -50,10 +54,6 @@ export const emptyAutomation: AutomationType = {
 	 * Markdown documentation for the automation.
 	 */
 	documentation: "",
-	/**
-	 * draft of the next automation update.
-	 */
-	draft: "",
 	/**
 	 * Icon/emoji used to identify the automation.
 	 */
@@ -75,10 +75,6 @@ export const emptyAutomation: AutomationType = {
 	 * Title of the automation.
 	 */
 	title: "",
-	/**
-	 * Not yet used
-	 */
-	version: "",
 }
 
 /**
