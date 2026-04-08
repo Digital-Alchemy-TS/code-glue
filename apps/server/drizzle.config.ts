@@ -1,3 +1,4 @@
+import { mkdirSync } from "fs";
 import { defineConfig } from "drizzle-kit";
 
 // Get database type from environment or default to sqlite
@@ -10,6 +11,17 @@ const baseConfig = {
   strict: true,
 };
 
+// Resolve the SQLite database URL and ensure its directory exists
+// Match the default used by @digital-alchemy/synapse: file:<cwd>/synapse_storage.db
+const sqliteUrl = process.env.DATABASE_URL || "file:./synapse_storage.db";
+if (databaseType === "sqlite") {
+  // Strip the "file:" prefix to get the filesystem path, then ensure the directory exists
+  const filePath = sqliteUrl.replace(/^file:/, "");
+  const lastSlash = filePath.lastIndexOf("/");
+  const dirPath = lastSlash > 0 ? filePath.slice(0, lastSlash) : ".";
+  mkdirSync(dirPath, { recursive: true });
+}
+
 // Database-specific configurations
 const configs = {
   sqlite: {
@@ -17,7 +29,7 @@ const configs = {
     dialect: "sqlite" as const,
     out: "./migrations/sqlite",
     dbCredentials: {
-      url: process.env.DATABASE_URL || "file:/data/synapse_storage.db",
+      url: sqliteUrl,
     },
   },
   postgresql: {

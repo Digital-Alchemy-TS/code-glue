@@ -3,9 +3,9 @@
   "name": "@code-glue/server",
   "description": "Server component",
   "scripts": {
-    "start": "SERVE_STATIC=true tsx src/app/environments/local/main.mts",
-    "start:inspect": "SERVE_STATIC=true tsx --inspect src/app/environments/local/main.mts",
-    "start:brk": "SERVE_STATIC=true tsx --inspect-brk src/app/environments/local/main.mts",
+    "start": "drizzle-kit migrate && SERVE_STATIC=true tsx src/app/environments/local/main.mts",
+    "start:inspect": "drizzle-kit migrate && SERVE_STATIC=true tsx --inspect src/app/environments/local/main.mts",
+    "start:brk": "drizzle-kit migrate && SERVE_STATIC=true tsx --inspect-brk src/app/environments/local/main.mts",
     "build": "tsc -p tsconfig.build.json",
     "test": "./scripts/test.sh",
     "lint": "eslint src",

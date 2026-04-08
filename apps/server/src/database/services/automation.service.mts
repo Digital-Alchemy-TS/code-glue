@@ -44,10 +44,11 @@ export function AutomationTable({
       return out;
     },
 
-    load(row: Partial<StoredAutomationRow>): StoredAutomation {
+    load(row: Partial<StoredAutomationRow> & { active_version_id?: string | null }): StoredAutomation {
       return {
         ...row,
         active: row.active === "true",
+        activeVersionId: row.active_version_id ?? undefined,
         labels: row.labels?.split("|") || [],
       } as StoredAutomation;
     },
@@ -80,19 +81,18 @@ export function AutomationTable({
       const now = new Date().toISOString();
       return {
         active: data.active ? "true" : "false",
+        active_version_id: data.activeVersionId ?? null,
         area: data.area,
         body: data.body,
         context: data.context,
         create_date: (data as StoredAutomation).createDate ?? now,
         documentation: data.documentation,
-        draft: data.draft,
         icon: data.icon,
         id: (data as StoredAutomation).id || "",
         labels: data.labels.join("|"),
         last_update: now,
         parent: data.parent,
         title: data.title,
-        version: data.version,
       };
     },
 
@@ -136,10 +136,11 @@ export function AutomationTable({
       return out;
     },
 
-    load(row: Partial<StoredAutomationRow>): StoredAutomation {
+    load(row: Partial<StoredAutomationRow> & { active_version_id?: string | null }): StoredAutomation {
       return {
         ...row,
         active: row.active === "true",
+        activeVersionId: row.active_version_id ?? undefined,
         labels: row.labels?.split("|") || [],
       } as StoredAutomation;
     },
@@ -175,6 +176,7 @@ export function AutomationTable({
       const now = new Date();
       return {
         active: data.active ? "true" : "false",
+        active_version_id: data.activeVersionId ?? null,
         area: data.area,
         body: data.body,
         context: data.context,
@@ -182,14 +184,12 @@ export function AutomationTable({
           ? new Date((data as StoredAutomation).createDate)
           : now,
         documentation: data.documentation,
-        draft: data.draft,
         icon: data.icon,
         id: (data as StoredAutomation).id || "",
         labels: data.labels.join("|"),
         last_update: now,
         parent: data.parent,
         title: data.title,
-        version: data.version,
       };
     },
 
@@ -233,10 +233,11 @@ export function AutomationTable({
       return out;
     },
 
-    load(row: Partial<StoredAutomationRow>): StoredAutomation {
+    load(row: Partial<StoredAutomationRow> & { active_version_id?: string | null }): StoredAutomation {
       return {
         ...row,
         active: row.active === "true",
+        activeVersionId: row.active_version_id ?? undefined,
         labels: row.labels?.split("|") || [],
       } as StoredAutomation;
     },
@@ -272,6 +273,7 @@ export function AutomationTable({
       const now = new Date();
       return {
         active: data.active ? "true" : "false",
+        active_version_id: data.activeVersionId ?? null,
         area: data.area,
         body: data.body,
         context: data.context,
@@ -279,14 +281,12 @@ export function AutomationTable({
           ? new Date((data as StoredAutomation).createDate)
           : now,
         documentation: data.documentation,
-        draft: data.draft,
         icon: data.icon,
         id: (data as StoredAutomation).id || "",
         labels: data.labels.join("|"),
         last_update: now,
         parent: data.parent,
         title: data.title,
-        version: data.version,
       };
     },
 

@@ -18,16 +18,15 @@ export type SharedVariableRow = Omit<SharedVariables, "labels"> & {
 
 export interface StoredAutomationCreateOptions {
   active: string;
+  active_version_id?: string;
   area?: string;
   body: string;
   context: string;
-  draft?: string;
   icon?: string;
   labels: string[];
   parent?: string;
   title: string;
   documentation: string;
-  version: string;
 }
 
 export interface StoredAutomation extends StoredAutomationCreateOptions {
@@ -39,6 +38,31 @@ export interface StoredAutomation extends StoredAutomationCreateOptions {
 export type StoredAutomationRow = Omit<StoredAutomation, "labels"> & {
   labels: string; // Stored as pipe-separated string in database
 };
+
+export interface AutomationVersionCreateOptions {
+  activated_from_version_id?: string;
+  automation_id: string;
+  body: string;
+  date: string;
+  documentation?: string;
+  has_code_change: string;
+  has_notes_change: string;
+  is_active: string;
+  is_draft: string;
+  name?: string;
+  notes?: string;
+  parent_version_id?: string;
+  was_auto_saved: string;
+  written_by_ai: string;
+}
+
+export interface AutomationVersion extends AutomationVersionCreateOptions {
+  id: string;
+}
+
+export type AutomationVersionUpdateOptions = Partial<
+  Omit<AutomationVersionCreateOptions, "automation_id">
+>;
 
 export interface SynapseEntityCreateOptions {
   documentation: string;

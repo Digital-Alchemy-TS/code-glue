@@ -9,6 +9,7 @@ import { Type } from "@sinclair/typebox";
 export const StoredAutomation = Type.Object(
   {
     active: Type.Boolean({ description: "Should the code in this be running" }),
+    activeVersionId: Type.Optional(Type.String({ description: "ID of the currently active version" })),
     area: Type.Optional(Type.String({ description: "Home Assistant area_id" })),
     body: Type.String({ description: "Function body, in Typescript" }),
     context: Type.String({ description: "Log context" }),
@@ -16,7 +17,6 @@ export const StoredAutomation = Type.Object(
     documentation: Type.String({
       description: "User provided markdown notes",
     }),
-    draft: Type.Optional(Type.String({ description: "Draft edits" })),
     icon: Type.Optional(Type.String({ description: "Icon for UI" })),
     id: Type.String({ description: "UUID" }),
     labels: Type.Array(Type.String(), {
@@ -29,9 +29,6 @@ export const StoredAutomation = Type.Object(
       }),
     ),
     title: Type.String({ description: "Human readable title" }),
-    version: Type.String({
-      description: "User declared version",
-    }),
   },
   { description: "Used to store the actual automation on disk" },
 );
@@ -59,6 +56,36 @@ export const StoredAutomationRow = Type.Intersect([
   }),
 ]);
 export type StoredAutomationRow = typeof StoredAutomationRow.static;
+
+export const AutomationVersion = Type.Object(
+  {
+    activatedFromVersionId: Type.Optional(Type.String({ description: "Version this was activated from" })),
+    automationId: Type.String({ description: "Parent automation UUID" }),
+    body: Type.String({ description: "TypeScript code at this version" }),
+    date: Type.String({ description: "ISO timestamp of creation" }),
+    documentation: Type.Optional(Type.String({ description: "Snapshot of automation docs at save time" })),
+    hasCodeChange: Type.Boolean({ description: "Did body change vs parent?" }),
+    hasNotesChange: Type.Boolean({ description: "Did documentation change vs parent?" }),
+    id: Type.String({ description: "UUID" }),
+    isActive: Type.Boolean({ description: "Is this the active running version?" }),
+    isDraft: Type.Boolean({ description: "Is this an unsaved draft?" }),
+    name: Type.Optional(Type.String({ description: "Optional version name" })),
+    notes: Type.Optional(Type.String({ description: "Optional commit-style notes" })),
+    parentVersionId: Type.Optional(Type.String({ description: "Previous version in the chain" })),
+    wasAutoSaved: Type.Boolean({ description: "Was this auto-saved after idle period?" }),
+    writtenByAi: Type.Boolean({ description: "Was this version written by AI?" }),
+  },
+  { description: "A single version snapshot of an automation" },
+);
+export type AutomationVersion = typeof AutomationVersion.static;
+
+export const AutomationVersionCreateOptions = Type.Omit(AutomationVersion, ["id"]);
+export type AutomationVersionCreateOptions = typeof AutomationVersionCreateOptions.static;
+
+export const AutomationVersionUpdateOptions = Type.Partial(
+  Type.Omit(AutomationVersionCreateOptions, ["automationId"]),
+);
+export type AutomationVersionUpdateOptions = typeof AutomationVersionUpdateOptions.static;
 
 export type AutomationTeardown = {
   register(remove: RemoveCallback, type: string): void;
