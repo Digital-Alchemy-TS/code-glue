@@ -31,7 +31,6 @@ export const mysqlStoredAutomationTable = mysqlTable("stored_automation", {
 });
 
 export const mysqlAutomationVersionTable = mysqlTable("automation_versions", {
-  activated_from_version_id: varchar("activated_from_version_id", { length: 36 }),
   automation_id: varchar("automation_id", { length: 36 }).notNull(),
   body: text("body").notNull(),
   date: timestamp("date").notNull(),

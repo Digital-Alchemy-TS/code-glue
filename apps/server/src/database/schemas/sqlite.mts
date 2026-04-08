@@ -30,7 +30,6 @@ export const sqliteStoredAutomationTable = sqliteTable("stored_automation", {
 });
 
 export const sqliteAutomationVersionTable = sqliteTable("automation_versions", {
-  activated_from_version_id: text("activated_from_version_id"),
   automation_id: text("automation_id").notNull(),
   body: text("body").notNull(),
   date: text("date").notNull(),

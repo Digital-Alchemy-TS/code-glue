@@ -93,7 +93,6 @@ export function AutomationVersionLogic({
     }
 
     return await database.automationVersion.create({
-      activatedFromVersionId: undefined,
       automationId,
       body,
       date: new Date().toISOString(),

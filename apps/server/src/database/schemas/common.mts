@@ -40,7 +40,6 @@ export type StoredAutomationRow = Omit<StoredAutomation, "labels"> & {
 };
 
 export interface AutomationVersionCreateOptions {
-  activated_from_version_id?: string;
   automation_id: string;
   body: string;
   date: string;

@@ -31,12 +31,10 @@ type VersionRow = {
   has_code_change: string;
   has_notes_change: string;
   parent_version_id: string | null;
-  activated_from_version_id: string | null;
 };
 
 function loadRow(row: VersionRow): AutomationVersion {
   return {
-    activatedFromVersionId: row.activated_from_version_id ?? undefined,
     automationId: row.automation_id,
     body: row.body,
     date: row.date instanceof Date ? row.date.toISOString() : row.date,
@@ -56,7 +54,6 @@ function loadRow(row: VersionRow): AutomationVersion {
 
 function saveRow(data: AutomationVersionCreateOptions & { id?: string }) {
   return {
-    activated_from_version_id: data.activatedFromVersionId ?? null,
     automation_id: data.automationId,
     body: data.body,
     date: data.date,

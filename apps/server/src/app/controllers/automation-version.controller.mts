@@ -11,7 +11,6 @@ const CreateDraftBody = Type.Object({
 
 const UpdateDraftBody = Type.Object({
   body: Type.Optional(Type.String()),
-  documentation: Type.Optional(Type.String()),
   name: Type.Optional(Type.String()),
   notes: Type.Optional(Type.String()),
 });

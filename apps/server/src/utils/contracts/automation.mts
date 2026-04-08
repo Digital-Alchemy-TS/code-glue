@@ -59,7 +59,6 @@ export type StoredAutomationRow = typeof StoredAutomationRow.static;
 
 export const AutomationVersion = Type.Object(
   {
-    activatedFromVersionId: Type.Optional(Type.String({ description: "Version this was activated from" })),
     automationId: Type.String({ description: "Parent automation UUID" }),
     body: Type.String({ description: "TypeScript code at this version" }),
     date: Type.String({ description: "ISO timestamp of creation" }),
