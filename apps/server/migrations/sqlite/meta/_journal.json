@@ -8,6 +8,13 @@
       "when": 1765403410570,
       "tag": "0000_quick_stark_industries",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1774300000000,
+      "tag": "0001_automation_versioning",
+      "breakpoints": true
     }
   ]
 }

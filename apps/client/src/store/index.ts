@@ -74,19 +74,25 @@ const setupStore = async () => {
 const getAutomationsFromServer = async () => {
 	return await fetch(`${baseUrl}/api/v1/automation`, { method: "GET" })
 		.then((response) => response.json())
-		.then((json: StoredAutomation[]) => {
-			json.forEach((serverAutomation) => {
-				const existingLocalAutomation = store.automations.get(
-					serverAutomation.id,
-				)
+		.then(async (json: StoredAutomation[]) => {
+			const versionPromises: Promise<void>[] = []
 
-				if (!existingLocalAutomation) {
-					createLocalAutomation(serverAutomation)
+			json.forEach((serverAutomation) => {
+				let automation = store.automations.get(serverAutomation.id)
+
+				if (!automation) {
+					automation = createLocalAutomation(serverAutomation)
 				} else {
-					Object.assign(existingLocalAutomation, serverAutomation)
+					Object.assign(automation, serverAutomation)
 				}
+
+				versionPromises.push(automation.fetchVersions())
 			})
+
+			// Unblock the UI as soon as automations are in the store.
+			// Version fetches continue in the background.
 			store.apiStatus.automationsReady = true
+			Promise.all(versionPromises)
 		})
 }
 
@@ -146,3 +152,4 @@ async function initializeApp() {
 initializeApp()
 
 export * from "./automation"
+export type { AutomationVersion } from "./automationVersion"

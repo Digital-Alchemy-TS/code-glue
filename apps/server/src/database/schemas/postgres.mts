@@ -14,12 +14,12 @@ export const postgresSharedVariablesTable = pgTable("shared_variables", {
 
 export const postgresStoredAutomationTable = pgTable("stored_automation", {
   active: text("active").notNull(),
+  active_version_id: text("active_version_id"),
   area: text("area"),
   body: text("body").notNull(),
   context: text("context").notNull(),
   create_date: timestamp("create_date").notNull(),
   documentation: text("documentation").notNull(),
-  draft: text("draft"),
   icon: text("icon"),
   id: text("id").primaryKey().notNull(),
   labels: text("labels").notNull(),
@@ -28,6 +28,20 @@ export const postgresStoredAutomationTable = pgTable("stored_automation", {
   parent: text("parent"),
   title: text("title").notNull(),
   version: text("version").notNull(),
+});
+
+export const postgresAutomationVersionTable = pgTable("automation_versions", {
+  automation_id: text("automation_id").notNull(),
+  body: text("body").notNull(),
+  createDate: timestamp("date").notNull(),
+  id: text("id").primaryKey().notNull(),
+  is_active: text("is_active").notNull().default("false"),
+  is_draft: text("is_draft").notNull().default("false"),
+  name: text("name"),
+  notes: text("notes"),
+  parent_version_id: text("parent_version_id"),
+  was_auto_saved: text("was_auto_saved").notNull().default("false"),
+  written_by_ai: text("written_by_ai").notNull().default("false"),
 });
 
 export const postgresSynapseEntitiesTable = pgTable("synapse_entities", {
@@ -80,6 +94,12 @@ export type PostgresStoredAutomationSelect = InferSelectModel<
 >;
 export type PostgresStoredAutomationInsert = InferInsertModel<
   typeof postgresStoredAutomationTable
+>;
+export type PostgresAutomationVersionSelect = InferSelectModel<
+  typeof postgresAutomationVersionTable
+>;
+export type PostgresAutomationVersionInsert = InferInsertModel<
+  typeof postgresAutomationVersionTable
 >;
 export type PostgresSynapseEntitySelect = InferSelectModel<
   typeof postgresSynapseEntitiesTable

@@ -12,11 +12,13 @@ import { LIB_MODULE_PATCHER } from "../patch/patch.module.mts";
 import {
   AppController,
   AutomationController,
+  AutomationVersionController,
   SynapseEntitiesController,
   TypesController,
   VariablesController,
 } from "./controllers/index.mts";
 import { AutomationLogic } from "./services/automation.service.mts";
+import { AutomationVersionLogic } from "./services/automation-version.service.mts";
 import { HeaderBlockService } from "./services/header-block.service.mts";
 import { CodeGlueLogger } from "./services/logger.service.mts";
 import { StatsService } from "./services/stats.service.mts";
@@ -54,10 +56,12 @@ export const CODE_GLUE_APP = CreateApplication({
   services: {
     AppController,
     AutomationController,
+    AutomationVersionController,
     SynapseEntitiesController,
     TypesController,
     VariablesController,
     automation: AutomationLogic,
+    automationVersion: AutomationVersionLogic,
     header: HeaderBlockService,
     logger: CodeGlueLogger,
     stats: StatsService,
