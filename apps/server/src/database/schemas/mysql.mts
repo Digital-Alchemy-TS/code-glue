@@ -28,15 +28,13 @@ export const mysqlStoredAutomationTable = mysqlTable("stored_automation", {
   last_update: timestamp("last_update").notNull(),
   parent: varchar("parent", { length: 36 }),
   title: varchar("title", { length: 255 }).notNull(),
+  version: varchar("version", { length: 50 }).notNull(),
 });
 
 export const mysqlAutomationVersionTable = mysqlTable("automation_versions", {
   automation_id: varchar("automation_id", { length: 36 }).notNull(),
   body: text("body").notNull(),
-  date: timestamp("date").notNull(),
-  documentation: text("documentation"),
-  has_code_change: varchar("has_code_change", { length: 10 }).notNull().default("true"),
-  has_notes_change: varchar("has_notes_change", { length: 10 }).notNull().default("false"),
+  createDate: timestamp("date").notNull(),
   id: varchar("id", { length: 36 }).primaryKey().notNull(),
   is_active: varchar("is_active", { length: 10 }).notNull().default("false"),
   is_draft: varchar("is_draft", { length: 10 }).notNull().default("false"),

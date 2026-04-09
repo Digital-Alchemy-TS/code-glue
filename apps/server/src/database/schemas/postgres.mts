@@ -27,15 +27,13 @@ export const postgresStoredAutomationTable = pgTable("stored_automation", {
   last_update: timestamp("last_update").notNull(),
   parent: text("parent"),
   title: text("title").notNull(),
+  version: text("version").notNull(),
 });
 
 export const postgresAutomationVersionTable = pgTable("automation_versions", {
   automation_id: text("automation_id").notNull(),
   body: text("body").notNull(),
-  date: timestamp("date").notNull(),
-  documentation: text("documentation"),
-  has_code_change: text("has_code_change").notNull().default("true"),
-  has_notes_change: text("has_notes_change").notNull().default("false"),
+  createDate: timestamp("date").notNull(),
   id: text("id").primaryKey().notNull(),
   is_active: text("is_active").notNull().default("false"),
   is_draft: text("is_draft").notNull().default("false"),

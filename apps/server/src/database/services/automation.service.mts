@@ -1,11 +1,11 @@
-import { TServiceParams } from "@digital-alchemy/core";
+import type { TServiceParams } from "@digital-alchemy/core";
 import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import { MySql2Database } from "drizzle-orm/mysql2";
-import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
+import type { drizzle } from "drizzle-orm/better-sqlite3";
+import type { MySql2Database } from "drizzle-orm/mysql2";
+import type { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
 import { v4 } from "uuid";
 
-import {
+import type {
   AutomationCreateOptions,
   StoredAutomation,
   StoredAutomationRow,
@@ -26,25 +26,25 @@ export function AutomationTable({
 }: TServiceParams) {
   const store = new Map<string, StoredAutomation>();
 
-  lifecycle.onBootstrap(function () {
+  lifecycle.onBootstrap(() => {
     loadFromDB();
   });
 
   // Database-specific implementations
   const sqlite = {
     async create(data: AutomationCreateOptions) {
-      const database = synapse.database.getDatabase() as ReturnType<
-        typeof drizzle
-      >;
+      const database = synapse.database.getDatabase() as ReturnType<typeof drizzle>;
       const id = v4();
-      const row = { id, ...sqlite.save(data) };
+      const row = { ...sqlite.save(data), id };
       await database.insert(sqliteStoredAutomationTable).values(row);
       const out = sqlite.load(row);
       store.set(row.id, out);
       return out;
     },
 
-    load(row: Partial<StoredAutomationRow> & { active_version_id?: string | null }): StoredAutomation {
+    load(
+      row: Partial<StoredAutomationRow> & { active_version_id?: string | null },
+    ): StoredAutomation {
       return {
         ...row,
         active: row.active === "true",
@@ -54,13 +54,11 @@ export function AutomationTable({
     },
 
     async loadFromDB() {
-      const database = synapse.database.getDatabase() as ReturnType<
-        typeof drizzle
-      >;
+      const database = synapse.database.getDatabase() as ReturnType<typeof drizzle>;
       store.clear();
-      metrics.measure([context, "loadFromDB"], function () {
+      metrics.measure([context, "loadFromDB"], () => {
         const rows = database.select().from(sqliteStoredAutomationTable).all();
-        rows.forEach(function (row) {
+        rows.forEach(row => {
           const loaded = sqlite.load(row);
           store.set(loaded.id, loaded);
         });
@@ -68,9 +66,7 @@ export function AutomationTable({
     },
 
     async remove(id: string) {
-      const database = synapse.database.getDatabase() as ReturnType<
-        typeof drizzle
-      >;
+      const database = synapse.database.getDatabase() as ReturnType<typeof drizzle>;
       store.delete(id);
       await database
         .delete(sqliteStoredAutomationTable)
@@ -93,24 +89,23 @@ export function AutomationTable({
         last_update: now,
         parent: data.parent,
         title: data.title,
+        version: (data as StoredAutomation & { version?: string }).version ?? "",
       };
     },
 
     async update(id: string, data: Partial<AutomationCreateOptions>) {
-      const database = synapse.database.getDatabase() as ReturnType<
-        typeof drizzle
-      >;
+      const database = synapse.database.getDatabase() as ReturnType<typeof drizzle>;
       const current = store.get(id);
-      
+
       if (!current) {
         // If automation doesn't exist, create it with the provided ID
-        const row = { id, ...sqlite.save(data as AutomationCreateOptions) };
+        const row = { ...sqlite.save(data as AutomationCreateOptions), id };
         await database.insert(sqliteStoredAutomationTable).values(row);
         const out = sqlite.load(row);
         store.set(id, out);
         return out;
       }
-      
+
       // Otherwise update existing automation
       const update = sqlite.save({ ...current, ...data });
       await database
@@ -125,18 +120,18 @@ export function AutomationTable({
 
   const mysql = {
     async create(data: AutomationCreateOptions) {
-      const database = synapse.database.getDatabase() as MySql2Database<
-        Record<string, unknown>
-      >;
+      const database = synapse.database.getDatabase() as MySql2Database<Record<string, unknown>>;
       const id = v4();
-      const row = { id, ...mysql.save(data) };
+      const row = { ...mysql.save(data), id };
       await database.insert(mysqlStoredAutomationTable).values(row);
       const out = mysql.load(row);
       store.set(row.id, out);
       return out;
     },
 
-    load(row: Partial<StoredAutomationRow> & { active_version_id?: string | null }): StoredAutomation {
+    load(
+      row: Partial<StoredAutomationRow> & { active_version_id?: string | null },
+    ): StoredAutomation {
       return {
         ...row,
         active: row.active === "true",
@@ -146,16 +141,11 @@ export function AutomationTable({
     },
 
     async loadFromDB() {
-      const database = synapse.database.getDatabase() as MySql2Database<
-        Record<string, unknown>
-      >;
+      const database = synapse.database.getDatabase() as MySql2Database<Record<string, unknown>>;
       store.clear();
-      metrics.measure([context, "loadFromDB"], async function () {
-        const rows = await database
-          .select()
-          .from(mysqlStoredAutomationTable)
-          .execute();
-        rows.forEach(function (row) {
+      metrics.measure([context, "loadFromDB"], async () => {
+        const rows = await database.select().from(mysqlStoredAutomationTable).execute();
+        rows.forEach(row => {
           const loaded = mysql.load(row);
           store.set(loaded.id, loaded);
         });
@@ -163,9 +153,7 @@ export function AutomationTable({
     },
 
     async remove(id: string) {
-      const database = synapse.database.getDatabase() as MySql2Database<
-        Record<string, unknown>
-      >;
+      const database = synapse.database.getDatabase() as MySql2Database<Record<string, unknown>>;
       store.delete(id);
       await database
         .delete(mysqlStoredAutomationTable)
@@ -190,24 +178,23 @@ export function AutomationTable({
         last_update: now,
         parent: data.parent,
         title: data.title,
+        version: (data as StoredAutomation & { version?: string }).version ?? "",
       };
     },
 
     async update(id: string, data: Partial<AutomationCreateOptions>) {
-      const database = synapse.database.getDatabase() as MySql2Database<
-        Record<string, unknown>
-      >;
+      const database = synapse.database.getDatabase() as MySql2Database<Record<string, unknown>>;
       const current = store.get(id);
-      
+
       if (!current) {
         // If automation doesn't exist, create it with the provided ID
-        const row = { id, ...mysql.save(data as AutomationCreateOptions) };
+        const row = { ...mysql.save(data as AutomationCreateOptions), id };
         await database.insert(mysqlStoredAutomationTable).values(row);
         const out = mysql.load(row);
         store.set(id, out);
         return out;
       }
-      
+
       // Otherwise update existing automation
       const update = mysql.save({ ...current, ...data });
       await database
@@ -222,18 +209,18 @@ export function AutomationTable({
 
   const postgres = {
     async create(data: AutomationCreateOptions) {
-      const database = synapse.database.getDatabase() as ReturnType<
-        typeof drizzlePostgres
-      >;
+      const database = synapse.database.getDatabase() as ReturnType<typeof drizzlePostgres>;
       const id = v4();
-      const row = { id, ...postgres.save(data) };
+      const row = { ...postgres.save(data), id };
       await database.insert(postgresStoredAutomationTable).values(row);
       const out = postgres.load(row);
       store.set(row.id, out);
       return out;
     },
 
-    load(row: Partial<StoredAutomationRow> & { active_version_id?: string | null }): StoredAutomation {
+    load(
+      row: Partial<StoredAutomationRow> & { active_version_id?: string | null },
+    ): StoredAutomation {
       return {
         ...row,
         active: row.active === "true",
@@ -243,16 +230,11 @@ export function AutomationTable({
     },
 
     async loadFromDB() {
-      const database = synapse.database.getDatabase() as ReturnType<
-        typeof drizzlePostgres
-      >;
+      const database = synapse.database.getDatabase() as ReturnType<typeof drizzlePostgres>;
       store.clear();
-      metrics.measure([context, "loadFromDB"], async function () {
-        const rows = await database
-          .select()
-          .from(postgresStoredAutomationTable)
-          .execute();
-        rows.forEach(function (row) {
+      metrics.measure([context, "loadFromDB"], async () => {
+        const rows = await database.select().from(postgresStoredAutomationTable).execute();
+        rows.forEach(row => {
           const loaded = postgres.load(row);
           store.set(loaded.id, loaded);
         });
@@ -260,9 +242,7 @@ export function AutomationTable({
     },
 
     async remove(id: string) {
-      const database = synapse.database.getDatabase() as ReturnType<
-        typeof drizzlePostgres
-      >;
+      const database = synapse.database.getDatabase() as ReturnType<typeof drizzlePostgres>;
       store.delete(id);
       await database
         .delete(postgresStoredAutomationTable)
@@ -287,24 +267,23 @@ export function AutomationTable({
         last_update: now,
         parent: data.parent,
         title: data.title,
+        version: (data as StoredAutomation & { version?: string }).version ?? "",
       };
     },
 
     async update(id: string, data: Partial<AutomationCreateOptions>) {
-      const database = synapse.database.getDatabase() as ReturnType<
-        typeof drizzlePostgres
-      >;
+      const database = synapse.database.getDatabase() as ReturnType<typeof drizzlePostgres>;
       const current = store.get(id);
-      
+
       if (!current) {
         // If automation doesn't exist, create it with the provided ID
-        const row = { id, ...postgres.save(data as AutomationCreateOptions) };
+        const row = { ...postgres.save(data as AutomationCreateOptions), id };
         await database.insert(postgresStoredAutomationTable).values(row);
         const out = postgres.load(row);
         store.set(id, out);
         return out;
       }
-      
+
       // Otherwise update existing automation
       const update = postgres.save({ ...current, ...data });
       await database

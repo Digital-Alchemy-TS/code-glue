@@ -46,13 +46,9 @@ export function AutomationVersionLogic({
       });
 
       const version = await database.automationVersion.create({
-        activatedFromVersionId: undefined,
         automationId: automation.id,
         body: automation.body,
-        date,
-        documentation: automation.documentation,
-        hasCodeChange: true,
-        hasNotesChange: false,
+        createDate: date,
         isActive: true,
         isDraft: false,
         name: `Initial version — ${formattedDate}`,
@@ -87,18 +83,10 @@ export function AutomationVersionLogic({
     body: string,
     parentVersionId: string | undefined,
   ) {
-    const automation = database.automation.get(automationId);
-    if (!automation) {
-      throw new Error(`Automation ${automationId} not found`);
-    }
-
     return await database.automationVersion.create({
       automationId,
       body,
-      date: new Date().toISOString(),
-      documentation: automation.documentation,
-      hasCodeChange: true,
-      hasNotesChange: false,
+      createDate: new Date().toISOString(),
       isActive: false,
       isDraft: true,
       name: undefined,
@@ -121,7 +109,7 @@ export function AutomationVersionLogic({
     const updates: AutomationVersionUpdateOptions = {};
     if (opts.body !== undefined) {
       updates.body = opts.body;
-      updates.date = new Date().toISOString();
+      updates.createDate = new Date().toISOString();
     }
     if (opts.name !== undefined) updates.name = opts.name;
     if (opts.notes !== undefined) updates.notes = opts.notes;
@@ -159,12 +147,7 @@ export function AutomationVersionLogic({
       throw new Error(`Automation ${version.automationId} not found`);
     }
 
-    // Snapshot current documentation at finalize time
-    const hasNotesChange = version.documentation !== automation.documentation;
-
     const updated = await database.automationVersion.update(versionId, {
-      documentation: automation.documentation,
-      hasNotesChange,
       isActive: makeActive,
       isDraft: false,
       name: opts.name,
@@ -237,8 +220,8 @@ export function AutomationVersionLogic({
       body: targetVersion.body,
     } as never);
 
-    const versionLabel = (v: { name?: string; date: string }) =>
-      v.name ? `"${v.name}"` : new Date(v.date).toLocaleString();
+    const versionLabel = (v: { name?: string; createDate: string }) =>
+      v.name ? `"${v.name}"` : new Date(v.createDate).toLocaleString();
     const previousLabel = currentActive ? versionLabel(currentActive) : "unknown";
     const targetLabel = versionLabel(targetVersion);
     automationLogger(automation).info(

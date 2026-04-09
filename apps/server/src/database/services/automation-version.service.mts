@@ -20,16 +20,13 @@ type VersionRow = {
   id: string;
   automation_id: string;
   body: string;
-  date: string | Date;
-  documentation: string | null;
+  createDate: string | Date;
   name: string | null;
   notes: string | null;
   is_active: string;
   is_draft: string;
   was_auto_saved: string;
   written_by_ai: string;
-  has_code_change: string;
-  has_notes_change: string;
   parent_version_id: string | null;
 };
 
@@ -37,10 +34,7 @@ function loadRow(row: VersionRow): AutomationVersion {
   return {
     automationId: row.automation_id,
     body: row.body,
-    date: row.date instanceof Date ? row.date.toISOString() : row.date,
-    documentation: row.documentation ?? undefined,
-    hasCodeChange: row.has_code_change === "true",
-    hasNotesChange: row.has_notes_change === "true",
+    createDate: row.createDate instanceof Date ? row.createDate.toISOString() : row.createDate,
     id: row.id,
     isActive: row.is_active === "true",
     isDraft: row.is_draft === "true",
@@ -56,10 +50,7 @@ function saveRow(data: AutomationVersionCreateOptions & { id?: string }) {
   return {
     automation_id: data.automationId,
     body: data.body,
-    date: data.date,
-    documentation: data.documentation ?? null,
-    has_code_change: data.hasCodeChange ? "true" : "false",
-    has_notes_change: data.hasNotesChange ? "true" : "false",
+    createDate: data.createDate,
     id: data.id ?? "",
     is_active: data.isActive ? "true" : "false",
     is_draft: data.isDraft ? "true" : "false",
@@ -74,7 +65,7 @@ function saveRow(data: AutomationVersionCreateOptions & { id?: string }) {
 function saveRowMysql(data: AutomationVersionCreateOptions & { id?: string }) {
   return {
     ...saveRow(data),
-    date: new Date(data.date),
+    createDate: new Date(data.createDate),
   };
 }
 
@@ -153,7 +144,7 @@ export function AutomationVersionTable({
       const id = v4();
       const row = { ...saveRowMysql(data), id };
       await database.insert(mysqlAutomationVersionTable).values(row);
-      const out = loadRow({ ...row, date: row.date.toISOString() });
+      const out = loadRow({ ...row, createDate: row.createDate.toISOString() });
       store.set(id, out);
       return out;
     },
@@ -197,7 +188,7 @@ export function AutomationVersionTable({
         .update(mysqlAutomationVersionTable)
         .set(row)
         .where(eq(mysqlAutomationVersionTable.id, id));
-      const out = loadRow({ ...row, date: row.date.toISOString() });
+      const out = loadRow({ ...row, createDate: row.createDate.toISOString() });
       store.set(id, out);
       return out;
     },
@@ -209,7 +200,7 @@ export function AutomationVersionTable({
       const id = v4();
       const row = { ...saveRowMysql(data), id };
       await database.insert(postgresAutomationVersionTable).values(row);
-      const out = loadRow({ ...row, date: row.date.toISOString() });
+      const out = loadRow({ ...row, createDate: row.createDate.toISOString() });
       store.set(id, out);
       return out;
     },
@@ -253,7 +244,7 @@ export function AutomationVersionTable({
         .update(postgresAutomationVersionTable)
         .set(row)
         .where(eq(postgresAutomationVersionTable.id, id));
-      const out = loadRow({ ...row, date: row.date.toISOString() });
+      const out = loadRow({ ...row, createDate: row.createDate.toISOString() });
       store.set(id, out);
       return out;
     },

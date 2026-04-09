@@ -61,10 +61,7 @@ export const AutomationVersion = Type.Object(
   {
     automationId: Type.String({ description: "Parent automation UUID" }),
     body: Type.String({ description: "TypeScript code at this version" }),
-    date: Type.String({ description: "ISO timestamp of creation" }),
-    documentation: Type.Optional(Type.String({ description: "Snapshot of automation docs at save time" })),
-    hasCodeChange: Type.Boolean({ description: "Did body change vs parent?" }),
-    hasNotesChange: Type.Boolean({ description: "Did documentation change vs parent?" }),
+    createDate: Type.String({ description: "ISO timestamp of creation" }),
     id: Type.String({ description: "UUID" }),
     isActive: Type.Boolean({ description: "Is this the active running version?" }),
     isDraft: Type.Boolean({ description: "Is this an unsaved draft?" }),
